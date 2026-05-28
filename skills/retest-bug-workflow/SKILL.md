@@ -308,7 +308,9 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST read project config before testing | No hardcoded env URLs |
 | MUST include full cURL/response per API case | Evidence must stand alone |
 | MUST treat Swagger (+ error docs) over stale ticket text | Ticket may be wrong |
+| MUST use **PASSED ✅** or **FAILED ❌** only in summary line | Scanability for dev/QA |
 | MUST lock v2/v3 at Step 3; FE → v2 + screenshots | Rewrites waste time |
 | MUST verify Jira UI after post (Step 7d) before Step 8 | Truncation / wrong endpoint |
+| MUST run Step 8 after successful post unless user stopped you | Workflow closure |
 | MUST create test data when possible | "No data" is not an excuse |
 | MUST NOT change COMMENT_FORMAT after Step 3 | v2/v3 rewrite cost |

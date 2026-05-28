@@ -14,16 +14,6 @@ elif [ -x "$HOME/.helix/tc-fe-prep/scripts/helix-auto-update.sh" ]; then
   HELIX_QUIET=1 bash "$HOME/.helix/tc-fe-prep/scripts/helix-auto-update.sh" 2>/dev/null || true
 fi
 
-escape_for_json() {
-    local s="$1"
-    s="${s//\\/\\\\}"
-    s="${s//\"/\\\"}"
-    s="${s//$'\n'/\\n}"
-    s="${s//$'\r'/\\r}"
-    s="${s//$'\t'/\\t}"
-    printf '%s' "$s"
-}
-
 session_context="<EXTREMELY_IMPORTANT>\n**Helix** QA workflows available. Invoke via **Skill** tool — not ad-hoc procedure.\n\n| Command | Workflow |\n|---------|----------|\n| \`/helix\` | Router menu |\n| \`/tc-fe-prep\` | FE test case prep |\n| \`/tc-api-prep\` | API test case prep |\n| \`/retest-bug\` | Retest a bug fix |\n| \`/testing-ticket\` | Playwright ticket test |\n| \`/create-bug\` | File a new bug |\n\nEvidence before claims: no done/passed without proof. English for user chat.\n</EXTREMELY_IMPORTANT>"
 
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then

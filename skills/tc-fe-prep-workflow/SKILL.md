@@ -260,6 +260,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST refuse without story key/URL | No traceable AC/EC source |
 | MUST NOT comment on sub-tasks or other issues | Scope is one story |
 | MUST NOT add TC outside story AC/EC | Traceability |
+| MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
 | MUST run Step 4 review before draft table | Prevents out-of-scope cases reaching Jira |
 | MUST apply tc-quality-standards on every row | ISTQB / 29119-3 consistency |
 | MUST NOT use `\n` inside Jira markdown table cells | Renders as one line |
