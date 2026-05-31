@@ -309,6 +309,100 @@
   }
   .warn-box strong { color: var(--yellow); }
 
+  /* Status tracker table */
+  .tracker-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .85rem;
+    margin: .75rem 0;
+  }
+  .tracker-table th {
+    text-align: left;
+    padding: .65rem .75rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .tracker-table td {
+    padding: .6rem .75rem;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .tracker-table tbody tr:hover td { background: var(--accent-dim); }
+  .tracker-table .row-num {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-muted);
+    width: 2.5rem;
+  }
+  .status-chip {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: .2rem .6rem;
+    border-radius: 12px;
+    white-space: nowrap;
+    letter-spacing: .02em;
+  }
+  .status-not-started { background: var(--surface-alt); color: var(--text-muted); border: 1px solid var(--border); }
+  .status-in-progress { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+  .status-done        { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .status-skipped     { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+  .priority-chip {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .p-critical { background: #f8514933; color: var(--red); }
+  .p-high     { background: #f0883e33; color: var(--orange); }
+  .p-medium   { background: var(--yellow-dim); color: var(--yellow); }
+  .p-low      { background: var(--purple-dim); color: var(--purple); }
+  .impact-chip {
+    font-size: .75rem;
+    color: var(--text-muted);
+  }
+  .impact-chip strong { color: var(--green); }
+  .file-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+  }
+  .file-chip {
+    font-size: .7rem;
+    font-family: monospace;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .1rem .4rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .tracker-section { margin-bottom: 2.5rem; }
+  .tracker-section > h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tracker-legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    font-size: .8rem;
+    color: var(--text-muted);
+  }
+  .tracker-legend span { display: flex; align-items: center; gap: .35rem; }
+
   footer {
     text-align: center;
     padding: 2rem 0 1rem;
@@ -359,6 +453,139 @@
     <div class="number">3</div>
     <div class="label">ไฟล์ที่ต้องแก้</div>
   </div>
+</div>
+
+<!-- ====== Action Item Tracker ====== -->
+<div class="tracker-section">
+  <h2>Action Item Tracker</h2>
+
+  <div class="tracker-legend">
+    <span><span class="status-chip status-not-started">Not Started</span> ยังไม่เริ่ม</span>
+    <span><span class="status-chip status-in-progress">In Progress</span> กำลังทำ</span>
+    <span><span class="status-chip status-done">Done</span> เสร็จแล้ว</span>
+    <span><span class="status-chip status-skipped">Skipped</span> ข้ามไป</span>
+  </div>
+
+  <table class="tracker-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Priority</th>
+        <th>Action Item</th>
+        <th>Impact</th>
+        <th>Files</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-num">1</td>
+        <td><span class="priority-chip p-critical">P0 Critical</span></td>
+        <td>
+          <strong>Permission Allowlist</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">เพิ่ม allow rules สำหรับ Bash commands ที่ใช้บ่อย (git, rtk, ls, node, gh)</span>
+        </td>
+        <td><span class="impact-chip"><strong>-70%</strong> permission prompts</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">~/.claude/settings.json</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">2</td>
+        <td><span class="priority-chip p-critical">P0 Critical</span></td>
+        <td>
+          <strong>Default Permission Mode: acceptEdits</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">Auto-approve Edit/Write &mdash; เหมาะกับ Helix ที่แก้ .md เป็นหลัก</span>
+        </td>
+        <td><span class="impact-chip"><strong>-100%</strong> edit/write prompts</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">~/.claude/settings.json</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">3</td>
+        <td><span class="priority-chip p-high">P1 High</span></td>
+        <td>
+          <strong>Bias Toward Action rule</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">เพิ่ม Rule #8 ใน CLAUDE.md &mdash; ทำเลยถ้าสั่งชัด ถามเฉพาะเมื่อ impact สูง</span>
+        </td>
+        <td><span class="impact-chip"><strong>-50%</strong> clarifying questions</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">~/.claude/CLAUDE.md</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">4</td>
+        <td><span class="priority-chip p-high">P1 High</span></td>
+        <td>
+          <strong>Refine Rule #5 scope สำหรับ Helix</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">กำหนดว่า .md edits ใน skills/, references/, commands/ ทำได้เลย ไม่ต้องถาม</span>
+        </td>
+        <td><span class="impact-chip"><strong>-40%</strong> risk questions</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">helix/CLAUDE.md</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">5</td>
+        <td><span class="priority-chip p-medium">P2 Medium</span></td>
+        <td>
+          <strong>Default Decisions สำหรับ Helix</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">Encode naming, structure, content, workflow conventions ให้ AI ไม่ต้องถาม</span>
+        </td>
+        <td><span class="impact-chip"><strong>-30%</strong> convention questions</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">helix/CLAUDE.md</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">6</td>
+        <td><span class="priority-chip p-medium">P2 Medium</span></td>
+        <td>
+          <strong>Memory Discipline</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">Save decisions เป็น feedback memory ทันที &mdash; ไม่ถามซ้ำข้าม sessions</span>
+        </td>
+        <td><span class="impact-chip"><strong>0</strong> repeated questions</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">~/.claude/CLAUDE.md</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+      <tr>
+        <td class="row-num">7</td>
+        <td><span class="priority-chip p-low">P3 Low</span></td>
+        <td>
+          <strong>SessionStart Hook: inject context</strong><br>
+          <span style="font-size:.8rem; color:var(--text-muted);">Auto-inject branch, version, WIP &mdash; ไม่ต้องถาม "ทำอะไรอยู่?"</span>
+        </td>
+        <td><span class="impact-chip"><strong>-20%</strong> context questions</span></td>
+        <td>
+          <div class="file-chips">
+            <span class="file-chip">.claude/hooks/inject-context.sh</span>
+            <span class="file-chip">.claude/settings.json</span>
+          </div>
+        </td>
+        <td><span class="status-chip status-not-started">Not Started</span></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <!-- ====== Priority Matrix ====== -->
