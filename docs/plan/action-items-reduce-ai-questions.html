@@ -1494,6 +1494,14 @@ DECISIONS</code></pre>
     </div>
   </div>
 
+  <div class="note-box">
+    <strong>Auto-discovery (ผู้ใช้เดิมไม่ต้องรันอะไร):</strong>
+    SessionStart hook จะ <strong>แสดงข้อความเชิญชวน Layer 2 อัตโนมัติ</strong> (สูงสุด 3 ครั้ง)
+    ในเครื่องที่ติดตั้งอยู่แล้ว &mdash; ผู้ใช้เห็นเองโดยไม่ต้องทำอะไร แต่
+    <strong>ไม่แอบ apply</strong>: การเปิด Layer 2 ยังเป็นการตัดสินใจของผู้ใช้เสมอ
+    (consent-gated) หยุดแสดงเมื่อ opt-in แล้ว หรือตั้ง <code>HELIX_DEVENV_NOTICE=0</code>
+  </div>
+
   <h4 style="margin-top:1.25rem; font-size:.85rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em;">
     ใครได้อะไร
   </h4>
