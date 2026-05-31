@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Action Items: Reduce AI Questions &mdash; Helix Project</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-alt: #1c2128;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb33;
+    --green: #3fb950;
+    --green-dim: #23863633;
+    --yellow: #d29922;
+    --yellow-dim: #bb800926;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --purple-dim: #8957e533;
+    --orange: #f0883e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    padding: 2.5rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+  }
+  header h1 span { color: var(--accent); }
+  header p.subtitle {
+    color: var(--text-muted);
+    font-size: .95rem;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  .meta-bar {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .meta-bar span {
+    font-size: .8rem;
+    color: var(--text-muted);
+    background: var(--surface);
+    padding: .25rem .75rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  /* Impact summary */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .impact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .impact-card .number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .impact-card .label {
+    color: var(--text-muted);
+    font-size: .8rem;
+    margin-top: .35rem;
+  }
+  .impact-card.green .number { color: var(--green); }
+  .impact-card.blue .number { color: var(--accent); }
+  .impact-card.purple .number { color: var(--purple); }
+  .impact-card.orange .number { color: var(--orange); }
+
+  /* Section */
+  section {
+    margin-bottom: 2.5rem;
+  }
+  section > h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  section > h2 .badge {
+    font-size: .65rem;
+    font-weight: 600;
+    padding: .15rem .55rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .badge-easy { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .badge-medium { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+  .badge-auto { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
+
+  /* Action card */
+  .action-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .action-card summary {
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    list-style: none;
+    user-select: none;
+  }
+  .action-card summary::-webkit-details-marker { display: none; }
+  .action-card summary::before {
+    content: '\25B6';
+    font-size: .6rem;
+    color: var(--text-muted);
+    transition: transform .15s;
+    flex-shrink: 0;
+  }
+  .action-card[open] summary::before { transform: rotate(90deg); }
+  .action-card summary .title {
+    font-weight: 600;
+    font-size: .95rem;
+    flex: 1;
+  }
+  .action-card summary .impact {
+    font-size: .7rem;
+    padding: .15rem .5rem;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .impact-high { background: var(--green-dim); color: var(--green); }
+  .impact-med { background: var(--yellow-dim); color: var(--yellow); }
+
+  .action-body {
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .action-body h4 {
+    font-size: .8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 1rem 0 .4rem;
+  }
+  .action-body p, .action-body li {
+    font-size: .9rem;
+    color: var(--text);
+  }
+  .action-body ul {
+    padding-left: 1.25rem;
+    margin: .25rem 0;
+  }
+  .action-body li { margin-bottom: .2rem; }
+
+  /* Code blocks */
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .85rem 1rem;
+    overflow-x: auto;
+    font-size: .82rem;
+    line-height: 1.55;
+    margin: .5rem 0;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: .82rem;
+  }
+  p code, li code {
+    background: var(--surface-alt);
+    padding: .1rem .35rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* Helix mapping table */
+  .helix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .85rem;
+    margin: .5rem 0;
+  }
+  .helix-table th {
+    text-align: left;
+    padding: .6rem .75rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+  .helix-table td {
+    padding: .55rem .75rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .helix-table tr:hover td { background: var(--accent-dim); }
+  .file-ref {
+    color: var(--accent);
+    font-family: monospace;
+    font-size: .8rem;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin: .75rem 0;
+    font-size: .85rem;
+  }
+  .flow .step {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .35rem .7rem;
+    white-space: nowrap;
+  }
+  .flow .arrow { color: var(--text-muted); font-size: .7rem; }
+  .flow .step.highlight {
+    border-color: var(--green);
+    background: var(--green-dim);
+  }
+
+  /* Priority matrix */
+  .priority-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .quadrant {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .quadrant h4 {
+    font-size: .8rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+  .quadrant ul { padding-left: 1.1rem; }
+  .quadrant li { font-size: .82rem; margin-bottom: .15rem; }
+  .q1 { border-color: var(--green); }
+  .q1 h4 { color: var(--green); }
+  .q2 { border-color: var(--accent); }
+  .q2 h4 { color: var(--accent); }
+  .q3 { border-color: var(--yellow); }
+  .q3 h4 { color: var(--yellow); }
+  .q4 { border-color: var(--purple); }
+  .q4 h4 { color: var(--purple); }
+
+  .note-box {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: .85rem 1rem;
+    margin: 1rem 0;
+    font-size: .85rem;
+    color: var(--text);
+  }
+  .note-box strong { color: var(--accent); }
+
+  .warn-box {
+    background: var(--yellow-dim);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 6px 6px 0;
+    padding: .85rem 1rem;
+    margin: 1rem 0;
+    font-size: .85rem;
+  }
+  .warn-box strong { color: var(--yellow); }
+
+  footer {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: .8rem;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 1rem; }
+    .priority-matrix { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: 1fr 1fr; }
+    header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Reduce AI Questions &mdash; <span>Helix</span> Action Plan</h1>
+  <p class="subtitle">
+    แนวทางลด prompt ที่ AI ถามกลับผู้ใช้ขณะพัฒนา Helix
+    โดยยังคงคุณภาพและ safety guards ตาม CLAUDE.md rules
+  </p>
+  <div class="meta-bar">
+    <span>Project: Thitic9203/helix</span>
+    <span>Version: 1.5.19</span>
+    <span>Date: 2026-05-31</span>
+    <span>7 Action Items</span>
+  </div>
+</header>
+
+<!-- ====== Impact Summary ====== -->
+<div class="impact-grid">
+  <div class="impact-card green">
+    <div class="number">~70%</div>
+    <div class="label">ลด Permission Prompts</div>
+  </div>
+  <div class="impact-card blue">
+    <div class="number">~50%</div>
+    <div class="label">ลด Clarifying Questions</div>
+  </div>
+  <div class="impact-card purple">
+    <div class="number">0</div>
+    <div class="label">ถามซ้ำข้าม Session</div>
+  </div>
+  <div class="impact-card orange">
+    <div class="number">3</div>
+    <div class="label">ไฟล์ที่ต้องแก้</div>
+  </div>
+</div>
+
+<!-- ====== Priority Matrix ====== -->
+<section>
+  <h2>Priority Matrix</h2>
+
+  <div class="priority-matrix">
+    <div class="quadrant q1">
+      <h4>Do First &mdash; High Impact, Easy</h4>
+      <ul>
+        <li>#1 Permission Allowlist</li>
+        <li>#2 Default Permission Mode</li>
+        <li>#3 Bias Toward Action rule</li>
+      </ul>
+    </div>
+    <div class="quadrant q2">
+      <h4>Do Next &mdash; High Impact, Medium</h4>
+      <ul>
+        <li>#4 Refine Rule&nbsp;#5 scope</li>
+        <li>#5 Default Decisions for Helix</li>
+      </ul>
+    </div>
+    <div class="quadrant q3">
+      <h4>Ongoing &mdash; Medium Impact, Auto</h4>
+      <ul>
+        <li>#6 Memory save decisions</li>
+      </ul>
+    </div>
+    <div class="quadrant q4">
+      <h4>Nice-to-Have &mdash; Enhances DX</h4>
+      <ul>
+        <li>#7 SessionStart context hook</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Action 1 ====== -->
+<section>
+  <h2>Action Items <span class="badge badge-easy">ทำได้ทันที</span></h2>
+
+  <details class="action-card" open>
+    <summary>
+      <span class="title">#1 &mdash; เพิ่ม Permission Allowlist สำหรับ Helix dev</span>
+      <span class="impact impact-high">ลด 60-80%</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        <code>~/.claude/settings.json</code> ปัจจุบันมี <code>allow</code> แค่ 2 rules (Read tmp files)
+        &mdash; ทุก Bash command ต้องถาม permission ทุกครั้ง รวมถึงคำสั่งที่ปลอดภัยอย่าง <code>git</code>, <code>ls</code>, <code>rtk</code>
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">~/.claude/settings.json</code></p>
+
+      <h4>เพิ่ม rules เหล่านี้</h4>
+<pre><code>"permissions": {
+  "allow": [
+    "Bash(git *)",
+    "Bash(rtk *)",
+    "Bash(ls *)",
+    "Bash(cat *)",
+    "Bash(find *)",
+    "Bash(grep *)",
+    "Bash(rg *)",
+    "Bash(which *)",
+    "Bash(node *)",
+    "Bash(npx *)",
+    "Bash(npm run *)",
+    "Bash(python3 *)",
+    "Bash(wc *)",
+    "Bash(head *)",
+    "Bash(tail *)",
+    "Bash(sort *)",
+    "Bash(diff *)",
+    "Bash(mkdir *)",
+    "Bash(basename *)",
+    "Bash(dirname *)",
+    "Bash(realpath *)",
+    "Bash(stat *)"
+  ]
+}</code></pre>
+
+      <h4>Helix-specific commands ที่ควรเพิ่ม</h4>
+      <table class="helix-table">
+        <tr>
+          <th>Command Pattern</th>
+          <th>ใช้ตอนไหนใน Helix</th>
+        </tr>
+        <tr>
+          <td><code>Bash(bash scripts/*)</code></td>
+          <td>รัน install.sh, link-skills.sh, helix-doctor.sh</td>
+        </tr>
+        <tr>
+          <td><code>Bash(chmod *)</code></td>
+          <td>ทำ script executable</td>
+        </tr>
+        <tr>
+          <td><code>Bash(gh *)</code></td>
+          <td>สร้าง PR, release, issue</td>
+        </tr>
+      </table>
+
+      <div class="note-box">
+        <strong>ทางลัด:</strong> ใช้ <code>/fewer-permission-prompts</code> ใน Claude Code
+        เพื่อ scan transcript history แล้วสร้าง allowlist อัตโนมัติจาก commands ที่ใช้บ่อย
+      </div>
+    </div>
+  </details>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#2 &mdash; ตั้ง Default Permission Mode: acceptEdits</span>
+      <span class="impact impact-high">ลด Edit/Write prompts ทั้งหมด</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        ทุกครั้งที่ AI แก้ไฟล์ <code>.md</code> ใน skills/, references/, commands/
+        ต้องกด approve ทีละไฟล์ &mdash; ซึ่ง Helix เป็น project ที่แก้ <code>.md</code> เยอะมาก
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">~/.claude/settings.json</code></p>
+
+<pre><code>"permissions": {
+  "defaultMode": "acceptEdits"
+}</code></pre>
+
+      <h4>ผลลัพธ์</h4>
+      <table class="helix-table">
+        <tr><th>Mode</th><th>Edit/Write</th><th>Bash</th><th>เหมาะกับ</th></tr>
+        <tr>
+          <td><code>default</code></td>
+          <td>ถามทุกครั้ง</td>
+          <td>ถามทุกครั้ง</td>
+          <td>ระวังสุด</td>
+        </tr>
+        <tr style="background:var(--green-dim);">
+          <td><code>acceptEdits</code></td>
+          <td>Auto-approve</td>
+          <td>ถาม (+ allowlist)</td>
+          <td>Sweet spot สำหรับ Helix</td>
+        </tr>
+        <tr>
+          <td><code>bypassPermissions</code></td>
+          <td>Auto-approve</td>
+          <td>Auto-approve</td>
+          <td>อันตราย ไม่แนะนำ</td>
+        </tr>
+      </table>
+
+      <div class="warn-box">
+        <strong>ข้อควรระวัง:</strong> <code>acceptEdits</code> จะ auto-approve Edit/Write
+        แต่ Bash ยังถามตาม allowlist &mdash; safety guards จาก CLAUDE.md Rule #3 (no org spend)
+        และ Rule #5 (ถามก่อนเมื่อมีความเสี่ยง) ยังทำงานปกติ เพราะเป็น instruction-level ไม่ใช่ permission-level
+      </div>
+    </div>
+  </details>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#3 &mdash; เพิ่ม "Bias Toward Action" ใน CLAUDE.md</span>
+      <span class="impact impact-high">ลด clarifying questions ~50%</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        AI มักถามกลับทั้งที่คำสั่งชัดเจนพอจะทำได้เลย เช่น "ต้องการให้แก้ไฟล์ X ใช่มั้ย?"
+        หรือ "จะใช้ approach A หรือ B?" ทั้งที่ทั้งสองใกล้เคียงกัน
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">~/.claude/CLAUDE.md</code></p>
+
+      <h4>เพิ่ม rule ใหม่</h4>
+<pre><code>## 8. Bias toward action &mdash; ทำเลย ถามน้อยลง
+
+**ถ้า user สั่งชัด &rarr; ทำเลย ไม่ถามซ้ำ**
+ถ้ามี 2+ approaches ที่ดีใกล้เคียงกัน &rarr; เลือกทางที่ดีกว่าเลย
+บอกให้ user รู้ว่าเลือกอะไร (ไม่ต้องถาม)
+
+**ถามเฉพาะเมื่อ (ทั้ง 3 ข้อต้องเป็นจริง):**
+1. มี &gt; 1 approach ที่ต่างกันจริงๆ (ไม่ใช่แค่ style ต่าง)
+2. ผลกระทบต่อ production / user / cost / security
+3. ไม่มี default decision ใน CLAUDE.md ที่ตอบได้
+
+**ถ้าจะถาม:**
+- ถามครั้งเดียวรวม ไม่ถามทีละคำถาม
+- ให้ recommendation + เหตุผล ไม่ใช่แค่ list ตัวเลือก
+- ถ้า user เคยตอบคำถามคล้ายๆ กัน &rarr; ใช้คำตอบเดิม</code></pre>
+
+      <h4>ผลต่อ Helix workflow</h4>
+      <div class="flow">
+        <span class="step">User: "แก้ SKILL.md เพิ่ม menu item"</span>
+        <span class="arrow">&rarr;</span>
+        <span class="step" style="text-decoration: line-through; opacity: .5;">AI: "ต้องการเพิ่มที่ workflow ไหน?"</span>
+        <span class="arrow">&rarr;</span>
+        <span class="step highlight">AI: ทำเลย + บอกว่าเพิ่มที่ไหน</span>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ====== Action 4-5 ====== -->
+<section>
+  <h2>Action Items <span class="badge badge-medium">ต้อง tailor ให้ Helix</span></h2>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#4 &mdash; Refine Rule #5: กำหนด scope "ความเสี่ยง" ให้ชัดสำหรับ Helix</span>
+      <span class="impact impact-med">ลดคำถาม "มีความเสี่ยง" ที่ไม่จำเป็น</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        Rule #5 ปัจจุบัน ("ถามก่อนเสมอเมื่อมีความเสี่ยง") ใช้กับทุก project &mdash;
+        แต่ Helix เป็น skill pack ที่ไฟล์ส่วนใหญ่เป็น <code>.md</code>
+        ไม่มี production code, ไม่มี database, ไม่มี deploy ตรงๆ
+        ความเสี่ยงจึงต่ำกว่า project อื่นมาก
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">/Users/thitichaya/GitHub/helix/CLAUDE.md</code> (project-level)</p>
+
+      <h4>เพิ่ม Helix-specific exception</h4>
+<pre><code>## Helix-specific overrides for Rule #5
+
+ใน Helix project &mdash; ทำได้เลยไม่ต้องถาม:
+- แก้ไข .md ไฟล์ใน skills/, references/, commands/, docs/
+- เพิ่ม/ลบ menu item ใน commands/helix.md
+- แก้ SKILL.md / WORKFLOW.md content (ไม่ใช่ rename/delete ไฟล์)
+- แก้ scripts/ ที่ไม่ใช่ install.sh (install กระทบ user ทุกคน)
+- อัปเดต VERSION, README.md, CONTEXT.md
+- เพิ่ม reference ใหม่ใน references/
+
+ต้องถามก่อน (ยังคง Rule #5):
+- ลบ/rename skill directory ทั้ง folder
+- แก้ install.sh, helix-auto-update.sh (กระทบ user ทุกคน)
+- แก้ CI workflow (.github/workflows/)
+- แก้ hooks/ config (กระทบ SessionStart)
+- แก้ .claude-plugin/ (กระทบ marketplace)</code></pre>
+    </div>
+  </details>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#5 &mdash; เขียน Default Decisions สำหรับ Helix</span>
+      <span class="impact impact-med">ลดคำถาม approach/convention</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        AI ถามซ้ำทุก session เรื่อง convention ที่จริงๆ มี pattern ชัดแล้วจาก
+        <code>docs/CONTRIBUTING.md</code> แต่ AI ไม่ได้อ่านทุกครั้ง
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">/Users/thitichaya/GitHub/helix/CLAUDE.md</code></p>
+
+      <h4>เพิ่ม default decisions</h4>
+<pre><code>## Default decisions (ไม่ต้องถาม ทำเลย)
+
+### Naming &amp; Structure
+- Skill directory: skills/{name}/ + SKILL.md
+- Workflow directory: skills/deprecated/{name}-workflow/ + WORKFLOW.md
+- Command file: commands/{name}.md (thin entry, frontmatter + read SKILL.md)
+- Reference file: references/{descriptive-name}.md (kebab-case)
+- Branch: feat/{name}, fix/{name}, chore/{name}
+
+### Content
+- Skill content: portable (no hardcoded paths/IDs) &mdash; ตาม portable-content.md
+- Language ใน skill files: English only
+- Language ใน chat กับ user: Thai ได้
+- Version bump: อัตโนมัติโดย CI, ไม่ต้อง manual bump
+- Commit: conventional commits (feat:, fix:, chore:, docs:)
+
+### Workflow
+- ถ้าแก้ skill/command/reference &rarr; CI จะ auto-bump VERSION
+- ถ้าเพิ่ม skill ใหม่ &rarr; สร้าง command file ด้วยเสมอ
+- ถ้าเพิ่ม reference ใหม่ &rarr; ไม่ต้องแก้ DOC-MAP.md
+  (ยกเว้นเป็น "single source of truth" document)
+- ถ้า lint/format issue &rarr; แก้เลย</code></pre>
+    </div>
+  </details>
+</section>
+
+<!-- ====== Action 6-7 ====== -->
+<section>
+  <h2>Action Items <span class="badge badge-auto">อัตโนมัติ / Enhancement</span></h2>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#6 &mdash; Memory Discipline: บันทึก decisions ที่ถามไปแล้ว</span>
+      <span class="impact impact-med">ไม่ถามซ้ำข้าม sessions</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        Session ใหม่ไม่รู้ว่า session เก่าถามอะไรไปแล้ว &mdash;
+        ถามซ้ำเรื่องเดิม เช่น "ใช้ Thai หรือ English?", "ใส่ worked example มั้ย?"
+      </p>
+
+      <h4>ไฟล์ที่แก้</h4>
+      <p><code class="file-ref">~/.claude/CLAUDE.md</code> (global)</p>
+
+      <h4>เพิ่ม instruction</h4>
+<pre><code>## Memory discipline
+
+- เมื่อ user ตอบคำถามเกี่ยวกับ preference หรือ approach
+  &rarr; save เป็น feedback memory ทันที
+- ก่อนจะถามคำถาม &rarr; check memory ก่อน
+  ว่าเคยถาม + ได้คำตอบแล้วหรือยัง
+- ถ้าเคยได้คำตอบแล้ว &rarr; ใช้คำตอบเดิม ไม่ถามซ้ำ
+- ถ้าคำตอบอาจเปลี่ยนตาม context &rarr; ใช้คำตอบเดิม
+  เป็น default แต่บอก user ว่า "ใช้แบบเดิมนะ ถ้าต้องการเปลี่ยนบอกได้"</code></pre>
+
+      <h4>ตัวอย่าง memory ที่ควร save</h4>
+      <table class="helix-table">
+        <tr><th>คำถามที่เคยถาม</th><th>Memory ที่ควร save</th></tr>
+        <tr>
+          <td>"ใช้ Thai หรือ English ใน commit?"</td>
+          <td><code>feedback: commit message ใช้ English, conventional commits style</code></td>
+        </tr>
+        <tr>
+          <td>"เพิ่ม worked example ใน reference มั้ย?"</td>
+          <td><code>feedback: ใส่ worked example เสมอสำหรับ reference ใหม่</code></td>
+        </tr>
+        <tr>
+          <td>"Skill ใหม่ใส่ใน deprecated/ หรือ skills/?"</td>
+          <td><code>feedback: skill ใหม่เริ่มที่ skills/ ย้ายไป deprecated/ เมื่อ promote เป็น workflow</code></td>
+        </tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="action-card">
+    <summary>
+      <span class="title">#7 &mdash; SessionStart Hook: inject Helix context อัตโนมัติ</span>
+      <span class="impact impact-med">ไม่ต้องถาม "ทำอะไรอยู่"</span>
+    </summary>
+    <div class="action-body">
+      <h4>ปัญหา</h4>
+      <p>
+        Session ใหม่ AI ไม่รู้ว่า branch ปัจจุบันทำอะไร, WIP อยู่ไหน
+        &mdash; ต้องถามหรือ explore ก่อนทุกครั้ง
+      </p>
+
+      <h4>ไฟล์ที่สร้าง</h4>
+      <p><code class="file-ref">/Users/thitichaya/GitHub/helix/.claude/hooks/inject-context.sh</code></p>
+
+<pre><code>#!/bin/bash
+# Inject Helix dev context at session start
+cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || exit 0
+
+echo "=== Helix Dev Context ==="
+echo "Branch: $(git branch --show-current 2>/dev/null)"
+echo "Version: $(cat VERSION 2>/dev/null)"
+echo "Last 3 commits:"
+git log --oneline -3 2>/dev/null
+echo ""
+echo "Modified files:"
+git status --short 2>/dev/null | head -10
+echo ""
+
+# Show WIP context if exists
+if [ -f .claude/session-context.md ]; then
+  cat .claude/session-context.md
+fi</code></pre>
+
+      <h4>ลงทะเบียนใน settings</h4>
+      <p>เพิ่มใน <code class="file-ref">.claude/settings.json</code> (project level):</p>
+<pre><code>"hooks": {
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/inject-context.sh\""
+        }
+      ]
+    }
+  ]
+}</code></pre>
+    </div>
+  </details>
+</section>
+
+<!-- ====== Implementation Flow ====== -->
+<section>
+  <h2>Implementation Flow</h2>
+  <p style="color:var(--text-muted); font-size:.9rem; margin-bottom:1rem;">
+    ลำดับการทำที่แนะนำ &mdash; ทำ 3 ข้อแรกก่อนจะเห็นผลทันที
+  </p>
+
+  <div class="flow">
+    <span class="step highlight">#1 Permission Allowlist</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step highlight">#2 acceptEdits</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step highlight">#3 Bias Toward Action</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">#4 Refine Rule #5</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">#5 Default Decisions</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">#6 Memory</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">#7 Hook</span>
+  </div>
+
+  <h4 style="margin-top:1.5rem; font-size:.85rem; color:var(--text-muted);">Files Changed Summary</h4>
+  <table class="helix-table">
+    <tr>
+      <th>File</th>
+      <th>Action Items</th>
+      <th>Type</th>
+    </tr>
+    <tr>
+      <td><code class="file-ref">~/.claude/settings.json</code></td>
+      <td>#1 Permission allowlist, #2 defaultMode</td>
+      <td>Global user settings</td>
+    </tr>
+    <tr>
+      <td><code class="file-ref">~/.claude/CLAUDE.md</code></td>
+      <td>#3 Bias toward action, #6 Memory discipline</td>
+      <td>Global instructions</td>
+    </tr>
+    <tr>
+      <td><code class="file-ref">helix/CLAUDE.md</code></td>
+      <td>#4 Refine Rule #5, #5 Default decisions</td>
+      <td>Project instructions</td>
+    </tr>
+    <tr>
+      <td><code class="file-ref">helix/.claude/hooks/inject-context.sh</code></td>
+      <td>#7 SessionStart hook</td>
+      <td>New file</td>
+    </tr>
+    <tr>
+      <td><code class="file-ref">helix/.claude/settings.json</code></td>
+      <td>#7 Hook registration</td>
+      <td>Project settings</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ====== Helix-Specific Considerations ====== -->
+<section>
+  <h2>Helix-Specific Considerations</h2>
+
+  <div class="note-box">
+    <strong>Portable Content Guard:</strong>
+    ไม่มี action item ไหนที่ทำให้ Helix ขาด portability &mdash;
+    ทุก config อยู่ใน <code>~/.claude/</code> (user-level) หรือ <code>.claude/</code> (project gitignored)
+    ไม่ hardcode เข้า skill files
+  </div>
+
+  <div class="warn-box">
+    <strong>Safety Guards ที่ยังคงอยู่:</strong>
+    <ul style="margin-top:.5rem;">
+      <li>Rule #3 (No org spend) &mdash; ไม่ได้ถูกลดทอน ยังทำงานเต็มที่</li>
+      <li>Rule #5 (ถามก่อนเมื่อมีความเสี่ยง) &mdash; refine ให้เฉพาะเจาะจง ไม่ได้ปิด</li>
+      <li>Rule #7 (ป้องกันปัญหา) &mdash; ไม่ได้เปลี่ยน ยังบังคับ best practice</li>
+      <li>CI guards &mdash; portable content check, skill structure check ยังทำงานปกติ</li>
+    </ul>
+  </div>
+
+  <table class="helix-table" style="margin-top:1rem;">
+    <tr>
+      <th>ลักษณะของ Helix</th>
+      <th>ทำไมถึงลดคำถามได้มากกว่า project อื่น</th>
+    </tr>
+    <tr>
+      <td>ไฟล์ส่วนใหญ่เป็น <code>.md</code></td>
+      <td>Edit/Write risk ต่ำมาก &mdash; <code>acceptEdits</code> เหมาะสม</td>
+    </tr>
+    <tr>
+      <td>ไม่มี production code / database</td>
+      <td>ไม่ต้องกังวลเรื่อง breaking changes ระดับ runtime</td>
+    </tr>
+    <tr>
+      <td>CI auto-bump version</td>
+      <td>ไม่ต้องถามเรื่อง version &mdash; CI จัดการให้</td>
+    </tr>
+    <tr>
+      <td>มี CONTRIBUTING.md + DOC-MAP.md</td>
+      <td>Convention ชัดเจน &mdash; encode เป็น default decisions ได้</td>
+    </tr>
+    <tr>
+      <td>Portable content CI check</td>
+      <td>ไม่ต้องถาม "ใส่ path จริงมั้ย?" &mdash; CI จับให้</td>
+    </tr>
+  </table>
+</section>
+
+<footer>
+  Helix Action Plan &mdash; Generated 2026-05-31
+  &nbsp;|&nbsp;
+  <a href="https://github.com/Thitic9203/helix" style="color:var(--accent); text-decoration:none;">github.com/Thitic9203/helix</a>
+</footer>
+
+</body>
+</html>
