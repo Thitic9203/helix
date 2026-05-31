@@ -367,6 +367,170 @@
   .na-title { font-size: 0.9rem; font-weight: 600; }
   .na-reason { font-size: 0.82rem; color: var(--text2); margin-top: 0.2rem; }
 
+  /* ===== Regression Verification section ===== */
+  .regression {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .regression h2 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent2); }
+  .regression > p { font-size: 0.88rem; color: var(--text2); margin-bottom: 0.5rem; }
+  .regression h4.sub {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text2);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .regression pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    overflow-x: auto;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    margin: 0.5rem 0;
+  }
+  .regression code { font-family: 'JetBrains Mono', monospace; }
+  .regression p code, .regression li code {
+    background: var(--surface2);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  .warn-box {
+    background: var(--orange-bg);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 0.85rem 1rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .warn-box strong { color: var(--orange); }
+  .note-box {
+    background: var(--blue-bg);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 0.85rem 1rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .note-box strong { color: var(--blue); }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .check-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+  }
+  .check-card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .check-card ul { list-style: none; margin: 0; }
+  .check-card li {
+    font-size: 0.82rem;
+    margin-bottom: 0.3rem;
+    color: var(--text);
+    padding-left: 1rem;
+    position: relative;
+  }
+  .check-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .check-card li code { font-size: 0.75rem; }
+  .dot { font-size: 0.8rem; }
+  .dot-init1 { color: var(--accent2); }
+  .dot-init2 { color: var(--green); }
+  .dot-init3 { color: var(--blue); }
+  .dot-gen { color: var(--orange); }
+
+  .regression-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+  }
+  .rf-step {
+    flex: 1;
+    min-width: 128px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.85rem 0.75rem;
+    text-align: center;
+    position: relative;
+  }
+  .rf-step:first-child { border-radius: 10px 0 0 10px; }
+  .rf-step:last-child { border-radius: 0 10px 10px 0; }
+  .rf-step .rf-num {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .rf-step .rf-title { font-size: 0.82rem; font-weight: 600; margin: 0.25rem 0 0.15rem; }
+  .rf-step .rf-desc { font-size: 0.72rem; color: var(--text2); line-height: 1.4; }
+  .rf-step::after {
+    content: '\25B6';
+    position: absolute;
+    right: -0.45rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text2);
+    font-size: 0.55rem;
+    z-index: 1;
+  }
+  .rf-step:last-child::after { display: none; }
+  .rf-step.rf-gate { border-color: var(--green); background: var(--green-bg); }
+  .rf-step.rf-gate .rf-title { color: var(--green); }
+
+  .checklist-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 0.75rem 0; }
+  .checklist-table th {
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .checklist-table td { padding: 0.5rem 0.7rem; border: 1px solid var(--border); vertical-align: top; }
+  .checklist-table .num { text-align: center; font-weight: 700; color: var(--text2); width: 2.5rem; }
+  .check-method { font-size: 0.72rem; padding: 0.15rem 0.45rem; border-radius: 4px; white-space: nowrap; font-weight: 600; }
+  .method-manual { background: var(--orange-bg); color: var(--orange); }
+  .method-ci { background: rgba(108,92,231,0.18); color: var(--accent2); }
+  .method-script { background: var(--blue-bg); color: var(--blue); }
+  .blocks-yes { color: var(--red); font-weight: 600; }
+  .blocks-warn { color: var(--orange); font-weight: 600; }
+
   /* Footer */
   .footer {
     text-align: center;
@@ -746,6 +910,299 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ========== REGRESSION VERIFICATION ========== -->
+  <div class="regression">
+    <h2>Regression Verification &mdash; ของเดิมต้องไม่พัง</h2>
+    <p>
+      แต่ละ initiative เป็น <strong>additive</strong> (เพิ่มของใหม่ข้างของเดิม) &mdash;
+      ก่อน merge ทุกครั้งต้องพิสูจน์ว่า CSV/Excel export เดิม, Playwright workflow เดิม,
+      และ reactive <code>/helix</code> เดิม ยังทำงานครบเหมือนเดิม
+    </p>
+
+    <div class="warn-box">
+      <strong>หลักการ:</strong>
+      Helix ไม่ใช่ traditional software &mdash; ไม่มี unit test รันได้ตรงๆ
+      "regression" ใน skill pack หมายถึง: skill เดิมใช้ไม่ได้, menu หาย, reference ขาด,
+      script พัง, portable content เสีย, cross-agent compatibility เสีย &mdash;
+      <strong>บวกกับ</strong> 3 พื้นผิวใหม่จาก plan นี้: export format เดิมพัง,
+      selector fallback loop ไม่จบ, หรือ proactive trigger auto-run โดยไม่ได้สั่ง (ฝ่าฝืน Rule #5)
+    </div>
+
+    <!-- Verification flow -->
+    <h4 class="sub">Verification Flow (ทำตามลำดับ)</h4>
+    <div class="regression-flow">
+      <div class="rf-step">
+        <div class="rf-num">Step 1</div>
+        <div class="rf-title">Structure</div>
+        <div class="rf-desc">ไฟล์ครบ, frontmatter valid, reference ใหม่มีจริง</div>
+      </div>
+      <div class="rf-step">
+        <div class="rf-num">Step 2</div>
+        <div class="rf-title">Portable</div>
+        <div class="rf-desc">reference/script ใหม่ ไม่มี hardcoded path/ID</div>
+      </div>
+      <div class="rf-step">
+        <div class="rf-num">Step 3</div>
+        <div class="rf-title">Backward-Compat</div>
+        <div class="rf-desc">CSV/Excel + preflight + reactive menu เดิม ครบ</div>
+      </div>
+      <div class="rf-step">
+        <div class="rf-num">Step 4</div>
+        <div class="rf-title">New-Surface</div>
+        <div class="rf-desc">Test.md valid, fallback bounded, proactive=suggest-only</div>
+      </div>
+      <div class="rf-step">
+        <div class="rf-num">Step 5</div>
+        <div class="rf-title">Reference</div>
+        <div class="rf-desc">@references/* ที่อ้างถึงยังมีอยู่</div>
+      </div>
+      <div class="rf-step rf-gate">
+        <div class="rf-num">Gate</div>
+        <div class="rf-title">CI Pass</div>
+        <div class="rf-desc">regression suite (8 จุด) ผ่านหมด</div>
+      </div>
+      <div class="rf-step rf-gate">
+        <div class="rf-num">Ship</div>
+        <div class="rf-title">Merge</div>
+        <div class="rf-desc">ผ่านทุก step จึง merge</div>
+      </div>
+    </div>
+
+    <!-- Per-initiative + general dimensions -->
+    <h4 class="sub">มิติที่ต้องตรวจ (3 ต่อ initiative + 3 ทั่วไป)</h4>
+    <div class="check-grid">
+      <div class="check-card">
+        <h4><span class="dot dot-init1">&#9632;</span> #1 Test.md &mdash; Export ไม่ถดถอย</h4>
+        <ul>
+          <li>CSV export เดิมยังออกได้ครบทุก column (UTF-8 + BOM)</li>
+          <li>Excel/Jira comment delivery เดิม ไม่เปลี่ยน behavior</li>
+          <li>Test.md เป็น <strong>option เพิ่ม</strong> ไม่ใช่ replacement</li>
+          <li>Format spec อยู่ใน <code>references/test-md-format.md</code> จุดเดียว</li>
+          <li>มี ISTQB field ครบเมื่อแปลงไป Test.md (ไม่ตกหล่น)</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4><span class="dot dot-init2">&#9632;</span> #2 Selectors &mdash; Fallback มีขอบเขต</h4>
+        <ul>
+          <li><code>playwright-preflight.md</code> เดิมยัง gate ได้ปกติ</li>
+          <li>Fallback chain จำกัด <strong>max 3 strategies</strong> ไม่ loop ไม่จบ</li>
+          <li>เมื่อครบ 3 แล้ว fail &rarr; report เป็น genuine failure</li>
+          <li>testing-ticket workflow เดิมไม่ break (เพิ่ม step ไม่ลบ)</li>
+          <li>แยก "selector เปลี่ยน" vs "UI bug จริง" vs "timing" ได้</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4><span class="dot dot-init3">&#9632;</span> #3 Proactive &mdash; Suggest-Only</h4>
+        <ul>
+          <li>Proactive = <strong>แนะนำเท่านั้น</strong> ห้าม auto-run (Rule #5)</li>
+          <li><code>HELIX_PROACTIVE=0</code> ปิด suggestion ได้จริง</li>
+          <li>SessionStart hook เดิม (branch/version/WIP) ยัง inject ครบ</li>
+          <li>ไม่มี Jira MCP &rarr; fallback ใช้ branch/commit แทน ไม่ error</li>
+          <li>ไม่เรียก Managed Agents API (ไม่มี spend &mdash; Rule #3)</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4><span class="dot dot-gen">&#9632;</span> 4. Skill &amp; Reference Integrity</h4>
+        <ul>
+          <li>Skill ที่ไม่ได้แก้ยังโหลดได้ (SKILL.md/WORKFLOW.md ครบ)</li>
+          <li>reference ใหม่ 3 ไฟล์มีจริง + ถูกอ้างถูกชื่อ</li>
+          <li>ไม่มี dead <code>@references/</code> link</li>
+          <li>DOC-MAP.md อัปเดตถ้า reference ใหม่เป็น single source of truth</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4><span class="dot dot-gen">&#9632;</span> 5. Portable Content</h4>
+        <ul>
+          <li><code>export-test-md.py</code> ไม่มี hardcoded path/ID</li>
+          <li>reference ใหม่ไม่มี <code>/Users/</code>, real Jira keys, repo paths</li>
+          <li>CI <code>ci-check-portable-skills.sh</code> ผ่าน</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4><span class="dot dot-gen">&#9632;</span> 6. Cross-Agent &amp; Scripts</h4>
+        <ul>
+          <li>Skill ทำงานได้ทั้ง Claude Code + Cursor/Copilot</li>
+          <li>SessionStart hook ใหม่ไม่ break agent ที่ไม่มี hook (Gemini/Codex)</li>
+          <li><code>export-test-md.py</code> รันได้, มี <code>+x</code></li>
+          <li><code>helix-doctor.sh</code> ยัง detect/repair ได้</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Pre-merge checklist -->
+    <h4 class="sub">Pre-Merge Regression Checklist</h4>
+    <table class="checklist-table">
+      <thead>
+        <tr>
+          <th style="width:2.5rem;">#</th>
+          <th>Check</th>
+          <th>Command / วิธีตรวจ</th>
+          <th>Method</th>
+          <th>Blocks?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td>Skill files ครบ &mdash; ไม่มี SKILL.md / WORKFLOW.md หาย</td>
+          <td><code>ls skills/*/SKILL.md skills/deprecated/*/WORKFLOW.md</code></td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td>Portable content &mdash; reference/script ใหม่ไม่มี hardcoded path/ID</td>
+          <td><code>bash scripts/ci-check-portable-skills.sh</code></td>
+          <td><span class="check-method method-ci">CI Auto</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td>Skill structure &mdash; format + frontmatter ถูกต้อง</td>
+          <td><code>bash scripts/ci-check-skill-structure.sh</code></td>
+          <td><span class="check-method method-ci">CI Auto</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td><strong>#1</strong> CSV/Excel export เดิมยังออกได้ครบ (Test.md เป็น additive)</td>
+          <td>รัน export เดิม + เทียบ column กับ <code>csv-export-rules.md</code></td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td><strong>#1</strong> Test.md output valid ตาม spec (regression point #8)</td>
+          <td><code>python3 scripts/export-test-md.py</code> + validate ใน regression suite</td>
+          <td><span class="check-method method-script">Script</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">6</td>
+          <td><strong>#2</strong> Selector fallback มี limit (max 3) ไม่ loop ไม่จบ</td>
+          <td>อ่าน <code>resilient-selectors.md</code> &mdash; ยืนยัน bounded chain</td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">7</td>
+          <td><strong>#3</strong> Proactive = suggest-only + opt-out ทำงาน (Rule #5)</td>
+          <td>ตั้ง <code>HELIX_PROACTIVE=0</code> &rarr; suggestion หาย; default &rarr; แนะนำ ไม่ auto-run</td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">8</td>
+          <td><strong>#3</strong> SessionStart hook เดิม (branch/version/WIP) ยัง inject ครบ</td>
+          <td>เปิด session ใหม่ &rarr; ตรวจ context block เดิมยังขึ้น</td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">9</td>
+          <td>Reference links &mdash; @references/* ที่อ้างถึงยังมีอยู่</td>
+          <td><code>grep -roh '@references/[^ )]*' skills/ | sort -u</code> เทียบ <code>ls references/</code></td>
+          <td><span class="check-method method-script">Script</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td>VERSION consistency &mdash; VERSION = plugin.json version</td>
+          <td><code>bash scripts/sync-version.sh --check</code></td>
+          <td><span class="check-method method-ci">CI Auto</span></td>
+          <td class="blocks-yes">Yes</td>
+        </tr>
+        <tr>
+          <td class="num">11</td>
+          <td>Doctor pass &mdash; helix-doctor.sh ไม่มี error</td>
+          <td><code>bash scripts/helix-doctor.sh</code></td>
+          <td><span class="check-method method-script">Script</span></td>
+          <td class="blocks-warn">Warn</td>
+        </tr>
+        <tr>
+          <td class="num">12</td>
+          <td>Smoke test &mdash; <code>/helix</code> แสดง menu ครบ + proactive ไม่รก</td>
+          <td>รัน <code>/helix</code> ใน session ใหม่</td>
+          <td><span class="check-method method-manual">Manual</span></td>
+          <td class="blocks-warn">Warn</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Quick regression script -->
+    <h4 class="sub">Quick Regression Script (ขยายของเดิม + point #8 Test.md)</h4>
+<pre><code>#!/bin/bash
+# helix-regression-check.sh &mdash; เพิ่ม point #8 ตาม Initiative #1
+set -e
+cd "$(git rev-parse --show-toplevel)"
+echo "=== Helix Regression Check ==="
+
+# [1-7] เดิม: skill files, portable, structure, refs, VERSION, perms, menu
+bash scripts/helix-regression-check.sh   # ของเดิม 7 จุด
+
+# [8] NEW &mdash; Test.md export valid (Initiative #1)
+echo -n "[8/8] Test.md format... "
+if [ -f scripts/export-test-md.py ]; then
+  python3 scripts/export-test-md.py --self-test &gt; /dev/null 2&gt;&amp;1 \
+    &amp;&amp; echo "OK" || { echo "FAIL: Test.md export broken"; exit 1; }
+else
+  echo "SKIP (export-test-md.py not yet added)"
+fi
+
+echo "=== All checks passed ==="</code></pre>
+
+    <div class="note-box">
+      <strong>หมายเหตุ:</strong> Initiative #2 (selectors) และ #3 (proactive) เป็น
+      <strong>discipline/doc + hook</strong> ไม่ใช่ executable logic &mdash;
+      ตรวจด้วย manual review (checklist #6&ndash;#8) ไม่ใช่ script.
+      มีแค่ Initiative #1 ที่เพิ่ม automated check ได้ (point #8)
+    </div>
+
+    <!-- Regression examples -->
+    <h4 class="sub">ตัวอย่าง Regression ที่อาจเกิด (เฉพาะ plan นี้)</h4>
+    <table class="checklist-table">
+      <thead>
+        <tr>
+          <th>สถานการณ์</th>
+          <th>ผลกระทบ (Regression)</th>
+          <th>ป้องกันด้วย</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>เพิ่ม Test.md โดยแก้ logic export ร่วมกับ CSV</td>
+          <td>CSV/Excel เดิม column เพี้ยน &rarr; ทีมที่ใช้ CSV อยู่พัง</td>
+          <td>Check #4 (CSV export เดิมครบ)</td>
+        </tr>
+        <tr>
+          <td>Test.md spec เปลี่ยน (format ใหม่ พ.ค. 2026) แต่ hardcode ในหลายที่</td>
+          <td>ต้องไล่แก้หลายไฟล์ &rarr; drift</td>
+          <td>Single source <code>test-md-format.md</code> + Check #5</td>
+        </tr>
+        <tr>
+          <td>Selector fallback ไม่ใส่ limit</td>
+          <td>Agent ลอง selector ไม่จบ &rarr; session ค้าง/เปลือง token</td>
+          <td>Check #6 (bounded max 3)</td>
+        </tr>
+        <tr>
+          <td>Proactive trigger เผลอ auto-run workflow</td>
+          <td>Agent ทำงานที่ user ไม่ได้สั่ง &rarr; ฝ่าฝืน Rule #5</td>
+          <td>Check #7 (suggest-only + opt-out)</td>
+        </tr>
+        <tr>
+          <td>แก้ SessionStart hook ใส่ proactive แล้ว context เดิมหาย</td>
+          <td>เสีย Action Item #7 เดิม (branch/version/WIP injection)</td>
+          <td>Check #8 (context block เดิมยังขึ้น)</td>
+        </tr>
+        <tr>
+          <td>เพิ่ม reference ใหม่แต่ใส่ path จริง/ID จริง</td>
+          <td>Skill ใช้ได้แค่เครื่องเดียว &rarr; user อื่นพัง</td>
+          <td>Check #2 (Portable content CI)</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- Footer -->
