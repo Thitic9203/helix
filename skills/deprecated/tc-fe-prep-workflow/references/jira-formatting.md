@@ -17,7 +17,7 @@ Draft TC FE as below
 
 ---
 
-**Test cases (CSV/Excel):** Same content as the table above ({N} cases). Download the attached file `{ISSUE_KEY}_FE_TC.csv` (or `.xlsx` if Excel was requested).
+**CSV export:** [{ISSUE_KEY}_FE_TC.csv](https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{ISSUE_KEY}_FE_TC.csv) — {N} test cases, same content as table above.
 ```
 
 ## Table rules
@@ -68,8 +68,12 @@ Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak
 
 ## Footer link pattern
 
-Use the organization's Jira base URL:
+**Sequence (mandatory):** Upload CSV/xlsx to the Jira issue FIRST → capture the `id` field from the upload response → construct the URL → embed as a clickable hyperlink in the footer. Never post the comment with a plain-text filename.
 
-`https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}.csv`
+| Delivery | Hyperlink format |
+|----------|-----------------|
+| Jira markdown API / MCP | `[{FILENAME}](https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME})` |
+| Jira wiki markup (v2) | `[{FILENAME}\|https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}]` |
+| ADF JSON | inline `link` mark with `href: "https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}"` |
 
-Do not use local filesystem paths in the comment body.
+Do not use local filesystem paths in the comment body. Do not leave the filename as plain text or code-span — it must be a clickable link.
