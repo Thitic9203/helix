@@ -19,6 +19,9 @@ Apply [qa-evidence-gates.md](qa-evidence-gates.md) before any pass/post/done cla
 - [ ] Coverage delta table posted ([coverage-delta-template.md](coverage-delta-template.md))
 - [ ] File row count matches approved table (if files written)
 - [ ] Jira/destination UI matches draft (not API response alone)
+- [ ] **Post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)): no literal `<br>`/HTML tags, numbered items on separate lines, attachment present
+- [ ] **CSV/Excel attached to Jira issue** (not just saved in workspace) — footer link verified working
+- [ ] Agent did NOT report "commented" / "done" before all checks passed
 
 ## Testing ticket
 

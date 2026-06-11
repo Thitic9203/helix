@@ -43,6 +43,8 @@ Use this map to avoid duplicating content across markdown files.
 | Pluton 5 rules mapping | [references/pluton-5rules-mapping.md](../references/pluton-5rules-mapping.md) | — |
 | Pre-merge ship checklist | [docs/pluton-ship-checklist.md](pluton-ship-checklist.md) | — |
 | Portable skills (no host/project lock-in) | [references/portable-content.md](../references/portable-content.md) | Machine paths, PD3, one-repo Playwright layout |
+| Jira cell line-break conversion | [references/jira-linebreak-conversion.md](../references/jira-linebreak-conversion.md) | publish-options, delivery-options, jira-formatting |
+| Jira comment post-publish review | [references/jira-comment-post-review.md](../references/jira-comment-post-review.md) | tc-fe Step 7, tc-api G-verify, verify-closing-checklist |
 | CSV export | [references/csv-export-rules.md](../references/csv-export-rules.md) | tc-fe / tc-api skills (in-agent default) |
 | Test.md format (agent-native) | [references/test-md-format.md](../references/test-md-format.md) | tc-fe / tc-api delivery options, csv-export-rules |
 | TC quality (ISTQB / 29119-3) | [references/tc-quality-standards.md](../references/tc-quality-standards.md) | Full checklist duplicated in skills |
