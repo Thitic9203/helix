@@ -181,7 +181,9 @@ See [references/publish-options.md](references/publish-options.md) for Jira deli
 1. Intro line: `Draft TC FE as below`
 2. Shared prep + precondition note
 3. Full table (bold header cells) — **with `<br>` already converted**
-4. Footer: short note that the CSV/Excel file matches the table + **clickable attachment link** on the same issue
+4. Footer: short note that the CSV/Excel file matches the table + **clickable attachment link** on the same issue (see footer link pattern in [jira-formatting.md](references/jira-formatting.md))
+
+**Upload-first rule:** Upload CSV/xlsx to the issue BEFORE posting the comment. Capture the attachment `id` from the upload response, build the `secure/attachment/{id}/{filename}` URL, then embed it as a hyperlink in the footer. Never write the filename as plain text.
 
 **Publish methods** (choose what works in the environment — details in `references/publish-options.md`):
 
