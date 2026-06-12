@@ -11,8 +11,8 @@
 | Skill | Path |
 |-------|------|
 | Helix (unified router) | `skills/helix/` |
-
-Deprecated workflow skills → `skills/deprecated/`.
+| Workflow discovery stubs | `skills/{name}-workflow/SKILL.md` |
+| Workflow procedures (canonical) | `skills/deprecated/{name}-workflow/WORKFLOW.md` |
 
 Commands: `commands/helix.md` (canonical menu), plus one file per workflow.
 
@@ -40,8 +40,8 @@ Version, CI, ship checklist, quality bar, new skill template → [docs/CONTRIBUT
 ## Default decisions (ไม่ต้องถาม ทำเลย)
 
 ### Naming & Structure
-- Skill directory: skills/{name}/ + SKILL.md
-- Workflow directory: skills/deprecated/{name}-workflow/ + WORKFLOW.md
+- Skill directory: skills/{name}/ + SKILL.md (discovery stub for workflows)
+- Workflow procedure: skills/deprecated/{name}-workflow/ + WORKFLOW.md
 - Command file: commands/{name}.md (thin entry, frontmatter + read SKILL.md)
 - Reference file: references/{descriptive-name}.md (kebab-case)
 - Branch: feat/{name}, fix/{name}, chore/{name}

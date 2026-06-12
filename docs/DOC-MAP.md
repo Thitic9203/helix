@@ -12,6 +12,9 @@ Use this map to avoid duplicating content across markdown files.
 | Per-agent start prompts | [references/agent-entry.md](../references/agent-entry.md) | — |
 | Version number | [VERSION](../VERSION) + README line | Manual edits to plugin.json only via `sync-version.sh` |
 | `/helix` menu text | [commands/helix.md](../commands/helix.md) | AGENTS.md (link only), README (summary table OK) |
+| Menu opening block (verbatim) | [references/menu-text.md](../references/menu-text.md) | Duplicate in helix SKILL / commands |
+| Workflow discovery stub | `skills/{name}/SKILL.md` | Full procedure in stub body |
+| Workflow procedure (canonical) | `skills/deprecated/{name}/WORKFLOW.md` | Duplicate steps in commands |
 | Slash command → skill | [commands/*.md](../commands/) | SKILL.md bodies |
 | English-only chat | [references/user-communication.md](../references/user-communication.md) | Full rule text in every skill (link + 1 line) |
 | Workspace guide discovery | [references/workspace-guide-discovery.md](../references/workspace-guide-discovery.md) | Per-workflow glob tables in skills |

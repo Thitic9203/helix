@@ -32,6 +32,8 @@ HELIX_LINK_WORKSPACE=$PWD bash ~/.helix/tc-fe-prep/scripts/link-skills.sh
 
 Only directories that exist on your machine are linked (installer skips missing parents).
 
+After install, each linked folder should contain **6 skills**: `helix` + five `*-workflow` stubs. Verify with `bash ~/.helix/tc-fe-prep/scripts/helix-doctor.sh`.
+
 ## Project / team directories (`HELIX_LINK_WORKSPACE=$PWD`)
 
 | Location | Typical agent |

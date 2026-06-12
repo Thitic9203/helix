@@ -52,7 +52,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks all workflow skills into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 5 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -95,7 +95,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 
 | Goal | Claude Code | Other agents (skill name) |
 |------|-------------|---------------------------|
-| FE manual TC from story | `/tc-fe-prep` | `tc-fe-prep-workflow` |
+| FE manual TC from story | `/tc-fe-prep` | `tc-fe-prep-workflow` (stub → WORKFLOW) |
 | API manual TC from spec + Swagger | `/tc-api-prep` | `tc-api-prep-workflow` |
 | Retest a bug after a fix | `/retest-bug` | `retest-bug-workflow` |
 | Playwright test for one ticket | `/testing-ticket` | `testing-ticket-workflow` |
@@ -237,14 +237,16 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
-| [helix](skills/helix/SKILL.md) | Router menu (agents without `/helix`) |
-| [tc-fe-prep-workflow](skills/deprecated/tc-fe-prep-workflow/WORKFLOW.md) | FE manual TC from story AC/EC |
-| [tc-api-prep-workflow](skills/deprecated/tc-api-prep-workflow/WORKFLOW.md) | API manual TC from spec + Swagger |
-| [retest-bug-workflow](skills/deprecated/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
-| [testing-ticket-workflow](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
-| [create-bug-workflow](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
+| Skill (discovery stub) | Full procedure | Description |
+|------------------------|----------------|-------------|
+| [helix](skills/helix/SKILL.md) | — | Router menu (agents without `/helix`) |
+| [tc-fe-prep-workflow](skills/tc-fe-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/tc-fe-prep-workflow/WORKFLOW.md) | FE manual TC from story AC/EC |
+| [tc-api-prep-workflow](skills/tc-api-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/tc-api-prep-workflow/WORKFLOW.md) | API manual TC from spec + Swagger |
+| [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
+| [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
+| [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
+
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, … via `commands/`.
 
 ## Prerequisites (human)
 
@@ -258,6 +260,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 |-----|---------|
 | [docs/supported-agents.md](docs/supported-agents.md) | Paths, capabilities, limitations |
 | [references/agent-entry.md](references/agent-entry.md) | Per-agent start prompts |
+| [references/menu-text.md](references/menu-text.md) | `/helix` menu text (single source) |
 | [docs/DOC-MAP.md](docs/DOC-MAP.md) | Where each topic lives |
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Version bump, hooks, releases |
 | [docs/wiki/Home.md](docs/wiki/Home.md) | Wiki entry (mirror to GitHub Wiki) |

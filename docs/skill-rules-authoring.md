@@ -30,9 +30,11 @@ A skill is **shipped** only when all are true:
 
 | Path | Purpose |
 |------|---------|
-| `skills/<name>/SKILL.md` | Index + gates + steps (target < 500 lines) |
-| `skills/<name>/references/` | Templates, gotchas, worked examples |
-| `skills/in-progress/` | WIP skills — excluded from `link-skills.sh` |
-| `skills/deprecated/` | Retired skills — excluded from linking |
+| `skills/<name>/SKILL.md` | Discovery stub (linked by `link-skills.sh`) or full skill for router |
+| `skills/deprecated/<name>/WORKFLOW.md` | Canonical workflow procedure (loaded by stub) |
+| `skills/deprecated/<name>/references/` | Templates, gotchas, worked examples |
+| `skills/in-progress/` | WIP — excluded from `link-skills.sh` |
+
+**Workflow pattern:** Ship a thin stub at `skills/{name}-workflow/SKILL.md` that points to `skills/deprecated/{name}-workflow/WORKFLOW.md`. Register both stub path in `plugin.json`.
 
 New skills: start from [docs/new-skill-template.md](new-skill-template.md).
