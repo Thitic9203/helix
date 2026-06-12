@@ -72,7 +72,48 @@ From the Jira story, build a checklist:
 
 ## Step 3 — Design test cases
 
-Default **9 columns** (change only if user specifies otherwise):
+### 3a — Test Type column (ask before designing)
+
+Before starting the table, ask the user:
+
+> Do you want to include a **Test Type** column in the test case table?
+>
+> Options:
+> - **Yes** — use standard types: System, Integration, Unit
+> - **Yes + custom** — also include additional types (please specify)
+> - **No** — skip this column
+
+**Wait for the answer.** If yes (with or without custom types), follow the rules in **3b** below. If no, skip 3b and proceed with the default 9 columns.
+
+### 3b — When Test Type column is requested
+
+Add **Test Type** as an additional column (after Priority, or wherever the user prefers).
+
+**Allowed values:** `System` | `Integration` | `Unit` | `[Custom type as specified by user]`
+
+**Assignment rules:**
+- Assign the type that best describes *what layer* the test case validates:
+  - **System** — end-to-end UI flow (user can see and interact with the feature as a whole)
+  - **Integration** — verifying that two or more components/services work together (e.g. FE → API → DB round-trip)
+  - **Unit** — isolated behaviour of one element (e.g. field validation, single component logic)
+  - **Custom** — use the label the user requested
+- A ticket does **not** need to have all types — derive only what the AC/EC actually requires.
+- When a type has no applicable test cases for this ticket, **do NOT invent cases just to fill the type**. Instead, add a Remark block under the table (see below).
+- Extra test cases may be added to cover a type's perspective **only if** they are still traceable to an AC or EC row on this ticket.
+
+**Remark block (add after the table when any requested type is absent):**
+
+```
+**Remark — Test Type coverage:**
+- No *System* test cases for this ticket — [brief reason, e.g. "feature is a single isolated component"]
+- No *Integration* test cases for this ticket — [brief reason]
+```
+
+List only the types that are absent. Omit types that have at least one test case.
+
+---
+
+Default **9 columns** (change only if user specifies otherwise), plus optional **Test Type** column per 3a:
 
 | Column | Purpose |
 |--------|---------|
@@ -85,6 +126,7 @@ Default **9 columns** (change only if user specifies otherwise):
 | Test Steps | Numbered manual steps |
 | Expected Result | Numbered assertions |
 | Priority | High / Medium / Low |
+| **Test Type** *(optional — if requested in 3a)* | System / Integration / Unit / [custom] |
 
 **Shared data prep (above table)** — typical pattern:
 
@@ -144,6 +186,17 @@ Draft TC FE as below
 | **Acceptance Criteria** | **Services Impacted** | **Test Case ID** | **Test Title** | **Precondition** | **Test Data** | **Test Steps** | **Expected Result** | **Priority** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ... one row per TC ... |
+```
+
+If **Test Type column was requested (Step 3a)**, add the column to the header and each row, then append the Remark block (per Step 3b) after the table — listing any requested types that have no test cases:
+
+```text
+| **Acceptance Criteria** | **Services Impacted** | **Test Case ID** | **Test Title** | **Precondition** | **Test Data** | **Test Steps** | **Expected Result** | **Priority** | **Test Type** |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ... one row per TC ... |
+
+**Remark — Test Type coverage:**
+- No *[Type]* test cases for this ticket — [reason]
 ```
 
 **Header rule:** Every column header MUST be wrapped in `**bold**` in the chat draft, the Jira comment, and the markdown `.md` file — e.g. `| **Acceptance Criteria** |`. This applies here and in Step 7.
@@ -214,6 +267,8 @@ If any check fails → fix and re-post → re-verify on Jira UI (max 3 rounds).
 
 Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + skill-specific:
 
+- [ ] Step 3a Test Type question asked and answered; column present or absent per user choice.
+- [ ] If Test Type column present: every row has a valid type; Remark block lists absent types.
 - [ ] Step 4 review block posted with **Ready for draft: YES** and traceability matrix complete.
 - [ ] AC/EC coverage complete; quality checklist PASS per tc-quality-standards.
 - [ ] Export file row count matches table rows (CSV or xlsx per user's requested format).
@@ -266,6 +321,9 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST refuse without story key/URL | No traceable AC/EC source |
 | MUST NOT comment on sub-tasks or other issues | Scope is one story |
 | MUST NOT add TC outside story AC/EC | Traceability |
+| MUST ask about Test Type column before designing (Step 3a) | User may or may not want the column; don't assume |
+| MUST NOT invent Test Type test cases that lack an AC/EC trace | Test Type is a label on existing coverage, not a reason to add out-of-scope rows |
+| MUST add Remark block for any requested Test Type with zero test cases | Makes coverage gaps explicit rather than silently absent |
 | MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
 | MUST run Step 4 review before draft table | Prevents out-of-scope cases reaching Jira |
 | MUST apply tc-quality-standards on every row | ISTQB / 29119-3 consistency |
