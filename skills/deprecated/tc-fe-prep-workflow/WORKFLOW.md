@@ -148,11 +148,11 @@ Sort rows before presenting the draft:
 
 **When Test Type column is present (from 3a):**
 
-Group rows by type in this order: `System` → `Integration` → `Unit` → custom types (in order specified by user). Within each group, maintain AC/EC sequence order.
+Group rows by type in this order: `Unit` → `Integration` → `System` → custom types (in order specified by user). Within each group, maintain AC/EC sequence order.
 
 **When Test Type column is absent:**
 
-Sort rows by the AC/EC they trace to — AC_01, AC_02, … then EC_01, EC_02, … (same order they appear in the ticket). Multiple TCs for the same AC/EC stay together in the order they were designed.
+Sort rows by the order the AC/EC items appear in the ticket (top to bottom). Do **not** batch all ACs before all ECs — if the ticket shows AC_01 → EC_01 → AC_02, preserve that sequence. Multiple TCs for the same AC/EC stay together in the order they were designed.
 
 ---
 
