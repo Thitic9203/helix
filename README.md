@@ -73,7 +73,7 @@ This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 5 workflow skills
 HELIX_LINK_WORKSPACE=$PWD ~/.helix/tc-fe-prep/scripts/link-skills.sh
 ```
 
-Commit `.github/skills/` if your team uses Copilot on the same repository.
+Commit `.github/skills/` if your team uses Copilot on the same repository. The **Helix repo** ships portable relative symlinks under `.github/skills/` (safe to commit).
 
 ### Health check (`helix doctor`)
 

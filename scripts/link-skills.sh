@@ -12,6 +12,8 @@ REPO="$(cd "$(dirname "$0")/.." && pwd)"
 link_into() {
   local DEST="$1"
   local LABEL="$2"
+  local SKILL_ROOT="${3:-$REPO/skills}"
+  local RELATIVE="${4:-0}"
 
   [ -d "$(dirname "$DEST")" ] || return 0
 
@@ -28,12 +30,12 @@ link_into() {
 
   mkdir -p "$DEST"
 
-  find "$REPO/skills" -name SKILL.md \
+  find "$SKILL_ROOT" -name SKILL.md \
     -not -path '*/in-progress/*' \
     -not -path '*/deprecated/*' \
     -print0 |
   while IFS= read -r -d '' skill_md; do
-    local src name target
+    local src name target link_target
     src="$(dirname "$skill_md")"
     name="$(basename "$src")"
     target="$DEST/$name"
@@ -42,7 +44,13 @@ link_into() {
       rm -rf "$target"
     fi
 
-    ln -sfn "$src" "$target"
+    if [ "$RELATIVE" = 1 ]; then
+      link_target="../../skills/$name"
+    else
+      link_target="$src"
+    fi
+
+    ln -sfn "$link_target" "$target"
     echo "linked ($LABEL) $name"
   done
 }
@@ -75,6 +83,13 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
   WS="$(cd "$HELIX_LINK_WORKSPACE" && pwd)"
   echo ""
   echo "=== Workspace: $WS ==="
+  WS_SKILL_ROOT="$REPO/skills"
+  WS_RELATIVE=0
+  if [ -f "$WS/skills/helix/SKILL.md" ]; then
+    WS_SKILL_ROOT="$WS/skills"
+    WS_RELATIVE=1
+    echo "workspace has local skills/ — using relative symlinks (portable for git)"
+  fi
   WORKSPACE_DESTS=(
     "$WS/.github/skills|github-copilot"
     "$WS/.agents/skills|agents-project"
@@ -85,7 +100,7 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
   for entry in "${WORKSPACE_DESTS[@]}"; do
     dest="${entry%%|*}"
     label="${entry##*|}"
-    link_into "$dest" "$label"
+    link_into "$dest" "$label" "$WS_SKILL_ROOT" "$WS_RELATIVE"
   done
 fi
 
