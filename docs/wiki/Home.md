@@ -2,7 +2,7 @@
 
 > **Canonical docs:** [README](https://github.com/Thitic9203/helix/blob/main/README.md) on `main`. **Keep this wiki in sync** when install/update/plugin behaviour changes.
 
-**Version:** [VERSION](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
+**Version:** 1.5.29 · [VERSION file](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
 
 ---
 
@@ -10,8 +10,8 @@
 
 Portable **QA skill pack** for AI coding agents ([Agent Skills](https://agentskills.io) / `SKILL.md`):
 
-- **TC FE prep** — manual test cases from Jira story AC/EC (coverage + ISTQB/29119-3–aligned quality review)
-- **TC API prep** — manual test cases from API spec + Swagger (spec coverage + quality review)
+- **TC FE prep** — manual test cases from Jira story AC/EC (coverage + ISTQB/29119-3 quality review, optional Test Type column, CSV/Excel/Test.md, Jira post-publish verification, four-axis final review report)
+- **TC API prep** — manual test cases from API spec + Swagger (spec coverage + quality review, row ordering, CSV/Excel/Test.md, post-publish verification)
 - **Testing ticket** — Playwright on one Jira ticket
 - **Retest bug** — verify fix, post evidence, transition
 - **Create bug** — file issues on Jira or GitHub
@@ -92,6 +92,8 @@ Commit `.github/skills/` if the team uses Copilot in the same repository.
 
 Menu: [commands/helix.md](https://github.com/Thitic9203/helix/blob/main/commands/helix.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
 
+**TC prep delivery:** CSV/Excel (default), Jira comment + attachment, optionally **Test.md** for agent hand-off ([test-md-format.md](https://github.com/Thitic9203/helix/blob/main/references/test-md-format.md)). All Jira-posting workflows run **post-publish review** on the live comment before reporting done.
+
 ---
 
 ## Update — auto-update (default)
@@ -156,6 +158,8 @@ Full detail: [README — Update](https://github.com/Thitic9203/helix/blob/main/R
 | [claude-plugin-sync.sh](https://github.com/Thitic9203/helix/blob/main/scripts/claude-plugin-sync.sh) | `helix@helix` marketplace sync |
 | [helix-doctor.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-doctor.sh) | Verify install |
 | [link-skills.sh](https://github.com/Thitic9203/helix/blob/main/scripts/link-skills.sh) | Refresh symlinks |
+| [export-markdown-table-to-csv.py](https://github.com/Thitic9203/helix/blob/main/scripts/export-markdown-table-to-csv.py) | TC table → CSV |
+| [export-test-md.py](https://github.com/Thitic9203/helix/blob/main/scripts/export-test-md.py) | TC table → Test.md |
 | [helix-regression-check.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-regression-check.sh) | Contributor: pre-merge regression gate (`/helix-check`) |
 | [helix-setup-devenv.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-setup-devenv.sh) | Contributor opt-in: fewer agent questions ([CONTRIBUTING](https://github.com/Thitic9203/helix/blob/main/docs/CONTRIBUTING.md#dev-environment--fewer-agent-questions-two-layers)) |
 
