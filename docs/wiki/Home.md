@@ -50,9 +50,11 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 **Installer does:**
 
 - Clone/update `~/.helix/tc-fe-prep`
-- Symlink all workflow skills into global agent folders
+- Symlink **helix + 5 workflow stubs** into global agent folders (`~/.cursor/skills/`, etc.)
 - Enable Claude marketplace plugin **`helix@helix`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **auto-update**)
+
+**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/deprecated/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **6 skills** linked per agent.
 
 | Agent | After install |
 |-------|----------------|
@@ -83,14 +85,14 @@ Commit `.github/skills/` if the team uses Copilot in the same repository.
 
 | Goal | Claude Code | Other agents |
 |------|-------------|--------------|
-| FE test cases | `/tc-fe-prep` | `tc-fe-prep-workflow` |
+| FE test cases | `/tc-fe-prep` | `tc-fe-prep-workflow` (stub in `~/.cursor/skills/`) |
 | API test cases | `/tc-api-prep` | `tc-api-prep-workflow` |
 | Retest bug | `/retest-bug` | `retest-bug-workflow` |
 | Test ticket | `/testing-ticket` | `testing-ticket-workflow` |
 | Create bug | `/create-bug` | `create-bug-workflow` |
 | Menu (optional) | `/helix` | skill **helix** |
 
-Menu: [commands/helix.md](https://github.com/Thitic9203/helix/blob/main/commands/helix.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
+Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/references/menu-text.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
 
 **TC prep delivery:** CSV/Excel (default), Jira comment + attachment, optionally **Test.md** for agent hand-off ([test-md-format.md](https://github.com/Thitic9203/helix/blob/main/references/test-md-format.md)). All Jira-posting workflows run **post-publish review** on the live comment before reporting done.
 
@@ -138,14 +140,16 @@ Full detail: [README — Update](https://github.com/Thitic9203/helix/blob/main/R
 
 ## Workflow docs
 
-| Workflow | Source |
-|----------|----------|
-| Router | [helix](https://github.com/Thitic9203/helix/blob/main/skills/helix/SKILL.md) |
-| TC FE | [tc-fe-prep-workflow](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/tc-fe-prep-workflow/WORKFLOW.md) |
-| TC API | [tc-api-prep-workflow](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/tc-api-prep-workflow/WORKFLOW.md) |
-| Retest | [retest-bug-workflow](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/retest-bug-workflow/WORKFLOW.md) |
-| Testing ticket | [testing-ticket-workflow](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/testing-ticket-workflow/WORKFLOW.md) |
-| Create bug | [create-bug-workflow](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/create-bug-workflow/WORKFLOW.md) |
+| Workflow | Discovery stub | Full procedure |
+|----------|----------------|----------------|
+| Router | [helix](https://github.com/Thitic9203/helix/blob/main/skills/helix/SKILL.md) | — |
+| TC FE | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/tc-fe-prep-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/tc-fe-prep-workflow/WORKFLOW.md) |
+| TC API | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/tc-api-prep-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/tc-api-prep-workflow/WORKFLOW.md) |
+| Retest | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/retest-bug-workflow/WORKFLOW.md) |
+| Testing ticket | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/testing-ticket-workflow/WORKFLOW.md) |
+| Create bug | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/deprecated/create-bug-workflow/WORKFLOW.md) |
+
+Plugin registers all six skills in [.claude-plugin/plugin.json](https://github.com/Thitic9203/helix/blob/main/.claude-plugin/plugin.json).
 
 ---
 
