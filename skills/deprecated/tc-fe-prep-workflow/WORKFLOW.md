@@ -79,11 +79,15 @@ Before starting the table, ask the user:
 > Do you want to include a **Test Type** column in the test case table?
 >
 > Options:
-> - **Yes** — use standard types: System, Integration, Unit
-> - **Yes + custom** — also include additional types (please specify)
+> - **System** — end-to-end UI flow
+> - **Integration** — cross-component/service interaction
+> - **Unit** — isolated element behaviour (field validation, single component)
+> - **Custom** — additional types (please specify)
 > - **No** — skip this column
+>
+> You can pick one, several, or all. If unsure, `System + Integration + Unit` is the default set.
 
-**Wait for the answer.** If yes (with or without custom types), follow the rules in **3b** below. If no, skip 3b and proceed with the default 9 columns.
+**Wait for the answer before proceeding.** If the user picks any type(s), follow the rules in **3b** below. If no, skip 3b and proceed with the default 9 columns.
 
 ### 3b — When Test Type column is requested
 
@@ -99,14 +103,14 @@ Add **Test Type** as an additional column (after Priority, or wherever the user 
   - **Custom** — use the label the user requested
 - A ticket does **not** need to have all types — derive only what the AC/EC actually requires.
 - When a type has no applicable test cases for this ticket, **do NOT invent cases just to fill the type**. Instead, add a Remark block under the table (see below).
-- Extra test cases may be added to cover a type's perspective **only if** they are still traceable to an AC or EC row on this ticket.
+- Extra test cases may be added to cover a type's perspective **only if** they stay within the scope of the AC/EC on this ticket — do not pull in requirements from other tickets.
 
 **Remark block (add after the table when any requested type is absent):**
 
 ```
 **Remark — Test Type coverage:**
-- No *System* test cases for this ticket — [brief reason, e.g. "feature is a single isolated component"]
-- No *Integration* test cases for this ticket — [brief reason]
+- No *System* test cases for this ticket.
+- No *Integration* test cases for this ticket.
 ```
 
 List only the types that are absent. Omit types that have at least one test case.
@@ -196,7 +200,7 @@ If **Test Type column was requested (Step 3a)**, add the column to the header an
 | ... one row per TC ... |
 
 **Remark — Test Type coverage:**
-- No *[Type]* test cases for this ticket — [reason]
+- No *[Type]* test cases for this ticket.
 ```
 
 **Header rule:** Every column header MUST be wrapped in `**bold**` in the chat draft, the Jira comment, and the markdown `.md` file — e.g. `| **Acceptance Criteria** |`. This applies here and in Step 7.
