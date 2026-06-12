@@ -153,6 +153,15 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
   for sub in .github/skills .agents/skills .windsurf/skills .cline/skills .gemini/skills; do
     check_dest "$WS/$sub" "${sub}"
   done
+  if [ -f "$WS/skills/helix/SKILL.md" ] && [ -L "$WS/.github/skills/helix" ]; then
+    _hl="$(readlink "$WS/.github/skills/helix" 2>/dev/null || true)"
+    case "$_hl" in
+      ../../skills/helix) ok "Workspace .github/skills/helix uses portable relative link" ;;
+      "$HOME"/*|.helix/*|/*)
+        warn "Workspace has local skills/ but .github/skills/helix → $_hl (run HELIX_LINK_WORKSPACE=$WS …/link-skills.sh for relative links)"
+        ;;
+    esac
+  fi
 fi
 
 echo ""
