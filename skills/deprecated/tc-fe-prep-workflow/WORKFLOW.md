@@ -142,6 +142,18 @@ Default **9 columns** (change only if user specifies otherwise), plus optional *
 
 Add a **Precondition column note** above the table explaining that the column means: *after shared prep, before Test Steps*.
 
+### 3c — Row ordering
+
+Sort rows before presenting the draft:
+
+**When Test Type column is present (from 3a):**
+
+Group rows by type in this order: `System` → `Integration` → `Unit` → custom types (in order specified by user). Within each group, maintain AC/EC sequence order.
+
+**When Test Type column is absent:**
+
+Sort rows by the AC/EC they trace to — AC_01, AC_02, … then EC_01, EC_02, … (same order they appear in the ticket). Multiple TCs for the same AC/EC stay together in the order they were designed.
+
 ---
 
 ## Step 4 — Coverage & quality review (mandatory; 1–2 rounds)
@@ -326,6 +338,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST NOT comment on sub-tasks or other issues | Scope is one story |
 | MUST NOT add TC outside story AC/EC | Traceability |
 | MUST ask about Test Type column before designing (Step 3a) | User may or may not want the column; don't assume |
+| MUST sort rows per Step 3c before presenting draft | Consistent order makes review and execution easier |
 | MUST NOT invent Test Type test cases that lack an AC/EC trace | Test Type is a label on existing coverage, not a reason to add out-of-scope rows |
 | MUST add Remark block for any requested Test Type with zero test cases | Makes coverage gaps explicit rather than silently absent |
 | MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
