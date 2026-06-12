@@ -59,6 +59,46 @@ Version, CI, ship checklist, quality bar, new skill template → [docs/CONTRIBUT
 - ถ้าเพิ่ม reference ใหม่ → ไม่ต้องแก้ DOC-MAP.md (ยกเว้นเป็น "single source of truth" document)
 - ถ้า lint/format issue → แก้เลย
 
+## Postmortem — lessons from past sessions
+
+### Jira comment edit via Control Chrome JS (2026-06-12)
+
+**Task:** PUT large ADF JSON (~33 KB) to edit existing Jira comment via browser JS.
+
+**What failed:**
+
+| Approach | Root cause |
+|----------|-----------|
+| Base64 chunk append (`window.__b += "..."`, 3000-char chunks) | LLM transcription error — ~4 chars corrupted per chunk when embedding base64 string in tool call parameter; corrupts JSON decode |
+| `fetch('http://localhost:PORT/...')` from HTTPS Jira page | Chrome Private Network Access (PNA) silently drops HTTPS→HTTP localhost requests; Promise hangs, server receives nothing |
+| Atlassian MCP `addCommentToJiraIssue` | MCP OAuth only grants access to the workspace it was authenticated against; will fail with "Cloud id isn't explicitly granted" for other workspaces |
+
+**What worked:**
+
+Embed full ADF JSON directly as a JS object literal inside a single `execute_javascript` `code` parameter:
+
+```javascript
+(function(){
+  var body = {body: { /* entire ADF object literal, ~33 KB */ }};
+  fetch('/rest/api/3/issue/OLS-22/comment/75215', {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json','X-Atlassian-Token':'no-check'},
+    body: JSON.stringify(body)
+  }).then(function(r){return r.text();}).then(function(t){window.__editResult=t;});
+})();
+```
+
+Then read result: `window.__editResult || "pending"`
+
+**Why this works:** The MCP framework JSON-encodes the `code` string parameter automatically — no manual transcription of large strings, no LLM copying errors. The browser's existing auth session handles Jira authentication.
+
+**Rules for future large-payload Jira edits:**
+- Always use `execute_javascript` with full JSON embedded as object literal — never base64 chunking
+- Never try to serve files from localhost to an HTTPS Jira page (PNA blocks it)
+- Check `getAccessibleAtlassianResources` first — if the target workspace isn't listed, use Control Chrome instead of Atlassian MCP
+
+---
+
 ## Workspace Guide Pattern (ใช้กับทุก workflow)
 
 เมื่อ AI ต้องถามคำถามเกี่ยวกับ project-specific config:
