@@ -11,13 +11,15 @@ Portable skill pack for AI agents: **FE/API manual test-case prep** (with covera
 
 | Workflow | Summary |
 |----------|---------|
-| **TC FE Preparation** | Story AC/EC → coverage review → manual FE TC table + CSV/Excel → Jira comment |
-| **TC API Preparation** | API spec + Swagger → coverage review → API TC table → comment or CSV/Excel |
+| **TC FE Preparation** | Story AC/EC → coverage + quality review → optional **Test Type** column → draft table → CSV/Excel and/or **Test.md** → Jira comment with post-publish verification → **four-axis final review report** |
+| **TC API Preparation** | API spec + Swagger → coverage review → API TC table (ordered: happy path first) → comment, CSV/Excel, and/or **Test.md** → post-publish verification |
 | **Retest Bug** | Verify a fix — API/UI, Swagger, evidence, comment, transition |
 | **Testing Ticket** | Intake → Playwright → summary in chat → optional result update elsewhere |
 | **Create Bug** | Jira/GitHub target + format + details → confirm → file and verify |
 
-TC prep workflows include **AC/EC or spec/Swagger alignment review** and **ISTQB / ISO/IEC/IEEE 29119-3–aligned** manual test-case quality checks (see skill references).
+TC prep workflows include **AC/EC or spec/Swagger alignment review**, **ISTQB / ISO/IEC/IEEE 29119-3–aligned** quality checks, and **mandatory Jira post-publish review** before close-out (see [qa-evidence-gates.md](references/qa-evidence-gates.md)). FE prep also ends with a **four-axis final TC review report** (AC/EC alignment, spelling, numbering, scope).
+
+**Delivery formats (TC prep):** CSV/Excel (default for spreadsheets), Jira comment + attachment, and optionally **Test.md** — an agent-native format for Kane CLI / Playwright agents ([test-md-format.md](references/test-md-format.md)). Test.md is additive; never replaces CSV for spreadsheet users.
 
 ## Supported AI agents
 
@@ -270,8 +272,10 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [claude-plugin-sync.sh](scripts/claude-plugin-sync.sh) | Update/enable `helix@helix`, disable `helix@local` |
 | [helix-doctor.sh](scripts/helix-doctor.sh) | Health check; `HELIX_DOCTOR_FIX=1` to repair |
 | [link-skills.sh](scripts/link-skills.sh) | Refresh global + workspace skill symlinks |
+| [export-markdown-table-to-csv.py](scripts/export-markdown-table-to-csv.py) | TC table → CSV (UTF-8 BOM) |
+| [export-test-md.py](scripts/export-test-md.py) | TC table → Test.md (agent-native hand-off) |
 
-Contributor: `bump-version.sh`, `sync-version.sh --check`, `list-skills.sh`, `helix-regression-check.sh` (pre-merge gate), `helix-setup-devenv.sh` (opt-in: fewer agent questions)
+Contributor: `bump-version.sh`, `sync-version.sh --check`, `list-skills.sh`, `helix-regression-check.sh` (pre-merge gate via `/helix-check`), `helix-setup-devenv.sh` (opt-in: fewer agent questions)
 
 ## License
 
