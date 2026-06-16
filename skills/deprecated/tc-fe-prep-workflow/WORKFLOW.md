@@ -70,6 +70,68 @@ From the Jira story, build a checklist:
 
 ---
 
+## Step 2.5 — Conflict check against PRD and Figma (pre-design gate)
+
+**Must complete before Step 3.** Do not skip even if requirements look complete — conflicts caught here prevent rework after TCs are drafted.
+
+### 2.5a — Locate PRD and Figma links
+
+Check the ticket's description and linked documents for a **PRD link** and **Figma link**.
+
+If either is missing, ask the user once:
+
+> Before I start designing test cases, I'd like to cross-check the ticket against the PRD and Figma design to catch any conflicts early.
+>
+> Could you share links to any that are missing?
+> - **PRD:** [found at {link} / not found — please share if available]
+> - **Figma:** [found at {link} / not found — please share if available]
+>
+> If neither exists for this story, reply "no PRD / no Figma" and I'll proceed with ticket content only.
+
+**Wait for the user's response.** If the user confirms no PRD/Figma exists, post a one-line note ("No PRD/Figma — proceeding from ticket only.") and go to Step 3.
+
+### 2.5b — Cross-reference and conflict detection
+
+When PRD and/or Figma is available, compare against the story's AC/EC and description across these areas:
+
+| Check area | What to look for |
+|-----------|-----------------|
+| AC/EC vs PRD | AC/EC items absent from PRD, or PRD requirements not reflected in any AC/EC |
+| AC/EC vs Figma | UI flows, field labels, error messages, or states in Figma that differ from the AC/EC description |
+| Description vs Figma | Status names, tabs, field limits, or forbidden actions in the ticket description vs Figma |
+| Scope gaps | Features visible in Figma/PRD that no AC/EC covers |
+| Contradictions | Conflicting expected results between ticket and PRD/Figma |
+
+### 2.5c — Report findings in chat
+
+Post the conflict report block in chat (always post, even when no conflicts):
+
+```
+**Conflict Check — {ISSUE_KEY} vs PRD/Figma**
+
+Sources compared:
+- Ticket: {ISSUE_KEY}
+- PRD: {link or "not provided"}
+- Figma: {link or "not provided"}
+
+**Conflicts found: YES / NO**
+
+| # | Area | Ticket says | PRD/Figma says | Severity |
+|---|------|-------------|----------------|----------|
+| 1 | … | … | … | High / Medium / Low |
+
+**Scope gaps (in PRD/Figma but missing from ticket AC/EC):**
+- …
+
+**Recommendation:** resolve before designing TCs / proceed and flag in TC remarks / proceed — no conflicts
+```
+
+**If NO conflicts and no gaps:** set `Conflicts found: NO`, write "—" in every table row, note "Recommendation: proceed — no conflicts", then continue to Step 3 immediately.
+
+**If conflicts or gaps found:** wait for the user to clarify or decide how to handle each item. Do NOT start Step 3 on unresolved conflicts — TCs built on contradictory requirements must be redesigned.
+
+---
+
 ## Step 3 — Design test cases
 
 ### 3a — Test Type column (ask before designing)
@@ -298,6 +360,7 @@ Follow [tc-final-review-report.md](references/tc-final-review-report.md):
 
 Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + skill-specific:
 
+- [ ] Step 2.5 conflict check completed; report block posted in chat; no unresolved conflicts before Step 3.
 - [ ] Step 3a Test Type question asked and answered; column present or absent per user choice.
 - [ ] If Test Type column present: every row has a valid type; Remark block lists absent types.
 - [ ] Step 4 review block posted with **Ready for draft: YES** and traceability matrix complete.
@@ -361,6 +424,10 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST NOT invent Test Type test cases that lack an AC/EC trace | Test Type is a label on existing coverage, not a reason to add out-of-scope rows |
 | MUST add Remark block for any requested Test Type with zero test cases | Makes coverage gaps explicit rather than silently absent |
 | MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
+| MUST run Step 2.5 conflict check before designing TCs | Contradictions between ticket and PRD/Figma invalidate TCs built without resolution |
+| MUST ask for PRD/Figma links if not found in ticket (Step 2.5a) | Cannot cross-reference without sources; one question covers both at once |
+| MUST NOT start Step 3 while conflicts from Step 2.5 are unresolved | Designing TCs on contradictory requirements creates rework |
+| MUST post the Step 2.5 conflict report block even when no conflicts found | Gives user visibility that cross-check was done |
 | MUST run Step 4 review before draft table | Prevents out-of-scope cases reaching Jira |
 | MUST apply tc-quality-standards on every row | ISTQB / 29119-3 consistency |
 | MUST convert `<br>` to Jira-native line breaks before posting (see [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md)) | `<br>` renders as literal text on Jira |
