@@ -90,9 +90,23 @@ If either is missing, ask the user once:
 
 **Wait for the user's response.** If the user confirms no PRD/Figma exists, post a one-line note ("No PRD/Figma — proceeding from ticket only.") and go to Step 3.
 
-### 2.5b — Cross-reference and conflict detection
+### 2.5b — Collect source metadata (recency)
 
-When PRD and/or Figma is available, compare against the story's AC/EC and description across these areas:
+For each source that is available, record its **last-updated date/version** before comparing content:
+
+| Source | What to look for |
+|--------|-----------------|
+| Jira ticket | "Updated" timestamp in issue detail; story status (Open / In Progress / Done) |
+| PRD | Page last-modified date (Confluence footer); version number in page title if present |
+| Figma | Frame or page last-edited date shown in Figma (hover the file or frame); version label in page/frame name if present |
+
+If a date cannot be determined, mark it **"date unknown"** — do not guess.
+
+**Recency rule:** The most recently updated source is the **stronger default truth**. When two sources conflict, the newer one takes precedence unless the user says otherwise. Always surface recency in the report so the user can override this default.
+
+### 2.5c — Cross-reference and conflict detection
+
+Compare against the story's AC/EC and description across these areas:
 
 | Check area | What to look for |
 |-----------|-----------------|
@@ -102,33 +116,39 @@ When PRD and/or Figma is available, compare against the story's AC/EC and descri
 | Scope gaps | Features visible in Figma/PRD that no AC/EC covers |
 | Contradictions | Conflicting expected results between ticket and PRD/Figma |
 
-### 2.5c — Report findings in chat
+### 2.5d — Report findings in chat
 
 Post the conflict report block in chat (always post, even when no conflicts):
 
 ```
 **Conflict Check — {ISSUE_KEY} vs PRD/Figma**
 
-Sources compared:
-- Ticket: {ISSUE_KEY}
-- PRD: {link or "not provided"}
-- Figma: {link or "not provided"}
+**Source recency**
+| Source | Last updated | Notes |
+|--------|-------------|-------|
+| Ticket ({ISSUE_KEY}) | {date or "unknown"} | Status: {Open/In Progress/Done} |
+| PRD | {date or "unknown"} | {version label if any} |
+| Figma | {date or "unknown"} | {version/frame label if any} |
+
+**Most recently updated:** {source name} → treated as stronger truth by default.
+
+---
 
 **Conflicts found: YES / NO**
 
-| # | Area | Ticket says | PRD/Figma says | Severity |
-|---|------|-------------|----------------|----------|
-| 1 | … | … | … | High / Medium / Low |
+| # | AC/EC | Area | Ticket says | PRD/Figma says | Newer source | Severity |
+|---|-------|------|-------------|----------------|--------------|----------|
+| 1 | AC_0n | … | … | … | {Ticket / PRD / Figma / tied} | High / Medium / Low |
 
 **Scope gaps (in PRD/Figma but missing from ticket AC/EC):**
 - …
 
-**Recommendation:** resolve before designing TCs / proceed and flag in TC remarks / proceed — no conflicts
+**Recommendation:** {resolve before designing TCs — see conflicts above / proceed and note gaps in TC remarks / proceed — no conflicts}
 ```
 
-**If NO conflicts and no gaps:** set `Conflicts found: NO`, write "—" in every table row, note "Recommendation: proceed — no conflicts", then continue to Step 3 immediately.
+**If NO conflicts and no gaps:** set `Conflicts found: NO`, write "—" in conflict table, note "Recommendation: proceed — no conflicts", then continue to Step 3 immediately.
 
-**If conflicts or gaps found:** wait for the user to clarify or decide how to handle each item. Do NOT start Step 3 on unresolved conflicts — TCs built on contradictory requirements must be redesigned.
+**If conflicts or gaps found:** present the recommended resolution per item (based on recency), then **wait for the user to confirm or override** each item. Do NOT start Step 3 on unresolved conflicts — TCs built on contradictory requirements must be redesigned.
 
 ---
 
@@ -426,6 +446,8 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
 | MUST run Step 2.5 conflict check before designing TCs | Contradictions between ticket and PRD/Figma invalidate TCs built without resolution |
 | MUST ask for PRD/Figma links if not found in ticket (Step 2.5a) | Cannot cross-reference without sources; one question covers both at once |
+| MUST collect last-updated date for each source before comparing (Step 2.5b) | Recency determines which source is stronger truth; without it the recommendation is guesswork |
+| MUST show "Newer source" column per conflict row in the report | User needs to know which version to trust before deciding |
 | MUST NOT start Step 3 while conflicts from Step 2.5 are unresolved | Designing TCs on contradictory requirements creates rework |
 | MUST post the Step 2.5 conflict report block even when no conflicts found | Gives user visibility that cross-check was done |
 | MUST run Step 4 review before draft table | Prevents out-of-scope cases reaching Jira |
