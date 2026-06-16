@@ -2,7 +2,7 @@
 
 > **Canonical docs:** [README](https://github.com/Thitic9203/helix/blob/main/README.md) on `main`. **Keep this wiki in sync** when install/update/plugin behaviour changes.
 
-**Version:** 1.5.29 · [VERSION file](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
+**Version:** 1.5.31 · [VERSION file](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
 
 ---
 
