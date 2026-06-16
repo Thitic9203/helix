@@ -122,7 +122,18 @@ Compare against the story's AC/EC and description across these areas:
 
 ### 2.5d — Report findings in chat
 
-Post the conflict report block in chat (always post, even when no conflicts):
+Post the conflict report block in chat (always post, even when no conflicts).
+
+**Column detail rules — every cell must be fully written out, never summarised or abbreviated:**
+
+| Column | What to put in it |
+|--------|------------------|
+| **AC/EC** | Label + full text of the acceptance/edge criterion as written in the ticket (e.g. `AC_02: When the user clicks Save, the system saves the record and shows a success toast`) |
+| **Area** | Specific UI element, field, flow, or rule being compared — not a generic category (e.g. `Save button → post-save feedback` not just `Save`) |
+| **Ticket says** | Exact wording or behavior from the ticket — quote verbatim where possible; include field names, error texts, UI labels as written |
+| **PRD/Figma says** | Exact wording, label, or behavior from PRD/Figma; include frame name/number or PRD section for traceability (e.g. `Figma frame P-14: modal titled "ยืนยันการบันทึก?" with "ตกลง" and "ยกเลิก" buttons`) |
+| **Newer source (ICT)** | Source name + its last-updated datetime in `DD Mon YYYY HH.MM AM/PM` |
+| **Severity** | High = blocks TC design or changes core flow; Medium = affects expected result wording or label; Low = cosmetic / minor label difference |
 
 ```
 **Conflict Check — {ISSUE_KEY} vs PRD/Figma**
@@ -142,15 +153,17 @@ Post the conflict report block in chat (always post, even when no conflicts):
 
 | # | AC/EC | Area | Ticket says | PRD/Figma says | Newer source (ICT) | Severity |
 |---|-------|------|-------------|----------------|-------------------|----------|
-| 1 | AC_0n | … | … | … | {Ticket / PRD / Figma} — {DD Mon YYYY HH.MM AM/PM} | High / Medium / Low |
+| 1 | {label}: {full AC/EC text from ticket} | {specific UI element / field / flow / rule} | {exact wording or behavior from ticket — quote verbatim} | {exact wording, label, or behavior from PRD/Figma — include frame or section ref} | {Source name} — {DD Mon YYYY HH.MM AM/PM} | High / Medium / Low |
 
-**Scope gaps (in PRD/Figma but missing from ticket AC/EC):**
-- …
+**Scope gaps (in PRD/Figma but no AC/EC covers it):**
+| # | Source | Where | What is shown | Why it may matter |
+|---|--------|-------|---------------|------------------|
+| 1 | {Figma frame {ref} / PRD section {ref}} | {screen / page / section name} | {full description of the feature or element shown} | {impact on TC scope if included or excluded} |
 
-**Recommendation:** {resolve before designing TCs — see conflicts above / proceed and note gaps in TC remarks / proceed — no conflicts}
+**Recommendation:** {resolve before designing TCs — list conflict numbers that need user answer / proceed and note gaps in TC remarks / proceed — no conflicts}
 ```
 
-**If NO conflicts and no gaps:** set `Conflicts found: NO`, write "—" in conflict table, note "Recommendation: proceed — no conflicts", then continue to Step 3 immediately.
+**If NO conflicts and no gaps:** set `Conflicts found: NO`, write "—" in all conflict rows, write "—" in gap table, note "Recommendation: proceed — no conflicts", then continue to Step 3 immediately.
 
 **If conflicts or gaps found:** present the recommended resolution per item (based on recency), then **wait for the user to confirm or override** each item. Do NOT start Step 3 on unresolved conflicts — TCs built on contradictory requirements must be redesigned.
 
