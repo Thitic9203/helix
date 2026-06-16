@@ -92,15 +92,19 @@ If either is missing, ask the user once:
 
 ### 2.5b — Collect source metadata (recency)
 
-For each source that is available, record its **last-updated date/version** before comparing content:
+For each source that is available, record its **last-updated datetime** before comparing content:
 
 | Source | What to look for |
 |--------|-----------------|
 | Jira ticket | "Updated" timestamp in issue detail; story status (Open / In Progress / Done) |
-| PRD | Page last-modified date (Confluence footer); version number in page title if present |
-| Figma | Frame or page last-edited date shown in Figma (hover the file or frame); version label in page/frame name if present |
+| PRD | Page last-modified datetime (Confluence footer); version number in page title if present |
+| Figma | Frame or page last-edited datetime shown in Figma (hover the file or frame); version label in page/frame name if present |
 
-If a date cannot be determined, mark it **"date unknown"** — do not guess.
+**Timezone:** All datetimes MUST be displayed in **Bangkok time (ICT, UTC+7)**. Convert from UTC or any other timezone before displaying — never show UTC or raw platform timestamps.
+
+Format: `DD MMM YYYY HH:MM` (e.g. `05 มิ.ย. 2026 14:30`)
+
+If a datetime cannot be determined, mark it **"ไม่ทราบวันที่"** — do not guess.
 
 **Recency rule:** The most recently updated source is the **stronger default truth**. When two sources conflict, the newer one takes precedence unless the user says otherwise. Always surface recency in the report so the user can override this default.
 
@@ -123,22 +127,22 @@ Post the conflict report block in chat (always post, even when no conflicts):
 ```
 **Conflict Check — {ISSUE_KEY} vs PRD/Figma**
 
-**Source recency**
-| Source | Last updated | Notes |
-|--------|-------------|-------|
-| Ticket ({ISSUE_KEY}) | {date or "unknown"} | Status: {Open/In Progress/Done} |
-| PRD | {date or "unknown"} | {version label if any} |
-| Figma | {date or "unknown"} | {version/frame label if any} |
+**Source recency** *(เวลากรุงเทพ, ICT UTC+7)*
+| Source | Last updated (ICT) | Notes |
+|--------|-------------------|-------|
+| Ticket ({ISSUE_KEY}) | {DD MMM YYYY HH:MM or "ไม่ทราบวันที่"} | Status: {Open/In Progress/Done} |
+| PRD | {DD MMM YYYY HH:MM or "ไม่ทราบวันที่"} | {version label if any} |
+| Figma | {DD MMM YYYY HH:MM or "ไม่ทราบวันที่"} | {version/frame label if any} |
 
-**Most recently updated:** {source name} → treated as stronger truth by default.
+**Most recently updated:** {source name} ({DD MMM YYYY HH:MM ICT}) → treated as stronger truth by default.
 
 ---
 
 **Conflicts found: YES / NO**
 
-| # | AC/EC | Area | Ticket says | PRD/Figma says | Newer source | Severity |
-|---|-------|------|-------------|----------------|--------------|----------|
-| 1 | AC_0n | … | … | … | {Ticket / PRD / Figma / tied} | High / Medium / Low |
+| # | AC/EC | Area | Ticket says | PRD/Figma says | Newer source (ICT) | Severity |
+|---|-------|------|-------------|----------------|-------------------|----------|
+| 1 | AC_0n | … | … | … | {Ticket / PRD / Figma} — {DD MMM YYYY HH:MM} | High / Medium / Low |
 
 **Scope gaps (in PRD/Figma but missing from ticket AC/EC):**
 - …
@@ -446,8 +450,9 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST NOT reference agent-machine absolute paths in Jira | Other users cannot reproduce |
 | MUST run Step 2.5 conflict check before designing TCs | Contradictions between ticket and PRD/Figma invalidate TCs built without resolution |
 | MUST ask for PRD/Figma links if not found in ticket (Step 2.5a) | Cannot cross-reference without sources; one question covers both at once |
-| MUST collect last-updated date for each source before comparing (Step 2.5b) | Recency determines which source is stronger truth; without it the recommendation is guesswork |
-| MUST show "Newer source" column per conflict row in the report | User needs to know which version to trust before deciding |
+| MUST collect last-updated datetime for each source before comparing (Step 2.5b) | Recency determines which source is stronger truth; without it the recommendation is guesswork |
+| MUST convert all datetimes to Bangkok time (ICT, UTC+7) before displaying | User's working timezone is Bangkok; raw UTC or platform timestamps cause confusion |
+| MUST show "Newer source (ICT)" column with datetime per conflict row in the report | User needs to know which version to trust and exactly how much newer it is |
 | MUST NOT start Step 3 while conflicts from Step 2.5 are unresolved | Designing TCs on contradictory requirements creates rework |
 | MUST post the Step 2.5 conflict report block even when no conflicts found | Gives user visibility that cross-check was done |
 | MUST run Step 4 review before draft table | Prevents out-of-scope cases reaching Jira |
