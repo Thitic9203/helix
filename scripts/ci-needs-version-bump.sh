@@ -14,7 +14,7 @@ if [ -z "$CHANGED" ]; then
   exit 1
 fi
 
-WORKFLOW_PATTERN='^(skills/.*\.md|commands/[^/]+\.md|references/[^/]+\.md|\.github/workflows/)'
+WORKFLOW_PATTERN='^(skills/.*\.md|commands/[^/]+\.md|references/[^/]+\.md|scripts/.*|\.github/workflows/)'
 
 if ! echo "$CHANGED" | grep -qE "$WORKFLOW_PATTERN"; then
   exit 1
