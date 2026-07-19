@@ -249,11 +249,24 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + skill-spe
 - [ ] API cases: full cURL + response per row (no "same as above").
 - [ ] Jira issue re-opened after post: comment visible, not truncated.
 - [ ] Step 7d fix-verify completed.
+- [ ] **Step 8·0 format-completeness gate passed BEFORE any transition** — FE bug: screenshots embedded inline + render-verified; API bug: full cURL/response per row.
 - [ ] [verify-closing-checklist.md](../../references/verify-closing-checklist.md) (Retest section).
 
 ---
 
 ## Step 8 — Close out (after successful post; no second approval unless user asked)
+
+### 8·0 — Format-completeness gate (MUST pass before ANY transition)
+
+**Hard gate — do NOT run 8a until the posted comment is complete per the Step 6 / Step 7c format:**
+
+- [ ] Summary line is exactly **PASSED ✅** or **FAILED ❌**; env + results table present (bold headers, `No.` column).
+- [ ] One result row per expected-result item (the ALL-items check is visible).
+- [ ] **FE / UI bug:** a screenshot for **every executed case**, uploaded as an attachment **and embedded inline** (`!file.png|width=450!`), confirmed rendering on the Jira UI (Step 7d). **A text-only comment for an FE bug FAILS this gate** — the exact-text/values table is not a substitute for the required images.
+- [ ] **API bug:** full cURL + response per row (no "same as above").
+- [ ] No local file paths, no literal `<br>`/HTML markup.
+
+If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it (or get an explicit user waiver) first. Never move a bug's status on an evidence-incomplete comment.
 
 ### 8a. Transition
 
@@ -307,6 +320,8 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST use **PASSED ✅** or **FAILED ❌** only in summary line | Scanability for dev/QA |
 | MUST lock v2/v3 at Step 3; FE → v2 + screenshots | Rewrites waste time |
 | MUST verify Jira UI after post (Step 7d) before Step 8 | Truncation / wrong endpoint |
+| MUST pass the Step 8·0 format-completeness gate before ANY status transition — FE bug requires screenshots embedded inline **and** render-verified; a text-only FE comment fails the gate | Transitioning on an evidence-incomplete comment silently hides the gap (learned OLS-181: FE bug moved to Done with a text-only comment) |
+| MUST NOT offer the user a "skip screenshots / text-only" option for an FE bug — screenshots are mandatory, not optional; if upload is blocked, STOP and resolve, don't bypass | Offering to skip a mandatory step is how the gate got bypassed (OLS-181) |
 | MUST run Step 8 after successful post unless user stopped you | Workflow closure |
 | MUST create test data when possible | "No data" is not an excuse |
 | MUST NOT change COMMENT_FORMAT after Step 3 | v2/v3 rewrite cost |
