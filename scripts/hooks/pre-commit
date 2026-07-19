@@ -8,6 +8,12 @@ VERSION_FILE="$ROOT/VERSION"
 
 STAGED="$(git diff --cached --name-only)"
 
+# --- HARD guard: block any OLS/customer secret or credential from entering helix ---
+STAGED_ACM="$(git diff --cached --name-only --diff-filter=ACM)"
+if [ -n "$STAGED_ACM" ]; then
+  "$ROOT/scripts/check-no-secrets.sh" $STAGED_ACM
+fi
+
 version_staged=false
 echo "$STAGED" | grep -qx 'VERSION' && version_staged=true
 
