@@ -1,0 +1,7 @@
+#!/bin/bash
+# helix pre-push — LAST local guard before anything leaves the machine.
+# Whole-repo secret scan; a leak here blocks the push even if a bad commit
+# slipped past pre-commit (e.g. via --no-verify).
+set -euo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+"$ROOT/scripts/check-no-secrets.sh"

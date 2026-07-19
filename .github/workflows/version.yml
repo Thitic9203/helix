@@ -30,6 +30,11 @@ jobs:
           set -o pipefail
           chmod +x scripts/ci-check-portable-skills.sh
           ./scripts/ci-check-portable-skills.sh
+      - name: Guard — no OLS/customer secrets (server-side, whole repo)
+        run: |
+          set -o pipefail
+          chmod +x scripts/check-no-secrets.sh
+          ./scripts/check-no-secrets.sh
       - name: Check skill structure (Pluton ship requirements)
         run: |
           set -o pipefail
@@ -92,6 +97,11 @@ jobs:
           set -o pipefail
           chmod +x scripts/ci-check-portable-skills.sh
           ./scripts/ci-check-portable-skills.sh
+      - name: Guard — no OLS/customer secrets (server-side, whole repo)
+        run: |
+          set -o pipefail
+          chmod +x scripts/check-no-secrets.sh
+          ./scripts/check-no-secrets.sh
 
       - name: Check skill structure (Pluton ship requirements)
         run: |
