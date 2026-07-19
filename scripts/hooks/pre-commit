@@ -1,5 +1,6 @@
 #!/bin/bash
-# Auto patch-bump when workflow files change (unless VERSION already staged).
+# helix pre-commit — guard + auto version-bump. Runs on the STAGED content (what is
+# actually being committed), not the dirty working tree.
 
 set -euo pipefail
 
@@ -8,17 +9,35 @@ VERSION_FILE="$ROOT/VERSION"
 
 STAGED="$(git diff --cached --name-only)"
 
-# --- HARD guard: block any OLS/customer secret or credential from entering helix ---
+# --- HARD guard: block any OLS/customer secret from entering helix ---
+# Materialize the STAGED blobs into a temp tree (paths mirrored) and scan THAT, so a
+# secret staged-but-then-removed-from-working-tree cannot slip through, and vice-versa.
 STAGED_ACM="$(git diff --cached --name-only --diff-filter=ACM)"
 if [ -n "$STAGED_ACM" ]; then
-  "$ROOT/scripts/check-no-secrets.sh" $STAGED_ACM
+  TMP="$(mktemp -d)"
+  trap 'rm -rf "$TMP"' EXIT
+  FILES=()
+  while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    mkdir -p "$TMP/$(dirname "$f")"
+    git show ":$f" > "$TMP/$f" 2>/dev/null || continue
+    FILES+=("$f")
+  done <<< "$STAGED_ACM"
+  if [ "${#FILES[@]}" -gt 0 ]; then
+    SCAN_ROOT="$TMP" "$ROOT/scripts/check-no-secrets.sh" "${FILES[@]}"
+  fi
 fi
 
 version_staged=false
 echo "$STAGED" | grep -qx 'VERSION' && version_staged=true
 
+# Any skill-tree markdown (SKILL.md flat, WORKFLOW.md + references nested under
+# skills/deprecated/<name>/**), any command md, or any top-level reference md. Broad on
+# purpose: any skill-content change must ship a new version (the deploy contract).
+BUMP_PATTERN='^(skills/.*\.md|commands/[^/]+\.md|references/[^/]+\.md)$'
+
 needs_bump=false
-if echo "$STAGED" | grep -qE '^(skills/[^/]+/SKILL\.md|commands/[^/]+\.md|references/[^/]+\.md|skills/[^/]+/references/)'; then
+if echo "$STAGED" | grep -qE "$BUMP_PATTERN"; then
   needs_bump=true
 fi
 
