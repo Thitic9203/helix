@@ -17,7 +17,12 @@ Draft TC FE as below
 
 ---
 
-**CSV export:** [{ISSUE_KEY}_FE_TC.csv](https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{ISSUE_KEY}_FE_TC.csv) — {N} test cases, same content as table above.
+📎 **Attachments:**
+- [Draft_Jira_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{ID1}/Draft_Jira_{ISSUE_KEY}.csv) — ตารางเทสเคส (Jira format)
+- [Import_Qase_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{ID2}/Import_Qase_{ISSUE_KEY}.csv) — Qase import file พร้อม import เข้า OLS project
+- [Unit_Test_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{ID3}/Unit_Test_{ISSUE_KEY}.csv) — Unit Test *(include only if generated)*
+- [Integration_Test_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{ID4}/Integration_Test_{ISSUE_KEY}.csv) — Integration Test *(include only if generated)*
+- [System_Test_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{ID5}/System_Test_{ISSUE_KEY}.csv) — System Test *(include only if generated)*
 ```
 
 ## Table rules
@@ -42,7 +47,7 @@ Draft TC FE as below
 | Rule | Detail |
 |------|--------|
 | Encoding | UTF-8 with BOM (`encoding='utf-8-sig'`) for Excel |
-| Header | Same 9 column names as the table (plain text, no `**`) |
+| Header | Same 10 column names as the table (plain text, no `**`) — applies to `Draft_Jira_*` file; `Import_Qase_*` uses Qase schema |
 | Cell newlines | Real `\n` inside quoted CSV fields \u2014 use `csv.writer` |
 | HTML tags | Strip all; `<br>` variants \u2192 `\n` |
 
@@ -68,12 +73,8 @@ Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak
 
 ## Footer link pattern
 
-**Sequence (mandatory):** Upload CSV/xlsx to the Jira issue FIRST → capture the `id` field from the upload response → construct the URL → embed as a clickable hyperlink in the footer. Never post the comment with a plain-text filename.
+Use the organization's Jira base URL:
 
-| Delivery | Hyperlink format |
-|----------|-----------------|
-| Jira markdown API / MCP | `[{FILENAME}](https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME})` |
-| Jira wiki markup (v2) | `[{FILENAME}\|https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}]` |
-| ADF JSON | inline `link` mark with `href: "https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}"` |
+`https://{JIRA_DOMAIN}/secure/attachment/{ATTACHMENT_ID}/{FILENAME}.csv`
 
-Do not use local filesystem paths in the comment body. Do not leave the filename as plain text or code-span — it must be a clickable link.
+Do not use local filesystem paths in the comment body.
