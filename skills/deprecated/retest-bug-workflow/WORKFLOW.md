@@ -28,6 +28,22 @@ invoking a real debugging skill — **`superpowers:systematic-debugging`** first
 
 **Any verdict that is not a clean PASSED** is governed by [defect-report-completeness.md](../../../references/defect-report-completeness.md) — the comment must answer the reader's five questions (what, **which entry points**, what it should be instead, why that is a fail, **what changes and who decides**) before it is posted. A question asked after posting means a section was missing; the fix is the comment, not a chat reply.
 
+**Challenge every non-PASS before you record it (the "wait, really?" gate).** A retest result that is
+not a clean PASSED is a **hypothesis, not a verdict**. Before it becomes FAILED / BLOCKED — or a posted
+comment — re-verify the **expected** side against an authoritative source, **including the AC/EC of
+related / linked tickets** (the parent story, linked issues, sibling tickets on the same surface),
+read character-exact. The bug's own Expected Result is the primary contract (Step 2), but a related
+ticket may have **superseded** or **clarified** it, and a transliteration or an unconfirmed-spec hedge
+turns a correct app into a phantom FAILED. Run this at **Step 4h**, then **surface it to the user in
+chat** so they can decide whether to adjust the expected/TC, re-test, or confirm the defect. Full gate:
+[non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md).
+
+**Test through the real steps.** Drive the behaviour under verification through its own surface,
+following the ticket's Test Steps completely — a UI bug through the UI (click, fill, submit), never a
+direct API call to perform the tested action. The API is allowed **only** to prepare the case's test
+data / precondition (Step 4c). For an **API-layer** bug the API call in Step 4d *is* the real step,
+not a shortcut. Full rule: [test-through-real-steps.md](../../../references/test-through-real-steps.md).
+
 Use plain chat for URLs/credentials; AskUserQuestion only for choices (e.g. approve comment).
 
 ## Refusal-first (precondition gate)
@@ -89,6 +105,28 @@ Capture: environment, test steps, expected/actual results, API endpoint, bug typ
 - Parent-story AC / Figma are **supplements** for context or when the bug is title-only — they never override or dilute the bug's own expected results. If the bug's expected result and the parent AC conflict, test against the bug's text and flag the conflict to the user.
 - List each expected-result item as its own row in the result table (Step 6) so the ALL-items check is visible, not implied.
 
+**If Priority/Severity context is needed** (citing the original bug's Priority, or scoping a newly
+observed, distinct defect found during retest) — judge it only by the
+[Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md), never invent a
+severity/priority notion. Cheat-sheet (full matrix + hard rule at the link):
+
+| If the defect reads like… | Priority | Verdict |
+|---|---|---|
+| cosmetic / typo / UI misalignment | Low | **PWMI** |
+| minor calculation or display error | Low | **PWMI** |
+| major feature affected **but a workaround exists** | Low | **PWMI** |
+| minor glitch that does **not** block the workflow | Medium | **PWMI** |
+| **optional** feature not working | Medium | **PWMI** |
+| functionality problem affecting **several** users | Medium | **PWMI** |
+| critical feature **partially** broken | Medium | **PWMI** |
+| rarely-used feature **fully** broken | High | **FAILED** |
+| feature issue affecting **some** users | High | **FAILED** |
+| core functionality affected / partial outage | High | **FAILED** |
+| core system failure affecting **most** users | High | **FAILED** |
+| security warning in a minor feature | Highest | **FAILED** |
+| system crash for some users | Highest | **FAILED** |
+| complete outage / data loss / security breach | Highest | **FAILED** |
+
 **Viewing a Figma supplement:** when the bug/parent references a Figma design, prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in the URL uses `-`, the MCP `nodeId` uses `:` (`1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **"view this file in Dev Mode?"** modal with **"Not now"** — NEVER "Request access". View+Comment access is enough. (Figma stays a **supplement** — it never overrides the bug's own expected results.)
 
 ---
@@ -139,6 +177,11 @@ Use browser automation: navigate to login URL, fill credentials from config (or 
 4. Ask the user only for data you cannot synthesize.
 
 Do not modify unrelated production records; record IDs you create.
+
+**This is setup only — the boundary is strict.** Creating data via API is allowed to reach a case's
+**precondition**. The **action under test** is never performed via API: run it through the ticket's
+real Test Steps (UI bug → through the UI). For an API-layer bug, the API call in Step 4d *is* the real
+step. See [test-through-real-steps.md](../../../references/test-through-real-steps.md).
 
 ### 4d. API testing
 
@@ -193,6 +236,30 @@ The investigation block goes **into the comment** at Step 6a — not only into c
 **BLOCKED is not an escape from this step.** A BLOCKED item still records the sweep up to the
 boundary that blocked it, and names the access/person needed to continue.
 
+### 4h. Challenge the non-PASS + surface it to the user (mandatory for every non-PASSED item — before Step 6)
+
+Follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
+the draft exists.** A non-PASS is a hypothesis until it survives this:
+
+1. **Name the discrepancy** — `Expected: {X} (source) · Observed: {Y} (evidence)`. If you cannot name
+   the source of the expected value, stop — you are about to file the app against an assumption.
+2. **Re-verify the expected side against an authoritative source, including related tickets' AC/EC** —
+   the bug's own Expected Result stays the primary contract (Step 2), but read it **char-exact** and
+   cross-check the **parent story's AC/EC, every linked issue, and sibling tickets on the same surface**.
+   A related ticket may have **superseded** or **clarified** the expected; a transliteration/feature-name
+   is not the spec; an unconfirmed-spec hedge ("confirm with PO/Figma", "น่าจะ", "TBD") = a **question,
+   not a defect**.
+   - Expected wrong / superseded → **not a FAILED** → recommend adjusting the expected/TC, cite the ticket.
+   - Expected unclear / conflicting / hedged → **BLOCKED + a remark naming who to ask**, never a FAILED.
+   - Expected confirmed authoritative and the app still differs → it survived; carry it to Step 6.
+3. **Surface to the user in chat and let them steer** — post `expected (+source) · observed · AC/EC
+   finding · recommendation (A adjust the expected/TC · B re-test · C confirm defect)`. For A/B **wait for
+   the user's decision**; for a clearly-confirmed C you may continue, but never silently. Never edit the
+   ticket's expected-result field to match the app on your own — QA reports the conflict and names the owner.
+
+**Unattended / bot mode:** resolve the gate instead of asking — expected wrong/unclear → BLOCKED +
+remark (no bug, no halt); test-side cause → fix and re-run; confirmed defect → draft the comment as normal.
+
 ---
 
 ## Step 5 — Evidence
@@ -206,15 +273,21 @@ boundary that blocked it, and names the access/person needed to continue.
 
 ### FE bugs
 
-- Screenshot **every** case — upload as issue attachment first, then embed it **in the verdict table's `Evidence` cell** (the column between `Actual Result` and `Status`), one screenshot per row.
-- Name files `tc{N}-{short-desc}.png`
-- Max ~3 bullets per case in the comment
-- **In-cell image embedding (mandatory):** reference the uploaded screenshot in the `Evidence` cell as `!filename.png!` — **no `|width=…` parameter**. Inside a wiki table cell the `|` in `!img|width=N!` collides with the cell delimiter and splits the row, so size the image **before** upload (resize to ~600–640 px wide) and embed it bare. Images MUST render as pictures inside the cell — never leave them as filename-only text.
+**Whole-flow MP4 per case — same capture format as the story-testing flow — attached to the Jira issue and referenced in the comment (NOT Google Drive).**
+
+- **Record a whole-flow MP4 for every executed case** (drive the case's real steps end-to-end, same capture the story-testing flow uses). The MP4 is the retest evidence — it replaces the former screenshot-only rule. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-gates.md)** (max resolution the harness supports; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
+- **Text-verification case → screenshot AS WELL as the MP4.** When a case verifies exact wording / label / message / count / displayed values (anything judged char-exact against the bug's Expected Result), also embed a still screenshot inline so the exact text is legible in a frame — the row then carries **both** the MP4 link and the `!png!` image. A non-text case carries the MP4 only.
+- **Destination = the Jira issue, in the comment.** Upload every file (MP4 + any screenshot) as an **issue attachment**, then reference it in the verdict table's `Evidence` cell (the column between `Actual Result` and `Status`). A retest never writes to Google Drive — that is the story/bot flow, not this one.
+- **Naming (reuse the story convention):** `{KEY}_TC_{nn}.mp4` for the clip, `TC_{nn}-ER_{n}.png` for a text still.
+- Max ~3 bullets per case in the comment.
+- **In-cell embedding (mandatory):**
+  - **MP4** → attach, then link it in the `Evidence` cell as a wiki attachment link `[▶ {KEY}_TC_{nn}.mp4|^{KEY}_TC_{nn}.mp4]` (an MP4 cannot render as an inline picture in a wiki cell — a working attachment link that plays/downloads from Jira is the requirement).
+  - **screenshot** (text-verification rows) → reference as `!filename.png!` with **no `|width=…` parameter**. Inside a wiki table cell the `|` in `!img|width=N!` collides with the cell delimiter and splits the row, so resize the image **before** upload (~600–640 px wide) and embed it bare. It MUST render as a picture inside the cell — never filename-only text.
 
 **Upload + embed flow:**
-1. Save screenshots to a scratch dir outside the repo, then **resize each to ~600–640 px wide** (e.g. `sips -Z 640 in.png --out out.png`) so the bare `!file.png!` renders at a readable in-cell size.
+1. Save the MP4 (and any text-verification screenshot, resized to ~600–640 px wide via `sips -Z 640 in.png --out out.png`) to a scratch dir outside the repo.
 2. Upload each file: `POST /rest/api/3/issue/{KEY}/attachments` with `X-Atlassian-Token: no-check` (curl `-u email:token`, or authenticated browser fetch).
-3. Reference in the `Evidence` cell of the verdict table: `!filename.png!` — one image per row, no size param.
+3. In the `Evidence` cell of the verdict table: the MP4 link `[▶ …mp4|^…mp4]`, plus `!filename.png!` on text-verification rows — one case per row.
 
 ---
 
@@ -363,17 +436,17 @@ Full JS patterns and error recovery: [jira-fast-publish.md](../../../references/
 
 When MCP truncates or returns 403 on a ≤ 3 row comment, switch to ADF-direct Pattern D above.
 
-### 7c. FE + screenshots (in-cell image embedding)
+### 7c. FE + MP4/screenshots (in-cell evidence embedding)
 
 Use **v2** wiki markup and `/rest/api/2/issue/{KEY}/comment`.
 
-**Mandatory flow — each row's screenshot renders inside its `Evidence` cell, not as filename text:**
+**Mandatory flow — each row's `Evidence` cell carries a working MP4 link (every case) plus an inline screenshot (text-verification cases):**
 
-1. **Resize first** — resize every screenshot to ~600–640 px wide (`sips -Z 640 …`) so a bare `!file.png!` renders at a readable in-cell size.
-2. **Upload attachments** — for each screenshot, `POST /rest/api/3/issue/{KEY}/attachments` (curl `-u email:token` with `X-Atlassian-Token: no-check`, or authenticated browser fetch).
-3. **Embed in the `Evidence` cell** — reference each uploaded file as `!filename.png!` **with no `|width=…`** (the pipe would split the table row). One image per verdict-table row.
-4. **Post comment** — v2 wiki `POST /rest/api/2/issue/{KEY}/comment`. v2 renders `!file.png!` as an inline picture inside the cell.
-5. **Verify (Step 7d)** — confirm each image renders as a picture inside its `Evidence` cell (not `!filename!` text) and the table still has all its columns.
+1. **Resize any screenshot first** — text-verification stills to ~600–640 px wide (`sips -Z 640 …`) so a bare `!file.png!` renders at a readable in-cell size. (MP4s are not resized.)
+2. **Upload attachments** — for each MP4 and screenshot, `POST /rest/api/3/issue/{KEY}/attachments` (curl `-u email:token` with `X-Atlassian-Token: no-check`, or authenticated browser fetch).
+3. **Embed in the `Evidence` cell** — the MP4 as a wiki attachment link `[▶ {KEY}_TC_{nn}.mp4|^{KEY}_TC_{nn}.mp4]`, and (text-verification rows only) the screenshot as `!filename.png!` **with no `|width=…`** (the pipe would split the table row). One case per verdict-table row.
+4. **Post comment** — v2 wiki `POST /rest/api/2/issue/{KEY}/comment`. v2 renders `!file.png!` as an inline picture and `[▶ …|^…mp4]` as a click-to-play/download attachment link.
+5. **Verify (Step 7d)** — confirm the MP4 link resolves and plays from Jira, each text still renders as a picture inside its `Evidence` cell (not `!filename!` text), and the table still has all its columns.
 
 ### 7d — Post-publish review (mandatory)
 
@@ -384,7 +457,8 @@ Before Step 8 transition, run review per [jira-comment-post-review.md](../../../
    - [ ] New comment visible; summary line **PASSED ✅** or **FAILED ❌** correct.
    - [ ] **No literal `<br>`, HTML tags, or stray markup** visible as text.
    - [ ] **Numbered items** (`1. ` `2. ` `3. `) each on a separate line — not running together.
-   - [ ] No truncation; screenshots attached and render (FE).
+   - [ ] No truncation; FE MP4 link resolves + plays, and text-verification screenshots render.
+   - [ ] Each FE MP4 clears the 7-layer quality+correctness gate — plays sharp end-to-end, shows the flow reaching the stated target (no early cut), ER visible.
    - [ ] API evidence: cURL + response present per row.
 3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then report specific failures with best available workaround.
 
@@ -400,10 +474,11 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 - [ ] Summary line is exactly **PASSED ✅** or **FAILED ❌** (not ambiguous text).
 - [ ] `Verdict: PASSED` or `Verdict: FAILED` with issue link.
-- [ ] **Non-PASSED verdict:** Step 6a's two blocks present — **root cause** (Confirmed/Suspected/Unknown + backing artifacts) and **resolution options** (two options, each a named **role** owner, ending `Decided by: <role>`) — plus the one-line statement of whether the originally reported symptom is gone. (No separate repro-matrix / why-failed block — that content lives in the `Fixture` line and the verdict-table row + its `Evidence` screenshot.)
+- [ ] **Non-PASSED verdict:** Step 6a's two blocks present — **root cause** (Confirmed/Suspected/Unknown + backing artifacts) and **resolution options** (two options, each a named **role** owner, ending `Decided by: <role>`) — plus the one-line statement of whether the originally reported symptom is gone. (No separate repro-matrix / why-failed block — that content lives in the `Fixture` line and the verdict-table row + its `Evidence` MP4 / screenshot.)
 - [ ] **Step 4g root-cause investigation ran for every non-PASSED item** (including BLOCKED): the cause cites captured artifacts (status code, response field/message, console error, bundle probe, fixture read-back) and is labelled `Confirmed` / `Suspected` (+ the confirming check) / `Unknown — not investigated` (+ what is needed).
+- [ ] **Step 4h challenge gate ran for every non-PASSED item** ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)): the expected side re-verified char-exact against an authoritative source **including related/linked tickets' AC/EC**; a wrong/superseded expected became an expected/TC adjustment (not a FAILED), an unclear/hedged spec became BLOCKED + a who-to-ask remark (not a bug), and every surviving non-PASS was surfaced to the user in chat (recommendation A/B/C) before the comment was drafted.
 - [ ] **Step 6b dev-question gate + cause gate passed before the first post**; every scope word traces to a verdict-table row + its `Evidence`; every cause sentence cites an artifact and carries a label; no hedge word used as a cause; no unresolved contradiction between your own observations.
-- [ ] v2/v3 format matches Step 3 lock; FE bugs have screenshots attached before wiki embed.
+- [ ] v2/v3 format matches Step 3 lock; FE bugs have the per-case MP4 (and text-verification screenshots) attached before wiki embed, every MP4 green on the 7-layer quality+correctness gate.
 - [ ] API cases: full cURL + response per row (no "same as above").
 - [ ] Jira issue re-opened after post: comment visible, not truncated.
 - [ ] Step 7d fix-verify completed.
@@ -422,7 +497,8 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 - [ ] Summary line is exactly **PASSED ✅** or **FAILED ❌**; env + results table present (bold headers, `No.` column).
 - [ ] One result row per expected-result item (the ALL-items check is visible).
-- [ ] **FE / UI bug:** a screenshot for **every executed case**, uploaded as an attachment **and embedded in that row's `Evidence` cell** (`!file.png!`, pre-resized, no `|width`), confirmed rendering as a picture inside the cell on the Jira UI (Step 7d). **A text-only comment for an FE bug FAILS this gate** — the exact-text/values table is not a substitute for the required images.
+- [ ] **FE / UI bug:** a whole-flow **MP4 for every executed case**, uploaded as an attachment **and linked in that row's `Evidence` cell** (`[▶ …mp4|^…mp4]`), the link confirmed to resolve/play from the Jira UI (Step 7d); **plus** an inline screenshot (`!file.png!`, pre-resized, no `|width`) on every **text-verification** row, confirmed rendering as a picture. **A text-only comment for an FE bug FAILS this gate** — the exact-text/values table is not a substitute for the required MP4 (and text stills).
+- [ ] **Every MP4 passes all 7 layers of the [MP4 quality + correctness gate](../../../references/qa-evidence-gates.md)** — max quality, whole flow with no skip, reaches the stated target (never cut early), ER visible on screen, legible/text-backed, file integrity + case match, attached-and-link-verified. Fail-closed: any layer red = re-capture, do NOT transition.
 - [ ] **API bug:** full cURL + response per row (no "same as above").
 - [ ] No local file paths, no literal `<br>`/HTML markup.
 
@@ -596,6 +672,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST run Step 8d as soon as the bug lands in Done — Done = fixed = the stories it blocked may be releasable | Otherwise blocked stories sit in the backlog after their blocker is already closed |
 | MUST check EVERY "is blocked by" link on a story before moving it in Step 8d, treat only **Done** as resolved, and move only stories parked in the blocked status | This bug is often not the story's only blocker; moving a still-blocked story sends untestable work back to QA, and touching a story already in QA/dev moves it backwards |
 | MUST create test data when possible | "No data" is not an excuse |
+| MUST perform the action under test through its real surface (UI bug → through the UI, every Test Step); API only for test-data/precondition prep, and for an API-layer bug the API call is the real step | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action verifies the wrong layer and can pass while the screen is broken |
 | MUST NOT change COMMENT_FORMAT after Step 3 | v2/v3 rewrite cost |
 | MUST NOT include local file paths in Jira comments (`docs/result/`, absolute home/machine paths, etc.) | Meaningless to Jira readers; user enforced "เน้นๆๆ ห้ามผิดอีก" |
 | MUST scan Jira comment for local paths before posting | Catches leaks: `docs/`, `~/`, absolute paths |
@@ -605,12 +682,15 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST set `--pass-count N` + `--summary "Retest of dev fix"` + `--owner-label "QA Owner"` on every Discord retest notify | Defaults produce wrong output (0/0/0 + wrong label); learned from 3-resend incident |
 | MUST fetch the notify recipient from the ticket's QA Owner field (per project guide) per ticket, and verify the @mention person = that field's value — NEVER the Reporter, never a name carried over from another ticket | Label said "QA Owner" but pinged the Reporter → 3 wrong pings, user correction 2026-07-15 |
 | MUST verdict from the bug's OWN expected results — PASSED only when ALL items are met (character-exact where wording is specified); parent AC is supplement, never substitute | Bug details are the contract; partial match = FAILED (user rule 2026-07-15) |
+| MUST judge any Priority/Severity referenced in a retest comment ONLY from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md) — never invent a severity notion | Keeps bug-priority language consistent across QA workflows; no ad hoc severity claims in Jira comments |
 | MUST exercise **every** entry point to a failing surface separately (direct route **and** the in-app path a user takes) and capture each with its own screenshot in the `Evidence` cell; name the entry point(s) actually exercised in the `Fixture` line, and never claim a path you did not run | A path with no captured screenshot is a guess. OLS-108: "happens via both entry points" was published from one run, the dev acted on it, and it had to be retracted in-ticket |
 | MUST NOT write a scope word (`always`, `any entry point`, `both ways`, `only when …`) that no exercised-and-captured `Evidence` row supports | The scope claim is the first thing a dev builds on |
 | MUST hard-reload every surface after a state-changing fixture step before observing or capturing it; report a stale-data window only as a separate timing note with the measured delay | An already-open view holds pre-change data — recording it publishes your test timing as product behavior (OLS-108: card looked clickable ~5s after unpublish) |
 | MUST resolve any disagreement between your own observations with one clean re-run before drafting, and record which was the artifact; unresolvable → BLOCKED, not FAILED | Resolving it in favour of the verdict you already reached is how the wrong repro path shipped |
 | MUST include the Step 6a blocks on every non-PASSED comment — **root cause** and **resolution options** (two options, each a named **role** owner, ending `Decided by: <role>`); NO separate repro-matrix / why-failed block (that content is the `Fixture` line + the verdict-table row and its `Evidence` screenshot) | These answer the dev's next questions without bloating the comment; the failing behaviour + evidence already sit in the table row |
 | MUST run the Step 4g root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike), starting by invoking `superpowers:systematic-debugging` (Phases 1–3) and naming it in the comment | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |
+| MUST run the Step 4h challenge gate for EVERY non-PASSED item — re-verify the expected side char-exact against an authoritative source **including related/linked tickets' AC/EC**, then surface expected-vs-observed + the AC/EC finding + a recommendation (adjust expected/TC / re-test / confirm defect) to the user in chat before drafting the comment ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |
+| MUST NOT post a FAILED whose expected turned out wrong, superseded, or unclear — that is an expected/TC adjustment or a BLOCKED question, never a FAILED; unattended bots resolve it as BLOCKED + remark, never a phantom bug and never a halt | Filing the app against an unverified expected is exactly how a phantom bug ships (PM-006, OLS-315) |
 | MUST complete the 8-boundary sweep while the environment is still open, writing `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |
 | MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label wherever the sentence is copied (comment, sheet, notify) | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |
 | MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from a different record/role/run/entry point | Hedged guessing is still guessing, and it ships as QA's finding |

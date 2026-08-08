@@ -18,6 +18,12 @@ Follow [shared-preamble.md](../../../references/shared-preamble.md).
 
 **Gates:** MUST NOT start Playwright until Phase C confirm; MUST NOT update external results until Phase G confirm — because runs and writes are costly to undo. Credentials are session-only.
 
+**Test through the real steps.** Drive every scenario through its own surface, following the case's
+steps completely — a UI scenario through the UI (Playwright clicks, not a direct submit call); the API
+is only for creating test data / preconditions, never to perform the action under test. An API
+scenario is driven at the API — that is its real step. Full rule:
+[test-through-real-steps.md](../../../references/test-through-real-steps.md).
+
 **Every FAILED or BLOCKED scenario** is governed by [defect-report-completeness.md](../../../references/defect-report-completeness.md) — the write-up must answer the reader's five questions (what, **which entry points**, what it should be instead, why that is a fail, **what changes and who decides**) before it leaves this workflow. A question asked afterwards means a section was missing; the fix is the write-up, not a chat reply.
 
 **Root cause is mandatory, never inferred.** Every FAILED or BLOCKED scenario gets a full
@@ -28,17 +34,27 @@ notify). Start it by invoking a real debugging skill — **`superpowers:systemat
 its Phases 1–3 only (QA diagnoses; QA does not patch product code). No cause without a captured
 artifact and a `Confirmed` / `Suspected` / `Unknown — not investigated` label.
 
+**Challenge every non-PASS before you record it (the "wait, really?" gate).** A scenario that is not a
+clean PASSED is a **hypothesis, not a verdict**. Before it becomes FAILED / PWMI / BLOCKED — or gets
+carried into Phase F as a defect — re-verify the **expected** side against an authoritative source,
+**including the AC/EC of related / linked tickets** (parent story, linked issues, sibling tickets on
+the same surface, the test case's own source), read character-exact. A stale or superseded expected,
+a transliteration mistaken for a label, or an unconfirmed-spec hedge makes a phantom defect out of a
+correct app. Run this at **E3**, then **surface it to the user in chat** so they can decide whether to
+adjust the test case, re-test, or confirm the defect. Full gate:
+[non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md).
+
 **Long sessions:** optional todos per [long-workflow-todos.md](../../../references/long-workflow-todos.md).
 
 ## Refusal-first (precondition gate)
 
 MUST refuse to reach Phase B until **Ticket** and **URL** are provided — because the test plan has no target.
 
-**Pre-flight login smoke gate (mandatory before Phase B).** Before running any scenario, verify that login **actually succeeds** for **every role/credential set** the run may use — not only the one role the first case needs. Drive the real login (headless where supported) per role and confirm an authenticated signal (redirect to an authed area, a session/`me` endpoint, or a logged-in UI marker). Produce a per-role pass/fail table.
-- **All roles pass →** proceed to Phase B.
-- **Any role fails →** 🛑 stop, report which role failed and why (backend error, VPN, bad creds), and do **not** start testing until it is cleared or the user explicitly says to skip the failing role. Never mark scenarios PASSED when auth was never verified.
+**Pre-flight login smoke gate (mandatory before Phase B).** Before running any scenario, verify that login **actually succeeds** for **only the role(s)/credential set(s) this run's scenarios will actually use** — not every role the project has. Read the run's scenarios to determine which roles are in scope; a single-role run logs in that one role, a multi-role run logs in each role it uses, nothing more. Drive the real login (headless where supported) per in-scope role and confirm an authenticated signal (redirect to an authed area, a session/`me` endpoint, or a logged-in UI marker). Produce a pass/fail table for the in-scope roles.
+- **All in-scope roles pass →** proceed to Phase B.
+- **Any in-scope role fails →** 🛑 stop, report which role failed and why (backend error, VPN, bad creds), and do **not** start testing until it is cleared or the user explicitly says to skip the failing role. Never mark scenarios PASSED when auth was never verified.
 
-This catches an auth-backend outage (e.g. an IdP returning a 4xx on every login) up front, before opening cases that would all block later. Project-specific role list, accounts, and login steps live in the project's `references/*-guide.md` / login runbook.
+This catches an auth-backend outage (e.g. an IdP returning a 4xx on every login) up front, before opening cases that would all block later — scoped to the roles the run needs, so an unrelated role's outage never blocks a run that doesn't use it. Project-specific role list, accounts, and login steps live in the project's `references/*-guide.md` / login runbook.
 
 If **VPN** is required per user and environment is unreachable in Phase D, stop and report — do not mark scenarios PASSED without evidence.
 
@@ -67,6 +83,8 @@ Collect these **seven** items (one grouped message when possible; skip fields al
 | **Swagger** | No | OpenAPI URL or `none` |
 
 **Wait** until required fields are answered before Phase B.
+
+**Environment + account are a hard intake item — always settle them, never assume.** Confirm both *which environment* and *which account/role* this run uses before any login or Playwright. If the user has **not** stated them yet, ask (one grouped message) and wait — never pick an environment yourself, even if one is more convenient. If they were **already** given (earlier this session, the one-pager, or the project guide), do **not** re-ask: state the values back in chat (`environment=<X> · account=<role/user>`) and let the user confirm with a short yes (or correct them) — they should not have to re-answer from scratch.
 
 ---
 
@@ -120,6 +138,11 @@ Follow [playwright-preflight.md](../../../references/playwright-preflight.md) en
 
 Run confirmed scenarios; record **PASSED** / **FAILED** / **BLOCKED** / **NOT TESTED** with evidence (screenshots, console, network).
 
+Drive every scenario through its **real surface** — a UI scenario through the UI (Playwright clicks the
+button / submits the form), following the case's steps completely. The API is for test-data /
+precondition setup only, **never** to perform the action under test; an API scenario is driven at the
+API. See [test-through-real-steps.md](../../../references/test-through-real-steps.md).
+
 Internal failures: note for chat summary only — **do not create Jira/GitHub issues in this workflow.**
 
 ### E1 — For every FAILED scenario, capture the repro shape *during the run*
@@ -170,6 +193,29 @@ product bug is never filed away as "flaky".
 **BLOCKED is not an escape.** A BLOCKED scenario still records the sweep up to the boundary that
 blocked it and names the access/person needed to continue.
 
+### E3 — Challenge the non-PASS + surface it to the user (mandatory for every non-PASSED scenario)
+
+Follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
+the scenario is written into Phase F as a defect.** A non-PASS is a hypothesis until it survives this:
+
+1. **Name the discrepancy** — `Expected: {X} (source) · Observed: {Y} (evidence)`. If you cannot name
+   the source of the expected value, stop — you are about to file the app against an assumption.
+2. **Re-verify the expected side against an authoritative source, including related tickets' AC/EC** —
+   this ticket's Expected/AC/EC **and** the parent story, every linked issue, sibling tickets on the
+   same surface, and the test case's own source, all read character-exact. A related ticket may have
+   **superseded** or **clarified** the expected value; a transliteration/feature-name is not the spec;
+   an unconfirmed-spec hedge ("confirm with PO/Figma", "น่าจะ", "TBD") = a **question, not a defect**.
+   - Expected wrong / superseded → **not a defect** → recommend adjusting the test case.
+   - Expected unclear / conflicting / hedged → **BLOCKED + a remark naming who to ask**, never a defect.
+   - Expected confirmed authoritative and the app still differs → it survived; carry it to Phase F.
+3. **Surface to the user in chat and let them steer** — post `expected (+source) · observed · AC/EC
+   finding · recommendation (A adjust the TC · B re-test · C confirm defect)`. For A/B **wait for the
+   user's decision**; for a clearly-confirmed C you may continue, but never silently. Never rewrite the
+   ticket's expected text to match the app on your own.
+
+**Unattended / bot mode:** resolve the gate instead of asking — expected wrong/unclear → BLOCKED +
+remark (no bug, no halt); test-side cause → fix and re-run; confirmed defect → record as normal.
+
 ---
 
 ## Phase F — Summarize in this chat (mandatory)
@@ -202,6 +248,26 @@ List issues found **without filing tickets**:
 The **Confidence** column carries the E2 label — `Confirmed` / `Suspected` / `Unknown — not
 investigated` — and it describes the **cause**, not how strongly you feel about the defect.
 
+**The `Severity` column is judged only by the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md)** — match the observed defect to its row, never invent a severity/priority
+notion. Cheat-sheet (full matrix + hard rule at the link):
+
+| If the defect reads like… | Priority | Verdict |
+|---|---|---|
+| cosmetic / typo / UI misalignment | Low | **PWMI** |
+| minor calculation or display error | Low | **PWMI** |
+| major feature affected **but a workaround exists** | Low | **PWMI** |
+| minor glitch that does **not** block the workflow | Medium | **PWMI** |
+| **optional** feature not working | Medium | **PWMI** |
+| functionality problem affecting **several** users | Medium | **PWMI** |
+| critical feature **partially** broken | Medium | **PWMI** |
+| rarely-used feature **fully** broken | High | **FAILED** |
+| feature issue affecting **some** users | High | **FAILED** |
+| core functionality affected / partial outage | High | **FAILED** |
+| core system failure affecting **most** users | High | **FAILED** |
+| security warning in a minor feature | Highest | **FAILED** |
+| system crash for some users | Highest | **FAILED** |
+| complete outage / data loss / security breach | Highest | **FAILED** |
+
 **Each defect row expands into a complete write-up** — this is what gets pasted into a bug, a Jira
 comment, or a sheet cell later, so it must stand alone
 ([defect-report-completeness.md](../../../references/defect-report-completeness.md) §1–§4 and
@@ -216,6 +282,11 @@ comment, or a sheet cell later, so it must stand alone
 
 **Never rewrite the ticket's acceptance/expected text to match observed behavior.** Report the conflict and
 name the decision-maker.
+
+**Every defect row must have passed the E3 challenge gate** — its expected side re-verified against an
+authoritative source (this ticket's AC/EC **and** related/linked tickets), and the discrepancy already
+surfaced to the user. A row whose expected turned out wrong / superseded / unclear does **not** belong
+here — it is a test-case adjustment or a BLOCKED question, not a defect.
 
 ### F4 — Reader gate (MUST pass before Phase G)
 
@@ -290,7 +361,10 @@ Reply **confirm** to apply updates, or correct the mapping.
 row: untested (empty / `NOT STARTED`, no result text, no links) or written by an earlier run of
 yours = **yours to write**; anything a person filled in = **not yours**. Drop the not-yours rows
 here and list them for the user. Same for a shared evidence folder: note which files already
-exist and were not uploaded by you. See [result-update-discipline.md](references/result-update-discipline.md).
+exist and were not uploaded by you. **When the project uses a shared evidence folder, organize
+uploads one subfolder per test-case id** (e.g. `<ticket>/<TC-ID>/…`) rather than dropping every
+file flat in the ticket folder — follow the project guide's exact folder scheme and upload command
+if one is specified. See [result-update-discipline.md](references/result-update-discipline.md).
 
 ### G5 — Apply updates
 
@@ -380,8 +454,10 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 - [ ] F1–F4 posted before any external update.
 - [ ] Every scenario has PASSED/FAILED/BLOCKED/NOT TESTED with evidence reference.
+- [ ] **Story evidence-completeness gate (5-step) PASSED — the work is not done until it is green.** Per [qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *Story-testing evidence-completeness gate*: every non-BLOCKED case carries a **whole-flow MP4 + one screenshot per Expected-Result item** (a retest-bug re-verify carries the MP4 per case + a screenshot only on text-verification cases, attached to Jira not Drive); every MP4 clears the **7-layer quality+correctness gate** in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md) (max quality · whole flow, no skip · reaches the stated target, no early cut · ER on screen · legible · integrity+match · link-verified); every file resolves, plays/non-blank, and matches the exact case; verdict↔bug↔remark are consistent (minor-issue ⇒ a ≤Medium bug flagged, FAILED ⇒ High+, no stale BLOCKED note on a PASSED row). Fail closed: one red case = story not complete.
 - [ ] Every FAILED/BLOCKED defect has its repro matrix (one row per entry point, untried paths `not tested`), expected-line-verbatim vs actual, **root cause**, and — where the deviation is from the written expectation — resolution options with a named owner.
 - [ ] **E2 root-cause investigation ran for every FAILED and BLOCKED scenario** (during the run, not in Phase F): debugging skill invoked and named, 8-boundary sweep complete with `not checked` written where it applies, hypotheses ruled out recorded, cause labelled `Confirmed` / `Suspected` (+ the confirming check) / `Unknown — not investigated` (+ what is needed).
+- [ ] **E3 challenge gate ran for every non-PASSED scenario** ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)): expected side re-verified char-exact against an authoritative source **including related/linked tickets' AC/EC**; a wrong/superseded expected became a TC-adjustment (not a defect), an unclear/hedged spec became BLOCKED + a who-to-ask remark (not a bug), and every surviving non-PASS was surfaced to the user in chat (recommendation A/B/C) before it was recorded.
 - [ ] **F4 reader gate + cause gate passed before Phase G**; every scope word traces to a matrix row; every cause sentence cites an artifact and carries a label; no hedge word used as a cause; no unresolved contradiction between your own observations.
 - [ ] If Phase G ran: destination re-read matches agreed column formats.
 - [ ] Close-out includes `Verified:` (or partial-failure honesty per Phase F).
@@ -411,6 +487,7 @@ See [skill-routing.md](../../../references/skill-routing.md) — **Handoffs** af
 | [session-intake.md](references/session-intake.md) | Intake fields |
 | [playwright-discipline.md](references/playwright-discipline.md) | Playwright rules |
 | [root-cause-investigation.md](../../../references/root-cause-investigation.md) | E2 — mandatory cause investigation, evidence-only |
+| [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) | E3 — challenge every non-PASS: re-verify expected vs related tickets' AC/EC, surface to user |
 | [result-update-discipline.md](references/result-update-discipline.md) | Sheets, Jira, Confluence update rules |
 | [workspace-guide-template.md](references/workspace-guide-template.md) | Optional non-secret defaults |
 | [worked-example.md](references/worked-example.md) | On-demand: anonymized sample (read only when format reference needed) |
@@ -425,6 +502,9 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 |------|---------|
 | MUST NOT open Jira/GitHub bugs in this workflow | Use create-bug-workflow |
 | MUST NOT run Playwright before Phase C confirm | Wrong scope/credentials |
+| MUST drive each scenario through its real surface (UI scenario → Playwright through the UI, every step); API only for test-data/precondition prep; an API scenario is driven at the API | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |
+| MUST attach complete evidence to every case before the story is "done" — a **whole-flow MP4 + one screenshot per Expected-Result item** for each non-BLOCKED story case (retest-bug re-verify = MP4 per case + screenshot on text-verification cases, attached to Jira) — and pass the 5-step gate in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md) | A story reported "100% passed" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |
+| MUST judge defect Priority/Severity ONLY from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md) — never invent a severity notion; PASSED WITH MINOR ISSUE needs a Lowest/Low/Medium bug, FAILED needs High/Highest | Guessing severity produces inconsistent verdicts across testers and tickets |
 | MUST re-read destination after Phase G writes | Silent partial failure |
 | MUST exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each; untried paths written `not tested` | A path with no evidence row is a guess published as a finding (learned OLS-108) |
 | MUST NOT write a scope word (`always`, `any entry point`, `both ways`, `only when …`) that no repro-matrix row supports | The scope claim is the first thing a dev builds on |
@@ -432,6 +512,8 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST resolve any disagreement between your own observations with one clean re-run before writing F2/F3; unresolvable → BLOCKED, not FAILED | Resolving it in favour of the result you already wrote is how a wrong repro path ships |
 | MUST give every FAILED/BLOCKED defect the F3 blocks — repro matrix, expected line quoted verbatim vs actual, **root cause**, resolution options with a named owner | These are the questions the reader asks next; answering them in chat leaves the record incomplete |
 | MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario, during the run, starting by invoking `superpowers:systematic-debugging` (Phases 1–3) and naming it in the write-up | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |
+| MUST run the E3 challenge gate for EVERY non-PASSED scenario — re-verify the expected side char-exact against an authoritative source **including related/linked tickets' AC/EC**, then surface expected-vs-observed + the AC/EC finding + a recommendation (adjust TC / re-test / confirm defect) to the user in chat before recording the verdict or listing it as a defect ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |
+| MUST NOT file / list a defect whose expected turned out wrong, superseded, or unclear — that is a test-case adjustment or a BLOCKED question, never a defect; unattended bots resolve it as BLOCKED + remark, never a phantom bug and never a halt | Filing the app against an unverified expected is exactly how a phantom bug ships (PM-006) |
 | MUST complete the 8-boundary sweep and write `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |
 | MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label into every destination the sentence is copied to | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |
 | MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from another scenario/role/record | Hedged guessing is still guessing, and it ships as QA's finding |
