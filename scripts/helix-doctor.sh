@@ -112,19 +112,19 @@ echo ""
 echo "--- Claude Code marketplace plugin ---"
 if command -v claude >/dev/null 2>&1; then
   PLIST="$(claude plugin list 2>/dev/null || true)"
-  if echo "$PLIST" | grep -qF "helix@helix"; then
-    if echo "$PLIST" | grep -A4 "helix@helix" | grep -q "Status: ✔ enabled"; then
-      ok "helix@helix enabled"
+  if echo "$PLIST" | grep -qF "helix@helix-dev"; then
+    if echo "$PLIST" | grep -A4 "helix@helix-dev" | grep -q "Status: ✔ enabled"; then
+      ok "helix@helix-dev enabled"
     else
-      warn "helix@helix installed but not enabled — run: bash $REPO/scripts/claude-plugin-sync.sh"
+      warn "helix@helix-dev installed but not enabled — run: bash $REPO/scripts/claude-plugin-sync.sh"
     fi
-    if [ -n "${VER:-}" ] && echo "$PLIST" | grep -A3 "helix@helix" | grep -q "Version: $VER"; then
-      ok "helix@helix version matches repo ($VER)"
+    if [ -n "${VER:-}" ] && echo "$PLIST" | grep -A3 "helix@helix-dev" | grep -q "Version: $VER"; then
+      ok "helix@helix-dev version matches repo ($VER)"
     elif [ -n "${VER:-}" ]; then
-      warn "helix@helix version may be stale (repo $VER) — run: bash $REPO/scripts/claude-plugin-sync.sh"
+      warn "helix@helix-dev version may be stale (repo $VER) — run: bash $REPO/scripts/claude-plugin-sync.sh"
     fi
   else
-    warn "helix@helix not installed — run: bash $REPO/scripts/claude-plugin-sync.sh"
+    warn "helix@helix-dev not installed — run: bash $REPO/scripts/claude-plugin-sync.sh"
   fi
   if echo "$PLIST" | grep -A4 "helix@local" | grep -q "Status: ✔ enabled"; then
     bad "Legacy helix@local is still enabled — run: bash $REPO/scripts/claude-plugin-sync.sh"

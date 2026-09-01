@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix with GitHub main.
+# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with GitHub main.
 #
 # Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron.
 # Opt out: HELIX_AUTO_UPDATE=0
@@ -123,10 +123,10 @@ update_marketplace_only() {
   if [ -x "$REPO/scripts/claude-plugin-sync.sh" ]; then
     HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 || true
   fi
-  if claude plugin list 2>/dev/null | grep -A3 "helix@helix" | grep -q "Version: $remote"; then
-    log "helix@helix already at $remote"
+  if claude plugin list 2>/dev/null | grep -A3 "helix@helix-dev" | grep -q "Version: $remote"; then
+    log "helix@helix-dev already at $remote"
   else
-    log "helix@helix sync requested (target $remote)"
+    log "helix@helix-dev sync requested (target $remote)"
   fi
   return 0
 }

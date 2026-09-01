@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Keep Claude Code on the canonical Helix plugin (helix@helix), not legacy helix@local.
+# Keep Claude Code on the canonical Helix plugin (helix@helix-dev — the marketplace id in
+# .claude-plugin/marketplace.json is "helix-dev"), not legacy helix@local.
 #
 # Called from install.sh, helix-doctor (HELIX_DOCTOR_FIX=1), and post-merge hook.
 #
@@ -10,9 +11,9 @@
 set -euo pipefail
 
 REPO="${HELIX_REPO_DIR:-$HOME/.helix/tc-fe-prep}"
-CANONICAL="helix@helix"
+CANONICAL="helix@helix-dev"
 LEGACY="helix@local"
-MARKETPLACE="helix"
+MARKETPLACE="helix-dev"
 
 log() {
   if [ -z "${HELIX_QUIET:-}" ]; then

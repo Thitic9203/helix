@@ -26,7 +26,7 @@ Full agent list: [supported-agents.md](https://github.com/Thitic9203/helix/blob/
 
 | Agent | Global folder after install | Start Helix |
 |-------|-----------------------------|-------------|
-| Claude Code | `~/.claude/skills/` + plugin **`helix@helix`** | `/helix` or `/tc-fe-prep`, … |
+| Claude Code | `~/.claude/skills/` + plugin **`helix@helix-dev`** | `/helix` or `/tc-fe-prep`, … |
 | Cursor | `~/.cursor/skills/` | `@helix` or skill **helix** |
 | Codex | `~/.codex/skills/` | skill **helix** |
 | GitHub Copilot | `~/.copilot/skills/` | skill **helix** in chat |
@@ -51,7 +51,7 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 
 - Clone/update `~/.helix/tc-fe-prep`
 - Symlink **helix + 5 workflow stubs** into global agent folders (`~/.cursor/skills/`, etc.)
-- Enable Claude marketplace plugin **`helix@helix`** (disable legacy **`helix@local`**)
+- Enable Claude marketplace plugin **`helix@helix-dev`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **auto-update**)
 
 **Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/deprecated/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **6 skills** linked per agent.
@@ -111,7 +111,7 @@ Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/referenc
 
 1. `git pull` in `~/.helix/tc-fe-prep`
 2. Refresh skill symlinks (`link-skills.sh`)
-3. `claude plugin update helix@helix` (Claude Code)
+3. `claude plugin update helix@helix-dev` (Claude Code)
 
 | Setting | Meaning |
 |---------|---------|
@@ -130,7 +130,7 @@ cd ~/.helix/tc-fe-prep && git pull
 bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh
 ```
 
-**Claude plugin:** use **`helix@helix` only** — not `helix@local` (legacy, auto-disabled).
+**Claude plugin:** use **`helix@helix-dev` only** — not `helix@local` (legacy, auto-disabled).
 
 **After update:** Cursor → Reload Window; Claude Code → new session if `/helix` still looks old.
 
@@ -159,7 +159,7 @@ Plugin registers all six skills in [.claude-plugin/plugin.json](https://github.c
 |--------|------|
 | [install.sh](https://github.com/Thitic9203/helix/blob/main/scripts/install.sh) | Full setup |
 | [helix-auto-update.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-auto-update.sh) | Session / manual version sync |
-| [claude-plugin-sync.sh](https://github.com/Thitic9203/helix/blob/main/scripts/claude-plugin-sync.sh) | `helix@helix` marketplace sync |
+| [claude-plugin-sync.sh](https://github.com/Thitic9203/helix/blob/main/scripts/claude-plugin-sync.sh) | `helix@helix-dev` marketplace sync |
 | [helix-doctor.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-doctor.sh) | Verify install |
 | [link-skills.sh](https://github.com/Thitic9203/helix/blob/main/scripts/link-skills.sh) | Refresh symlinks |
 | [export-markdown-table-to-csv.py](https://github.com/Thitic9203/helix/blob/main/scripts/export-markdown-table-to-csv.py) | TC table → CSV |

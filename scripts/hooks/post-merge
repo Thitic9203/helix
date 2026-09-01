@@ -16,8 +16,14 @@ fi
 [ -z "$VERSION" ] && exit 0
 [ -L "$CACHE_BASE/$VERSION" ] && exit 0
 
-for OLD_ENTRY in "$CACHE_BASE"/*/; do
-  [ -e "$OLD_ENTRY" ] || continue
+# Rename the DEV SYMLINK only, and glob WITHOUT a trailing slash:
+#   - "$CACHE_BASE"/*/ expands a symlink-to-dir with a trailing slash, and `mv symlink/ dest`
+#     follows the link — that moved the whole helix working repo into the plugin cache
+#     instead of renaming the link (hit on the 1.5.73 -> 1.5.77 pull).
+#   - `claude plugin update` can leave a real copy of an older version beside the symlink;
+#     renaming that copy would strand the symlink. -L skips it.
+for OLD_ENTRY in "$CACHE_BASE"/*; do
+  [ -L "$OLD_ENTRY" ] || continue
   OLD_VER=$(basename "$OLD_ENTRY")
   if [ "$OLD_VER" != "$VERSION" ]; then
     mv "$OLD_ENTRY" "$CACHE_BASE/$VERSION"
@@ -26,7 +32,7 @@ for OLD_ENTRY in "$CACHE_BASE"/*/; do
   fi
 done
 
-# Sync Claude marketplace plugin (helix@helix; retire helix@local)
+# Sync Claude marketplace plugin (helix@helix-dev; retire helix@local)
 if [ -x "scripts/claude-plugin-sync.sh" ]; then
   HELIX_QUIET=1 bash scripts/claude-plugin-sync.sh || true
 fi

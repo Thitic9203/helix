@@ -14,7 +14,7 @@ REPO_URL="https://github.com/Thitic9203/helix.git"
 REPO_DIR="${HELIX_REPO_DIR:-$HOME/.helix/tc-fe-prep}"
 MARKETPLACE_NAME="helix-dev"
 PLUGIN_NAME="helix"
-CANONICAL="helix@helix"
+CANONICAL="helix@helix-dev"
 CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
 
 echo "=== Helix QA assistant installer ==="
@@ -60,7 +60,7 @@ bash "$REPO_DIR/scripts/link-skills.sh"
 echo "[4/5] Enabling auto-update hooks..."
 git config core.hooksPath scripts/hooks
 
-# 5. Claude Code: helix@helix (not legacy helix@local)
+# 5. Claude Code: helix@helix-dev (not legacy helix@local)
 echo "[5/5] Claude Code plugin ($CANONICAL via scripts/claude-plugin-sync.sh)..."
 bash "$REPO_DIR/scripts/claude-plugin-sync.sh" || true
 
@@ -80,7 +80,7 @@ echo "Workflow shortcuts (Claude Code): /tc-fe-prep /tc-api-prep /retest-bug /te
 echo ""
 echo "Supported agents: docs/supported-agents.md"
 echo "Health check:   bash $REPO_DIR/scripts/helix-doctor.sh"
-echo "Claude plugin:  bash $REPO_DIR/scripts/claude-plugin-sync.sh  (helix@helix only)"
+echo "Claude plugin:  bash $REPO_DIR/scripts/claude-plugin-sync.sh  (helix@helix-dev only)"
 echo "Update:         cd $REPO_DIR && git pull && bash $REPO_DIR/scripts/install.sh"
 echo ""
 if [ -z "${HELIX_LINK_WORKSPACE:-}" ]; then

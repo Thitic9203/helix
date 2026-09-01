@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.77** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.78** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, and **Jira bug retests** — one entry menu across tools.
 
@@ -52,7 +52,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 5 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 5 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -137,7 +137,7 @@ After a **one-time** [install](#install-one-time), you usually **do not** run `g
 
 | Trigger | What runs |
 |---------|-----------|
-| New **Claude Code** session (`helix@helix` enabled) | [hooks/session-start](hooks/session-start) → [scripts/helix-auto-update.sh](scripts/helix-auto-update.sh) |
+| New **Claude Code** session (`helix@helix-dev` enabled) | [hooks/session-start](hooks/session-start) → [scripts/helix-auto-update.sh](scripts/helix-auto-update.sh) |
 | New **Cursor** session (Helix hooks active) | same |
 | You run `git pull` in `~/.helix/tc-fe-prep` | [scripts/hooks/post-merge](scripts/hooks/post-merge) → refresh symlinks + [claude-plugin-sync](scripts/claude-plugin-sync.sh) |
 
@@ -145,7 +145,7 @@ After a **one-time** [install](#install-one-time), you usually **do not** run `g
 
 1. `git pull --ff-only` in `~/.helix/tc-fe-prep` (skill symlinks pick up new `SKILL.md` immediately)
 2. `link-skills.sh` (refresh global + optional workspace symlinks)
-3. `claude plugin update helix@helix` (Claude Code marketplace plugin + hooks)
+3. `claude plugin update helix@helix-dev` (Claude Code marketplace plugin + hooks)
 
 Log file: `~/.helix/auto-update.log` · Doctor: [helix-doctor.sh](scripts/helix-doctor.sh)
 
@@ -171,8 +171,8 @@ HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_VERBOSE=1 bash ~/.helix/tc-fe-prep/script
 
 | Plugin | Status |
 |--------|--------|
-| **`helix@helix`** | Canonical — install/update/enable (installer + auto-update) |
-| **`helix@local`** | Legacy — **disabled** automatically (do not enable; uninstall can break `helix@helix`) |
+| **`helix@helix-dev`** | Canonical — install/update/enable (installer + auto-update) |
+| **`helix@local`** | Legacy — **disabled** automatically (do not enable; uninstall can break `helix@helix-dev`) |
 
 `install.sh` and `claude-plugin-sync.sh` keep the marketplace plugin aligned with [VERSION](VERSION).
 
@@ -182,7 +182,7 @@ Use if auto-update is off, you deleted `~/.helix/tc-fe-prep`, or you want to for
 
 ```bash
 cd ~/.helix/tc-fe-prep && git pull
-bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh   # Claude Code: helix@helix
+bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh   # Claude Code: helix@helix-dev
 bash ~/.helix/tc-fe-prep/scripts/link-skills.sh            # if symlinks missing
 ```
 
@@ -203,7 +203,7 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 
 ### Marketplace-only install (no `~/.helix` clone)
 
-If you only installed **`helix@helix`** from Claude marketplace (never ran `curl …/install.sh`):
+If you only installed **`helix@helix-dev`** from Claude marketplace (never ran `curl …/install.sh`):
 
 - **Plugin + hooks** can still update via SessionStart → `claude-plugin-sync.sh`
 - **Global skills** (`~/.cursor/skills`, etc.) need **`install.sh` once** so symlinks point at `~/.helix/tc-fe-prep`
@@ -270,9 +270,9 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 
 | Script | Purpose |
 |--------|---------|
-| [install.sh](scripts/install.sh) | One-time setup: clone, symlinks, `helix@helix`, hooks |
+| [install.sh](scripts/install.sh) | One-time setup: clone, symlinks, `helix@helix-dev`, hooks |
 | [helix-auto-update.sh](scripts/helix-auto-update.sh) | Check GitHub `VERSION`, pull, sync (SessionStart / manual) |
-| [claude-plugin-sync.sh](scripts/claude-plugin-sync.sh) | Update/enable `helix@helix`, disable `helix@local` |
+| [claude-plugin-sync.sh](scripts/claude-plugin-sync.sh) | Update/enable `helix@helix-dev`, disable `helix@local` |
 | [helix-doctor.sh](scripts/helix-doctor.sh) | Health check; `HELIX_DOCTOR_FIX=1` to repair |
 | [link-skills.sh](scripts/link-skills.sh) | Refresh global + workspace skill symlinks |
 | [export-markdown-table-to-csv.py](scripts/export-markdown-table-to-csv.py) | TC table → CSV (UTF-8 BOM) |
