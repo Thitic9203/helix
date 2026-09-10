@@ -6,13 +6,14 @@
     "name": "QA Lead"
   },
   "license": "MIT",
-  "keywords": ["qa", "jira", "test-cases", "retest", "playwright", "create-bug", "github", "helix"],
+  "keywords": ["qa", "jira", "test-cases", "retest", "playwright", "create-bug", "github", "helix", "audit", "catch-ai"],
   "skills": [
     "./skills/helix",
     "./skills/tc-fe-prep-workflow",
     "./skills/tc-api-prep-workflow",
     "./skills/retest-bug-workflow",
     "./skills/testing-ticket-workflow",
-    "./skills/create-bug-workflow"
+    "./skills/create-bug-workflow",
+    "./skills/catch-ai-workflow"
   ]
 }
