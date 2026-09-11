@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.88** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.89** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, and **Jira bug retests** — one entry menu across tools.
 
@@ -52,7 +52,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 5 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 6 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -100,6 +100,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Retest a bug after a fix | `/retest-bug` | `retest-bug-workflow` |
 | Playwright test for one ticket | `/testing-ticket` | `testing-ticket-workflow` |
 | File bugs on Jira or GitHub | `/create-bug` | `create-bug-workflow` |
+| Audit finished work (self-check, second opinion) | `/catch-ai` | `catch-ai-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -118,7 +119,7 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–6 (TC FE, TC API, retest, testing ticket, create bug, other) and routes to the same workflows as the table above.
+The menu offers options 1–7 (TC FE, TC API, retest, testing ticket, create bug, catch AI, other) and routes to the same workflows as the table above.
 
 ### First run tips
 
@@ -245,6 +246,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
 | [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
+| [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 
 **Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, … via `commands/`.
 

@@ -15,13 +15,14 @@ A source *governs* a claim only when it defines what that claim should be. A fil
 
 ## Evidence standard
 
-Every reported item carries all five, or it is not reported:
+Every reported item carries all six, or it is not reported:
 
 - **Expected** — the required value or behaviour, quoted verbatim, **with its governing source** (`Figma: <frame>`, `AC-3`, `swagger:/v1/users`, `path:line`), confirmed current (not superseded — Iron Law).
 - **Actual** — what was observed, quoted verbatim, with where (`path:line`, URL, endpoint, command).
 - **Reproduce** — the exact steps, command, or request that shows it again. **When the target is reachable through more than one entry point** (direct route, in-app navigation, deep link, API vs UI), this becomes a repro matrix — one row per entry point actually exercised, untried paths marked `not tested`, never inferred from another row ([defect-report-completeness.md](../../references/defect-report-completeness.md) §2).
 - **Environment** — branch/commit, environment, browser/viewport, data set — whenever the result can differ by any of them.
 - **Impact** — who or what breaks, concretely.
+- **Severity because** — the Severity-table row the finding matches, in the row's own words, so a second reviewer can re-derive the level from Impact and the table instead of taking the label on trust.
 
 **When actual is a deliberate change and the written expected simply was not updated to match** — the two-option resolution table replaces a bare Defect: one row for "the implemented behaviour is what's intended" (spec owner decides, source gets updated, no code change), one row for "the written expected stands" (dev changes the named surface). Name the exact surface to change and the parts that must not change; never edit the expected side yourself ([defect-report-completeness.md](../../references/defect-report-completeness.md) §4).
 
@@ -67,6 +68,8 @@ Modelled on the AC/EC coverage gate other Helix workflows already run ([qa-evide
 | Major | Core behaviour or a stated requirement is wrong; a correct-looking number is actually wrong |
 | Minor | Real but contained — cosmetic drift, wording, non-blocking inconsistency |
 | Question | Expected or actual side unconfirmed; needs the spec owner or missing access |
+
+A level the reader cannot re-derive from this table and the Impact line is a contested finding waiting to happen — the `Severity because` line in the Evidence standard is what closes it; a bare `[Major]` is a claim about the finding with nothing behind it.
 
 An **unsourced claim** is a defect in its own right when the deliverable declares where its content comes from — the finding is "this line is traceable to nothing", severity Major when the claim is load-bearing and Minor when it is incidental. Its correction is always "cite the source or remove the line". Never pair it with an asserted true value you could not observe; that value is a separate Question.
 
@@ -218,6 +221,7 @@ Coverage reconciliation: <n> items enumerated == <n> items classified
 - Reproduce: <steps or command — a matrix per entry point when more than one applies>
 - Environment: <branch/commit, env, viewport>
 - Impact: <who or what breaks>
+- Severity because: <the Severity-table row this matches, in the row's words>
 - Correction: <the fix, or the corrected statement>
 
 ## Questions (expected or actual side unconfirmed)

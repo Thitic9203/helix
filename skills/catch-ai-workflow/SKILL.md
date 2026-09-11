@@ -71,7 +71,7 @@ registry, the pre-delivery adversarial pass, and the report template: [reference
 
 | Situation | Classification |
 |---|---|
-| Actual differs from a quoted, sourced expected | **Defect** — with severity |
+| Actual differs from a quoted, sourced expected | **Defect** — with severity and the Severity-table row it matches |
 | Expected side cannot be confirmed | **Question** — never a defect |
 | Actual side cannot be observed | **Question** — say what access is missing |
 | Claim has no governing source, in a deliverable that declares its sources | **Defect (unsourced claim)** — cite it or remove it, never assert the true value |
@@ -116,6 +116,7 @@ registry, the pre-delivery adversarial pass, and the report template: [reference
 - An enumerated item from step 2 that step 7's reconciliation cannot find a classification for.
 - You have not yet read the finished report as a second reviewer with none of this session's memory.
 - A "Change" line that describes a fix in prose but shows no actual diff, snippet, or exact edit.
+- A severity label with no Severity-table row named behind it.
 
 ## QA closing (mandatory before "done")
 
@@ -123,7 +124,7 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + this work
 
 - [ ] Scope and out-of-scope stated.
 - [ ] Every enumerated item reconciles to exactly one classification (step 7) — none left unclassified.
-- [ ] Every defect carries Expected (with source), Actual, Reproduce (a matrix per entry point when more than one applies), Environment, Impact.
+- [ ] Every defect carries Expected (with source), Actual, Reproduce (a matrix per entry point when more than one applies), Environment, Impact, and a `Severity because` line naming the Severity-table row it matches.
 - [ ] Every unconfirmed item is a Question, not a defect; every source-vs-source conflict is a Question or a resolution-options table, not a guessed Defect.
 - [ ] Every fix carries a source that was opened in this session, or is labelled Judgment.
 - [ ] Every defect carries a prevention layer and a blast-radius check (who else consumes the changed code/field/route/token).
