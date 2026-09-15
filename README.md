@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.88** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.89** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
