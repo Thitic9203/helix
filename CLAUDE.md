@@ -20,6 +20,27 @@ Commands: `commands/helix.md` (canonical menu), plus one file per workflow.
 
 Version, CI, ship checklist, quality bar, new skill template → [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
+<!-- rule:token-context-budget v1 · ข้อความชุดเดียวกันทุก repo (มีฉบับไทยและอังกฤษ) · แก้ที่ใดต้องแก้ทุก repo -->
+## Token & context budget (กฎเหล็ก)
+
+**ความถูกต้องและความครบมาก่อนการประหยัดเสมอ** ห้ามข้ามการอ่านสเปก การรันเทสต์ การ verify หรือการเก็บหลักฐานเพื่อลด token
+ถ้าทางที่ถูกแพงกว่า ให้เลือกทางที่ถูกแล้วหาวิธีเดินทางนั้นให้ถูกลง · context ที่ใกล้เต็มทำให้โมเดลลืมคำสั่งช่วงต้นและพลาดง่ายขึ้น
+เพดาน 70% จึงเป็นเรื่องคุณภาพพอๆ กับเรื่องค่าใช้จ่าย
+
+**อ่านเท่าที่งานต้องใช้ ด้วยสกิลจัดการ context ที่ตรงงาน — เรียกเมื่อจำเป็น ไม่โหลดเผื่อ**
+- output ที่อาจใหญ่ (log · ผลเทสต์ · JSON · API · หน้าเว็บ · ไฟล์ข้อมูล) → สกิล `context-mode` (`ctx_execute` · `ctx_batch_execute` · `ctx_fetch_and_index` แล้ว `ctx_search`) ให้เข้า context เฉพาะคำตอบที่สรุปแล้ว · ไม่มีสกิลนี้ให้กรองก่อนอ่าน (`rtk` · `grep` · `jq` · `tail`)
+- โค้ด → หาตำแหน่งก่อนอ่าน (Grep/Glob หรือสกิล `smart-explore` ระดับ symbol) แล้ว Read เฉพาะช่วงด้วย offset/limit · ห้ามเปิดไฟล์ยาวทั้งไฟล์เมื่ออ่านแค่ช่วงก็พอ
+- สำรวจกว้างหลายไฟล์หรือหลายแหล่ง → ส่ง subagent อ่านแทน รับกลับเฉพาะข้อสรุปพร้อม `path:line` · ของที่รู้ตำแหน่งแล้วทำเองตรงๆ ถูกกว่า
+- หน้าเว็บใช้ข้อความหรือ accessibility tree ก่อน screenshot · ไม่อ่านไฟล์ที่เพิ่งเขียนเองซ้ำ · ไม่แปะเนื้อไฟล์ยาวในแชท ให้อ้าง path
+- สกิลที่โหลดแล้วใน session ไม่ต้องเรียกซ้ำ · tool call ที่ไม่ขึ้นต่อกันให้ส่งพร้อมกันในรอบเดียว
+
+**วัด context จริงทุกครั้งที่จบขั้นงานใหญ่ — ห้ามเดาเลข**
+- รวม `input_tokens + cache_creation_input_tokens + cache_read_input_tokens` ของ assistant message ล่าสุดใน transcript `~/.claude/projects/*/<session-id>.jsonl` (session-id อยู่ใน `$CLAUDE_SESSION_ID` หรือ `$CLAUDE_CODE_SESSION_ID`) แล้วหารด้วยขนาด context window ของโมเดล หรือให้ user รัน `/context` · วัดไม่ได้หรือไม่รู้ขนาด window ให้ถาม user
+- ถึง 60% → เขียน checkpoint ลงไฟล์: เสร็จอะไรแล้ว · หลักฐาน · ขั้นต่อไป · ไฟล์ที่ต้องอ่านต่อ
+- ถึง 70% → หยุดดึงข้อมูลดิบเข้า context งานอ่านที่เหลือส่ง subagent แล้วแจ้ง user พร้อมเสนอ `/compact <สิ่งที่ต้องเก็บ>` หรือเปิด session ใหม่ต่อจาก checkpoint
+
+**CLAUDE.md โหลดทุก session** → ใส่เฉพาะกฎที่ต้องใช้ทุกครั้งและเขียนให้สั้น · รายละเอียด ขั้นตอนยาว และประวัติเหตุการณ์ ย้ายไปสกิลหรือเอกสารที่อ่านเมื่อต้องใช้ พร้อมระบุว่าต้องอ่านเมื่อไร (เอกสารทางการแนะนำไม่เกิน 200 บรรทัด และไฟล์ที่ `@import` ยังโหลดตอนเริ่ม session)
+
 ## Helix-specific overrides for Rule #5
 
 ใน Helix project — ทำได้เลยไม่ต้องถาม:

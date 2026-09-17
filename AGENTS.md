@@ -45,6 +45,7 @@ Full procedures: `skills/deprecated/*/WORKFLOW.md` (loaded by each stub).
 - Work on the **issue key the user specifies**.
 - **Do not post to Jira** until the user approves drafts (unless waived).
 - Load project config from the user’s workspace `references/*-guide.md` when present.
+- **Token and context budget (iron rule):** correctness first, never skip verification to save tokens · read only what you need (search first, ranged reads, sandbox or filter large output, subagents for broad exploration) · keep session context under 70%, checkpoint at 60% · full rule in [CLAUDE.md](CLAUDE.md).
 
 ## More
 
