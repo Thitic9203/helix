@@ -1,8 +1,8 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.89** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.93** · [Releases](https://github.com/Thitic9203/helix/releases)
 
-Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, and **Jira bug retests** — one entry menu across tools.
+Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
 > **Scope & expectations**  
 > Helix is built for QA work with **clear boundaries**—a defined ticket, environment, inputs, and what “done” looks like. When the scope is vague or still in flux, you may need extra clarification rounds, and the output may require more review. Sharper scope upfront usually means stronger, faster results.
@@ -16,6 +16,7 @@ Portable skill pack for AI agents: **FE/API manual test-case prep** (with covera
 | **Retest Bug** | Verify a fix — API/UI, Swagger, evidence, comment, transition |
 | **Testing Ticket** | Intake → Playwright → summary in chat → optional result update elsewhere |
 | **Create Bug** | Jira/GitHub target + format + details → confirm → file and verify |
+| **Catch AI** | Audit finished work — your own output, a document, a report, or a feature — into sourced findings, open questions, coverage gaps, and a verdict |
 
 TC prep workflows include **AC/EC or spec/Swagger alignment review**, **ISTQB / ISO/IEC/IEEE 29119-3–aligned** quality checks, and **mandatory Jira post-publish review** before close-out (see [qa-evidence-gates.md](references/qa-evidence-gates.md)). FE prep also ends with a **four-axis final TC review report** (AC/EC alignment, spelling, numbering, scope).
 
@@ -119,7 +120,7 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–7 (TC FE, TC API, retest, testing ticket, create bug, catch AI, other) and routes to the same workflows as the table above.
+The menu offers options 1–7 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, other) and routes to the same workflows as the table above.
 
 ### First run tips
 
@@ -248,7 +249,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow`, whose procedure lives in its own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 
