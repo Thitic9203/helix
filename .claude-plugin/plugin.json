@@ -14,6 +14,7 @@
     "./skills/retest-bug-workflow",
     "./skills/testing-ticket-workflow",
     "./skills/create-bug-workflow",
-    "./skills/catch-ai-workflow"
+    "./skills/catch-ai-workflow",
+    "./skills/tc-review-workflow"
   ]
 }
