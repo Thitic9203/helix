@@ -101,7 +101,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Retest a bug after a fix | `/retest-bug` | `retest-bug-workflow` |
 | Playwright test for one ticket | `/testing-ticket` | `testing-ticket-workflow` |
 | File bugs on Jira or GitHub | `/create-bug` | `create-bug-workflow` |
-| Audit finished work (self-check) | `/catch-ai` | `catch-ai-workflow` |
+| Audit finished work (self-check, second opinion) | `/catch-ai` | `catch-ai-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -247,7 +247,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
 | [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
-| [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | — (self-contained) | Audit finished work → sourced findings, questions, coverage gaps, verdict |
+| [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
 
 **Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow`, whose procedure lives in its own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
