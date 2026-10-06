@@ -248,6 +248,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | — (self-contained) | Audit finished work → sourced findings, questions, coverage gaps, verdict |
+| [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
 
 **Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow`, whose procedure lives in its own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
