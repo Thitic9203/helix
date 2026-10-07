@@ -14,6 +14,14 @@ elif [ -x "$HOME/.helix/tc-fe-prep/scripts/helix-auto-update.sh" ]; then
   HELIX_QUIET=1 bash "$HOME/.helix/tc-fe-prep/scripts/helix-auto-update.sh" 2>/dev/null || true
 fi
 
+# Surface the last auto-update failure (written by helix-auto-update.sh, cleared by a clean run).
+update_tip=""
+_uerr="$HOME/.helix/last-update-error"
+if [ -s "$_uerr" ]; then
+  _last="$(tail -1 "$_uerr" 2>/dev/null | tr -cd 'A-Za-z0-9 ._:/()+=,-' | cut -c1-200)"
+  update_tip="\n\n---\n**Helix auto-update problem:** ${_last}. Tell the user once, briefly; details are in ~/.helix/auto-update.log, and a manual run is \`HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_VERBOSE=1 bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh\`."
+fi
+
 # One-time, consent-gated notice about the opt-in "fewer prompts" devenv config.
 # We do NOT silently change anyone's global ~/.claude settings — we only surface the
 # command so the user can choose. Shown at most 3 times, never once opted in.
@@ -45,7 +53,7 @@ if [ "${HELIX_PROACTIVE:-1}" != "0" ] && command -v git >/dev/null 2>&1; then
   esac
 fi
 
-session_context="<EXTREMELY_IMPORTANT>\n**Helix** QA workflows available via slash-commands below. Each command loads its workflow — not ad-hoc procedure.\n\n| Command | Workflow |\n|---------|----------|\n| \`/helix\` | Router menu |\n| \`/tc-fe-prep\` | FE test case prep |\n| \`/tc-api-prep\` | API test case prep |\n| \`/retest-bug\` | Retest a bug fix |\n| \`/testing-ticket\` | Playwright ticket test |\n| \`/create-bug\` | File a new bug |\n\nEvidence before claims: no done/passed without proof. English for user chat.\n</EXTREMELY_IMPORTANT>${devenv_tip}${proactive_tip}"
+session_context="<EXTREMELY_IMPORTANT>\n**Helix** QA workflows available via slash-commands below. Each command loads its workflow — not ad-hoc procedure.\n\n| Command | Workflow |\n|---------|----------|\n| \`/helix\` | Router menu |\n| \`/tc-fe-prep\` | FE test case prep |\n| \`/tc-api-prep\` | API test case prep |\n| \`/retest-bug\` | Retest a bug fix |\n| \`/testing-ticket\` | Playwright ticket test |\n| \`/create-bug\` | File a new bug |\n\nEvidence before claims: no done/passed without proof. Reply in the user's language.\n</EXTREMELY_IMPORTANT>${update_tip}${devenv_tip}${proactive_tip}"
 
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
   printf '{\n  "additional_context": "%s"\n}\n' "$session_context"
