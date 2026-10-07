@@ -20,3 +20,5 @@ node -e 'const fs=require("fs"),d="docs/plan/wayfinder-round-time/tickets",t={};
 ```
 
 When the map is finished, rename the folder with the `done_` prefix, matching the other plans in `docs/plan/`.
+
+Renaming this folder with the `done_` prefix is deferred until the live board session for this map ends, because the board reads ticket paths. This is a judgment call.

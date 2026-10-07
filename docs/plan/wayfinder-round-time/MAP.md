@@ -32,7 +32,7 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Approvals vs decisions](tickets/04-approvals-vs-decisions.md): all outward writes fold into one end approval; mid-run decisions take the documented bot-mode default and queue to the end (decisions popup, then one approval popup listing every action); the scope gate waits for the baseline.
 - [Intake persistence](tickets/05-intake-persistence.md): project values auto-saved to the workspace guide; per-ticket state in the handoff file every round; a fresh fingerprint check per source decides what to re-read.
 
-- [Baseline phase timing](tickets/01-baseline-phase-timing.md): median active round time is 68–78 min, and only about 1 in 6 rounds fits in 15 min. AI generation time is the biggest cost; test execution takes only 2–6 min.
+- [Baseline phase timing](tickets/01-baseline-phase-timing.md): median active round time is 68–78 min, and only 2 of 77 complete retest rounds fit in 15 min (18 of 110 if aborted runs are counted). AI generation time is the biggest cost; test execution takes only 2–6 min.
 - [15-minute budget](tickets/10-fifteen-minute-budget.md): the cap counts AGENT + EXEC time only and is soft (warn, then finish, report the overrun). Large scope fans out across agents. A B re-test is a new round. The AGENT target is about 10 min, against about 39 today.
 - [Per-gate timing](tickets/13-per-gate-timing.md): the named gates (Figma, MP4, review, guard, read, draft, edit) are only about 13–15% of AGENT + EXEC time and cost most in the tail; about 85% is unattributed. The comment edit loop is a post-then-fix pattern.
 
