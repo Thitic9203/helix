@@ -130,6 +130,8 @@ Record failures in the PR description; fix the skill reference, not the test sce
 - User-facing language: [references/user-communication.md](../references/user-communication.md).
 - Portable skills: [references/portable-content.md](../references/portable-content.md) — no real ticket IDs, no `/Users/...`, no `~/.helix` in `skills/` or `commands/`, no one-product env/commands (e.g. `pd3`, customer Playwright paths).
 
+Script tests: `bash scripts/tests/run.sh` runs every `scripts/tests/*.test.sh` against a throwaway copy of the repo and a throwaway `HOME` (version bump/sync, portable and secret guards, skill structure, link-skills, release-gated auto-update). CI runs it in both jobs. Add a `*.test.sh` next to them when you change a script.
+
 Quick check before commit (same as CI):
 
 ```bash

@@ -46,6 +46,10 @@ jobs:
           set -o pipefail
           chmod +x scripts/ci-check-skill-structure.sh
           ./scripts/ci-check-skill-structure.sh
+      - name: Script tests (scripts/tests)
+        run: |
+          set -o pipefail
+          bash scripts/tests/run.sh
       - name: Regression gate (skill files, links, version, permissions, Test.md)
         run: |
           set -o pipefail
@@ -120,6 +124,10 @@ jobs:
           chmod +x scripts/ci-check-skill-structure.sh
           ./scripts/ci-check-skill-structure.sh
 
+      - name: Script tests (scripts/tests)
+        run: |
+          set -o pipefail
+          bash scripts/tests/run.sh
       - name: Regression gate (skill files, links, version, permissions, Test.md)
         run: |
           set -o pipefail

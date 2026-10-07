@@ -15,6 +15,9 @@ REPO="${HELIX_REPO_DIR:-$HOME/.helix/tc-fe-prep}"
 STATE_DIR="${HELIX_STATE_DIR:-$HOME/.helix}"
 STAMP_FILE="$STATE_DIR/.last-auto-update-check"
 LOG_FILE="$STATE_DIR/auto-update.log"
+# Last failure of a step that should have worked; hooks/session-start surfaces it once per session.
+ERR_FILE="$STATE_DIR/last-update-error"
+ERRORS_THIS_RUN=0
 MIN_INTERVAL_SEC="${HELIX_AUTO_UPDATE_INTERVAL_SEC:-14400}"
 REMOTE_VERSION_URL="${HELIX_VERSION_URL:-https://raw.githubusercontent.com/Thitic9203/helix/main/VERSION}"
 MARKETPLACE_NAME="helix-dev"
@@ -27,6 +30,13 @@ log() {
   else
     echo "[helix-auto-update] $*" >>"$LOG_FILE" 2>/dev/null || true
   fi
+}
+
+note_error() {
+  ERRORS_THIS_RUN=$((ERRORS_THIS_RUN + 1))
+  log "ERROR: $*"
+  mkdir -p "$STATE_DIR" 2>/dev/null || true
+  printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >>"$ERR_FILE" 2>/dev/null || true
 }
 
 auto_update_disabled() {
@@ -78,10 +88,12 @@ refresh_after_pull() {
   local ver="$1"
   refresh_cache_symlink "$ver"
   if [ -x "$REPO/scripts/link-skills.sh" ]; then
-    HELIX_QUIET=1 bash "$REPO/scripts/link-skills.sh" >>"$LOG_FILE" 2>&1 || true
+    HELIX_QUIET=1 bash "$REPO/scripts/link-skills.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "link-skills.sh failed (exit $?) after updating to $ver"
   fi
   if [ -x "$REPO/scripts/claude-plugin-sync.sh" ]; then
-    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 || true
+    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "claude-plugin-sync.sh failed (exit $?) after updating to $ver"
   fi
 }
 
@@ -122,7 +134,7 @@ update_git_clone() {
   fi
   log "updating $local_ver -> release $target..."
   if ! git -C "$REPO" merge --ff-only "$tag" --quiet 2>>"$LOG_FILE"; then
-    log "fast-forward to $tag failed — local changes or diverged branch"
+    note_error "fast-forward to $tag failed (local changes or diverged branch in $REPO)"
     return 1
   fi
   refresh_after_pull "$target"
@@ -137,7 +149,8 @@ update_marketplace_only() {
     return 0
   fi
   if [ -x "$REPO/scripts/claude-plugin-sync.sh" ]; then
-    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 || true
+    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "claude-plugin-sync.sh failed (exit $?)"
   fi
   if claude plugin list 2>/dev/null | grep -A3 "helix@helix-dev" | grep -q "Version: $remote"; then
     log "helix@helix-dev already at $remote"
@@ -182,6 +195,11 @@ fi
 if [ "$UPDATED" -eq 1 ] && [ -f "$STATE_DIR/.devenv-opted-in" ] && [ -x "$REPO/scripts/helix-setup-devenv.sh" ]; then
   log "re-syncing opted-in devenv config..."
   bash "$REPO/scripts/helix-setup-devenv.sh" >>"$LOG_FILE" 2>&1 || log "devenv re-sync failed (non-fatal)"
+fi
+
+# A run that finished without a step failure clears the previous error notice.
+if [ "$ERRORS_THIS_RUN" -eq 0 ]; then
+  rm -f "$ERR_FILE" 2>/dev/null || true
 fi
 
 # Export hint for session-start (optional one-line user notice)
