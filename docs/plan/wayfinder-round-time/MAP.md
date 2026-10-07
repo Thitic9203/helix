@@ -30,9 +30,12 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Approvals vs decisions](tickets/04-approvals-vs-decisions.md): all outward writes fold into one end approval; mid-run decisions take the documented bot-mode default and queue to the end (decisions popup, then one approval popup listing every action); the scope gate waits for the baseline.
 - [Intake persistence](tickets/05-intake-persistence.md): project values auto-saved to the workspace guide; per-ticket state in the handoff file every round; a fresh fingerprint check per source decides what to re-read.
 
+- [Baseline phase timing](tickets/01-baseline-phase-timing.md): median active round time is 68–78 min, and only about 1 in 6 rounds fits in 15 min. AI generation time is the biggest cost; test execution takes only 2–6 min.
+
 ## Not yet specified
 
-- **Playwright per-case speed and flaky reruns.** Is execution itself slow (login, waits, serial steps), or is the cost the reruns? This waits for the baseline numbers.
+- **Cutting AI generation time.** This is the largest cost: what the agent reads, drafts, and re-checks each round, and why single turns run past 10 minutes. It needs a finer-grained measurement before it can be ticketed.
+- **Comment edit/re-post loop in retest.** There were 84 edits across 110 runs; the cause is unknown.
 - **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.
 - **Rollout order and spec shape.** The question is whether there is one spec for all flows or one per workflow, and which flow goes first.
 
