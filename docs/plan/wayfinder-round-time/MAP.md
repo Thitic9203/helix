@@ -45,10 +45,12 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Comment render check](tickets/16-comment-render-check.md): render locally and resolve every media reference before the end approval.
 - [Scripted vs agent-driven execution](tickets/17-scripted-execution.md): keep agent-driven browser steps. The 27% retest lever is accepted as a cost, so the cap now rests on fan-out.
 
+- [Agent fan-out for large scope](tickets/14-agent-fan-out.md): each lane owns its whole unit, and the main thread only merges. The reviewer runs in parallel with building the bundle and must be CLEAN before approval. Lanes = min(units, accounts) with no fixed cap. Fan out at 2 or more units.
+
+- [Spec shape, rollout and re-measure](tickets/18-spec-shape-rollout.md): one spec with a section per flow, rolled out to all flows at once; re-measured through per-round reports and a baseline re-run after 10 rounds per flow.
+
 ## Not yet specified
 
-- **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.
-- **Rollout order and spec shape.** The question is whether there is one spec for all flows or one per workflow, and which flow goes first.
 
 ## Out of scope
 
