@@ -28,7 +28,7 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
 
 ## Phased plan (alongside feature work)
 
-**Phase 1: quick wins, one small PR each, no approval gate**
+**Phase 1: quick wins — DONE 2026-10-07** (helix `eed65a9`, CI green; mirrored to ols-qa `458ee7c`). Shipped straight to `main` at the user's request. The portable check now uses `grep`, because `rg` turned out to be a shell function on the operator machine, not a binary.
 - #3: fail when `rg` is missing; scan `references/` too; add `mcp__Control_Chrome__` to the banned list.
 - #4: fix every skill count, and add the 2 missing skills to `helix-doctor.sh`.
 - #5: sync the tc-fe-prep stub description.
@@ -49,6 +49,6 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
 
 **Cost:** CI on a public repository runs on GitHub-hosted runners at no charge, so no item adds a new cost. Only #1 touches another repo (ols-qa).
 
-## Decision needed
+## Decisions
 
-- #7: which language rule is correct for **shipped** skill chat — English only, or "the user's language"? Project-local Thai rules (tc-fe-prep `:271`) look like ols-qa content brought in by the sync.
+- #7 (user, 2026-10-07): shipped skill chat follows **the user's language**; skill files stay English. Shipped in phase 1.
