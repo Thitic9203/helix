@@ -20,9 +20,9 @@ This spec is the Destination of [MAP.md](MAP.md). Every line below traces to a c
 
 | Flow | Median per round | Complete rounds already within 15 min |
 |---|---|---|
-| Retest | 44.7 min | 2 / 77 |
-| Story | 39.8 min | 1 / 16 testing |
-| Smoke | 23.1 min | 1 / 4 |
+| Retest | 48.9 min | 2 / 77 |
+| Story | 43.1 min (all testing: 64.7) | 1 / 16 (all testing) |
+| Smoke | 22.1 min | 1 / 4 |
 
 **Honest outlook.** No measured run proves these changes reach 15 minutes. The largest measured lever, scripted execution (about 27% of retest), was declined ([Scripted vs agent-driven execution](tickets/17-scripted-execution.md)). The route therefore rests on four things:
 
@@ -93,7 +93,7 @@ The post-publish re-read stays as the proof that the comment was posted.
 ### Test task / story
 
 - **Phase C becomes "show the plan and run".** Phase G result updates join the end approval bundle.
-- **Story has the largest human wait** (median 18 min). It is excluded from the cap, but removing the Phase C block and the mid-run waits is what shortens it.
+- **Story human wait has a median of 18.4 min.** It is excluded from the cap, but removing the Phase C block and the mid-run waits is what shortens it.
 - Sections 2–5 apply in full.
 
 ### Smoke test (lands in `ols-qa`)

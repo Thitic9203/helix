@@ -68,7 +68,7 @@ Decided with the user on 2026-10-07 (one AskUserQuestion popup, four questions),
 
 **Answers**
 
-1. **Human wait is excluded from the cap, and reported separately.** The 15 minutes covers AGENT + EXEC time only. Every round reports human-wait minutes on their own line. This narrows the Destination's original wording. Measured AGENT + EXEC medians today: retest 44.7 min (AGENT 39.2 + EXEC 5.5), story 39.8 min (AGENT 37.4 + EXEC 2.4), smoke 23.1 min (AGENT 17.7 + EXEC 5.4).
+1. **Human wait is excluded from the cap, and reported separately.** The 15 minutes covers AGENT + EXEC time only. Every round reports human-wait minutes on their own line. This narrows the Destination's original wording. Measured median of AGENT + EXEC per round today: retest 48.9 min, story 43.1 min, all testing 64.7 min, smoke 22.1 min (computed per run from the baseline raw data; corrected 2026-10-07, after the first version wrongly added the per-class medians).
 2. **Scope too large for one round: fan out across agents so the round still finishes in 15 minutes.** The round is not split, scope is not cut, and work does not stop. How work is divided across subagents is a new ticket, [Agent fan-out for large scope](14-agent-fan-out.md).
 3. **A "B re-test" chosen at the end opens a new round with its own 15 minutes.** No reserve is held inside the first round.
 4. **When the round nears 15 minutes: warn, then continue to completion.** The round is not cut. The overrun minutes are recorded in the round report. This is the user's choice of a soft cap over a hard stop.
