@@ -1,7 +1,7 @@
 ---
 type: research
 status: open
-assignee:
+assignee: research-agent (session 2026-10-07)
 blocked_by: []
 ---
 
