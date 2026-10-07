@@ -8,7 +8,7 @@ created: 2026-10-07
 
 ## Destination
 
-A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (task and story), and `smoke-test-workflow` (canonical in the `ols-qa` repo; its changes land there). The spec makes **every round finish within 15 minutes** (hard cap set by the user, 2026-10-07), measured from the start of the round to its close, including the time spent waiting on the human. Every change keeps the evidence standard in `references/qa-evidence-gates.md`, or changes it through a recorded decision. Execution happens after this map, through normal PRs.
+A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (task and story), and `smoke-test-workflow` (canonical in the `ols-qa` repo; its changes land there). The spec makes **every round finish within 15 minutes of AGENT + EXEC time** (set by the user, 2026-10-07). Time spent waiting on the human is excluded and reported separately. The cap is soft: near 15 minutes the round warns, then finishes, and the overrun is reported. Every change keeps the evidence standard in `references/qa-evidence-gates.md`, or changes it through a recorded decision. Execution happens after this map, through normal PRs.
 
 ## Notes
 
@@ -31,11 +31,10 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Intake persistence](tickets/05-intake-persistence.md): project values auto-saved to the workspace guide; per-ticket state in the handoff file every round; a fresh fingerprint check per source decides what to re-read.
 
 - [Baseline phase timing](tickets/01-baseline-phase-timing.md): median active round time is 68–78 min, and only about 1 in 6 rounds fits in 15 min. AI generation time is the biggest cost; test execution takes only 2–6 min.
+- [15-minute budget](tickets/10-fifteen-minute-budget.md): the cap counts AGENT + EXEC time only and is soft (warn, then finish, report the overrun). Large scope fans out across agents. A B re-test is a new round. The AGENT target is about 10 min, against about 39 today.
 
 ## Not yet specified
 
-- **Cutting AI generation time.** This is the largest cost: what the agent reads, drafts, and re-checks each round, and why single turns run past 10 minutes. It needs a finer-grained measurement before it can be ticketed.
-- **Comment edit/re-post loop in retest.** There were 84 edits across 110 runs; the cause is unknown.
 - **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.
 - **Rollout order and spec shape.** The question is whether there is one spec for all flows or one per workflow, and which flow goes first.
 

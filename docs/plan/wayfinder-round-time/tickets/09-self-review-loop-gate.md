@@ -2,7 +2,7 @@
 type: grilling
 status: open
 assignee: main-thread (session 2026-10-07 c)
-blocked_by: [01, 10]
+blocked_by: [01, 10, 13]
 ---
 
 # Self-review loop gate

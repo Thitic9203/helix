@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01]
 ---
@@ -59,3 +59,22 @@ Lanes are the throughput lever that comes before any of these (`references/paral
 **Reserve.** [Approvals vs decisions](04-approvals-vs-decisions.md) recorded that a "B re-test" answer in the decisions popup starts a second execution pass inside the cap. The allocation needs a named reserve for it, sized from the measured execution time per case.
 
 **Numbers needed before asking:** per flow, the median and max round time and its HUMAN-WAIT / AGENT-WORK / EXECUTION split; per-phase medians where labelled; cases per round; execution minutes per case.
+
+## Resolution
+
+Decided with the user on 2026-10-07 (one AskUserQuestion popup, four questions), using the numbers in [research/01-baseline.md](../research/01-baseline.md).
+
+**The fact the decision rests on.** Few complete rounds (closed, with real test execution) have ever fit 15 active minutes: retest 2 of 77, testing 1 of 16, smoke 1 of 4. Runs under 15 minutes that were not complete rounds (aborted, no execution) are not used as a template.
+
+**Answers**
+
+1. **Human wait is excluded from the cap, and reported separately.** The 15 minutes covers AGENT + EXEC time only. Every round reports human-wait minutes on their own line. This narrows the Destination's original wording. Measured AGENT + EXEC medians today: retest 44.7 min (AGENT 39.2 + EXEC 5.5), story 39.8 min (AGENT 37.4 + EXEC 2.4), smoke 23.1 min (AGENT 17.7 + EXEC 5.4).
+2. **Scope too large for one round: fan out across agents so the round still finishes in 15 minutes.** The round is not split, scope is not cut, and work does not stop. How work is divided across subagents is a new ticket, [Agent fan-out for large scope](14-agent-fan-out.md).
+3. **A "B re-test" chosen at the end opens a new round with its own 15 minutes.** No reserve is held inside the first round.
+4. **When the round nears 15 minutes: warn, then continue to completion.** The round is not cut. The overrun minutes are recorded in the round report. This is the user's choice of a soft cap over a hard stop.
+
+**Allocation.** The split stays at class level (AGENT vs EXEC) because the baseline has no per-gate breakdown. Hitting 15 minutes means cutting AGENT time from roughly 39 to roughly 10 minutes in retest and story. Which gates and phases give back those minutes is measured by [Per-gate timing](13-per-gate-timing.md) and decided in the Figma, MP4 and self-review gate tickets, which now wait on it.
+
+**Accepted cost (user):**
+- Under the soft cap, a round can still finish past 15 minutes; the overrun is reported rather than prevented.
+- Fanning out spends more tokens per round in exchange for wall-clock time.
