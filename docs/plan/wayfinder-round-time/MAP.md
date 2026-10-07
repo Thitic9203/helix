@@ -28,11 +28,11 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Cross-run login reuse](tickets/02-cross-run-login-reuse.md): reuse across runs is safe for one operator when files are named by account and a session check runs first; reuse across sessions needs an account lease. Picking the option is a separate ticket.
 - [Smoke-test scope](tickets/03-smoke-test-scope.md): in scope with the 15-minute cap; the spec has a separate smoke section, and its changes land in `ols-qa`, which counts as touching another repo.
 - [Approvals vs decisions](tickets/04-approvals-vs-decisions.md): all outward writes fold into one end approval; mid-run decisions take the documented bot-mode default and queue to the end (decisions popup, then one approval popup listing every action); the scope gate waits for the baseline.
+- [Intake persistence](tickets/05-intake-persistence.md): project values auto-saved to the workspace guide; per-ticket state in the handoff file every round; a fresh fingerprint check per source decides what to re-read.
 
 ## Not yet specified
 
 - **Playwright per-case speed and flaky reruns.** Is execution itself slow (login, waits, serial steps), or is the cost the reruns? This waits for the baseline numbers.
-- **Picking the Jira post format late.** PM-1 forced a re-post with v2 wiki. The open question is whether format selection can move to intake or the workspace guide.
 - **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.
 - **Rollout order and spec shape.** The question is whether there is one spec for all flows or one per workflow, and which flow goes first.
 
