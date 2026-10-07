@@ -1,7 +1,7 @@
 ---
 type: grilling
 status: open
-assignee:
+assignee: main-thread (session 2026-10-07 b)
 blocked_by: []
 ---
 
