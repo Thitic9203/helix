@@ -8,6 +8,8 @@ created: 2026-10-07
 
 ## Destination
 
+Reached: [SPEC.md](SPEC.md) (2026-10-07, all tickets closed).
+
 A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (task and story), and `smoke-test-workflow` (canonical in the `ols-qa` repo; its changes land there). The spec makes **every round finish within 15 minutes of AGENT + EXEC time** (set by the user, 2026-10-07). Time spent waiting on the human is excluded and reported separately. The cap is soft: near 15 minutes the round warns, then finishes, and the overrun is reported. Every change keeps the evidence standard in `references/qa-evidence-gates.md`, or changes it through a recorded decision. Execution happens after this map, through normal PRs.
 
 ## Notes
