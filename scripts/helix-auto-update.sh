@@ -105,7 +105,10 @@ update_git_clone() {
     return 1
   fi
   log "fetching origin/main and release tags..."
-  if ! git -C "$REPO" fetch origin main --tags --quiet 2>>"$LOG_FILE"; then
+  # Release tags on origin are authoritative for this install clone: force-update local tags
+  # (some installs carry stale v1.5.x tags that once pointed elsewhere, and a plain --tags fetch
+  # refuses with "would clobber existing tag").
+  if ! git -C "$REPO" fetch origin main '+refs/tags/v*:refs/tags/v*' --quiet 2>>"$LOG_FILE"; then
     note_error "git fetch from origin failed in $REPO (offline, proxy or TLS) — no update this session"
     return 1
   fi
