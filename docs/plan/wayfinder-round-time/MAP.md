@@ -8,11 +8,11 @@ created: 2026-10-07
 
 ## Destination
 
-A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (task and story), and `smoke-test-workflow` (pending its scope ticket). The spec makes **every round finish within 15 minutes** (hard cap set by the user, 2026-10-07), measured from the start of the round to its close, including the time spent waiting on the human. Every change keeps the evidence standard in `references/qa-evidence-gates.md`, or changes it through a recorded decision. Execution happens after this map, through normal PRs.
+A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (task and story), and `smoke-test-workflow` (canonical in the `ols-qa` repo; its changes land there). The spec makes **every round finish within 15 minutes** (hard cap set by the user, 2026-10-07), measured from the start of the round to its close, including the time spent waiting on the human. Every change keeps the evidence standard in `references/qa-evidence-gates.md`, or changes it through a recorded decision. Execution happens after this map, through normal PRs.
 
 ## Notes
 
-- Domain: Helix QA workflows. The canonical procedures are `skills/deprecated/{retest-bug,testing-ticket}-workflow/WORKFLOW.md`. Smoke test lives outside this repo (see [Smoke-test scope](tickets/03-smoke-test-scope.md)).
+- Domain: Helix QA workflows. The canonical procedures are `skills/deprecated/{retest-bug,testing-ticket}-workflow/WORKFLOW.md`. Smoke test's canonical source is the `ols-qa` repo (see [Smoke-test scope](tickets/03-smoke-test-scope.md)).
 - "Round time" is measured wall-clock from the first message to the closing action. It includes HUMAN-WAIT, AGENT-WORK, and EXECUTION phases.
 - **Standing preference (user, 2026-10-07):** measure the baseline before deciding. Every "recommended" option in a ticket must cite a measured number or a doc. Guesses are not allowed (global rules 17 and 25).
 - **Standing preference (user, 2026-10-07):** outward actions (post a comment, transition, assign, notify) collapse into **one approval at the end**. That approval shows the full bundle, listing every concrete action. Mid-run *decisions* are a separate question; see [Approvals vs decisions](tickets/04-approvals-vs-decisions.md).
@@ -26,6 +26,7 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 <!-- one line per closed ticket -->
 
 - [Cross-run login reuse](tickets/02-cross-run-login-reuse.md): reuse across runs is safe for one operator when files are named by account and a session check runs first; reuse across sessions needs an account lease. Picking the option is a separate ticket.
+- [Smoke-test scope](tickets/03-smoke-test-scope.md): in scope with the 15-minute cap; the spec has a separate smoke section, and its changes land in `ols-qa`, which counts as touching another repo.
 
 ## Not yet specified
 
