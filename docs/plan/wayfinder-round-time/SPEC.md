@@ -4,7 +4,7 @@ This spec is the Destination of [MAP.md](MAP.md). Every line below traces to a c
 
 - **Status:** decided 2026-10-07, not yet implemented.
 - **Rollout:** all flows at once ([Spec shape, rollout and re-measure](tickets/18-spec-shape-rollout.md)).
-- **Where changes land:** `skills/deprecated/{retest-bug,testing-ticket}-workflow/WORKFLOW.md` plus the `references/` files named below in this repo; smoke test changes land in the `ols-qa` repo.
+- **Where changes land:** `skills/procedures/{retest-bug,testing-ticket}-workflow/WORKFLOW.md` plus the `references/` files named below in this repo; smoke test changes land in the `ols-qa` repo.
 
 ## 1. Target
 
