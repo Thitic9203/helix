@@ -37,7 +37,7 @@ Full routing and handoffs: [references/skill-routing.md](references/skill-routin
 | [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | Playwright test for a ticket |
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | Open bug(s) on Jira/GitHub |
 
-Full procedures: `skills/deprecated/*/WORKFLOW.md` (loaded by each stub).
+Full procedures: `skills/procedures/*/WORKFLOW.md` (loaded by each stub).
 
 ## Rules
 

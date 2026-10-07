@@ -1,8 +1,8 @@
 # Challenge a non-PASS before you record it — the "wait, really?" gate
 
 Applies to **every** QA result that is not a clean PASSED — any test case, any ticket, in
-[testing-ticket-workflow](../skills/deprecated/testing-ticket-workflow/WORKFLOW.md),
-[retest-bug-workflow](../skills/deprecated/retest-bug-workflow/WORKFLOW.md), any per-case verdict
+[testing-ticket-workflow](../skills/procedures/testing-ticket-workflow/WORKFLOW.md),
+[retest-bug-workflow](../skills/procedures/retest-bug-workflow/WORKFLOW.md), any per-case verdict
 written to a sheet, comment, or notify, and any finding [catch-ai-workflow](../skills/catch-ai-workflow/SKILL.md)
 is about to classify as a Defect — §2's supersession check is that workflow's Iron Law, by name.
 

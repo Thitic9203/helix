@@ -32,7 +32,7 @@ version_staged=false
 echo "$STAGED" | grep -qx 'VERSION' && version_staged=true
 
 # Deploy contract: ANY change that affects the plugin — skill-tree markdown (SKILL.md flat,
-# WORKFLOW.md + references nested under skills/deprecated/<name>/**), commands, top-level
+# WORKFLOW.md + references nested under skills/procedures/<name>/**), commands, top-level
 # references, OR the tooling/CI itself (scripts/**, .github/workflows/**) — ships a new
 # version. Broad on purpose: never require a manual bump/release for an infra change.
 # (VERSION/manifests are the bump artifacts and are guarded by version_staged, not here.)

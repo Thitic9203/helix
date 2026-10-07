@@ -5,7 +5,7 @@ REPO="$(cd "$(dirname "$0")/.." && pwd)"
 
 find "$REPO/skills" -name SKILL.md \
   -not -path '*/in-progress/*' \
-  -not -path '*/deprecated/*' \
+  -not -path '*/procedures/*' \
   | while read -r f; do
   name=$(basename "$(dirname "$f")")
   desc=$(grep -m1 '^description:' "$f" | sed 's/^description: *//')

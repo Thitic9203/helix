@@ -32,7 +32,7 @@ link_into() {
 
   find "$SKILL_ROOT" -name SKILL.md \
     -not -path '*/in-progress/*' \
-    -not -path '*/deprecated/*' \
+    -not -path '*/procedures/*' \
     -print0 |
   while IFS= read -r -d '' skill_md; do
     local src name target link_target

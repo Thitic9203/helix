@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.99** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.100** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -242,15 +242,15 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | Skill (discovery stub) | Full procedure | Description |
 |------------------------|----------------|-------------|
 | [helix](skills/helix/SKILL.md) | — | Router menu (agents without `/helix`) |
-| [tc-fe-prep-workflow](skills/tc-fe-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/tc-fe-prep-workflow/WORKFLOW.md) | FE manual TC from story AC/EC |
-| [tc-api-prep-workflow](skills/tc-api-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/tc-api-prep-workflow/WORKFLOW.md) | API manual TC from spec + Swagger |
-| [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
-| [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
-| [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/deprecated/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
+| [tc-fe-prep-workflow](skills/tc-fe-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/tc-fe-prep-workflow/WORKFLOW.md) | FE manual TC from story AC/EC |
+| [tc-api-prep-workflow](skills/tc-api-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/tc-api-prep-workflow/WORKFLOW.md) | API manual TC from spec + Swagger |
+| [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/retest-bug-workflow/WORKFLOW.md) | Bug retest with evidence |
+| [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/testing-ticket-workflow/WORKFLOW.md) | Playwright ticket test + optional result update |
+| [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 

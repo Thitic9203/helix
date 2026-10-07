@@ -7,7 +7,7 @@ echo "=== Helix Regression Check ==="
 
 # 1. Skill files exist
 echo -n "[1/8] Skill files... "
-SKILLS=$(ls skills/*/SKILL.md skills/deprecated/*/WORKFLOW.md 2>/dev/null | wc -l | tr -d ' ')
+SKILLS=$(ls skills/*/SKILL.md skills/procedures/*/WORKFLOW.md 2>/dev/null | wc -l | tr -d ' ')
 [ "$SKILLS" -gt 0 ] && echo "OK ($SKILLS found)" || { echo "FAIL: no skills found"; exit 1; }
 
 # 2. Portable content
@@ -27,10 +27,10 @@ else
 fi
 
 # 4. Reference integrity — every linked reference file must still exist somewhere.
-# Note: repo layout (skills/deprecated/X/) differs from deployed layout (skills/X/),
+# Note: repo layout (skills/procedures/X/) differs from deployed layout (skills/X/),
 # so we check existence by basename across all references/ dirs rather than by exact
 # relative path. This catches renamed/deleted references (the real regression) without
-# false-failing on the deprecated/ depth mismatch.
+# false-failing on the procedures/ depth mismatch.
 echo -n "[4/8] Reference links... "
 EXISTING_REFS=$(find . -path '*/references/*.md' -not -path './.git/*' 2>/dev/null | sed -E 's#.*/##' | sort -u)
 MISSING=$(find skills -name '*.md' 2>/dev/null | while IFS= read -r f; do

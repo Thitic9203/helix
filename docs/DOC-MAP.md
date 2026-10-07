@@ -14,7 +14,7 @@ Use this map to avoid duplicating content across markdown files.
 | `/helix` menu text | [commands/helix.md](../commands/helix.md) | AGENTS.md (link only), README (summary table OK) |
 | Menu opening block (verbatim) | [references/menu-text.md](../references/menu-text.md) | Duplicate in helix SKILL / commands |
 | Workflow discovery stub | `skills/{name}/SKILL.md` | Full procedure in stub body |
-| Workflow procedure (canonical) | `skills/deprecated/{name}/WORKFLOW.md` | Duplicate steps in commands |
+| Workflow procedure (canonical) | `skills/procedures/{name}/WORKFLOW.md` | Duplicate steps in commands |
 | Slash command → skill | [commands/*.md](../commands/) | SKILL.md bodies |
 | Chat language (follows the user) | [references/user-communication.md](../references/user-communication.md) | Full rule text in every skill (link + 1 line) |
 | Workspace guide discovery | [references/workspace-guide-discovery.md](../references/workspace-guide-discovery.md) | Per-workflow glob tables in skills |
@@ -52,13 +52,13 @@ Use this map to avoid duplicating content across markdown files.
 | CSV export | [references/csv-export-rules.md](../references/csv-export-rules.md) | tc-fe / tc-api skills (in-agent default) |
 | Test.md format (agent-native) | [references/test-md-format.md](../references/test-md-format.md) | tc-fe / tc-api delivery options, csv-export-rules |
 | TC quality (ISTQB / 29119-3) | [references/tc-quality-standards.md](../references/tc-quality-standards.md) | Full checklist duplicated in skills |
-| FE AC/EC coverage review | [skills/deprecated/tc-fe-prep-workflow/references/ac-ec-coverage-review.md](../skills/deprecated/tc-fe-prep-workflow/references/ac-ec-coverage-review.md) | Step 4 body |
-| API spec/Swagger review | [skills/deprecated/tc-api-prep-workflow/references/spec-coverage-review.md](../skills/deprecated/tc-api-prep-workflow/references/spec-coverage-review.md) | Phase E body |
+| FE AC/EC coverage review | [skills/procedures/tc-fe-prep-workflow/references/ac-ec-coverage-review.md](../skills/procedures/tc-fe-prep-workflow/references/ac-ec-coverage-review.md) | Step 4 body |
+| API spec/Swagger review | [skills/procedures/tc-api-prep-workflow/references/spec-coverage-review.md](../skills/procedures/tc-api-prep-workflow/references/spec-coverage-review.md) | Phase E body |
 | Skill routing / handoffs | [references/skill-routing.md](../references/skill-routing.md) | Per-skill Handoff tables |
 | Proactive QA triggers (suggest-only) | [references/proactive-qa-triggers.md](../references/proactive-qa-triggers.md) | helix SKILL.md, skill-routing |
 | Session constraint recital | [references/helix-session-constraints.md](../references/helix-session-constraints.md) | Full block pasted in every skill |
 | CI portable-content guard | [scripts/ci-check-portable-skills.sh](../scripts/ci-check-portable-skills.sh) | Ad-hoc grep in skills |
-| New skill template | [docs/new-skill-template.md](new-skill-template.md) | `skills/deprecated/retest-bug-workflow/references/new-skill-template.md` (stub only) |
+| New skill template | [docs/new-skill-template.md](new-skill-template.md) | `skills/procedures/retest-bug-workflow/references/new-skill-template.md` (stub only) |
 | Markdown table → CSV | [scripts/export-markdown-table-to-csv.py](../scripts/export-markdown-table-to-csv.py) | Inline CSV logic in tc-fe/tc-api skills |
 | Markdown table → Test.md | [scripts/export-test-md.py](../scripts/export-test-md.py) | Inline Test.md logic; spec lives in test-md-format.md |
 | Domain glossary | [CONTEXT.md](../CONTEXT.md) | README, skills |
@@ -78,7 +78,7 @@ Mirror [docs/wiki/Home.md](wiki/Home.md) to the repo **Wiki** tab, or link users
 
 ## Per-skill references
 
-Deep detail lives under `skills/deprecated/<name>/references/` (next to the canonical `WORKFLOW.md`). The `WORKFLOW.md` should **link** there, not copy long checklists.
+Deep detail lives under `skills/procedures/<name>/references/` (next to the canonical `WORKFLOW.md`). The `WORKFLOW.md` should **link** there, not copy long checklists.
 
 | Skill | References |
 |-------|------------|
@@ -91,4 +91,4 @@ Deep detail lives under `skills/deprecated/<name>/references/` (next to the cano
 ## Commands vs skills
 
 - **commands/** — thin frontmatter: read and follow the workflow SKILL.md, English only, short (most are 11–15 lines; `helix.md` holds the menu).
-- **skills/{name}/SKILL.md** — discovery stub; **skills/deprecated/{name}-workflow/WORKFLOW.md** — full procedure and gates (except `catch-ai-workflow` and `tc-review-workflow`, which are self-contained).
+- **skills/{name}/SKILL.md** — discovery stub; **skills/procedures/{name}-workflow/WORKFLOW.md** — full procedure and gates (except `catch-ai-workflow` and `tc-review-workflow`, which are self-contained).

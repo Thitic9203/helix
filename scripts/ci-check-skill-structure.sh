@@ -35,7 +35,7 @@ while IFS= read -r name; do
     log_err "skills/$name exists but is not in plugin.json skills array"
   fi
 done < <(find skills -mindepth 1 -maxdepth 1 -type d \
-  ! -name in-progress ! -name deprecated -exec basename {} \; | sort)
+  ! -name in-progress ! -name procedures -exec basename {} \; | sort)
 
 for name in "${PLUGIN_SKILLS[@]}"; do
   if [ ! -d "skills/$name" ]; then
@@ -73,7 +73,7 @@ while IFS= read -r f; do
   check_skill_file "$f"
 done < <(find skills -name SKILL.md \
   -not -path '*/in-progress/*' \
-  -not -path '*/deprecated/*')
+  -not -path '*/procedures/*')
 
 if [ "$FAIL" -ne 0 ]; then
   echo "skill structure check failed"

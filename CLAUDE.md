@@ -12,7 +12,7 @@
 |-------|------|
 | Helix (unified router) | `skills/helix/` |
 | Workflow discovery stubs | `skills/{name}-workflow/SKILL.md` |
-| Workflow procedures (canonical) | `skills/deprecated/{name}-workflow/WORKFLOW.md` |
+| Workflow procedures (canonical) | `skills/procedures/{name}-workflow/WORKFLOW.md` |
 
 Commands: `commands/helix.md` (canonical menu), plus one file per workflow.
 
@@ -62,7 +62,7 @@ Version, CI, ship checklist, quality bar, new skill template → [docs/CONTRIBUT
 
 ### Naming & Structure
 - Skill directory: skills/{name}/ + SKILL.md (discovery stub for workflows)
-- Workflow procedure: skills/deprecated/{name}-workflow/ + WORKFLOW.md
+- Workflow procedure: skills/procedures/{name}-workflow/ + WORKFLOW.md
 - Command file: commands/{name}.md (thin entry, frontmatter + read SKILL.md)
 - Reference file: references/{descriptive-name}.md (kebab-case)
 - Branch: feat/{name}, fix/{name}, chore/{name}
