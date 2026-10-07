@@ -12,6 +12,12 @@ on:
 permissions:
   contents: write
 
+# One run per ref at a time: two quick pushes to main must not both bump to the same version.
+# Queue instead of cancel, so every push still gets its bump/verify/release.
+concurrency:
+  group: version-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   pr-check:
     if: github.event_name == 'pull_request'
@@ -40,6 +46,11 @@ jobs:
           set -o pipefail
           chmod +x scripts/ci-check-skill-structure.sh
           ./scripts/ci-check-skill-structure.sh
+      - name: Regression gate (skill files, links, version, permissions, Test.md)
+        run: |
+          set -o pipefail
+          chmod +x scripts/helix-regression-check.sh
+          ./scripts/helix-regression-check.sh
       - name: Warn if merge will trigger CI patch bump
         env:
           BASE_REF: origin/${{ github.base_ref }}
@@ -108,6 +119,12 @@ jobs:
           set -o pipefail
           chmod +x scripts/ci-check-skill-structure.sh
           ./scripts/ci-check-skill-structure.sh
+
+      - name: Regression gate (skill files, links, version, permissions, Test.md)
+        run: |
+          set -o pipefail
+          chmod +x scripts/helix-regression-check.sh
+          ./scripts/helix-regression-check.sh
 
       - name: Push version bump to main
         if: steps.bump.outputs.bumped == 'true'

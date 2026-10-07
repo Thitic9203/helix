@@ -100,7 +100,7 @@ Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/referenc
 
 ## Update — auto-update (default)
 
-**You usually do not need to run `git pull`.** After install, Helix checks GitHub `main` for a newer [VERSION](https://github.com/Thitic9203/helix/blob/main/VERSION) when you start a new session (at most every **4 hours** per machine).
+**You usually do not need to run `git pull`.** After install, Helix checks GitHub for a newer **release tag** (created only after CI passes on `main`) when you start a new session, and fast-forwards to it — never to unreleased `main` (at most every **4 hours** per machine).
 
 | Trigger | Action |
 |---------|--------|

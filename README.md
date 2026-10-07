@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.98** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.99** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -135,7 +135,7 @@ Releases: [github.com/Thitic9203/helix/releases](https://github.com/Thitic9203/h
 
 ### Default: auto-update (recommended)
 
-After a **one-time** [install](#install-one-time), you usually **do not** run `git pull` yourself. When we publish a new version on `main`, your machine catches up on the **next agent session** (throttled to at most once every **4 hours**):
+After a **one-time** [install](#install-one-time), you usually **do not** run `git pull` yourself. When a new version is **released** (a `vX.Y.Z` tag, created only after CI passes on `main`), your machine catches up on the **next agent session** (throttled to at most once every **4 hours**):
 
 | Trigger | What runs |
 |---------|-----------|
@@ -143,9 +143,9 @@ After a **one-time** [install](#install-one-time), you usually **do not** run `g
 | New **Cursor** session (Helix hooks active) | same |
 | You run `git pull` in `~/.helix/tc-fe-prep` | [scripts/hooks/post-merge](scripts/hooks/post-merge) → refresh symlinks + [claude-plugin-sync](scripts/claude-plugin-sync.sh) |
 
-**Auto-update steps (when `VERSION` on GitHub is newer):**
+**Auto-update steps (when a newer release tag exists):**
 
-1. `git pull --ff-only` in `~/.helix/tc-fe-prep` (skill symlinks pick up new `SKILL.md` immediately)
+1. Fetch `main` and tags, then fast-forward `~/.helix/tc-fe-prep` to the newest release tag — never to unreleased `main` (skill symlinks pick up new `SKILL.md` immediately)
 2. `link-skills.sh` (refresh global + optional workspace symlinks)
 3. `claude plugin update helix@helix-dev` (Claude Code marketplace plugin + hooks)
 

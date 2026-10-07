@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with GitHub main.
+# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with the
+# newest GitHub release tag (never an unreleased main).
 #
 # Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron.
 # Opt out: HELIX_AUTO_UPDATE=0
@@ -85,32 +86,47 @@ refresh_after_pull() {
 }
 
 update_git_clone() {
-  local remote="$1"
+  # Release-gated: move the clone only to the newest published release tag (vX.Y.Z), never to an
+  # unreleased main. The publish job creates a tag only after every CI check passed, so a red main
+  # (e.g. 1.5.89-1.5.92, 2026-09) never reaches users.
   if [ ! -d "$REPO/.git" ]; then
     return 1
   fi
-  log "fetching origin/main..."
-  if ! git -C "$REPO" fetch origin main --quiet 2>>"$LOG_FILE"; then
+  log "fetching origin/main and release tags..."
+  if ! git -C "$REPO" fetch origin main --tags --quiet 2>>"$LOG_FILE"; then
     log "fetch failed (offline?)"
     return 1
   fi
-  local origin_ver
-  origin_ver=$(git -C "$REPO" show origin/main:VERSION 2>/dev/null | tr -d '[:space:]' || true)
-  [ -n "$origin_ver" ] && remote="$origin_ver"
-  local local_ver
-  local_ver=$(local_version)
-  if [ "$local_ver" = "$remote" ]; then
-    log "clone already at $remote"
-    refresh_cache_symlink "$remote"
-    return 2
-  fi
-  log "pulling $local_ver -> $remote..."
-  if ! git -C "$REPO" pull --ff-only origin main --quiet 2>>"$LOG_FILE"; then
-    log "pull failed — local changes or offline"
+  local tag
+  tag=$(git -C "$REPO" tag -l 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -1)
+  if [ -z "$tag" ]; then
+    log "no release tag found — skip (never pull unreleased main)"
     return 1
   fi
-  refresh_after_pull "$remote"
-  log "clone updated to $remote"
+  if ! git -C "$REPO" merge-base --is-ancestor "$tag" origin/main 2>/dev/null; then
+    log "release $tag is not on origin/main — skip"
+    return 1
+  fi
+  local target="${tag#v}"
+  TARGET_VERSION="$target"
+  local local_ver
+  local_ver=$(local_version)
+  if [ "$local_ver" = "$target" ]; then
+    log "clone already at release $target"
+    refresh_cache_symlink "$target"
+    return 2
+  fi
+  if git -C "$REPO" merge-base --is-ancestor "$tag" HEAD 2>/dev/null; then
+    log "clone ($local_ver) is already past release $target — nothing to do"
+    return 2
+  fi
+  log "updating $local_ver -> release $target..."
+  if ! git -C "$REPO" merge --ff-only "$tag" --quiet 2>>"$LOG_FILE"; then
+    log "fast-forward to $tag failed — local changes or diverged branch"
+    return 1
+  fi
+  refresh_after_pull "$target"
+  log "clone updated to release $target"
   return 0
 }
 
@@ -149,11 +165,13 @@ if [ -z "$REMOTE" ]; then
 fi
 
 UPDATED=0
+TARGET_VERSION=""
 if [ -d "$REPO/.git" ]; then
-  update_git_clone "$REMOTE"
-  pull_rc=$?
+  pull_rc=0
+  update_git_clone || pull_rc=$?
   if [ "$pull_rc" -eq 0 ]; then
     UPDATED=1
+    REMOTE="$TARGET_VERSION"
   fi
 else
   update_marketplace_only "$REMOTE"
