@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01]
 ---
@@ -18,3 +18,13 @@ The options and their facts are already in [research/02-login-reuse.md](../resea
 - login and OTP wall-clock per role, median and max (from ticket 01);
 - which staging accounts use OTP, whether they share an inbox, and whether the app is single-session. These are the account-pool facts that the project guide does not record yet. Until they are verified, a per-account-type mix (D for no-OTP, B for OTP) cannot be scoped;
 - the lane interaction: lane-named `storageState-{Lx}.json` blocks reuse today (`references/parallel-test-lanes.md:24`, `:88`). Any choice B or C has to rename by env + role + account, as ticket 02 resolved.
+
+## Resolution
+
+Decided with the user on 2026-10-07. Measured login time from the baseline: median 0.6 min (retest), 2.0 min (testing), 0.8 min (smoke), with a tail up to 67–69 min. **Option B: reuse saved logins across runs for one operator.** The conditions come from [research/02-login-reuse.md](../research/02-login-reuse.md):
+- the file is named `{auth dir from guide}/{env}-{role}-{alias}.json`, replacing the lane-named `storageState-{Lx}.json` (`references/parallel-test-lanes.md:24`);
+- the file is gitignored;
+- the session endpoint must confirm the expected user before any result counts;
+- if that check fails, the run logs in fresh and overwrites the file.
+
+C (a lease across sessions) and D (API login) were not chosen, so concurrent sessions must not share an account. Accepted cost (user): a login file stays on the operator's disk between runs.

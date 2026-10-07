@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01]
 ---
@@ -20,3 +20,7 @@ The three options are already stated in the question (stay blocking · show the 
 - how often a scope correction after execution forced a re-run, and the minutes it cost.
 
 The gate exists because "runs and writes are costly to undo" (testing `WORKFLOW.md:24`). Under [Approvals vs decisions](04-approvals-vs-decisions.md), no outward write happens before the end approval, so a wrong-scope run costs execution minutes, not an outward write. That cost is the figure to measure.
+
+## Resolution
+
+Decided with the user on 2026-10-07. **Show the plan and run.** The case list and lane plan are printed and execution starts without waiting. The plan rides in the end-of-round decisions popup from [Approvals vs decisions](04-approvals-vs-decisions.md), where the user can correct it. This removes one blocking human touch per round. The basis: the user wants fewer questions overall, and no outward write happens before the end approval, so a wrong-scope run costs only execution minutes. Those minutes count toward the cap, and the user correcting the scope in the end popup triggers a new round ([15-minute budget](10-fifteen-minute-budget.md), point 3). How often scope corrections happen is unmeasured. Accepted risk (user): a wrong-scope run wastes execution time instead of being caught before it starts.

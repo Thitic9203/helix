@@ -40,6 +40,11 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [Self-review loop gate](tickets/09-self-review-loop-gate.md): skip the posted-body guard when the post is byte-identical to the guarded draft. The reviewer loop is unchanged and stays about 15 min when present.
 - [Unattributed agent time](tickets/15-unattributed-agent-time.md): generation is about 60% of AGENT + EXEC, and MCP browser driving is about 27% of retest, the largest lever. Repeated work is under 1%.
 
+- [Login reuse option](tickets/11-login-reuse-option.md): B, reuse per operator across runs, with files named by env, role and account and a session check first; no cross-session sharing.
+- [Scope gate timing](tickets/12-scope-gate-timing.md): show the plan and run; the plan rides in the end decisions popup.
+- [Comment render check](tickets/16-comment-render-check.md): render locally and resolve every media reference before the end approval.
+- [Scripted vs agent-driven execution](tickets/17-scripted-execution.md): keep agent-driven browser steps. The 27% retest lever is accepted as a cost, so the cap now rests on fan-out.
+
 ## Not yet specified
 
 - **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.
