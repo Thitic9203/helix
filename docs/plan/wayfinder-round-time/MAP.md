@@ -13,7 +13,7 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 ## Notes
 
 - Domain: Helix QA workflows. The canonical procedures are `skills/deprecated/{retest-bug,testing-ticket}-workflow/WORKFLOW.md`. Smoke test's canonical source is the `ols-qa` repo (see [Smoke-test scope](tickets/03-smoke-test-scope.md)).
-- "Round time" is measured wall-clock from the first message to the closing action. It includes HUMAN-WAIT, AGENT-WORK, and EXECUTION phases.
+- "Round time" against the cap = AGENT-WORK + EXECUTION. HUMAN-WAIT is reported on its own line (see [15-minute budget](tickets/10-fifteen-minute-budget.md)).
 - **Standing preference (user, 2026-10-07):** measure the baseline before deciding. Every "recommended" option in a ticket must cite a measured number or a doc. Guesses are not allowed (global rules 17 and 25).
 - **Standing preference (user, 2026-10-07):** outward actions (post a comment, transition, assign, notify) collapse into **one approval at the end**. That approval shows the full bundle, listing every concrete action. Mid-run *decisions* are a separate question; see [Approvals vs decisions](tickets/04-approvals-vs-decisions.md).
 - **Standing preference (user, 2026-10-07):** skip anything that is not important, so that each round fits in 15 minutes. The agent does not decide what is unimportant. Each skip candidate goes to the user with its measured cost and what it would stop catching. The user decides, and each skip is recorded as an accepted risk in the resulting spec (global rule 7).
