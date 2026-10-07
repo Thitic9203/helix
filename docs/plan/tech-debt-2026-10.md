@@ -41,7 +41,14 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
 - #2: auto-update follows the latest release tag instead of `main`. This changes `helix-auto-update.sh`, which affects every user.
 - #6 and #8: add a `concurrency:` group to `version.yml` and run the regression gate in CI. This edits `.github/workflows/`.
 
-**Phase 3: larger refactors, scheduled deliberately**
+**Phase 3 — mostly DONE 2026-10-07** (approved by the user)
+- #14 done: `skills/deprecated/` was renamed to `skills/procedures/` in lockstep, helix `f877486` and ols-qa `ea70c78`. All 46 ols-qa suites pass, and the link check found no new breaks.
+- #12 done: added `scripts/tests/` with 29 checks, mutation-checked, and run in CI (helix `450a992`, CI green).
+- #10 done, in part: update-chain failures are now recorded and surfaced by session-start (`450a992`). The install path `~/.helix/tc-fe-prep` stays, because moving it would break every existing install.
+- #13 **deferred**: the map session's `feat/round-time-spec` is editing the same WORKFLOW files. Dedupe after that branch merges.
+- Incident found while doing #14: the ols-qa sync committed onto that feature branch (`cc9b698`, carrying an older `references/non-pass-challenge-gate.md`), because it assumed helix was on main. The sync now refuses unless helix is on `main` (ols-qa `d024676`, plus a test), and ols-qa has helix's newer file. **Follow-up:** when `feat/round-time-spec` merges, restore the catch-ai "Defect" scope line in `references/non-pass-challenge-gate.md` on main.
+
+Original phase 3 scope:
 - #12: a minimal test harness for bump, sync-version, check-no-secrets and link-skills.
 - #13: replace the copied blocks with links to `references/root-cause-investigation.md` and `references/non-pass-challenge-gate.md`.
 - #10: remove the legacy path and make the update-chain failures visible.
