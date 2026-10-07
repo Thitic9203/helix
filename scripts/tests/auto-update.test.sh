@@ -41,6 +41,11 @@ printf '%s' "$out2" | python3 -c "import json,sys; json.load(sys.stdin)" 2>/dev/
 fresh_clone v1.0.0; run_au
 [ ! -e "$W/state/last-update-error" ] && ok "the next clean run clears the notice" || fail "notice survived a clean run"
 
+fresh_clone v1.0.0
+HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_FORCE_UPDATE=1 \
+  HELIX_VERSION_URL="https://127.0.0.1:9/unreachable" bash "$AU" >/dev/null 2>&1
+[ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && ok "a clone install updates even when the VERSION URL is unreachable (curl/TLS failure)" || fail "unreachable VERSION URL left the clone at $(cat "$W/clone/VERSION")"
+
 fresh_clone main; run_au
 [ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a clone ahead of the release is never moved back" || fail "clone moved back to $(cat "$W/clone/VERSION")"
 finish

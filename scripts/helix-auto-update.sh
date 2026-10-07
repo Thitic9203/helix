@@ -106,7 +106,7 @@ update_git_clone() {
   fi
   log "fetching origin/main and release tags..."
   if ! git -C "$REPO" fetch origin main --tags --quiet 2>>"$LOG_FILE"; then
-    log "fetch failed (offline?)"
+    note_error "git fetch from origin failed in $REPO (offline, proxy or TLS) — no update this session"
     return 1
   fi
   local tag
@@ -171,15 +171,13 @@ if ! should_run_check; then
 fi
 mark_checked
 
-REMOTE="$(remote_version_curl || true)"
-if [ -z "$REMOTE" ]; then
-  log "could not read remote VERSION (skip)"
-  exit 0
-fi
-
 UPDATED=0
 TARGET_VERSION=""
+REMOTE=""
 if [ -d "$REPO/.git" ]; then
+  # Clone installs need no HTTP probe: git fetch reads the release tags directly. The old curl
+  # probe failed on machines whose curl cannot verify TLS (e.g. a MacPorts curl behind TLS
+  # inspection) and silently skipped every update.
   pull_rc=0
   update_git_clone || pull_rc=$?
   if [ "$pull_rc" -eq 0 ]; then
@@ -187,7 +185,12 @@ if [ -d "$REPO/.git" ]; then
     REMOTE="$TARGET_VERSION"
   fi
 else
-  update_marketplace_only "$REMOTE"
+  REMOTE="$(remote_version_curl || true)"
+  if [ -z "$REMOTE" ]; then
+    note_error "could not read the remote VERSION from $REMOTE_VERSION_URL (curl failed; check proxy or TLS settings)"
+  else
+    update_marketplace_only "$REMOTE"
+  fi
 fi
 
 # If the user opted into the global devenv config (via scripts/helix-setup-devenv.sh),
