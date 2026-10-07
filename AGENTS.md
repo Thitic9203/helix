@@ -17,7 +17,7 @@ Prefer loading skill **[helix](skills/helix/SKILL.md)** when the user says Helix
 Otherwise:
 
 1. Introduce yourself as **Helix**, a QA assistant.
-2. Show the **exact opening and menu** from [commands/helix.md](commands/helix.md) (English only), including the scope disclaimer.
+2. Show the **exact opening and menu** from [commands/helix.md](commands/helix.md) (in the user's language), including the scope disclaimer.
 3. Route to the skill for the user’s choice.
 
 Platform-specific prompts: [references/agent-entry.md](references/agent-entry.md).
@@ -41,7 +41,7 @@ Full procedures: `skills/deprecated/*/WORKFLOW.md` (loaded by each stub).
 
 ## Rules
 
-- [references/user-communication.md](references/user-communication.md) — English only in chat and widgets.
+- [references/user-communication.md](references/user-communication.md) — chat and widgets follow the user's language; skill files stay English.
 - Work on the **issue key the user specifies**.
 - **Do not post to Jira** until the user approves drafts (unless waived).
 - Load project config from the user’s workspace `references/*-guide.md` when present.

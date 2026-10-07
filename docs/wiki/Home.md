@@ -2,7 +2,7 @@
 
 > **Canonical docs:** [README](https://github.com/Thitic9203/helix/blob/main/README.md) on `main`. **Keep this wiki in sync** when install/update/plugin behaviour changes.
 
-**Version:** 1.5.31 · [VERSION file](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
+**Version:** see the [VERSION file](https://github.com/Thitic9203/helix/blob/main/VERSION) · **Releases:** [releases](https://github.com/Thitic9203/helix/releases)
 
 ---
 
@@ -50,11 +50,11 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 **Installer does:**
 
 - Clone/update `~/.helix/tc-fe-prep`
-- Symlink **helix + 5 workflow stubs** into global agent folders (`~/.cursor/skills/`, etc.)
+- Symlink **helix + 7 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
 - Enable Claude marketplace plugin **`helix@helix-dev`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **auto-update**)
 
-**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/deprecated/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **6 skills** linked per agent.
+**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/deprecated/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **8 skills** linked per agent.
 
 | Agent | After install |
 |-------|----------------|

@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
-# Fail if committed skills/commands contain machine paths or single-project coupling.
+# Fail if committed skills/commands/references contain machine paths, host-specific tool
+# names, or single-project coupling.
 # Excludes docs that list forbidden patterns as examples.
+# Uses grep (always present) rather than rg: a missing scanner must never read as "clean".
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-GLOBS=(skills commands)
+DIRS=(skills commands references)
 EXCLUDES=(
-  '!references/portable-content.md'
-  '!**/gotchas.md'
+  --exclude=portable-content.md
+  --exclude=gotchas.md
 )
 
 PATTERNS=(
   '/Users/'
-  'C:\\Users'
+  'C:\Users'
   '~/.helix'
   '~/.cursor'
   'pd3-web-portal'
@@ -24,26 +26,28 @@ PATTERNS=(
   'playwright.e2e.config'
   'learner-mhesi'
   'mycreditport.com'
+  '.ols-qa-secrets'
+  'mcp__Control_Chrome__'
 )
-
-ARGS=()
-for g in "${GLOBS[@]}"; do
-  ARGS+=("$g")
-done
-for e in "${EXCLUDES[@]}"; do
-  ARGS+=("-g" "$e")
-done
 
 FOUND=0
 for pat in "${PATTERNS[@]}"; do
-  if rg -n --fixed-strings "$pat" "${ARGS[@]}" 2>/dev/null; then
+  # grep exits 0 = match, 1 = no match, 2 = error. An error is a failure, never "clean".
+  set +e
+  grep -rnF "${EXCLUDES[@]}" -e "$pat" -- "${DIRS[@]}"
+  rc=$?
+  set -e
+  if [ "$rc" -eq 0 ]; then
     FOUND=1
+  elif [ "$rc" -ne 1 ]; then
+    echo "::error::grep failed (exit $rc) while scanning for '$pat'"
+    exit 2
   fi
 done
 
 if [ "$FOUND" -eq 1 ]; then
-  echo "::error::Portable-content violation in skills/ or commands/. See references/portable-content.md"
+  echo "::error::Portable-content violation in skills/, commands/ or references/. See references/portable-content.md"
   exit 1
 fi
 
-echo "ok: no portable-content violations in skills/ and commands/"
+echo "ok: no portable-content violations in skills/, commands/ and references/"

@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.97** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.98** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -53,7 +53,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 6 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 7 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -250,9 +250,11 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow`, whose procedure lives in its own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/deprecated/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
+
+- Command-line tools used by the scripts: `git`, `bash`, `python3` (skill-structure check, CSV/Test.md export), `jq` (opt-in dev setup), `perl` or `shasum` (secret check)
 
 - Jira access to the issues you name
 - Browser logged into Jira when posting large comments or UI retests

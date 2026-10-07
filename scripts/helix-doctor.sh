@@ -40,7 +40,7 @@ else
   bad "Missing skills/helix"
 fi
 
-EXPECTED_SKILLS=(helix tc-fe-prep-workflow tc-api-prep-workflow retest-bug-workflow testing-ticket-workflow create-bug-workflow)
+EXPECTED_SKILLS=(helix tc-fe-prep-workflow tc-api-prep-workflow retest-bug-workflow testing-ticket-workflow create-bug-workflow catch-ai-workflow tc-review-workflow)
 for s in "${EXPECTED_SKILLS[@]}"; do
   if [ -f "$REPO/skills/$s/SKILL.md" ]; then
     ok "Skill $s"
@@ -50,7 +50,7 @@ for s in "${EXPECTED_SKILLS[@]}"; do
 done
 
 echo ""
-echo "--- Global skill links (expect helix + 5 workflows) ---"
+echo "--- Global skill links (expect helix + 7 workflows) ---"
 
 check_dest() {
   local dest="$1"

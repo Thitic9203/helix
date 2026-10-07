@@ -16,7 +16,7 @@ Use this map to avoid duplicating content across markdown files.
 | Workflow discovery stub | `skills/{name}/SKILL.md` | Full procedure in stub body |
 | Workflow procedure (canonical) | `skills/deprecated/{name}/WORKFLOW.md` | Duplicate steps in commands |
 | Slash command → skill | [commands/*.md](../commands/) | SKILL.md bodies |
-| English-only chat | [references/user-communication.md](../references/user-communication.md) | Full rule text in every skill (link + 1 line) |
+| Chat language (follows the user) | [references/user-communication.md](../references/user-communication.md) | Full rule text in every skill (link + 1 line) |
 | Workspace guide discovery | [references/workspace-guide-discovery.md](../references/workspace-guide-discovery.md) | Per-workflow glob tables in skills |
 | Intake one-pager | [references/intake-one-pager.md](../references/intake-one-pager.md) | Long workflows (API, ticket, bug, retest) |
 | Session closing / handoff | [references/session-closing.md](../references/session-closing.md), [handoff-file-template.md](../references/handoff-file-template.md) | End of every workflow |
@@ -78,17 +78,17 @@ Mirror [docs/wiki/Home.md](wiki/Home.md) to the repo **Wiki** tab, or link users
 
 ## Per-skill references
 
-Deep detail lives under `skills/<name>/references/`. The parent `SKILL.md` should **link** there, not copy long checklists.
+Deep detail lives under `skills/deprecated/<name>/references/` (next to the canonical `WORKFLOW.md`). The `WORKFLOW.md` should **link** there, not copy long checklists.
 
 | Skill | References |
 |-------|------------|
-| tc-fe-prep-workflow | prerequisites, jira-formatting, publish-options, gotchas, templates, worked-example |
-| tc-api-prep-workflow | default-columns, api-tc-guidelines, delivery-options, markdown-template, worked-example, scripts/README |
-| retest-bug-workflow | project-config-template, gotchas, debug-discipline, worked-example |
-| testing-ticket-workflow | session-intake, playwright-discipline, result-update-discipline, worked-example |
+| tc-fe-prep-workflow | ac-ec-coverage-review, gotchas, html-draft-template, html-pre-draft-review-template, jira-formatting, markdown-template, prerequisites, project-config-template, publish-options, qase-import-format, tc-final-review-report, worked-example |
+| tc-api-prep-workflow | api-tc-guidelines, default-columns, delivery-options, markdown-template, spec-coverage-review, worked-example |
+| retest-bug-workflow | debug-discipline, gotchas, handoff-template, new-skill-template, post-mortem-log, post-mortem-template, project-config-template, worked-example |
+| testing-ticket-workflow | playwright-discipline, result-update-discipline, session-intake, workspace-guide-template, worked-example |
 | create-bug-workflow | bug-draft-template, posting-discipline, worked-example |
 
 ## Commands vs skills
 
-- **commands/** — thin frontmatter: read and follow workflow SKILL.md, English only, 3–10 lines.
-- **skills/** — full procedure and gates.
+- **commands/** — thin frontmatter: read and follow the workflow SKILL.md, English only, short (most are 11–15 lines; `helix.md` holds the menu).
+- **skills/{name}/SKILL.md** — discovery stub; **skills/deprecated/{name}-workflow/WORKFLOW.md** — full procedure and gates (except `catch-ai-workflow` and `tc-review-workflow`, which are self-contained).

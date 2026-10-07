@@ -32,7 +32,7 @@ the tip with `HELIX_DEVENV_NOTICE=0`.
 The narrowed git/`gh` allowlist deliberately leaves destructive/outward verbs
 (`git push --force`, `git reset --hard`, `gh pr merge`, `gh repo delete`) to prompt.
 
-See the full rationale: [docs/plan/action-items-reduce-ai-questions.html](plan/action-items-reduce-ai-questions.html).
+See the full rationale: [docs/plan/done_action-items-reduce-ai-questions.html](plan/done_action-items-reduce-ai-questions.html).
 
 ## Versioning (automatic)
 
