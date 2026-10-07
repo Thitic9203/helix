@@ -25,6 +25,8 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 
 <!-- one line per closed ticket -->
 
+- [Cross-run login reuse](tickets/02-cross-run-login-reuse.md): reuse across runs is safe for one operator when files are named by account and a session check runs first; reuse across sessions needs an account lease. Picking the option is a separate ticket.
+
 ## Not yet specified
 
 - **Playwright per-case speed and flaky reruns.** Is execution itself slow (login, waits, serial steps), or is the cost the reruns? This waits for the baseline numbers.
