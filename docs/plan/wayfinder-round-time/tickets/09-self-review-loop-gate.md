@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01, 10, 13]
 ---
@@ -36,3 +36,7 @@ Prepared while [Baseline phase timing](01-baseline-phase-timing.md) and [15-minu
 | D | Drop 6c | skip candidate; never recommended |
 
 **Numbers needed:** 6c rounds per post (median/max) and minutes per round; the share of 6c findings not already raised by the guard or gate (marked unmeasured if the transcripts cannot show it); the review slice from ticket 10.
+
+## Resolution
+
+Decided with the user on 2026-10-07, using [research/13-per-gate-timing.md](../research/13-per-gate-timing.md): the retest reviewer subagent runs a median of 15 min when present, and the main thread effectively waits on it (only 7.5 of 220 min overlapped other work). **(C) Skip the posted-body guard when the posted body is byte-identical to the guarded draft.** The byte-identity check is run fresh every time. If the bodies differ, the guard runs as today. Option A (cheapest-first ordering) was offered as the recommended dedupe, but the user did not choose it. B (cap 6c at one round) and D (drop 6c) were not chosen either, so the 6c loop stays uncapped. Note for the spec: the reviewer's 15-min cost is untouched by this decision, so it remains a pressure on the 15-minute cap, and [Agent fan-out for large scope](14-agent-fan-out.md) may revisit it as parallel rather than waited-on work.

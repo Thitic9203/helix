@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01, 05]
 ---
@@ -32,3 +32,7 @@ Prepared while [Baseline phase timing](01-baseline-phase-timing.md) runs. No opt
 | 4 | Who decides the scope of round N | (a) agent proposes scope from the fix description, user confirms in the end decisions popup ([Approvals vs decisions](04-approvals-vs-decisions.md)) · (b) always full round | (a) adds one decision to the end popup, not a mid-run wait |
 
 **Numbers needed from ticket 01 before asking:** median and max minutes of a retest round split by EXECUTION per case (Playwright + MP4 capture + upload) vs AGENT-WORK, and the number of cases per round. These decide whether option 2(b) alone fits the 15-minute cap, or whether 2(c) has to be put to the user as a skip candidate with its measured saving and what it would stop catching.
+
+## Resolution
+
+Decided with the user on 2026-10-07. **Scoped round.** Round N re-runs only the cases the fix touches plus every previously failed case. The rest are listed under `Out of scope this round`, which is the existing mechanism at retest `WORKFLOW.md:472`. The agent proposes the scope from the fix description, and the user confirms it in the end-of-round decisions popup ([Approvals vs decisions](04-approvals-vs-decisions.md)), so this adds no mid-run wait. Carrying PASSED evidence forward from round N-1 was not chosen. `references/qa-evidence-gates.md:10` (fresh in this session) stays unchanged. The case list is still re-counted against the bug fresh every round, and Figma refs are reused through the fingerprint decided in [Intake persistence](05-intake-persistence.md).

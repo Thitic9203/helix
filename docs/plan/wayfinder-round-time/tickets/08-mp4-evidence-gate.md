@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01, 10, 13]
 ---
@@ -25,3 +25,7 @@ Prepared while [Baseline phase timing](01-baseline-phase-timing.md) and [15-minu
 | D | **Video only on the cases the fix touches**, screenshots elsewhere | as C, wider | reduced as C | skip candidate; never recommended |
 
 **Numbers needed:** per-case EXECUTION split into Playwright, MP4 capture/encode and upload (requested from ticket 01); how often a layer failed and forced a re-capture; the MP4 slice from ticket 10.
+
+## Resolution
+
+Decided with the user on 2026-10-07, using [research/13-per-gate-timing.md](../research/13-per-gate-timing.md): MP4 capture has a median of 1.2–1.5 min, but p75 reaches 7.4–9.0 min when re-captures happen. **(A) Record during execution.** The Playwright run that executes the case is the recording, and no separate capture pass happens. Each clip must still pass all 7 layers (`references/qa-evidence-gates.md:140-147`). B (partial re-capture), C (screenshots for single-state cases) and D (video only on touched cases) were not chosen. Rule `:147` (a red layer means re-capture and re-run all 7 layers) stays unchanged.

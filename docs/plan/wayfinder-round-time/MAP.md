@@ -34,6 +34,12 @@ A decided spec of changes to `retest-bug-workflow`, `testing-ticket-workflow` (t
 - [15-minute budget](tickets/10-fifteen-minute-budget.md): the cap counts AGENT + EXEC time only and is soft (warn, then finish, report the overrun). Large scope fans out across agents. A B re-test is a new round. The AGENT target is about 10 min, against about 39 today.
 - [Per-gate timing](tickets/13-per-gate-timing.md): the named gates (Figma, MP4, review, guard, read, draft, edit) are only about 13–15% of AGENT + EXEC time and cost most in the tail; about 85% is unattributed. The comment edit loop is a post-then-fix pattern.
 
+- [Retest round-N reuse](tickets/06-retest-round-n-reuse.md): scoped round; re-run touched and previously failed cases, list the rest as out of scope, and confirm the scope in the end popup. The fresh-evidence rule is unchanged.
+- [Figma compare gate](tickets/07-figma-compare-gate.md): keep the full compare (median 0.5 min); dedupe per screen × width and cache design exports by fingerprint.
+- [MP4 evidence gate](tickets/08-mp4-evidence-gate.md): record during execution, with no separate capture pass; the 7 layers are unchanged.
+- [Self-review loop gate](tickets/09-self-review-loop-gate.md): skip the posted-body guard when the post is byte-identical to the guarded draft. The reviewer loop is unchanged and stays about 15 min when present.
+- [Unattributed agent time](tickets/15-unattributed-agent-time.md): generation is about 60% of AGENT + EXEC, and MCP browser driving is about 27% of retest, the largest lever. Repeated work is under 1%.
+
 ## Not yet specified
 
 - **Re-measuring after rollout.** How the spec proves the 15-minute cap holds in real runs once it ships.

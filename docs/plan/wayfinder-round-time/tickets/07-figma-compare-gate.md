@@ -1,6 +1,6 @@
 ---
 type: grilling
-status: open
+status: closed
 assignee: main-thread (session 2026-10-07 c)
 blocked_by: [01, 10, 13]
 ---
@@ -38,3 +38,7 @@ Per the map, A and B (the minimal gate that still meets the standard) are evalua
 - Cases per distinct screen per round, which sizes the saving from A.
 - The share of rounds where the Figma `lastModified` was unchanged since the previous round, which sizes the saving from B. If the transcripts cannot show this, it is reported as unmeasured, not estimated.
 - The Figma budget slice per flow from ticket 10.
+
+## Resolution
+
+Decided with the user on 2026-10-07, using [research/13-per-gate-timing.md](../research/13-per-gate-timing.md): Figma compare takes a median of 0.5–0.6 min per round (2.3% of retest AGENT + EXEC, 0.5% of testing). **Keep the full comparison, and remove repeated work only.** (A) One compare per screen × width per round: cases on the same screen share one fresh app capture and one design read. (B) Cache the design-side export, keyed by the Figma `lastModified` fingerprint, and re-fetch only when it changes. The evidence standard is unchanged. Options C (changed screens only) and D (fewer widths) were not chosen, so no accepted risk is recorded.
