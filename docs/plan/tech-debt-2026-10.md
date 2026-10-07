@@ -43,7 +43,12 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
 
 **Phase 3 — mostly DONE 2026-10-07** (approved by the user)
 - #14 done: `skills/deprecated/` was renamed to `skills/procedures/` in lockstep, helix `f877486` and ols-qa `ea70c78`. All 46 ols-qa suites pass, and the link check found no new breaks.
-- #12 done: added `scripts/tests/` with 29 checks, mutation-checked, and run in CI (helix `450a992`, CI green).
+- #12 done: added `scripts/tests/`, mutation-checked and run in CI (helix `450a992`). It now has **33 checks in 5 files** after the follow-ups below.
+- Follow-up, also done:
+  - **Auto-update had never worked on the operator machine.** The clone was stuck at 1.5.90 while the plugin claimed 1.5.100. There were two causes: the `curl` VERSION probe failed TLS (MacPorts curl, exit 60), and 10 stale local `v1.5.x` tags made `git fetch --tags` refuse with "would clobber".
+  - Fixes: clone installs now skip curl (`076e046`), and origin release tags take precedence over local ones (`58f76b5`). Each fix has a test that was red before it, and failures are now recorded.
+  - Result: the local install updated to 1.5.103.
+  - `scripts/tests/content.test.sh` (`c7b00f5`) guards against two regressions: losing the catch-ai Defect scope line in `references/non-pass-challenge-gate.md`, and the return of an "English-only chat" rule. It caught one rule the language change had missed, in `references/shared-must-never.md`, now fixed in both repos (ols-qa `90dae3d`).
 - #10 done, in part: update-chain failures are now recorded and surfaced by session-start (`450a992`). The install path `~/.helix/tc-fe-prep` stays, because moving it would break every existing install.
 - #13 **deferred**: the map session's `feat/round-time-spec` is editing the same WORKFLOW files. Dedupe after that branch merges.
 - Incident found while doing #14: the ols-qa sync committed onto that feature branch (`cc9b698`, carrying an older `references/non-pass-challenge-gate.md`), because it assumed helix was on main. The sync now refuses unless helix is on `main` (ols-qa `d024676`, plus a test), and ols-qa has helix's newer file. **Follow-up:** when `feat/round-time-spec` merges, restore the catch-ai "Defect" scope line in `references/non-pass-challenge-gate.md` on main.
