@@ -36,7 +36,7 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
 - #11: list the required tools in README.
 - #15: delete the dead script. This needs a yes under global rule 5 (removing a file).
 
-**Phase 2: needs approval first (Helix CLAUDE.md "ask first" list)**
+**Phase 2 — DONE 2026-10-07** (approved by the user). helix `c85e60b` (v1.5.99): CI green, the regression gate ran in `publish`, release `v1.5.99` created. ols-qa `efeeb51`: sync gate, 9/9 sync tests pass, and 46 pre-push suites pass. Original scope:
 - #1: make the ols-qa sync run `ci-check-skill-structure.sh` and register new skills before it pushes, or land through a PR. This touches the ols-qa repo.
 - #2: auto-update follows the latest release tag instead of `main`. This changes `helix-auto-update.sh`, which affects every user.
 - #6 and #8: add a `concurrency:` group to `version.yml` and run the regression gate in CI. This edits `.github/workflows/`.
