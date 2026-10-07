@@ -70,7 +70,7 @@ Version, CI, ship checklist, quality bar, new skill template → [docs/CONTRIBUT
 ### Content
 - Skill content: portable (no hardcoded paths/IDs) — ตาม portable-content.md
 - Language ใน skill files: English only
-- Language ใน chat กับ user: Thai ได้
+- 🔴 Chat กับ user: **ภาษาไทยเสมอ และสั้น** — เฉพาะผลลัพธ์ สิ่งที่ต้องตัดสินใจ และ blocker · ไม่เล่าขั้นตอน ไม่ทวนซ้ำ · ยังสุภาพมี "ครับ" (global rule 22) · ศัพท์เทคนิค/ชื่อไฟล์/คำสั่งคงภาษาอังกฤษ · ใช้กับทุก session ใน repo นี้โดยไม่ต้องเตือน
 - Version bump: อัตโนมัติโดย CI, ไม่ต้อง manual bump
 - Commit: conventional commits (feat:, fix:, chore:, docs:)
 
