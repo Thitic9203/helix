@@ -100,7 +100,7 @@ Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/referenc
 
 ## Update — auto-update (default)
 
-**You usually do not need to run `git pull`.** After install, Helix checks GitHub for a newer **release tag** (created only after CI passes on `main`) when you start a new session, and fast-forwards to it — never to unreleased `main` (at most every **4 hours** per machine).
+**You usually do not need to run `git pull`.** After install, Helix checks GitHub for a newer **release tag** (created only after CI passes on `main`) when you start a new session, and fast-forwards to it — never to unreleased `main`. Every session reads the release tag list, so a new release reaches your next session.
 
 | Trigger | Action |
 |---------|--------|
@@ -117,7 +117,7 @@ Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/referenc
 |---------|---------|
 | `HELIX_AUTO_UPDATE=0` | Turn off auto-update |
 | `HELIX_FORCE_UPDATE=1` | Run check immediately |
-| `HELIX_AUTO_UPDATE_INTERVAL_SEC` | Min seconds between checks (default `14400`) |
+| `HELIX_AUTO_UPDATE_INTERVAL_SEC` | Min seconds between full re-checks (default `14400`); a newer release tag still updates the next session |
 | `HELIX_AUTO_UPDATE_VERBOSE=1` | Print to terminal |
 | Log | `~/.helix/auto-update.log` |
 

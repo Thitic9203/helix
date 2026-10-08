@@ -53,4 +53,16 @@ run_au
 
 fresh_clone main; run_au
 [ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a clone ahead of the release is never moved back" || fail "clone moved back to $(cat "$W/clone/VERSION")"
+
+# Every session (no FORCE, the check interval not yet elapsed): a cheap tag probe decides.
+run_session() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" \
+  HELIX_VERSION_URL="file://$W/remote-version" bash "$AU" >/dev/null 2>&1; }
+fresh_clone v1.0.0; run_au                      # at release 1.0.1, stamp just written
+fetches() { grep -c "fetching origin" "$W/state/auto-update.log" 2>/dev/null || true; }
+before="$(fetches)"; run_session
+[ "$(fetches)" = "$before" ] && [ "$(cat "$W/clone/VERSION")" = 1.0.1 ] \
+  && ok "a session with no new release skips the full fetch" || fail "no-new-release session fetched or moved (VERSION $(cat "$W/clone/VERSION"))"
+git -C "$W/seed" tag v1.0.2 && git -C "$W/seed" push -q origin v1.0.2
+run_session
+[ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a release published after the last check reaches the next session" || fail "next session stayed at $(cat "$W/clone/VERSION")"
 finish
