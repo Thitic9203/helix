@@ -28,6 +28,16 @@ Human touchpoints this round: 1 intake popup during the run. The baseline median
 
 **Verdict on the cap:** a story with 29 cases did not fit in 15 minutes. The lanes alone took about 33 min, because the privileged-account chain was serial. This matches the "Honest outlook" in SPEC §1.
 
+**Against the baseline** ([research/01-baseline.md](research/01-baseline.md), story medians):
+
+| | Baseline median | This round |
+|---|---|---|
+| AGENT + EXEC | 43.1 min | 43.4 min |
+| Human wait | 18.4 min | 0.7 min |
+| Human touchpoints | 4 | 1 |
+
+The removed waits cut wall-clock per round. AGENT + EXEC did not drop, so this round does **not** prove the AGENT + EXEC reduction. It is one data point; SPEC §7 re-measures after 10 real rounds per flow. Findings 2 and 3 below (account-bound serial chain, cross-lane wait) are the measured cause and are not yet implemented.
+
 ## Findings → proposed follow-ups
 
 | # | Finding | Evidence | Follow-up |
