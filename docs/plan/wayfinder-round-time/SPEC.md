@@ -2,7 +2,7 @@
 
 This spec is the Destination of [MAP.md](MAP.md). Every line below traces to a closed ticket, and the ticket holds the rationale and evidence. No decision is restated here with different meaning. If this file and a ticket disagree, the ticket wins.
 
-- **Status:** decided 2026-10-07, not yet implemented.
+- **Status:** decided 2026-10-07. Implemented 2026-10-08 in Helix v1.5.105 (PR #7) and ols-qa v1.49.4 (PR #8). First real round: [pressure-test-1.md](pressure-test-1.md).
 - **Rollout:** all flows at once ([Spec shape, rollout and re-measure](tickets/18-spec-shape-rollout.md)).
 - **Where changes land:** `skills/procedures/{retest-bug,testing-ticket}-workflow/WORKFLOW.md` plus the `references/` files named below in this repo; smoke test changes land in the `ols-qa` repo.
 
