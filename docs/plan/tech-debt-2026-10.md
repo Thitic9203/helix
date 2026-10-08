@@ -50,7 +50,7 @@ Evidence sweep of `main` at v1.5.97 (read-only subagent). The main thread re-che
   - Result: the local install updated to 1.5.103.
   - `scripts/tests/content.test.sh` (`c7b00f5`) guards against two regressions: losing the catch-ai Defect scope line in `references/non-pass-challenge-gate.md`, and the return of an "English-only chat" rule. It caught one rule the language change had missed, in `references/shared-must-never.md`, now fixed in both repos (ols-qa `90dae3d`).
 - #10 done, in part: update-chain failures are now recorded and surfaced by session-start (`450a992`). The install path `~/.helix/tc-fe-prep` stays, because moving it would break every existing install.
-- #13 **deferred**: the map session's `feat/round-time-spec` is editing the same WORKFLOW files. Dedupe after that branch merges.
+- #13 done (2026-10-08): retest 4h/4i and testing-ticket E2/E3 link `root-cause-investigation.md` and `non-pass-challenge-gate.md` instead of copying their steps (helix `dc2aa24`, ols-qa `eebcd74`). Before it, the PR #7 files were backported to ols-qa (`0ce8ffe`), because ols-qa is the sync source and would have reverted them.
 - Incident found while doing #14: the ols-qa sync committed onto that feature branch (`cc9b698`, carrying an older `references/non-pass-challenge-gate.md`), because it assumed helix was on main. The sync now refuses unless helix is on `main` (ols-qa `d024676`, plus a test), and ols-qa has helix's newer file. **Follow-up:** when `feat/round-time-spec` merges, restore the catch-ai "Defect" scope line in `references/non-pass-challenge-gate.md` on main.
 
 Original phase 3 scope:
