@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.105** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.106** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -135,7 +135,7 @@ Releases: [github.com/Thitic9203/helix/releases](https://github.com/Thitic9203/h
 
 ### Default: auto-update (recommended)
 
-After a **one-time** [install](#install-one-time), you usually **do not** run `git pull` yourself. When a new version is **released** (a `vX.Y.Z` tag, created only after CI passes on `main`), your machine catches up on the **next agent session** (throttled to at most once every **4 hours**):
+After a **one-time** [install](#install-one-time), you usually **do not** run `git pull` yourself. When a new version is **released** (a `vX.Y.Z` tag, created only after CI passes on `main`), your machine catches up on the **next agent session**. Every session reads the release tag list (one quick `git ls-remote`); the full fetch runs only when a newer release exists:
 
 | Trigger | What runs |
 |---------|-----------|
@@ -155,7 +155,7 @@ Log file: `~/.helix/auto-update.log` · Doctor: [helix-doctor.sh](scripts/helix-
 |----------------|----------------------|
 | Disable auto-update | `HELIX_AUTO_UPDATE=0` |
 | Force check now | `HELIX_FORCE_UPDATE=1` |
-| Check interval (seconds) | `HELIX_AUTO_UPDATE_INTERVAL_SEC` (default `14400` = 4h) |
+| Full re-check interval (seconds) | `HELIX_AUTO_UPDATE_INTERVAL_SEC` (default `14400` = 4h; a newer release tag still updates the next session) |
 | Print progress to terminal | `HELIX_AUTO_UPDATE_VERBOSE=1` |
 
 ```bash

@@ -2,7 +2,8 @@
 # Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with the
 # newest GitHub release tag (never an unreleased main).
 #
-# Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron.
+# Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron. Every session probes the
+# release tag list (one ls-remote); the full fetch runs when a newer release exists or the interval passed.
 # Opt out: HELIX_AUTO_UPDATE=0
 #
 # Usage:
@@ -56,7 +57,30 @@ should_run_check() {
   local now last
   now=$(date +%s)
   last=$(tr -d '[:space:]' <"$STAMP_FILE" 2>/dev/null || echo 0)
-  [ $((now - last)) -ge "$MIN_INTERVAL_SEC" ]
+  if [ $((now - last)) -ge "$MIN_INTERVAL_SEC" ]; then
+    return 0
+  fi
+  # Inside the interval, a release published since the last check must still reach this session
+  # (1.5.105 was tagged 3 minutes after a check and stayed invisible for 4 hours). One ls-remote
+  # reads only the tag list; the full fetch runs only when it names a newer release.
+  release_newer_than_local
+}
+
+version_gt() {
+  [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)" = "$1" ]
+}
+
+newest_remote_release() {
+  git -C "$REPO" ls-remote --tags --refs origin 'v*' 2>/dev/null \
+    | sed -n 's#.*refs/tags/v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)$#\1#p' \
+    | sort -t. -k1,1n -k2,2n -k3,3n | tail -1
+}
+
+release_newer_than_local() {
+  [ -d "$REPO/.git" ] || return 1
+  local remote
+  remote=$(newest_remote_release)
+  [ -n "$remote" ] && version_gt "$remote" "$(local_version)"
 }
 
 mark_checked() {
