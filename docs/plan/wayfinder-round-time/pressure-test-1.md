@@ -24,7 +24,7 @@ Taken from the session's own timestamps.
 | Overrun past the 15-minute cap | 28.4 |
 | Of AGENT + EXEC: main thread idle while the lanes ran | 32.8 |
 
-Human touchpoints this round: 1 intake popup during the run. The baseline median for testing rounds was 4, with a median human wait of 17–18 min. The plan ran without waiting, and no question was asked mid-run.
+Human touchpoints this round: 1 intake popup during the run. The baseline median for story rounds was 3 touchpoints ([research/01-baseline.md](research/01-baseline.md)), with a median human wait of 18.4 min. The plan ran without waiting, and no question was asked mid-run.
 
 **Verdict on the cap:** a story with 29 cases did not fit in 15 minutes. The lanes alone took about 33 min, because the privileged-account chain was serial. This matches the "Honest outlook" in SPEC §1.
 
@@ -34,7 +34,7 @@ Human touchpoints this round: 1 intake popup during the run. The baseline median
 |---|---|---|
 | AGENT + EXEC | 43.1 min | 43.4 min |
 | Human wait | 18.4 min | 0.7 min |
-| Human touchpoints | 4 | 1 |
+| Human touchpoints | 3 | 1 |
 
 The removed waits cut wall-clock per round. AGENT + EXEC did not drop, so this round does **not** prove the AGENT + EXEC reduction. It is one data point; SPEC §7 re-measures after 10 real rounds per flow. Findings 2 and 3 below (account-bound serial chain, cross-lane wait) are the measured cause and are not yet implemented.
 
