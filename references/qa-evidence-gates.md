@@ -132,6 +132,8 @@ Measured by **`capture/verify_shot.py`** (same toolkit as the recorder): `python
 
 Every MP4 (story test **and** retest) MUST clear all 7 layers before the case counts as done. **Miss any layer and the job cannot be finished — no posting, no transition, no "done".** A clip that looks like a recording but skips a step, cuts off before the target, or is too blurry to read is worse than none — it fakes proof. Re-capture; never wave it through.
 
+The run that executes the case may be the recording — no separate capture pass is needed; the clip still clears all 7 layers below unchanged ([round-time-contract.md §8](round-time-contract.md#8-mp4-record-during-execution)).
+
 | # | Layer | Passes only when |
 |:--:|---|---|
 | **1** | **Max quality** | Recorded to the **capture spec below** — viewport ≥ 1920×1080, `deviceScaleFactor` 2, H.264 **CRF 18 preset slow**, `yuv420p` limited-range, `+faststart`, **no downscale that blurs text**. On-screen labels legible at 100%. |

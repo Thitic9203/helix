@@ -18,7 +18,7 @@ Prepared while [Baseline phase timing](01-baseline-phase-timing.md) runs. No opt
 **What exists today**
 
 - `references/qa-evidence-gates.md:10` — every claim's check is run "fresh in this session (not an earlier turn)"; the claim map lists "prior run" as **not sufficient** for a pass.
-- Pre-delivery gate (`references/qa-evidence-gates.md:327`, checked at `skills/deprecated/retest-bug-workflow/WORKFLOW.md:764`) — scope is "re-counted from the bug **this round**".
+- Pre-delivery gate (`references/qa-evidence-gates.md:327`, checked at `skills/procedures/retest-bug-workflow/WORKFLOW.md:764`) — scope is "re-counted from the bug **this round**".
 - Scoped rounds already exist (`WORKFLOW.md:472`, `:488`, `:502`, `:611`): a round may re-run only named cases, print `*Scope:* CASES: <ids>`, a `PASSED (scoped: …)` verdict, and an `Out of scope this round:` line naming every case left unverified.
 - [Intake persistence](05-intake-persistence.md) (closed) stores the case list, AC/EC list, Figma node refs, Swagger version, last-round results and one fingerprint per source in the handoff file every round, and re-reads a source only when its fingerprint changed. Whether last-round **results** may be reused was left to this ticket.
 
