@@ -372,6 +372,34 @@ What is specific to testing a ticket:
 
 ---
 
+## Result quality gate (mandatory before Phase F)
+
+Run [result-quality-gate.md](../../../references/result-quality-gate.md) — all 20 layers, every case, PASSED
+ones included — **before any result is summarized in Phase F or written in Phase G**. Write one final result line per case (older lines marked
+`superseded`), run the mechanical layers with the workspace's checker when it has one, walk the
+judgement layers, and paste the checker's last output line (or the counted hand check) into the
+round's record. A red layer blocks that case's verdict: report the case as what it really is
+(usually BLOCKED with the reason), never drop it and never soften the layer. A lane's "gate green"
+is a claim — the main thread re-runs the gate itself (layer 20).
+
+**Source sweep before any BLOCKED, FAILED or "ask the PO / reporter" outcome** (layer 14 of
+[result-quality-gate.md](../../../references/result-quality-gate.md)): read the product code at the default
+branch with `path:line` including its inline comments and `git log -L` / blame on those lines, the
+main ticket's description and every comment, the surrounding tickets (parent / epic, linked,
+sibling stories on the same screen or API, and every ticket the commit messages name), the
+regression results, and the design node; if data is missing, try to create it first. Quote each
+source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot be done", "wrong"
+or "wait for someone" before this sweep is written down.
+
+**Required output when defects are found — never auto-file.** The round's report carries the two
+tables in [result-quality-gate.md](../../../references/result-quality-gate.md) § *Required output
+when the round finds defects*: **Defect candidates — NOT filed** (Ticket · TC/ER point · Actual ·
+Expected · Requirement reference with char-exact quote · Evidence: still + accepted clip (layer 10) + capture
+manifest · Root cause `path:line` · Priority per
+[bug-priority-matrix.md](../../../references/bug-priority-matrix.md) · Status "Not filed yet", in a
+Thai report "ยังไม่ได้เปิดบั๊ก"), holding only rows whose expected side is a confirmed spec; and
+**Needs PO decision** for spec conflicts, quoting both sources. Filing waits for the owner.
+
 ## Phase F — Summarize in this chat (mandatory)
 
 Always post a clear summary **in the same conversation** before anything else:
@@ -612,6 +640,23 @@ if one is specified. See [result-update-discipline.md](references/result-update-
 - **The cause label travels with the sentence.** If the destination is too narrow for the full E2
   block, write the one-sentence cause **with its label** and link the full block; never publish a
   `Suspected` cause with its label stripped off.
+
+### G5·M — Usage marker (last line of the tracker summary comment)
+
+🔴 **Every summary comment this run posts on the ticket ends with the usage marker, after one blank
+line** — the same anchor the retest skill uses, so one tracker search (`comment ~ "retestskillmarker"`)
+counts both skills, and `skill=` tells them apart:
+
+```text
+_retestskillmarker · skill=testing-ticket · src={ols-qa|helix} · via={testing-ticket|testing-ticket-workflow|helix-menu} · agent={claude-code|cursor|codex|copilot|other} · result={PASSED|FAILED|BLOCKED|PWMI} · passed={n} · failed={n} · pwmi={n} · blocked={n}_
+```
+
+Fill it from the run, never guess: `src=helix` from the Helix plugin, `src=ols-qa` from this repo;
+`via` = the command or skill the user invoked; `agent` = the AI tool doing the run. `result` = the
+overall result the F1 executive summary states; `passed` / `failed` / `pwmi` / `blocked` = the F2 row
+counts per verdict (they add up to the F2 row count).
+Values are single words or digits — no spaces, no `/`. A comment edited in place keeps the marker as
+its last line, unchanged. Chat-only rounds (nothing posted) carry no marker and are not counted.
 
 ### G6 — Review before “complete” (mandatory)
 
