@@ -581,6 +581,8 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 
 *Out of scope this round:* {ids} — not covered by the scoped cases, not verified   (scoped rounds only)
 
+*Test run time:* {minutes} min — includes evidence capture ({screenshots|screenshots and video}); excludes re-checks, design lookup and comment drafting
+
 _retestskillmarker · skill=retest-bug-workflow · src={ols-qa|helix} · via={retest-bug|retest-bug-workflow|helix-menu} · agent={claude-code|cursor|codex|copilot|other}_
 ```
 
@@ -588,6 +590,26 @@ _retestskillmarker · skill=retest-bug-workflow · src={ols-qa|helix} · via={re
 from the run, never guess: `src=helix` when running from the Helix plugin, `src=ols-qa` from this repo;
 `via` = the command or skill the user invoked; `agent` = the AI tool doing the run. In `run.json` set
 `marker: {src, via, agent}` and the renderer prints it; `retest_guard.js` refuses a body without it (`marker-missing`).
+
+🔴 **The line just above the marker = the measured test run time (one blank line between) — never estimate it.**
+Right before drafting, measure over **every lane's** evidence/result directories (screenshots, clips,
+`results.jsonl`):
+
+```bash
+node tools/run-time/measure.js --dirs {lane1_evidence_dir},{lane2_evidence_dir} [--gap-s 120]
+```
+
+It prints `{method, minutes, bursts, files, gapS, hasVideo}` (method `evidence-burst-v1`): the file write
+times of all lanes as one union, split into bursts wherever no file was written for more than 120 s, and
+the burst durations summed — so it counts running and evidence capture, and leaves out idle time,
+re-checks, design lookup and comment drafting. Copy it into `run.json` as
+`testRunTime: {minutes, hasVideo, method}`; the renderer prints the line (`hasVideo` picks "screenshots" or
+"screenshots and video"), `retest_manifest.js` refuses a manifest without it, and `retest_guard.js`
+refuses a body whose line above the marker is not it (`run-time-line-missing`). Exit 2 = it could not
+measure (a lane directory is missing, or no evidence files) — fix the directory list; never type a
+number instead. When the workspace has no such tool, measure by the same method by hand (list every
+evidence file's modification time across all lanes, split at gaps over 120 s, sum the bursts) and say in
+the chat report that it was measured by hand.
 
 **This block is the shape the renderer produces, not something to hand-type.** Build `run.json` and
 render it (Step 6·0); the guard rejects a body that drifts from this shape, including one typed from
@@ -1019,6 +1041,28 @@ when **nothing else** still blocks it.
 > Done. Review at `https://{JIRA_DOMAIN}/browse/{ISSUE_KEY}`
 
 Include the 8d outcome: which stories were moved, and which stayed blocked and by what.
+
+🔴 **Adoption count — verify, then say it in the chat close-out.** After the result comment is posted, check
+that the ticket is counted by the project's AI-skill adoption dashboard (the project guide names it — by
+placeholder `<ADOPTION_DASHBOARD_URL>` in shared files; the real URL lives in local secrets). The dashboard
+runs the tracker search `comment ~ "retestskillmarker"` and counts a ticket when one of its comments carries
+the marker (created after its snapshot cutoff). Run the same search scoped to this ticket and confirm the
+marker is the last line of the posted comment:
+
+```bash
+TRACKER_BASE_URL=https://{JIRA_DOMAIN} TRACKER_EMAIL=… TRACKER_API_TOKEN=… \
+  node tools/adoption-check/check.js --key {ISSUE_KEY} [--cutoff {snapshot cutoff}] [--dashboard {dashboard URL}]
+```
+
+It runs `key = {ISSUE_KEY} AND comment ~ "retestskillmarker"` on the tracker's current search endpoint
+(`POST /rest/api/3/search/jql`), then reads the comments: exit 0 = counted · 1 = not counted (the reason says
+why) · 2 = cannot check. When the workspace has no such tool, run that search by hand and open the posted
+comment to confirm the marker is its last line. The chat close-out MUST then carry exactly one of:
+
+- `Counted in <ADOPTION_DASHBOARD_URL> — tab AI Skill Adoption Overview (dashboard refreshes every 5 minutes)`
+- `NOT counted yet — {reason from the search / comment read}` (also when the check could not run — say why)
+
+Never claim it without the search result.
 
 Write `references/helix-handoff-{KEY}.md` for this round ([handoff-file-template.md](../../../references/handoff-file-template.md)) —
 case list, AC/EC list, Figma node refs, Swagger version, last-round results, one fingerprint per source

@@ -656,6 +656,8 @@ line** — the same anchor the retest skill uses, so one tracker search (`commen
 counts both skills, and `skill=` tells them apart:
 
 ```text
+*Test run time:* {minutes} min — includes evidence capture ({screenshots|screenshots and video}); excludes re-checks, design lookup and comment drafting
+
 _retestskillmarker · skill=testing-ticket · src={ols-qa|helix} · via={testing-ticket|testing-ticket-workflow|helix-menu} · agent={claude-code|cursor|codex|copilot|other} · result={PASSED|FAILED|BLOCKED|PWMI} · passed={n} · failed={n} · pwmi={n} · blocked={n}_
 ```
 
@@ -665,6 +667,24 @@ overall result the F1 executive summary states; `passed` / `failed` / `pwmi` / `
 counts per verdict (they add up to the F2 row count).
 Values are single words or digits — no spaces, no `/`. A comment edited in place keeps the marker as
 its last line, unchanged. Chat-only rounds (nothing posted) carry no marker and are not counted.
+
+🔴 **The line just above the marker = the measured test run time (one blank line between) — never estimate it.**
+Right before drafting the summary comment, measure over **every lane's** evidence/result directories
+(screenshots, clips, `results.jsonl`):
+
+```bash
+node tools/run-time/measure.js --dirs {lane1_evidence_dir},{lane2_evidence_dir} [--gap-s 120]
+```
+
+It prints `{method, minutes, bursts, files, gapS, hasVideo}` (method `evidence-burst-v1`): the file write
+times of all lanes as one union, split into bursts wherever no file was written for more than 120 s, and
+the burst durations summed — so it counts running and evidence capture, and leaves out idle time,
+re-checks, design lookup and comment drafting. Put `minutes` in the line; `hasVideo` picks "screenshots"
+or "screenshots and video". Exit 2 = it could not measure (a lane directory is missing, or no evidence
+files) — fix the directory list; never type a number instead. When the workspace has no such tool,
+measure by the same method by hand (list every evidence file's modification time across all lanes, split
+at gaps over 120 s, sum the bursts) and say in the chat report that it was measured by hand. This comment
+has no renderer or guard — check the line by eye in the F5 render check before the approval popup.
 
 ### G6 — Review before “complete” (mandatory)
 
@@ -696,8 +716,31 @@ Only after G6 passes:
 Updated: {link}
 Rows/fields written: {summary}
 Verified: {what you re-read}
+Adoption: {Counted in … | NOT counted yet — …}   (see below)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+🔴 **Adoption count — verify, then say it in the chat close-out.** After the result comment is posted, check
+that the ticket is counted by the project's AI-skill adoption dashboard (the project guide names it — by
+placeholder `<ADOPTION_DASHBOARD_URL>` in shared files; the real URL lives in local secrets). The dashboard
+runs the tracker search `comment ~ "retestskillmarker"` and counts a ticket when one of its comments carries
+the marker (created after its snapshot cutoff). Run the same search scoped to this ticket and confirm the
+marker is the last line of the posted comment:
+
+```bash
+TRACKER_BASE_URL=https://{JIRA_DOMAIN} TRACKER_EMAIL=… TRACKER_API_TOKEN=… \
+  node tools/adoption-check/check.js --key {ISSUE_KEY} [--cutoff {snapshot cutoff}] [--dashboard {dashboard URL}]
+```
+
+It runs `key = {ISSUE_KEY} AND comment ~ "retestskillmarker"` on the tracker's current search endpoint
+(`POST /rest/api/3/search/jql`), then reads the comments: exit 0 = counted · 1 = not counted (the reason says
+why) · 2 = cannot check. When the workspace has no such tool, run that search by hand and open the posted
+comment to confirm the marker is its last line. The chat close-out MUST then carry exactly one of:
+
+- `Counted in <ADOPTION_DASHBOARD_URL> — tab AI Skill Adoption Overview (dashboard refreshes every 5 minutes)`
+- `NOT counted yet — {reason from the search / comment read}` (also when the check could not run — say why)
+
+Never claim it without the search result.
 
 If verification failed partially, state what succeeded and what did not — NEVER say “complete” for unverified work — because partial writes look finished to stakeholders.
 
