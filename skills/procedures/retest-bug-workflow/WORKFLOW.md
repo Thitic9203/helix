@@ -18,30 +18,6 @@ exactly what was covered without reading the chat.
 
 **Project-agnostic:** Load URLs, credentials, and transitions from `references/*-retest-guide.md` in the user's workspace.
 
-## Contents
-
-- [Discipline](#discipline)
-- [Refusal-first (precondition gate)](#refusal-first-precondition-gate)
-- [Step 0 — Get the ticket \[high freedom\]](#step-0--get-the-ticket-high-freedom)
-- [Step 1 — Project config \[medium freedom\]](#step-1--project-config-medium-freedom)
-- [Step 2 — Fetch Jira ticket \[high freedom\]](#step-2--fetch-jira-ticket-high-freedom)
-- [Step 2b — Fix claim vs verification plan (mandatory) \[medium freedom\]](#step-2b--fix-claim-vs-verification-plan-mandatory-medium-freedom)
-- [Step 2c — Build the retest case list (mandatory — bug and task alike) \[medium freedom\]](#step-2c--build-the-retest-case-list-mandatory--bug-and-task-alike-medium-freedom)
-- [Step 2d — Design reference gate (mandatory before any UI verdict) \[low freedom\]](#step-2d--design-reference-gate-mandatory-before-any-ui-verdict-low-freedom)
-- [Step 3 — Bug type and comment format (decide once) \[medium freedom\]](#step-3--bug-type-and-comment-format-decide-once-medium-freedom)
-- [Step 4 — Login and test \[low freedom\]](#step-4--login-and-test-low-freedom)
-- [Step 5 — Evidence \[medium freedom\]](#step-5--evidence-medium-freedom)
-- [Result quality gate (mandatory before the comment is drafted) \[low freedom\]](#result-quality-gate-mandatory-before-the-comment-is-drafted-low-freedom)
-- [Step 6 — Draft Jira comment \[medium freedom\]](#step-6--draft-jira-comment-medium-freedom)
-- [Step 7 — Post comment \[low freedom\]](#step-7--post-comment-low-freedom)
-- [QA closing (mandatory before "done") \[low freedom\]](#qa-closing-mandatory-before-done-low-freedom)
-- [Step 8 — Close out (after successful post; no second approval unless user asked) \[low freedom\]](#step-8--close-out-after-successful-post-no-second-approval-unless-user-asked-low-freedom)
-- [Step 9 — QA result notify (if the project configures a channel) \[low freedom\]](#step-9--qa-result-notify-if-the-project-configures-a-channel-low-freedom)
-- [Step 10 — A question arrives after the comment was posted \[low freedom\]](#step-10--a-question-arrives-after-the-comment-was-posted-low-freedom)
-- [Skill composition](#skill-composition)
-- [Out of scope](#out-of-scope)
-- [MUST / NEVER](#must--never)
-
 ## Discipline
 
 **Settle and strategize FIRST** — before Step 0 or any tool call, follow
@@ -131,7 +107,7 @@ On first response after constraints, follow [workspace-guide-discovery.md](../..
 
 ---
 
-## Step 0 — Get the ticket [high freedom]
+## Step 0 — Get the ticket
 
 If no key or URL was provided:
 
@@ -141,7 +117,7 @@ If no key or URL was provided:
 
 ---
 
-## Step 1 — Project config [medium freedom]
+## Step 1 — Project config
 
 ### 1a. Find existing config
 
@@ -168,7 +144,7 @@ All URLs, credentials, transition names, and Swagger URLs come from config — *
 
 ---
 
-## Step 2 — Fetch Jira ticket [high freedom]
+## Step 2 — Fetch Jira ticket
 
 **Round N (a ticket retested before) — fingerprint check first.** Read
 `references/helix-handoff-{KEY}.md` and fetch each source's fingerprint fresh: ticket `updated` +
@@ -233,7 +209,7 @@ severity/priority notion. Cheat-sheet (full matrix + hard rule at the link):
 
 ---
 
-## Step 2b — Fix claim vs verification plan (mandatory) [medium freedom]
+## Step 2b — Fix claim vs verification plan (mandatory)
 
 Follow [retest-fix-intake.md](../../../references/retest-fix-intake.md). Post the retest plan block before executing tests.
 **Show the plan, then run** — print it and start execution without waiting for an approval; the plan
@@ -242,7 +218,7 @@ rides again in the Step 6d decisions popup, where a correction starts a new roun
 
 ---
 
-## Step 2c — Build the retest case list (mandatory — bug and task alike) [medium freedom]
+## Step 2c — Build the retest case list (mandatory — bug and task alike)
 
 The comment posted at Step 6 must carry a **case list**: the cases this retest actually ran, one row
 each. Build it here, before testing, so the run has a defined scope instead of a stopping point.
@@ -281,7 +257,7 @@ The same list, with each case's outcome, goes into the `Case (Role)` cell of eve
 
 ---
 
-## Step 2d — Design reference gate (mandatory before any UI verdict) [low freedom]
+## Step 2d — Design reference gate (mandatory before any UI verdict)
 
 Follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4.
 
@@ -303,7 +279,7 @@ Follow [figma-design-comparison.md](../../../references/figma-design-comparison.
 
 ---
 
-## Step 3 — Bug type and comment format (decide once) [medium freedom]
+## Step 3 — Bug type and comment format (decide once)
 
 | Bug type | Screenshots | Comment format | API |
 |----------|-------------|----------------|-----|
@@ -323,7 +299,7 @@ Set flag `COMMENT_FORMAT=v2` or `v3` here. **Do not change later** — rewriting
 
 ---
 
-## Step 4 — Login and test [low freedom]
+## Step 4 — Login and test
 
 **The sub-steps are in the order they happen.** 4a–4d set up and observe **while the surface is
 still open** — a screen not compared while it was open cannot be compared later, and a boundary
@@ -481,7 +457,7 @@ can resolve is queued; unattended runs put it in the run's report.
 
 ---
 
-## Step 5 — Evidence [medium freedom]
+## Step 5 — Evidence
 
 ### API bugs
 
@@ -535,7 +511,7 @@ never a row quietly dropped.
 
 ---
 
-## Result quality gate (mandatory before the comment is drafted) [low freedom]
+## Result quality gate (mandatory before the comment is drafted)
 
 Run [result-quality-gate.md](../../../references/result-quality-gate.md) — all 20 layers, every case, PASSED
 ones included — **before the Step 6 draft, the Step 9 notify, or any status transition**. Write one final result line per case (older lines marked
@@ -563,7 +539,7 @@ manifest · Root cause `path:line` · Priority per
 Thai report "ยังไม่ได้เปิดบั๊ก"), holding only rows whose expected side is a confirmed spec; and
 **Needs PO decision** for spec conflicts, quoting both sources. Filing waits for the owner.
 
-## Step 6 — Draft Jira comment [medium freedom]
+## Step 6 — Draft Jira comment
 
 **Do not post until the user approves** (unless they explicitly waive approval) — through the single
 Step 6d approval popup.
@@ -577,12 +553,12 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 **Template core — v2 wiki markup** (`/rest/api/2/…`; FE bugs, anything with screenshots):
 
 ```text
-*Retest Result: PASSED* ✅   (or FAILED ❌ · BLOCKED ⛔ · PWMI ⚠️ — the round's real verdict; scoped rounds read "PASSED (scoped: TC_03)")
+*Retest Result: PASSED* ✅   (or *Retest Result: FAILED* ❌ — scoped rounds read "PASSED (scoped: TC_03)")
 
 *Env:* {ENV} ({url})
 *API:* {METHOD} {path}   (if API bug)
 *Swagger:* {link}
-*Design ref:* {figma node link}   (UI retest — or "none, asked {who} {YYYY-MM-DD}"; no " — " or " · " in the value)
+*Design ref:* {figma node link}   (UI retest — or "none — asked {who} {YYYY-MM-DD}")
 *Role:* {role(s) the cases were run as}
 *Date:* {YYYY-MM-DD}
 *Build:*
@@ -869,7 +845,7 @@ Follow [round-time-contract.md](../../../references/round-time-contract.md) §3 
 
 ---
 
-## Step 7 — Post comment [low freedom]
+## Step 7 — Post comment
 
 ### Pre-post checklist
 
@@ -933,7 +909,7 @@ Before Step 8 transition, run review per [jira-comment-post-review.md](../../../
 
 1. Re-open `https://{JIRA_DOMAIN}/browse/{ISSUE_KEY}` (or equivalent).
 2. Checklist:
-   - [ ] New comment visible; summary line (**PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**) correct.
+   - [ ] New comment visible; summary line **PASSED ✅** or **FAILED ❌** correct.
    - [ ] **No literal `<br>`, HTML tags, or stray markup** visible as text.
    - [ ] **Numbered items** (`1. ` `2. ` `3. `) each on a separate line — not running together.
    - [ ] No truncation; FE MP4 link resolves + plays, and text-verification screenshots render.
@@ -948,11 +924,11 @@ MUST NOT transition, assign, or report "done" until 7d passes — because stakeh
 
 ---
 
-## QA closing (mandatory before "done") [low freedom]
+## QA closing (mandatory before "done")
 
 Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) before the Step 6d approval popup** — a conflict found there can change the verdict, so its table is reported in chat and its *Investigate further* / *Close out now* question is **queued into the Step 6d decisions popup** rather than asked after posting ([round-time-contract.md](../../../references/round-time-contract.md) §2–§3); apply its unattended default (step 5) meanwhile. No post, Step 8 transition, or Step 9 notify goes out until that answer is in:
 
-- [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** (not ambiguous text).
+- [ ] Summary line is exactly **PASSED ✅** or **FAILED ❌** (not ambiguous text).
 - [ ] **`node tools/retest-guard/retest_guard.js` exited 0** for this round — on the manifest before drafting (Step 6·0) and on the posted body before the transition (Step 8·0; skipped only when a fresh hash compare shows the posted body byte-identical to the guarded draft). Exit 2 (could not run) is not a pass, and the guard's clean result covers the mechanical rules only.
 - [ ] **Step 6c independent reviewer round returned CLEAN**, every round was reported to the user as it finished, and the reviewer's findings were verified rather than taken on trust.
 - [ ] **Scope is stated only when partial** — a full round prints no Scope line; a partial one prints `CASES: <ids>` with the verdict reading `PASSED (scoped: …)` and an `Out of scope this round:` line naming every item this round did not verify.
@@ -978,7 +954,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 ---
 
-## Step 8 — Close out (after successful post; no second approval unless user asked) [low freedom]
+## Step 8 — Close out (after successful post; no second approval unless user asked)
 
 Every action here — each 8a transition, 8c assign and 8d unblock — runs under the single Step 6d
 approval bundle, which listed it by name ([round-time-contract.md](../../../references/round-time-contract.md) §3).
@@ -989,7 +965,7 @@ An action that was not listed in that bundle is not run without asking.
 **Hard gate — do NOT run 8a until the posted comment is complete per the Step 6 / Step 7c format:**
 
 - [ ] **`retest_guard.js` exits 0 for the posted body** (re-run it against what was actually posted, not against the draft). Exit 2 is not a pass. **Skip only** when a fresh hash compare shows the posted body byte-identical to the draft that passed the guard; any difference → run the guard ([round-time-contract.md](../../../references/round-time-contract.md) §9).
-- [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**; env + results table present (bold headers, `No.` column).
+- [ ] Summary line is exactly **PASSED ✅** or **FAILED ❌**; env + results table present (bold headers, `No.` column).
 - [ ] **Case list present and reconciled:** the single table's `Case (Role)` cells carry every Step 2c case, every `ER*`/`AC*` row names at least one case, and `Case coverage: {n}/{total}` matches the rows. A planned-but-unrun case is a BLOCKED row with its reason — never a shortened list.
 - [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
 - [ ] **No passing row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้`** — such a row is BLOCKED or PWMI, never PASSED ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3).
@@ -1105,7 +1081,7 @@ never estimated:
 
 ---
 
-## Step 9 — QA result notify (if the project configures a channel) [low freedom]
+## Step 9 — QA result notify (if the project configures a channel)
 
 After the transition, if the project defines a **QA notify channel** (Discord/Slack/chat), post a **retest-result** notification so the reporter / QA owner sees the outcome. It runs under the Step 6d approval bundle, which named the channel and the resolved recipient — no second approval.
 
@@ -1141,7 +1117,7 @@ If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re
 
 ---
 
-## Step 10 — A question arrives after the comment was posted [low freedom]
+## Step 10 — A question arrives after the comment was posted
 
 A follow-up question is a **defect in the comment**, not a normal step. Handle it in this order — see
 [defect-report-completeness.md](../../../references/defect-report-completeness.md) §6.
@@ -1193,7 +1169,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST run the case list in parallel lanes, one leased account per lane, unless a [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §4 predicate is named | Shortest retest time with no shared login — a shared account ends sessions and shares state, producing false defects |
 | MUST include full cURL/response per API case | Evidence must stand alone |
 | MUST treat Swagger (+ error docs) over stale ticket text | Ticket may be wrong |
-| MUST use exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** in the summary line — the round's real verdict; a round nobody could reach reads BLOCKED, never FAILED | Scanability for dev/QA; a coverage gap is not a defect (`SUMMARY_VERDICTS` in `retest_rules.js`) |
+| MUST use **PASSED ✅** or **FAILED ❌** only in summary line | Scanability for dev/QA |
 | MUST keep a PASSED comment inside the Step 6 template fields only — no narrative padding, one-line evidence captions | A tight comment is scannable in seconds; prose bloat buries the verdict (locked from OLS-251 accepted format 2026-07-23) |
 | MUST give every table column an explicit English header; row-number column = `No.` | bare `#` renders as a blank header cell in Jira |
 | MUST head the single FE table exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` (API bug: drop `Evidence`) — never `Expected result item`, never a bare `Actual` | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation, and `Evidence` holds each row's screenshot in-cell (user correction 2026-07-24 OLS-250/249; Evidence column added 2026-07-27, OLS-289; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24) |
