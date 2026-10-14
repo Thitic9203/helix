@@ -135,6 +135,25 @@ else
   warn "Claude CLI not on PATH — skip marketplace plugin check"
 fi
 
+echo ""
+echo "--- Auto-update freshness ---"
+# helix-auto-update.sh writes this stamp after each successful check. A stamp older than a day
+# means the SessionStart hook is not running the updater (e.g. the hook itself fails).
+STAMP="${HELIX_STATE_DIR:-$HOME/.helix}/.last-auto-update-check"
+STALE_SEC="${HELIX_DOCTOR_STALE_SEC:-86400}"
+if [ ! -f "$STAMP" ]; then
+  warn "No auto-update stamp at $STAMP — the updater has never completed a check"
+else
+  _last="$(tr -d '[:space:]' < "$STAMP" 2>/dev/null || true)"
+  case "$_last" in '' | *[!0-9]*) _last=0 ;; esac
+  _age=$(( $(date +%s) - _last ))
+  if [ "$_age" -gt "$STALE_SEC" ]; then
+    warn "Last auto-update check was $((_age / 3600))h ago (limit $((STALE_SEC / 3600))h) — check the SessionStart hook and ${HELIX_STATE_DIR:-$HOME/.helix}/auto-update.log"
+  else
+    ok "Last auto-update check $((_age / 3600))h ago"
+  fi
+fi
+
 if [ -n "${HELIX_DOCTOR_FIX:-}" ]; then
   echo ""
   echo "--- Auto-fix (HELIX_DOCTOR_FIX) ---"
