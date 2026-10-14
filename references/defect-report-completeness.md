@@ -4,12 +4,21 @@ A defect report is finished when **a developer who has never seen the ticket can
 asking you anything**. Every question a reader asks after you post is a section you failed to write,
 and every answer you give in chat instead of in the report is knowledge the next reader will not have.
 
-Applies to every verdict that is not a clean PASSED: the retest comment (retest-bug-workflow Step 6),
-the defect list / external result write (testing-ticket-workflow Phase F3, Phase G), and the audit
-report produced by [catch-ai-workflow](../skills/catch-ai-workflow/SKILL.md) — its pre-delivery
-adversarial pass (catch-ai-workflow/reference.md) applies this contract by name.
+Applies to every verdict that is not a clean PASSED: the retest comment (retest-bug-workflow Step 6)
+and the defect list / external result write (testing-ticket-workflow Phase F3, Phase G).
 
 ---
+
+## Contents
+
+- [1. The report answers five questions before they are asked](#1-the-report-answers-five-questions-before-they-are-asked)
+- [2. Repro matrix — REQUIRED for every non-PASSED item](#2-repro-matrix--required-for-every-non-passed-item)
+- [3. Two gates that must pass before you draft](#3-two-gates-that-must-pass-before-you-draft)
+- [4. Resolution options — REQUIRED when actual ≠ expected but the reported symptom is gone](#4-resolution-options--required-when-actual--expected-but-the-reported-symptom-is-gone)
+- [5. Pre-post dev-question gate (mandatory, before the FIRST post)](#5-pre-post-dev-question-gate-mandatory-before-the-first-post)
+- [6. If a question still arrives after you posted](#6-if-a-question-still-arrives-after-you-posted)
+- [7. Answer shape in chat during the workflow](#7-answer-shape-in-chat-during-the-workflow)
+- [MUST / NEVER](#must--never)
 
 ## 1. The report answers five questions before they are asked
 
