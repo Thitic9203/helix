@@ -12,6 +12,26 @@ Run **Playwright-based** testing for a **single ticket** after intake (the plan 
 
 **This workflow does not open bug reports.** If the user wants bugs filed → route to **`create-bug-workflow`** (`/helix` → Create bug).
 
+## Contents
+
+- [Discipline](#discipline)
+- [Refusal-first (precondition gate)](#refusal-first-precondition-gate)
+- [Core constraints](#core-constraints)
+- [Phase A — Session intake (mandatory) \[medium freedom\]](#phase-a--session-intake-mandatory-medium-freedom)
+- [Phase B — Load context \[high freedom\]](#phase-b--load-context-high-freedom)
+- [Phase C — Show the plan, then run \[medium freedom\]](#phase-c--show-the-plan-then-run-medium-freedom)
+- [Phase D — Pre-flight (mandatory) \[low freedom\]](#phase-d--pre-flight-mandatory-low-freedom)
+- [Phase E — Execute tests (Playwright) \[low freedom\]](#phase-e--execute-tests-playwright-low-freedom)
+- [Result quality gate (mandatory before Phase F) \[low freedom\]](#result-quality-gate-mandatory-before-phase-f-low-freedom)
+- [Phase F — Summarize in this chat (mandatory) \[high freedom\]](#phase-f--summarize-in-this-chat-mandatory-high-freedom)
+- [Phase G — Optional: update results elsewhere \[low freedom\]](#phase-g--optional-update-results-elsewhere-low-freedom)
+- [Phase H — A question arrives after results were published \[low freedom\]](#phase-h--a-question-arrives-after-results-were-published-low-freedom)
+- [QA closing (mandatory before session end) \[low freedom\]](#qa-closing-mandatory-before-session-end-low-freedom)
+- [Out of scope](#out-of-scope)
+- [Next workflows](#next-workflows)
+- [References](#references)
+- [MUST / NEVER](#must--never)
+
 ## Discipline
 
 **Settle and strategize FIRST** — before intake or any tool call, follow
@@ -114,7 +134,7 @@ Then follow [workspace-guide-discovery.md](../../../references/workspace-guide-d
 
 ---
 
-## Phase A — Session intake (mandatory)
+## Phase A — Session intake (mandatory) [medium freedom]
 
 Collect these **seven** items (one grouped message when possible; skip fields already on the one-pager as done):
 
@@ -148,7 +168,7 @@ re-read in full; a changed or missing fingerprint re-reads that source only.
 
 ---
 
-## Phase B — Load context
+## Phase B — Load context [high freedom]
 
 Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and Confluence/Swagger are independent.
 
@@ -193,7 +213,7 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
 
 ---
 
-## Phase C — Show the plan, then run
+## Phase C — Show the plan, then run [medium freedom]
 
 Print the plan below, then start Phase D **without waiting**
 ([round-time-contract.md §2](../../../references/round-time-contract.md)). The plan rides again in the
@@ -230,7 +250,7 @@ conclusion — it needs the E2 investigation and an artifact like any other caus
 
 ---
 
-## Phase D — Pre-flight (mandatory)
+## Phase D — Pre-flight (mandatory) [low freedom]
 
 Follow [playwright-preflight.md](../../../references/playwright-preflight.md) end-to-end. MUST NOT start Phase E until **Ready to run: YES**.
 
@@ -253,9 +273,10 @@ leased account ([parallel-test-lanes.md](../../../references/parallel-test-lanes
 
 ---
 
-## Phase E — Execute tests (Playwright)
+## Phase E — Execute tests (Playwright) [low freedom]
 
 Run the planned scenarios; record **PASSED** / **FAILED** / **BLOCKED** / **NOT TESTED** with evidence (screenshots, console, network).
+**Open every evidence file you cite, this round** — view each still, play each clip to its last frame — before it backs a verdict; a `verify.json`, a checker line or `file` output is not opening it ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *Pre-delivery completeness*).
 
 **Fan out whenever the plan has 2 or more units** ([round-time-contract.md §4](../../../references/round-time-contract.md)) —
 dispatch the planned lanes at once, after any parent pre-login for accounts sharing one OTP
@@ -386,7 +407,7 @@ What is specific to testing a ticket:
 
 ---
 
-## Result quality gate (mandatory before Phase F)
+## Result quality gate (mandatory before Phase F) [low freedom]
 
 Run [result-quality-gate.md](../../../references/result-quality-gate.md) — all 20 layers, every case, PASSED
 ones included — **before any result is summarized in Phase F or written in Phase G**. Write one final result line per case (older lines marked
@@ -406,15 +427,11 @@ source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot 
 or "wait for someone" before this sweep is written down.
 
 **Required output when defects are found — never auto-file.** The round's report carries the two
-tables in [result-quality-gate.md](../../../references/result-quality-gate.md) § *Required output
-when the round finds defects*: **Defect candidates — NOT filed** (Ticket · TC/ER point · Actual ·
-Expected · Requirement reference with char-exact quote · Evidence: still + accepted clip (layer 10) + capture
-manifest · Root cause `path:line` · Priority per
-[bug-priority-matrix.md](../../../references/bug-priority-matrix.md) · Status "Not filed yet", in a
-Thai report "ยังไม่ได้เปิดบั๊ก"), holding only rows whose expected side is a confirmed spec; and
-**Needs PO decision** for spec conflicts, quoting both sources. Filing waits for the owner.
+tables of [result-quality-gate.md](../../../references/result-quality-gate.md) § *Required output
+when the round finds defects*, as templated in **F3** — never as bullets or prose — and the owner is
+asked, per candidate, whether to file it (F5 step 2).
 
-## Phase F — Summarize in this chat (mandatory)
+## Phase F — Summarize in this chat (mandatory) [high freedom]
 
 Always post a clear summary **in the same conversation** before anything else:
 
@@ -447,18 +464,19 @@ row with its own verdict; it is **never** parked in Notes/remark/chat while the 
 
 ### F3 — Defects observed (if any)
 
-List issues found **without filing tickets**:
+Report defects **without filing them**, as these two tables (bullets or prose do not count):
 
-```text
-| # | Title | Severity | Confidence | Evidence |
-|---|-------|----------|------------|----------|
-| 1 | ...   | High     | Confirmed  | ...      |
-```
+**Defect candidates — NOT filed** (only rows whose expected side is a confirmed spec)
 
+| Ticket | TC / ER point | Actual | Expected | Requirement reference (source + char-exact quote) | Evidence (still + accepted clip, layer 10, + capture manifest) | Root cause `path:line` | Confidence | Priority ([matrix](../../../references/bug-priority-matrix.md)) | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| `{ISSUE_KEY}` | `TC_nn` · `ER_n` | … | … | AC id / design node / PO comment id: "…" | … | … | Confirmed | … | Not filed yet (Thai: ยังไม่ได้เปิดบั๊ก) |
+
+**Needs PO decision** — `| Ticket | TC / ER point | Source 1 + char-exact quote | Source 2 + char-exact quote | Observed |`, one row per spec conflict; the case stays BLOCKED.
 The **Confidence** column carries the E2 label — `Confirmed` / `Suspected` / `Unknown — not
 investigated` — and it describes the **cause**, not how strongly you feel about the defect.
 
-**The `Severity` column is judged only by the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md)** — match the observed defect to its row, never invent a severity/priority
+**The `Priority` column is judged only by the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md)** — match the observed defect to its row, never invent a severity/priority
 notion. Cheat-sheet (full matrix + hard rule at the link):
 
 | If the defect reads like… | Priority | Verdict |
@@ -564,8 +582,10 @@ Follow [round-time-contract.md §3](../../../references/round-time-contract.md):
    ([§6](../../../references/round-time-contract.md)) when a comment will be posted, and the popups. The
    reviewer must return CLEAN before step 4.
 2. **Decisions popup** — only when questions are queued. One `AskUserQuestion`, batched 4 at a time:
-   the scope plan from Phase C, each queued E3 non-PASS (A/B/C), missing design, and cross-ticket
-   conflicts (*Investigate further* / *Close out now*).
+   the scope plan from Phase C, each queued E3 non-PASS (A/B/C), missing design, cross-ticket
+   conflicts (*Investigate further* / *Close out now*), and **for every Defect-candidate row (and
+   every C answer) "Open a bug for {TC/ER}?"** (*Not now — stays Not filed yet* / *Open it via
+   create-bug-workflow*). Only a live *Open it* answer from the owner routes to create-bug.
 3. **Apply the answers** — re-render the draft and re-run the guard.
 4. **Approval popup** — one approval for the whole bundle, naming every concrete action: the comment
    (target ticket + endpoint), each external result update (destination + rows), and any notify
@@ -578,7 +598,7 @@ Write `references/helix-handoff-{KEY}.md` at the close of every round with the f
 
 ---
 
-## Phase G — Optional: update results elsewhere
+## Phase G — Optional: update results elsewhere [low freedom]
 
 G1–G3 collapse into the F5 end-of-round bundle
 ([round-time-contract.md §2–§3](../../../references/round-time-contract.md)) — no separate questions
@@ -752,7 +772,7 @@ If verification failed partially, state what succeeded and what did not — NEVE
 
 ---
 
-## Phase H — A question arrives after results were published
+## Phase H — A question arrives after results were published [low freedom]
 
 A follow-up question is a **defect in the write-up**, not a normal step
 ([defect-report-completeness.md](../../../references/defect-report-completeness.md) §6).
@@ -772,7 +792,7 @@ A follow-up question is a **defect in the write-up**, not a normal step
 
 ---
 
-## QA closing (mandatory before session end)
+## QA closing (mandatory before session end) [low freedom]
 
 Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) first** — apply its unattended default (step 5) and queue *Investigate further* / *Close out now* into the F5 end decisions popup, before the approval popup ([round-time-contract.md §3](../../../references/round-time-contract.md)); the session is not done until the user has answered it there:
 
