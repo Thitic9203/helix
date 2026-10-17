@@ -216,9 +216,14 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 
 Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, once for the whole request.
 
-1. **Read the tab** (header row + every data row) and its formats: dropdown lists, people chips, date formats, which cells carry links. Treat the sheet as shared with others (it may be customer-facing) — never edit existing rows unless the user asks.
-2. **One row per file** from this run. If the tab already has a row for the card (match the key column), do not add a second one — show that row and ask whether to update it.
-3. **Build every column** from the project's column rules. Default rules (first project that used this step):
+1. **Pick the tab per card** (project rules; defaults below, checked in this order):
+   1. Jira issue type is **Bug** → the bug tab (default `Bug reported by HI`).
+   2. Card summary contains **`CR` as a separate upper-case word** (regex `(?<![A-Za-z])CR(?![A-Za-z])` — matches `[CR] …`, `CR-2508-005 …`, `[HOTFIX][CR] …`; not `CREATE`, `Screen`) → the CR tab (default `CR`).
+   3. Otherwise → the improvement tab (default `Improvement by SKL`).
+   Read the issue type from Jira; never infer it from the title.
+2. **Read the target tab** (header row + every data row) and its formats: dropdown lists, people chips, date formats, which cells carry links. Treat the sheet as shared with others (it may be customer-facing) — never edit existing rows unless the user asks.
+3. **One row per file** from this run. If the tab already has a row for the card (match the key column), do not add a second one — show that row and ask whether to update it.
+4. **Build every column** from the project's column rules. Columns are found by header name, never by letter. Default rules (first project that used this step) — the same rule applies to the matching header in every tab:
 
 | Column | Value |
 |---|---|
@@ -235,11 +240,15 @@ Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, 
 | Production Release | the release date from the folder name (e.g. `Release 04_Nov` → 4 Nov of the current year), written as a real date |
 | TC Approval Status by HI | `TO DO` |
 | Comment from HI (both) | empty |
+| No (CR tab) | highest whole number in the column + 1 |
+| CR Name · Jira (Story) (CR tab) | as Improvement Name · Jira |
+| Summary · SKL Ticket (bug tab) | card summary · card key linked to Jira |
+| Module · HI Ticket · Latest progress · Note after recheck · UAT by HI (bug tab) | no rule yet → ask |
 
    Every value for a dropdown column must be in its list. A value the rules cannot fill, or any doubt (no matching release rows, a date that reads two ways, a header the rules do not know) → **ask before adding**, all questions in one message.
-4. **Final confirm.** Show the rows exactly as they will be written (one table, every column) and wait for the user to say confirm. Without it, write nothing.
-5. **Append.** Insert the rows after the last data row, copy the format of the last data row onto them (`copyPaste` `PASTE_FORMAT`, so dropdowns and chips match), then write the values with `updateCells` — links as `textFormatRuns` with `format.link.uri`, owners as people chips, dates as numbers with a day/month/year format.
-6. **Verify.** Read the new rows back: every value equals the confirmed table, dropdown values are in their lists, links and chips are present. Report the row numbers written.
+5. **Final confirm.** Show the target tab per card and the rows exactly as they will be written (one table, every column) and wait for the user to say confirm. Without it, write nothing.
+6. **Append.** Insert the rows after the last data row, copy the format of the last data row onto them (`copyPaste` `PASTE_FORMAT`, so dropdowns and chips match), then write the values with `updateCells` — links as `textFormatRuns` with `format.link.uri`, owners as people chips, dates as numbers with a day/month/year format.
+7. **Verify.** Read the new rows back: every value equals the confirmed table, dropdown values are in their lists, links and chips are present. Report the row numbers written.
 
 Never invent a status, date or link. If the sheet shows an existing error (for example a date whose stored value differs from what it displays), tell the user — do not fix it unasked.
 
