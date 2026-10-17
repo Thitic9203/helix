@@ -11,6 +11,7 @@ Use when the user writes **Thai or mixed language** but Helix still replies in *
 | สร้างบั๊ก, file bug, open issue, log defect | `create-bug-workflow` |
 | ตรวจงานตัวเองอีกรอบ, audit this, review my work, check yourself, CatchAI | `catch-ai-workflow` |
 | รีวิวเทสเคส, review TC sheet, check TC coverage against AC, review test case document | `tc-review-workflow` |
+| เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template, release TC file | `tc-change-format-workflow` |
 | Helix, เมนู, ทำอะไรได้บ้าง | Show menu (`helix` / `/helix`) |
 
 Extract `PROJ-123` or URLs from the same message when present.

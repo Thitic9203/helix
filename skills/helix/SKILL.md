@@ -75,7 +75,8 @@ Say the number/name to start, or ignore. (Set HELIX_PROACTIVE=0 to silence.)
 | 9, review result, review evidence clips | `review-result-workflow` (ols-qa workspace only) — not shipped in helix; outside ols-qa, say so and suggest the closest workflow above |
 | 10, smoke test, post-deploy smoke | `smoke-test-workflow` (ols-qa workspace only) — not shipped in helix; outside ols-qa, say so and suggest the closest workflow above |
 | 11, test data prep, seed test data | `test-data-prep-workflow` (ols-qa workspace only) — not shipped in helix; outside ols-qa, say so and suggest the closest workflow above |
-| 12, other | Clarify; suggest closest workflow |
+| 12, tc change format, release TC template | Read and follow [tc-change-format-workflow](../tc-change-format-workflow/SKILL.md) |
+| 13, other | Clarify; suggest closest workflow |
 
 Handoffs: [skill-routing.md](../../references/skill-routing.md).
 
@@ -83,7 +84,7 @@ Handoffs: [skill-routing.md](../../references/skill-routing.md).
 
 Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + router-specific:
 
-- [ ] User selected a workflow (1–12 or named skill).
+- [ ] User selected a workflow (1–13 or named skill).
 - [ ] Child workflow skill is loaded (not just described).
 - [ ] No Jira post or issue create happened in this router skill.
 
@@ -96,7 +97,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Rou
 | Rule | Because |
 |------|---------|
 | MUST show English menu from commands/helix.md | Consistent UX across agents |
-| MUST NOT start a workflow without user picking 1–12 or naming one | Avoid wrong scope |
+| MUST NOT start a workflow without user picking 1–13 or naming one | Avoid wrong scope |
 | MUST NOT post to Jira or create issues from this router | Side effects belong in child workflows |
 
 ## Must-read files

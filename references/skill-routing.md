@@ -17,6 +17,7 @@ Canonical map for `/helix`, [commands/helix.md](../commands/helix.md), and [AGEN
 | Audit finished work against its governing sources | `catch-ai-workflow` | `/catch-ai` |
 | Smoke test a deployed build on a named environment | `smoke-test-workflow` | `/smoke-test` |
 | Create, fix, or verify test data (content, covers, accounts) | `test-data-prep-workflow` | `/test-data-prep` |
+| Copy a ticket's TC tab into the release TC template | `tc-change-format-workflow` | — |
 | Unsure / multi-step | `helix` skill or `/helix` (Claude Code) | `/helix` or `@helix` |
 
 ## Jira issue type → skill (unattended and bot runs)
@@ -60,3 +61,4 @@ From context (branch, linked ticket, defects in chat) the router MAY **suggest**
 | `catch-ai-workflow` | File the bug it confirms (→ create-bug), retest a ticket after a dev fix (→ retest-bug), or rewrite the audited work |
 | `smoke-test-workflow` | Test a single ticket (→ testing-ticket), retest after a fix (→ retest-bug), or run a full regression |
 | `test-data-prep-workflow` | Run tests on a ticket (→ testing-ticket), retest a bug (→ retest-bug), or draft TC tables (→ tc-fe-prep / tc-api-prep) |
+| `tc-change-format-workflow` | Write or edit test cases (→ tc-fe-prep / tc-api-prep), write into the source TC sheet, or record test results |
