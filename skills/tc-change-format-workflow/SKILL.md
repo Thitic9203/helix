@@ -214,7 +214,9 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 
 ### 12. Record in the tracking sheet (final confirm)
 
-Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, once for the whole request.
+Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, once for the whole request — also when update mode found nothing to change, so a file whose results are now complete still gets its row.
+
+**Gate — results must be attached (work-owner rule, 2026-10-18).** Read the release TC file fresh and check its `Test Result Link` column: **every** data row must carry a real link (a `hyperlink`, a link in `textFormatRuns`, or a `HYPERLINK` formula). Text such as `Link` with no URL does not count. If any row lacks one, add **no** tracking row for that file: tell the user which Test Case IDs still need a result link and that the row will be added when the TC is sent again with every link in place.
 
 1. **Pick the tab per card** (project rules; defaults below, checked in this order):
    1. Jira issue type is **Bug** → the bug tab (default `Bug reported by HI`).
@@ -262,5 +264,5 @@ Never invent a status, date or link. If the sheet shows an existing error (for e
 - [ ] Only header + N rows and the template columns remain; every table cell has four solid borders.
 - [ ] Every owner cell is a people chip with the mapped e-mail.
 - [ ] The user opened the file and confirmed no line wraps and no missing borders.
-- [ ] Tracking sheet: every column came from a rule or the user; the user confirmed the exact rows; nothing was added without that confirm; the rows were read back.
+- [ ] Tracking sheet: a row was added only for files whose every `Test Result Link` has a real link (missing IDs reported otherwise); every column came from a rule or the user; the user confirmed the exact rows; nothing was added without that confirm; the rows were read back.
 - [ ] Several tabs: all questions were asked in one message before any write; tabs were written one at a time; the final table has one row per tab with its own counts and status.
