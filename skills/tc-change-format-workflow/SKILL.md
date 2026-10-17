@@ -22,7 +22,7 @@ Talk to the user in their language and ask every question in that language. Neve
 
 - [Refusal-first (precondition gate)](#refusal-first-precondition-gate) · [Project config](#project-config) · [Tools required](#tools-required) · [Column mapping](#column-mapping-template--source)
 - [Several tabs in one request](#several-tabs-in-one-request) · [File already made — update mode](#file-already-made--update-mode)
-- Steps: [1 Intake](#1-intake) · [2 Resolve the tab](#2-resolve-the-tab) · [3 File name](#3-card-title--file-name) · [4 Read source](#4-read-the-source-tab) · [5 Release folder](#5-pick-the-release-folder) · [6 Confirm](#6-confirm-before-writing) · [7 Create](#7-create) · [8 Fill](#8-fill--copy-never-retype) · [9 Tidy](#9-tidy-the-sheet) · [10 Verify](#10-verify--in-the-sheet-with-a-control) · [11 Report](#11-report)
+- Steps: [1 Intake](#1-intake) · [2 Resolve the tab](#2-resolve-the-tab) · [3 File name](#3-card-title--file-name) · [4 Read source](#4-read-the-source-tab) · [5 Release folder](#5-pick-the-release-folder) · [6 Confirm](#6-confirm-before-writing) · [7 Create](#7-create) · [8 Fill](#8-fill--copy-never-retype) · [9 Tidy](#9-tidy-the-sheet) · [10 Verify](#10-verify--in-the-sheet-with-a-control) · [11 Report](#11-report) · [12 Record in the tracking sheet](#12-record-in-the-tracking-sheet-final-confirm)
 - [QA closing (mandatory before "done")](#qa-closing-mandatory-before-done)
 
 ## Refusal-first (precondition gate)
@@ -45,6 +45,7 @@ All project values come from the **user's** `references/*-guide.md` in the works
 | `{TC_TEMPLATE_SHEET}` | The release TC template as a **Google Sheet** (one tab, header in row 1, row 2 a formatted sample row) |
 | `{TC_RELEASE_ROOT_FOLDER}` | Drive folder whose sub-folders are the releases (default name pattern `Release <DD>_<Mon>`) |
 | `{TC_OWNER_EMAIL_MAP}` | Owner name → Google account e-mail, for people tags — keep it outside any public repo |
+| `{TC_TRACKING_SHEET}` + tab | Optional. The sheet where each delivered TC file gets a row (step 12), and its column rules |
 | Column mapping / value rules | Optional override of the defaults below |
 
 If a value is missing, ask the user. Never guess an ID or an e-mail.
@@ -211,6 +212,37 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 - The numbers from step 10
 - Source columns not copied, and any value that needed a rule
 
+### 12. Record in the tracking sheet (final confirm)
+
+Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, once for the whole request.
+
+1. **Read the tab** (header row + every data row) and its formats: dropdown lists, people chips, date formats, which cells carry links. Treat the sheet as shared with others (it may be customer-facing) — never edit existing rows unless the user asks.
+2. **One row per file** from this run. If the tab already has a row for the card (match the key column), do not add a second one — show that row and ask whether to update it.
+3. **Build every column** from the project's column rules. Default rules (first project that used this step):
+
+| Column | Value |
+|---|---|
+| Improvement Name | card summary from Jira |
+| Jira (Ticket improvement) | card key, linked to the Jira issue |
+| Bug (ที่ SKL พบเอง) | empty |
+| Ticket status | `PASSED ON PRE-PROD` |
+| QA Owner | people chip of the TC owner |
+| TC Status | `TC Delivered to HI-QA` |
+| Test Result Status | `Test Result Delivered to HI-QA` |
+| TC and Test result link | `Link`, linked to the new TC file |
+| วันสุดท้ายในการส่ง TC & Test Result ให้ลูกค้า | empty |
+| Demo · UAT | copied from rows whose TC link points to a file in the **same release folder**; none → ask |
+| Production Release | the release date from the folder name (e.g. `Release 04_Nov` → 4 Nov of the current year), written as a real date |
+| TC Approval Status by HI | `TO DO` |
+| Comment from HI (both) | empty |
+
+   Every value for a dropdown column must be in its list. A value the rules cannot fill, or any doubt (no matching release rows, a date that reads two ways, a header the rules do not know) → **ask before adding**, all questions in one message.
+4. **Final confirm.** Show the rows exactly as they will be written (one table, every column) and wait for the user to say confirm. Without it, write nothing.
+5. **Append.** Insert the rows after the last data row, copy the format of the last data row onto them (`copyPaste` `PASTE_FORMAT`, so dropdowns and chips match), then write the values with `updateCells` — links as `textFormatRuns` with `format.link.uri`, owners as people chips, dates as numbers with a day/month/year format.
+6. **Verify.** Read the new rows back: every value equals the confirmed table, dropdown values are in their lists, links and chips are present. Report the row numbers written.
+
+Never invent a status, date or link. If the sheet shows an existing error (for example a date whose stored value differs from what it displays), tell the user — do not fix it unasked.
+
 ## QA closing (mandatory before "done")
 
 - [ ] The user confirmed the release folder, file name, counts and owner e-mails before anything was written.
@@ -221,4 +253,5 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 - [ ] Only header + N rows and the template columns remain; every table cell has four solid borders.
 - [ ] Every owner cell is a people chip with the mapped e-mail.
 - [ ] The user opened the file and confirmed no line wraps and no missing borders.
+- [ ] Tracking sheet: every column came from a rule or the user; the user confirmed the exact rows; nothing was added without that confirm; the rows were read back.
 - [ ] Several tabs: all questions were asked in one message before any write; tabs were written one at a time; the final table has one row per tab with its own counts and status.
