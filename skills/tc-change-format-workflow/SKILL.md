@@ -21,7 +21,7 @@ Talk to the user in their language and ask every question in that language. Neve
 ## Contents
 
 - [Refusal-first (precondition gate)](#refusal-first-precondition-gate) · [Project config](#project-config) · [Tools required](#tools-required) · [Column mapping](#column-mapping-template--source)
-- [Several tabs in one request](#several-tabs-in-one-request)
+- [Several tabs in one request](#several-tabs-in-one-request) · [File already made — update mode](#file-already-made--update-mode)
 - Steps: [1 Intake](#1-intake) · [2 Resolve the tab](#2-resolve-the-tab) · [3 File name](#3-card-title--file-name) · [4 Read source](#4-read-the-source-tab) · [5 Release folder](#5-pick-the-release-folder) · [6 Confirm](#6-confirm-before-writing) · [7 Create](#7-create) · [8 Fill](#8-fill--copy-never-retype) · [9 Tidy](#9-tidy-the-sheet) · [10 Verify](#10-verify--in-the-sheet-with-a-control) · [11 Report](#11-report)
 - [QA closing (mandatory before "done")](#qa-closing-mandatory-before-done)
 
@@ -89,10 +89,26 @@ The user may send several TC links at once (tabs of one spreadsheet or of differ
 
 1. **Read everything first.** Run steps 1–4 for every tab before any write. Collect every open question (missing card, unknown owner e-mail, a value no rule covers, a key that does not match its tab) and ask them **together in one message**. Do not start writing while a question is open.
 2. **One release pick** (step 5) for the whole request.
-3. **One confirmation** (step 6) as a table, one row per tab: tab · file name · N · rule counts (e.g. Core/Edge) · owners · duplicate in release (yes/no). A tab whose file name already exists stays in the table marked "skip — duplicate" unless the user says otherwise.
-4. **One tab at a time.** For each confirmed tab, in order, run steps 7–10 completely (duplicate check in the same turn → create → fill → tidy → verify) before starting the next. Never run two tabs' writes at once — the counts and temporary tabs must not mix.
+3. **One confirmation** (step 6) as a table, one row per tab: tab · mode (new / update / no change) · file name and where · N · rule counts (e.g. Core/Edge) · owners · for update: cells changed, cases added, cases gone.
+4. **One tab at a time.** For each confirmed tab, in order, run steps 7–10 completely (search for an existing file again in the same turn → create or update → fill → tidy → verify) before starting the next. Never run two tabs' writes at once — the counts and temporary tabs must not mix.
 5. **A failure stays in its tab.** If a tab fails during steps 7–10, stop work on that tab, leave its file as it is (do not delete it without the user), record what failed, and continue with the next tab.
-6. **One report** at the end (step 11) as a table, one row per tab: file link · rows N/N · cells X/Y · tags X/N · borders X/Y · status (done / skipped / failed + reason). Then ask the user to open the files and confirm what can only be seen.
+6. **One report** at the end (step 11) as a table, one row per tab: file link · rows N/N · cells X/Y · tags X/N · borders X/Y · status (created / updated / no change / skipped / failed + reason). Then ask the user to open the files and confirm what can only be seen.
+
+## File already made — update mode
+
+Before step 5, search **every** release folder for a file whose name starts with `<KEY> ` (the card name in Jira may have changed). Use `search_files` per release folder (`parentId = '<release id>' and title contains '<KEY> '`), following `next_page_token`.
+
+- **Not found** → normal run (new file).
+- **More than one found** → list them with their release and ask which one to update.
+- **One found** → compare it with the source (work owner decisions, 2026-10-17):
+  1. Copy the source tab into the **existing** file as a temporary tab and build the expected table there (rule columns, owner names).
+  2. Match rows by `Test Case ID`. In a temporary `chk` tab, flag per row: case added (in source, not in file) · case gone (in file, not in source) · cells that differ, per column. Compare **all 13 columns** — the source wins on every column, including results such as `Test Status`, links and comments. Owner: compare the chip e-mail with the mapped e-mail. Also compare the file name with `<KEY> <current card summary>`.
+  3. Read the flags (numbers only, no retyping), then delete the temporary tabs.
+  - **Nothing differs** → write nothing. Tell the user the file already exists, with its release folder and link, and that it is up to date.
+  - **Something differs** → show the differences as a table (case · column · now in file → from source; cases added; cases gone; new file name if the card was renamed) and wait for a yes.
+    - Cases gone from the source are **never deleted without asking** — list them and ask: delete or keep. Kept cases stay after the source rows.
+4. After the yes: save kept rows (if any) to a temporary tab with `copyPaste`; rewrite rows 2…N+1 from the source exactly as step 8 does (insert rows by copying the format of row 2, or delete surplus rows); put kept rows back after them; rename the file if asked; then run step 9 (tidy) and step 10 (verify) on the whole table.
+5. Report **"updated"** with the file link and what changed (cells changed X, cases added Y, cases deleted Z / kept W) plus the step 10 numbers.
 
 ## Steps
 
@@ -138,14 +154,14 @@ More than one link → follow [Several tabs in one request](#several-tabs-in-one
 ### 6. Confirm before writing
 
 Show the user, then wait for an explicit yes:
-- Release folder name, and the file name — plus whether a file with that name already exists in the release (exists → stop and ask)
+- Release folder name, and the file name — a file for this card that already exists anywhere goes through [update mode](#file-already-made--update-mode) instead
 - N, and the counts per rule value (e.g. Core/Edge, statuses)
 - Owners and the e-mail each will be tagged with
 - Source columns not copied
 
 ### 7. Create
 
-Immediately before creating, search the release folder again for the file name — the check from step 6 is not enough.
+Immediately before creating, search the release folders again for a file starting with `<KEY> ` — the check from step 6 is not enough. Found now → stop and switch to update mode.
 
 1. Create the release folder only if the user asked for a new one (`create_file`, `contentMimeType: application/vnd.google-apps.folder`).
 2. `copy_file` on `{TC_TEMPLATE_SHEET}` with `parentId` = release folder and `title` = file name. The copy keeps the coloured dropdowns, borders and header exactly.
@@ -198,7 +214,8 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 ## QA closing (mandatory before "done")
 
 - [ ] The user confirmed the release folder, file name, counts and owner e-mails before anything was written.
-- [ ] The file name was checked for a duplicate in the same turn as `copy_file`.
+- [ ] Every release folder was searched for `<KEY> ` in the same turn as `copy_file`; an existing file went through update mode.
+- [ ] Update mode: differences were shown and confirmed before writing; nothing was written when nothing differed; no case gone from the source was deleted without a yes.
 - [ ] No source text was retyped — every copied column came through `copyPaste` `PASTE_VALUES`.
 - [ ] `chk` shows every column = N and the negative control = 0; `chk` and copied tabs are deleted.
 - [ ] Only header + N rows and the template columns remain; every table cell has four solid borders.
