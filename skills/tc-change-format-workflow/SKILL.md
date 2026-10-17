@@ -1,8 +1,8 @@
 ---
 name: tc-change-format-workflow
 description: |
-  Copy one ticket's test cases from a TC tab in a Google Sheet into a new Google Sheet made from the project's release TC template, placed directly in the release folder the user picks. Only mapped template columns are filled; the template's look (coloured dropdowns, borders, header) is kept, empty rows and columns are removed, rows and columns are sized so no line wraps, and owners become people tags.
-  Use when the user sends a TC sheet link (with a tab) and asks to change the TC format, move the TC into the release template, or create the release TC file for a card, or says /tc-change-format, เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template.
+  Copy each ticket's test cases from a TC tab in a Google Sheet into a new Google Sheet made from the project's release TC template, placed directly in the release folder the user picks — one tab or several tabs in one request. Only mapped template columns are filled; the template's look (coloured dropdowns, borders, header) is kept, empty rows and columns are removed, rows and columns are sized so no line wraps, and owners become people tags.
+  Use when the user sends one or more TC sheet links (each with a tab) and asks to change the TC format, move the TC into the release template, or create the release TC file for a card, or says /tc-change-format, เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template.
   Do NOT use for writing new test cases (tc-fe-prep-workflow / tc-api-prep-workflow), reviewing test cases (tc-review-workflow), or recording test results (testing-ticket-workflow).
 proactive_triggers:
   - /tc-change-format
@@ -21,6 +21,7 @@ Talk to the user in their language and ask every question in that language. Neve
 ## Contents
 
 - [Refusal-first (precondition gate)](#refusal-first-precondition-gate) · [Project config](#project-config) · [Tools required](#tools-required) · [Column mapping](#column-mapping-template--source)
+- [Several tabs in one request](#several-tabs-in-one-request)
 - Steps: [1 Intake](#1-intake) · [2 Resolve the tab](#2-resolve-the-tab) · [3 File name](#3-card-title--file-name) · [4 Read source](#4-read-the-source-tab) · [5 Release folder](#5-pick-the-release-folder) · [6 Confirm](#6-confirm-before-writing) · [7 Create](#7-create) · [8 Fill](#8-fill--copy-never-retype) · [9 Tidy](#9-tidy-the-sheet) · [10 Verify](#10-verify--in-the-sheet-with-a-control) · [11 Report](#11-report)
 - [QA closing (mandatory before "done")](#qa-closing-mandatory-before-done)
 
@@ -28,8 +29,8 @@ Talk to the user in their language and ask every question in that language. Neve
 
 MUST NOT write anything without all of:
 
-- the **TC sheet link** with a tab, readable this session;
-- the **card** (Jira link, or the user's go-ahead to read the card whose key equals the tab name);
+- every **TC sheet link** with a tab, readable this session;
+- the **card** for each tab (Jira link, or the user's go-ahead to read the card whose key equals the tab name);
 - the project config values below, and an e-mail for every owner name;
 - the Google Sheets and Google Drive connectors, authenticated.
 
@@ -82,15 +83,27 @@ A template column with a strict dropdown cannot take a value outside its list �
 Source columns not in the table are not copied — list them in the final report.
 Keep every template column, even when it has no data.
 
+## Several tabs in one request
+
+The user may send several TC links at once (tabs of one spreadsheet or of different spreadsheets). Every file goes to the **same** release folder unless the user names a release per link.
+
+1. **Read everything first.** Run steps 1–4 for every tab before any write. Collect every open question (missing card, unknown owner e-mail, a value no rule covers, a key that does not match its tab) and ask them **together in one message**. Do not start writing while a question is open.
+2. **One release pick** (step 5) for the whole request.
+3. **One confirmation** (step 6) as a table, one row per tab: tab · file name · N · rule counts (e.g. Core/Edge) · owners · duplicate in release (yes/no). A tab whose file name already exists stays in the table marked "skip — duplicate" unless the user says otherwise.
+4. **One tab at a time.** For each confirmed tab, in order, run steps 7–10 completely (duplicate check in the same turn → create → fill → tidy → verify) before starting the next. Never run two tabs' writes at once — the counts and temporary tabs must not mix.
+5. **A failure stays in its tab.** If a tab fails during steps 7–10, stop work on that tab, leave its file as it is (do not delete it without the user), record what failed, and continue with the next tab.
+6. **One report** at the end (step 11) as a table, one row per tab: file link · rows N/N · cells X/Y · tags X/N · borders X/Y · status (done / skipped / failed + reason). Then ask the user to open the files and confirm what can only be seen.
+
 ## Steps
 
 ### 1. Intake
 
-Need both:
+Need, for every tab:
 - **TC sheet link** with a tab (`…/spreadsheets/d/<id>/edit?gid=<gid>`)
 - **Card** — a Jira link, or the user's go-ahead to read the card whose key equals the tab name
 
-Ask for whichever is missing. If the sheet link has no `gid`, ask for the tab name.
+Ask for whichever is missing. If a sheet link has no `gid`, ask for the tab name.
+More than one link → follow [Several tabs in one request](#several-tabs-in-one-request) around steps 1–11.
 
 ### 2. Resolve the tab
 
@@ -191,3 +204,4 @@ Borders and wrapping are what people **see**; API values are not proof of that. 
 - [ ] Only header + N rows and the template columns remain; every table cell has four solid borders.
 - [ ] Every owner cell is a people chip with the mapped e-mail.
 - [ ] The user opened the file and confirmed no line wraps and no missing borders.
+- [ ] Several tabs: all questions were asked in one message before any write; tabs were written one at a time; the final table has one row per tab with its own counts and status.
