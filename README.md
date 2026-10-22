@@ -249,6 +249,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
+| [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
 
 **Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
