@@ -52,8 +52,10 @@ check_skill_file() {
   local base
   base="$(basename "$(dirname "$f")")"
 
-  if ! grep -q '^proactive_triggers:' "$f"; then
-    log_err "$base: missing proactive_triggers in frontmatter"
+  # proactive_triggers lives under metadata: (passes skill-creator quick_validate);
+  # the legacy top-level form is still accepted while skills migrate.
+  if ! python3 "$ROOT/scripts/lib/frontmatter-triggers.py" "$f" ${HELIX_TRIGGERS_METADATA_ONLY:+--metadata-only}; then
+    log_err "$base: missing proactive_triggers in frontmatter (put it under metadata:)"
   fi
 
   if ! grep -q '## QA closing' "$f"; then
