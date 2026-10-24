@@ -52,9 +52,9 @@ check_skill_file() {
   local base
   base="$(basename "$(dirname "$f")")"
 
-  # proactive_triggers lives under metadata: (passes skill-creator quick_validate);
-  # the legacy top-level form is still accepted while skills migrate.
-  if ! python3 "$ROOT/scripts/lib/frontmatter-triggers.py" "$f" ${HELIX_TRIGGERS_METADATA_ONLY:+--metadata-only}; then
+  # proactive_triggers lives under metadata: (passes skill-creator quick_validate).
+  # Migration finished 2026-10-25: the legacy top-level form now fails.
+  if ! python3 "$ROOT/scripts/lib/frontmatter-triggers.py" "$f" --metadata-only; then
     log_err "$base: missing proactive_triggers in frontmatter (put it under metadata:)"
   fi
 
