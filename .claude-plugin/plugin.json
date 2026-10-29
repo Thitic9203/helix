@@ -1,6 +1,6 @@
 {
   "name": "helix",
-  "version": "1.5.147",
+  "version": "1.5.148",
   "description": "Helix QA assistant — TC prep, testing ticket, create bug, and retest workflows",
   "author": {
     "name": "QA Lead"
@@ -15,6 +15,8 @@
     "./skills/testing-ticket-workflow",
     "./skills/create-bug-workflow",
     "./skills/catch-ai-workflow",
-    "./skills/tc-review-workflow"
+    "./skills/tc-review-workflow",
+    "./skills/test-data-prep-workflow",
+    "./skills/review-result-workflow"
   ]
 }
