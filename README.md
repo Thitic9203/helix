@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.147** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.148** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -249,6 +249,8 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
+| [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
+| [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
 
 **Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
