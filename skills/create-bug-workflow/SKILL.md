@@ -1,15 +1,16 @@
 ---
 name: create-bug-workflow
 description: |
-  Open bug reports on Jira or GitHub after collecting target link, format template, and bug details — confirm before creating.
-  Use when the user chooses Create bug from Helix, invokes /create-bug, or wants issues filed from test findings.
+  Draft and file bug reports on Jira or GitHub after collecting the target link, format template and bug details — re-checks the board for an earlier decision, falsifies the defect, and confirms with the user before anything is created.
+  Use when the user chooses Create bug from Helix, invokes /create-bug, or wants a found defect recorded in a tracker — even without the word bug ("raise a ticket for this", "log this defect", "เปิดบั๊ก").
   Do NOT use for Playwright test runs (testing-ticket-workflow), retest-after-fix (retest-bug-workflow), posting manual TC tables (tc-fe-prep / tc-api-prep), or updating test result sheets without filing bugs.
-proactive_triggers:
-  - /create-bug
-  - create bug
-  - file bug
-  - open bug
-  - log defect
+metadata:
+  proactive_triggers:
+    - /create-bug
+    - create bug
+    - file bug
+    - open bug
+    - log defect
 ---
 
 # Create Bug (discovery stub)
@@ -27,39 +28,50 @@ Claude Code shortcut: `/create-bug` → [commands/create-bug.md](../../commands/
 
 Every must-read file for this workflow, linked directly from here. References already linked above are not repeated.
 
+**Read for every run** — every filing run uses these:
+
 - [WORKFLOW.md](../procedures/create-bug-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
-- [intake-one-pager.md](../../references/intake-one-pager.md) — at intake, to show the one-page list of inputs the run needs.
-- [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md) — before and after posting any Jira body (v2 wiki vs v3 ADF).
-- [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates, including the cross-ticket conflict check.
-- [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
-- [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone).
-- [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — on the first response, to locate the workspace project guide for this workflow.
-- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step; each excuse has its correct action.
+- [shared-preamble.md](../../references/shared-preamble.md) — read at the start of every run, before the first reply (preamble, constraints, tone).
+- [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — read on the first response, to locate the workspace project guide for this workflow.
+- [intake-one-pager.md](../../references/intake-one-pager.md) — read at intake, to show the one-page list of inputs the run needs.
 - [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — read before setting any priority or a PWMI / FAILED verdict.
+- [bug-draft-template.md](../procedures/create-bug-workflow/references/bug-draft-template.md) — read when drafting the bug.
+- [posting-discipline.md](../procedures/create-bug-workflow/references/posting-discipline.md) — read before posting the bug.
+- [user-communication.md](../../references/user-communication.md) — read before the first message to the user (every run sends the intake message).
+- [skill-rules-style.md](../../references/skill-rules-style.md) — read before the Phase A intake message (every run asks for missing inputs there).
+- [long-workflow-todos.md](../../references/long-workflow-todos.md) — read at the start of every run (the workflow always has many phases); keep the todo list.
+
+**Read when the run reaches that phase** — mandatory at the moment named:
+
+- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing the first draft body (Phase C), before the confirm block is shown; a run where every candidate is dropped or Needs Review writes no draft.
+- [shared-must-never.md](../../references/shared-must-never.md) — read before the first write of the run: the first create call, attachment upload or comment in Phase D — rules shared by every workflow.
+- [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim — at Phase F before saying any issue is created or verified, and at the end of a run that files nothing.
+- [qa-closing-shared.md](../../references/qa-closing-shared.md) — read before reporting done, whether or not anything was filed — shared QA closing gates, including the cross-ticket conflict check.
+
+**Read when the trigger in the line fires** — a Jira target, a design comparison, a non-pass verdict, a stuck step or tool error, session start/end, a timed round:
+
+- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read before you skip, shorten or reorder any phase or gate of WORKFLOW.md; each excuse has its correct action.
 - [customer-escape-prevention.md](../../references/customer-escape-prevention.md) — read before any QA run; the gates that stop shipped defects.
-- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing up any defect or non-pass.
-- [figma-design-comparison.md](../../references/figma-design-comparison.md) — read before judging any UI or visual result against the design.
-- [helix-session-constraints.md](../../references/helix-session-constraints.md) — read once at session start.
+- [figma-design-comparison.md](../../references/figma-design-comparison.md) — read when the expected side cites a design frame (Refusal-first, Phase E "Intentional design?" check).
+- [helix-session-constraints.md](../../references/helix-session-constraints.md) — read once at session start, when this run is the first Helix workflow of the session.
 - [jira-comment-post-review.md](../../references/jira-comment-post-review.md) — read after posting a Jira comment, before saying done.
 - [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) — read before posting a Jira table with multi-line cells.
-- [long-workflow-todos.md](../../references/long-workflow-todos.md) — read when the workflow has many steps; keep the todo list.
+- [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md) — before and after posting any Jira body (v2 wiki vs v3 ADF).
 - [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) — read before recording any result that is not PASSED.
-- [playwright-preflight.md](../../references/playwright-preflight.md) — read before any Playwright run.
-- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read when a QA follow-up could be suggested.
+- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read when proposing a QA follow-up.
 - [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — read when a test is flaky or a tool errors.
-- [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim.
-- [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing Playwright selectors.
 - [result-quality-gate.md](../../references/result-quality-gate.md) — read before any verdict leaves the round.
 - [root-cause-investigation.md](../../references/root-cause-investigation.md) — read before naming a cause for any failure.
 - [round-time-contract.md](../../references/round-time-contract.md) — read when a round starts and before reporting times.
 - [session-closing.md](../../references/session-closing.md) — read at session end.
 - [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read before invoking or switching skills.
 - [skill-routing.md](../../references/skill-routing.md) — read when choosing which skill handles a request.
-- [skill-rules-style.md](../../references/skill-rules-style.md) — read before asking the user or stopping on a missing input.
-- [test-through-real-steps.md](../../references/test-through-real-steps.md) — read before testing an action; no API shortcut for the action under test.
-- [user-communication.md](../../references/user-communication.md) — read before any message to the user.
-- [bug-draft-template.md](../procedures/create-bug-workflow/references/bug-draft-template.md) — read when drafting the bug.
-- [posting-discipline.md](../procedures/create-bug-workflow/references/posting-discipline.md) — read before posting the bug.
+
+**Read only if the user asks you to reproduce the bug in a browser yourself** — create-bug never does this on its own (steps come only from the reporter); hand reproduction to testing-ticket-workflow unless the user insists:
+
+- [playwright-preflight.md](../../references/playwright-preflight.md) — read before that Playwright run.
+- [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing its selectors.
+- [test-through-real-steps.md](../../references/test-through-real-steps.md) — read before testing the action; no API shortcut for the action under test.
 
 ## Refusal-first (precondition gate)
 
@@ -76,5 +88,5 @@ Run the check for each of these before step 1 — check commands and install hin
 - GitHub CLI `gh` (GitHub targets)
 - Atlassian MCP or Jira REST credentials (Jira targets)
 - macOS-only tools (`osascript`, browser fallback)
-- Node.js + in-repo guard tools (`tools/retest-guard`)
+- Node.js + in-repo guard tools (`tools/retest-guard`) — only when the workspace carries them; when `tools/retest-guard/` is absent, apply the `img-width-param` rule by hand (embed every image bare, `!file.png!`) and say so
 - `superpowers:systematic-debugging`

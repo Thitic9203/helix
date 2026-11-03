@@ -1,8 +1,8 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.129** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.151** · [Releases](https://github.com/Thitic9203/helix/releases)
 
-Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, and **Catch AI** self-audit of finished work — one entry menu across tools.
+Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, **TC review**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
 > **Scope & expectations**  
 > Helix is built for QA work with **clear boundaries**—a defined ticket, environment, inputs, and what “done” looks like. When the scope is vague or still in flux, you may need extra clarification rounds, and the output may require more review. Sharper scope upfront usually means stronger, faster results.
@@ -17,6 +17,9 @@ Portable skill pack for AI agents: **FE/API manual test-case prep** (with covera
 | **Testing Ticket** | Intake → Playwright → summary in chat → optional result update elsewhere |
 | **Create Bug** | Jira/GitHub target + format + details → confirm → file and verify |
 | **Catch AI** | Audit finished work — your own output, a document, a report, or a feature — into sourced findings, open questions, coverage gaps, and a verdict |
+| **TC Review** | Review an existing TC document against its ticket's AC/EC and business rules → traceability matrix, Good vs Need Improve |
+| **Review Result** | Review already-recorded test results and evidence clips → PASSED / FAILED / AWAITING RE-REVIEW per case (ols-qa workspace) |
+| **Test Data Prep** | Create, fix, or verify test data on a named environment before testing (ols-qa workspace) |
 
 TC prep workflows include **AC/EC or spec/Swagger alignment review**, **ISTQB / ISO/IEC/IEEE 29119-3–aligned** quality checks, and **mandatory Jira post-publish review** before close-out (see [qa-evidence-gates.md](references/qa-evidence-gates.md)). FE prep also ends with a **four-axis final TC review report** (AC/EC alignment, spelling, numbering, scope).
 
@@ -53,7 +56,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 7 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 9 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -102,6 +105,9 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Playwright test for one ticket | `/testing-ticket` | `testing-ticket-workflow` |
 | File bugs on Jira or GitHub | `/create-bug` | `create-bug-workflow` |
 | Audit finished work (self-check, second opinion) | `/catch-ai` | `catch-ai-workflow` |
+| Review an existing TC document against AC/EC | `/tc-review` | `tc-review-workflow` |
+| Review recorded test results and evidence | `/review-result` | `review-result-workflow` |
+| Prepare test data before testing | `/test-data-prep` | `test-data-prep-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -120,13 +126,13 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–7 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, other) and routes to the same workflows as the table above.
+The menu offers options 1–13 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
 
 ### First run tips
 
 - Workflows auto-load **`references/*-guide.md`** in your repo when present ([workspace-guide-discovery.md](references/workspace-guide-discovery.md)) — fewer repeated questions.
 - Long sessions may write **`references/helix-handoff-{KEY}.md`** so you can resume in a new chat ([session-closing.md](references/session-closing.md)).
-- Menus and questions are **English only** — [references/user-communication.md](references/user-communication.md). Jira/Sheet content may follow your project language after you approve.
+- Menus, questions, and replies follow **the language you write in**; technical terms, file names, and ticket keys stay as-is — [references/user-communication.md](references/user-communication.md). Skill files themselves stay in English.
 - Non–Claude Code agents: read [AGENTS.md](AGENTS.md) if the tool loads repo-level agent instructions.
 
 ## Update (when a new version ships)
@@ -249,9 +255,11 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/create-bug-workflow/WORKFLOW.md) | File bugs on Jira/GitHub |
 | [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | [reference.md](skills/catch-ai-workflow/reference.md) | Audit finished work — sourced defects vs questions, coverage gaps, sourced fix + prevention, pre-delivery second-reviewer pass |
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
+| [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
+| [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
 | [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 
@@ -278,7 +286,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | Script | Purpose |
 |--------|---------|
 | [install.sh](scripts/install.sh) | One-time setup: clone, symlinks, `helix@helix-dev`, hooks |
-| [helix-auto-update.sh](scripts/helix-auto-update.sh) | Check GitHub `VERSION`, pull, sync (SessionStart / manual) |
+| [helix-auto-update.sh](scripts/helix-auto-update.sh) | Read release tags, fast-forward to the newest release, sync (SessionStart / manual) |
 | [claude-plugin-sync.sh](scripts/claude-plugin-sync.sh) | Update/enable `helix@helix-dev`, disable `helix@local` |
 | [helix-doctor.sh](scripts/helix-doctor.sh) | Health check; `HELIX_DOCTOR_FIX=1` to repair |
 | [link-skills.sh](scripts/link-skills.sh) | Refresh global + workspace skill symlinks |

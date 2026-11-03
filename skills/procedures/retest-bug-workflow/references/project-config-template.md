@@ -30,9 +30,19 @@ Save as `references/{project-name}-retest-guide.md` in the **user's workspace**.
 
 > Test/staging only — never production secrets in committed files.
 
-| Portal | Username | Password |
-|--------|----------|----------|
-| Admin | `test@example.com` | *(from env or user)* |
+| Portal | Username | Session |
+|--------|----------|---------|
+| Admin | `test@example.com` | saved login file; a dead session is restored by the relink / mint commands below, which the user runs. A password is never stored or filled |
+
+### Session restore commands (login by command)
+
+Claude never opens a login window. It shows each command to the user as its own `bash` block, and the user presses Run.
+
+| Step | Template |
+|------|----------|
+| Relink (no password; every needed account, one combined block) | `cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" \|\| echo "$a FAILED (log: /tmp/relink-$a.log)"; done` |
+| Setup/mint (only accounts whose relink FAILED, one combined block) | `cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" \|\| echo "$a FAILED (log: /tmp/mint-$a.log)"; done` |
+| Probe (Claude runs it) | `<session endpoint>` returns the account's user id |
 
 ## API architecture
 

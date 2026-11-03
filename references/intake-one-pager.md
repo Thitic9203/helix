@@ -23,12 +23,13 @@ Optional: Jira story key for traceability only
 Required:
   • Ticket (Jira key or URL)
   • Application URL
-  • Login (user/password or "guest")
+  • Login account — username/email only, or "guest" (never a password)
   • VPN: required or not
 Optional:
   • Confluence page
   • Swagger URL
-I will post a test plan — reply **confirm** before Playwright runs.
+I will post the intake summary and a test plan, and wait —
+nothing runs in Playwright until you reply **confirm**.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

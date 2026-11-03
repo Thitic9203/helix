@@ -12,10 +12,11 @@ Collect these before any Playwright run.
 - Full base URL for the environment under test (e.g. `https://portal.example.com`).
 - Not the Jira URL — the **application** URL.
 
-## User / Password
+## User (account only — no password)
 
-- Portal login. Use `guest` + `—` when the ticket is explicitly unauthenticated.
-- Never echo the password back in summaries; show `password provided (not shown)`.
+- The test account (username/email). Use `guest` when the ticket is explicitly unauthenticated.
+- Never ask for, accept, store, or fill a password. If the user pastes one, do not use or echo it. A dead session is never restored with a login window. The main thread gives ready-to-run relink commands as one combined `bash` block, then the mint commands for the FAILED accounts only as one combined `bash` block, and the user runs them; then Claude probes ([WORKFLOW.md](../WORKFLOW.md) *Fresh login*).
+- Record the account names, the env, the URLs and the relink/mint command templates (`<project-dir>`, `<env>`, `<account>`) when the project guide does not name them. Never record a password.
 
 ## VPN
 
@@ -35,4 +36,4 @@ Collect these before any Playwright run.
 
 ## Confirmation gate
 
-The agent must show all seven fields (or explicit `none`) plus a derived test plan and receive **confirm** before Playwright starts.
+🔴 GATE: the agent must show all six fields (or explicit `none`) plus a derived test plan and receive the user's **confirm** before the first Playwright run ([WORKFLOW.md](../WORKFLOW.md) Phase C; the testing-ticket exception in round-time-contract §2).

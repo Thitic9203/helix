@@ -64,7 +64,7 @@ Weight depth by risk: business-critical paths, error handling, boundaries, secur
 | Severity | Meaning |
 |---|---|
 | Blocker | Blocks release or makes the deliverable unusable; data loss, security exposure, broken primary flow |
-| Major | Core behaviour or a stated requirement is wrong; a correct-looking number is actually wrong |
+| Major | Core behaviour or a stated requirement is wrong; a correct-looking number is actually wrong; a stated quality bar is missed ("it works" but below the bar its source sets) |
 | Minor | Real but contained — cosmetic drift, wording, non-blocking inconsistency |
 | Question | Expected or actual side unconfirmed; needs the spec owner or missing access |
 
@@ -75,9 +75,21 @@ An **unsourced claim** is a defect in its own right when the deliverable declare
 | Verdict | When |
 |---|---|
 | PASSED | Every checked item matched its governing source, and no coverage gap is Blocker or Major |
-| FAILED | At least one Blocker or Major defect confirmed, or a result that changes between identical runs |
-| BLOCKED | The expected side could not be confirmed for a material part of the scope |
+| PWMI (PASSED WITH MINOR ISSUE) | At least one defect confirmed and none reaches FAILED: every product bug's matrix row is Lowest / Low / Medium ([bug-priority-matrix.md](../../references/bug-priority-matrix.md) § PWMI), and every other finding is Minor |
+| FAILED | A product bug whose matrix row is High / Highest; a Blocker or Major finding where no matrix row applies; or a result that changes between identical runs |
+| BLOCKED | The expected side could not be confirmed for a material part of the scope (defined below) |
 | No issue found | Checks ran, nothing survived verification — not the same as "did not check" |
+
+**Severity → matrix → verdict.** Blocker / Major / Minor rank findings inside this report. When a
+defect is a product bug (a system or feature under test, or a test verdict being audited), its Priority
+comes from the matrix cheat-sheet and the matrix decides the verdict — Lowest / Low / Medium → PWMI,
+High / Highest → FAILED; cite the row as the matrix's *Verdict line format* does. If the matrix row and
+the severity label disagree, the matrix wins and the label is corrected to match. For a document or
+your own prior work (no matrix row applies), the severity decides: Blocker or Major → FAILED, Minor only → PWMI.
+
+**Material part of the scope** = any inventory item that, if it were defective, would be Blocker or
+Major (a primary flow, a load-bearing figure, a stated requirement). Unconfirmable items of Minor
+impact only do not make the run BLOCKED — give the verdict for the rest and list each of them as a Question.
 
 ## Remediation and prevention
 
@@ -85,7 +97,7 @@ Every defect gets two answers: what fixes this instance, and what stops it from 
 
 ### Root cause before fix
 
-Ask "why does this happen?" until the answer stops moving. Stop at the layer that owns the behaviour, not the layer where it surfaced.
+Ask "why does this happen?" until the answer stops moving. Stop at the layer that owns the behaviour, not the layer where it surfaced. The answer has stopped moving when either (a) the owning layer is named with evidence — the file:line, config key, data row, or document section that produces the behaviour — or (b) the next "why" points outside the code, config, data, or documents the owner controls (an external system or vendor); in case (b) name that boundary and treat what lies beyond it as a Question.
 
 | Fix aimed at | Example | Verdict |
 |---|---|---|
@@ -155,7 +167,7 @@ Fix (Recommendation | Judgment)
 ## Report template
 
 ```
-Verdict: PASSED | FAILED | BLOCKED | No issue found
+Verdict: PASSED | PWMI | FAILED | BLOCKED | No issue found
 Scope: <what was audited> · Out of scope: <what was not>
 
 ## Defects
@@ -165,7 +177,7 @@ Scope: <what was audited> · Out of scope: <what was not>
 - Reproduce: <steps or command>
 - Environment: <branch/commit, env, viewport>
 - Impact: <who or what breaks>
-- Correction: <the fix, or the corrected statement>
+- Correction: <the proposed fix, or the corrected statement — applied only after the owner approves it>
 
 ## Questions (expected or actual side unconfirmed)
 - <item> — need <source or access> to confirm <exact point>
@@ -186,3 +198,5 @@ Scope: <what was audited> · Out of scope: <what was not>
 ```
 
 When nothing survives verification, the report still states it explicitly: `No issue found.` followed by what was checked and against which source.
+
+A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. Every conclusion line the report itself writes — Verdict, Root cause, Correction, Remediation, Checked — is hedge-free (SKILL.md § Hedged conclusions); an item that could not be dug to `Confirmed` sits under Questions with its label, the exact check, and what is needed.

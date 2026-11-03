@@ -76,18 +76,20 @@ Check the ticket's description and linked documents for a **PRD link** and **Fig
 
 If either is missing, ask the user once:
 
-> Before I start designing test cases, I'd like to cross-check the ticket against the PRD and Figma design to catch any conflicts early.
+> ก่อนออกแบบเทสเคส ผมขอเทียบ ticket กับ PRD และ Figma ก่อน เพื่อหาจุดที่ขัดกันตั้งแต่ต้นครับ
 >
-> Could you share links to any that are missing?
-> - **PRD:** [found at {link} / not found — please share if available]
-> - **Figma:** [found at {link} / not found — please share if available]
+> รบกวนส่งลิงก์ที่ยังขาดให้ด้วยครับ
+> - **PRD:** [พบที่ {link} / ไม่พบ — ถ้ามีรบกวนส่งให้ด้วยครับ]
+> - **Figma:** [พบที่ {link} / ไม่พบ — ถ้ามีรบกวนส่งให้ด้วยครับ]
 >
-> If neither exists for this story, reply "no PRD / no Figma" and I'll proceed with ticket content only.
+> ถ้า story นี้ไม่มีทั้งสองอย่าง ตอบว่า "ไม่มี PRD / ไม่มี Figma" ได้เลยครับ ผมจะใช้เนื้อหาใน ticket อย่างเดียว
 
 **Wait for the user's response.** If the user confirms that a source does not exist (or provides no link after being asked):
 
-- **Record which links are absent** (Figma / PRD / both) for the HTML report and the Remark block (Step 3e / Step 5).
+- **Record which links are absent** (Figma / PRD / both) for the HTML report and the Remark block (design-and-review Step 3d / Step 5).
 - Continue to Step 2.5b with available sources only.
+
+**Link present but unreadable** (403, no Figma access, deleted or moved page, sign-in wall, empty render): do not treat the source as read and do not compare against it from memory. Record the exact error and the link, list the source as **unavailable** (with that error) in the HTML report and the Remark block (design-and-review Step 3d), then ask the user once for an export or screenshot of that source, or for approval to continue on the ticket text only. **Wait for the answer**; continue to Step 2.5b only after it, with the source marked unavailable if the user approved ticket-only.
 
 ### 2.5b — Collect source metadata (recency)
 
@@ -125,7 +127,7 @@ Compare against the story's AC/EC and description across these areas:
 
 1. **Generate** `references/{ISSUE_KEY}_FE_pre_draft_review.html` following [html-pre-draft-review-template.md](references/html-pre-draft-review-template.md) — includes Step 2a consistency check + Step 2.5 conflict/recency/scope-gap sections.
 2. **Write** the file to the workspace using the Write tool.
-3. **Open** in the browser (the agent's browser tool, `open_url` / `navigate`) → `file:///absolute/path/to/references/{ISSUE_KEY}_FE_pre_draft_review.html`
+3. **Open** in the browser (the agent's browser tool, `open_url` / `navigate`) → `file:///absolute/path/to/references/{ISSUE_KEY}_FE_pre_draft_review.html` — if that is not possible, use the WORKFLOW Step 5 item-3 fallback (absolute path + short chat summary of issue counts, then the same decision prompts).
 4. **Post in chat** (short — all detail is in Chrome):
 
 > Pre-draft review เปิดใน Chrome แล้ว — ตรวจสอบผลการเช็ค AC/EC consistency + PRD/Figma conflict ได้เลยครับ
@@ -133,7 +135,7 @@ Compare against the story's AC/EC and description across these areas:
 Then handle user decisions in chat:
 - If Step 2a found issues → post the Step 2a.3 decision prompt in chat.
 - If Step 2.5 found conflicts or gaps → present recommendations in chat and wait for the user to confirm or override.
-- If both checks are clean → tell the user in chat and proceed to Step 3.
+- If both checks are clean → tell the user in chat and proceed to Step 2.6.
 
 **Column detail rules** (apply when building the HTML) — every cell must be fully written out, never summarised or abbreviated:
 
@@ -141,12 +143,12 @@ Then handle user decisions in chat:
 |--------|------------------|
 | **AC/EC** | Label + full text of the acceptance/edge criterion as written in the ticket (e.g. `AC_02: When the user clicks Save, the system saves the record and shows a success toast`) |
 | **Area** | Specific UI element, field, flow, or rule being compared — not a generic category (e.g. `Save button → post-save feedback` not just `Save`) |
-| **Ticket says** | Exact wording or behavior from the ticket — quote verbatim where possible; include field names, error texts, UI labels as written |
+| **Ticket says** | Exact wording or behavior from the ticket — quote verbatim (paraphrase only behaviour the ticket states without wording, and mark it `paraphrase`); include field names, error texts, UI labels as written |
 | **PRD/Figma says** | Exact wording, label, or behavior from PRD/Figma; include frame name/number or PRD section for traceability (e.g. `Figma frame P-14: modal titled "ยืนยันการบันทึก?" with "ตกลง" and "ยกเลิก" buttons`) |
 | **Newer source (ICT)** | Source name + its last-updated datetime in `DD Mon YYYY HH.MM AM/PM` |
 | **Severity** | High = blocks TC design or changes core flow; Medium = affects expected result wording or label; Low = cosmetic / minor label difference |
 
-**If NO conflicts and no gaps and no Step 2a issues:** generate the HTML (both sections show clean status), tell the user in chat, then continue to Step 3 immediately.
+**If NO conflicts and no gaps and no Step 2a issues:** generate the HTML (both sections show clean status), tell the user in chat, then continue to Step 2.6 immediately.
 
 **If conflicts, gaps, or Step 2a issues found:** generate the HTML, open in Chrome, then handle each set of issues in chat. Do NOT start Step 3 until all issues are resolved — TCs built on contradictory or inconsistent requirements must be redesigned.
 
@@ -164,7 +166,9 @@ Rules: [tc-glossary.md](../../../references/tc-glossary.md). Sheet URL, tab, and
 
 ### 2.6.1 — Re-fetch the glossary
 
-Fetch the published tab as CSV using the `gid` from the project guide, overwriting the local mirror. Never hand-edit the CSV.
+Fetch the published tab as CSV using the `gid` from the project guide, overwriting the local mirror `{GLOSSARY_CSV}` — the local CSV path recorded in the project guide § TC glossary (see [tc-glossary.md](../../../references/tc-glossary.md)). Never hand-edit the CSV.
+
+**If the project guide has no glossary row (URL / tab / `gid`), or the fetch fails (non-200, empty body, header-only CSV, no network):** stop, report the exact error or the missing guide value, and ask the user to either supply the current CSV or approve running on the Step 3b fallback table only — in which case every term the TCs use that has no fallback row is asked at 2.6.3. Never reuse an earlier cached CSV as if it were re-fetched, and never report the gate as re-checked.
 
 **If `curl` fails TLS verification (exit 60):** the machine has an intercepting proxy (corporate AV). Export its CA from the OS trust store and pass `--cacert`. **Never** pass `-k` / `--insecure` — it disables verification against a proxy you have not identified.
 
@@ -177,7 +181,7 @@ Post in chat, before any test case design:
 
 ที่มา: {published sheet URL}
 Tab: {tab name} (gid {gid}) · {N} คำ
-ไฟล์: references/tc-glossary.csv
+ไฟล์: {GLOSSARY_CSV}
 
 {diff vs committed CSV — added / removed / changed rows, or "ไม่มีการเปลี่ยนแปลงจากครั้งก่อน"}
 ```
@@ -190,16 +194,17 @@ Scan **only the terms this ticket's test cases will use** — do not interrogate
 
 | Condition | Action |
 |-----------|--------|
-| Thai cell empty | **STOP and ask** what word to use. May offer the Step 3b fallback term, labelled as a suggestion. |
+| Thai cell empty | **STOP and ask** what word to use. When the Step 3b fallback table has the term, offer it labelled as a suggestion — never as the answer. |
 | One English key, conflicting Thai meanings across rows | **STOP and ask** which meaning applies to this ticket. |
 | Thai cell has comma-separated variants | Not blocking — propose one variant at the Step 4.5 gate. |
-| No row for the term | Use the Step 3b fallback table; if absent there too, ask. |
+| No row for the term | Use the Step 3b fallback table. If absent there too: **(a)** the term is an English UI label the ticket itself writes verbatim (e.g. a menu name `Profile`) → not a 2.6 stop: design keeps the ticket's label unchanged and the term is asked once at the Step 4.5 gate (a question row, see there), which stops and waits before any deliverable is written; **(b)** anything else (a Thai word would have to be chosen) → **STOP and ask** here. |
+| Glossary term the UI may show in English (collision rule, [design-and-review.md § 3b](design-and-review.md#3b--language-rules-thai-always)) — the ticket writes it as an English label, or a design shows it in English | Not a 2.6 stop: design uses the glossary Thai term; the term is asked once at the Step 4.5 gate (a question row, see there), which stops and waits before any deliverable is written. |
 
-**Wait for the user's answers.** Record each decision for the Step 4.5 table.
+**Wait for the user's answers** to every 2.6 stop above. Record each decision for the Step 4.5 table, and list the (a) and collision terms you carry to Step 4.5 in the 2.6 report so the user sees them now.
 
 Writing a guess and tagging it *provisional* / *pending confirmation* / *documented fallback* is **not** asking. See the red flags in [tc-glossary.md](../../../references/tc-glossary.md).
 
-Do NOT proceed to Step 3 until Step 2.6 gaps are resolved.
+Do NOT proceed to Step 3 until every Step 2.6 stop is answered. Carried (a) and collision terms are not stops; they are open questions that Step 4.5 must close.
 
 **Go back:** If a later Step 2a or 2.5 decision changes the surviving AC/EC set, return to 2.6.3 and scan again — the scan covers only the surviving terms.
 

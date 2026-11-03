@@ -58,13 +58,28 @@ From config: base URL, portal, login URL for the env on the ticket.
 
 ### 4b. Login
 
-Use browser automation: navigate to login URL, fill credentials from config (or env vars the user provides). OTP/SSO per config. If blocked → ask user for a bearer token.
+**Main thread only, login by command**
+([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3 *Dead session*). Pick lane accounts whose sessions are live first.
+Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>` and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
+
+1. **Relink.** One combined block over every needed account whose session is not live. This step uses no password:
+   ```bash
+   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/relink-$a.log)"; done
+   ```
+2. **Setup/mint.** One combined block over only the accounts whose relink printed **FAILED**, never an account that printed OK. The user types any secret in their own terminal; if the block pauses, the mint command is waiting for that input:
+   ```bash
+   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/mint-$a.log)"; done
+   ```
+3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
+
+OTP/SSO per config, and any code is typed by the user in the mint step. If login stays blocked after the relink commands, mark that account's cases BLOCKED ("session not restored") and re-issue the commands — never ask the user to paste a password, bearer token or other credential into chat.
 
 **Login reuse** ([round-time-contract.md](../../../references/round-time-contract.md) §5): first load
 the saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` — named by account, not by lane,
 gitignored — and call the session endpoint **before any result counts**; it must return the expected
-user id. On 401/403, a redirect to login, or a different user → log in fresh as above and overwrite the
-file. One account belongs to one lane, never shared across concurrent sessions.
+user id. On 401/403, a redirect to login, or a different user, a lane stops that account's cases and
+returns `SESSION-DEAD {account tag}` — it never logs in itself; the main thread restores the account by
+command as above. One account belongs to one lane, never shared across concurrent sessions.
 
 ### 4c. Test data
 
@@ -113,7 +128,7 @@ compare itself stays full — all five points below.
 
 ### 4e. API testing
 
-Use `fetch` with **full URLs**. Patterns: baseline, bug case from ticket, edge cases if relevant.
+Use `fetch` with **full URLs**. Patterns: baseline, bug case from ticket, edge cases the bug's Expected Result or fix touches (empty value, max length, a role without permission) — each one that applies becomes its own row.
 
 ### 4f. Swagger comparison
 
@@ -207,7 +222,8 @@ run. The 7 layers below are unchanged: every clip still clears all 7, and a red 
 re-capture and re-run all 7.
 
 - **Record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never "same as the other role". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-gates.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
-- **Text-verification case → screenshot AS WELL as the MP4.** When a case verifies exact wording / label / message / count / displayed values (anything judged char-exact against the bug's Expected Result), also embed a still screenshot inline so the exact text is legible in a frame — the row then carries **both** the MP4 link and the `!png!` image. A non-text case carries the MP4 only.
+- **Text-verification case → screenshot AS WELL as the MP4.** When a case verifies exact wording / label / message / count / displayed values (anything judged char-exact against the bug's Expected Result), also embed a still screenshot inline so the exact text is legible in a frame — the row then carries **both** the MP4 link and the `!png!` image.
+- **Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
 - **Destination = the Jira issue, in the comment.** Upload every file (MP4 + any screenshot) as an **issue attachment**, then reference it in the verdict table's `Evidence` cell (the column between `Actual Result` and `Status`). A retest never writes to Google Drive — that is the story/bot flow, not this one.
 - **Naming (reuse the story convention):** `{KEY}_TC_{nn}.mp4` for the clip, `TC_{nn}-ER_{n}.png` for a text still — **and when the case covers more than one role, every file for it carries the role**: `{KEY}_TC_{nn}_{ROLE}.mp4`, `TC_{nn}_{ROLE}-ER_{n}.png`. One rule, same as the [story gate](../../../references/qa-evidence-gates.md); the `Evidence` link must use the name the file was **actually attached** under.
 - Max ~3 bullets per case in the comment.
@@ -216,7 +232,7 @@ re-capture and re-run all 7.
   - **screenshot** (text-verification rows) → reference as `!filename.png!` with **no `|width=…` parameter**. Inside a wiki table cell the `|` in `!img|width=N!` collides with the cell delimiter and splits the row, so resize the image **before** upload (~600–640 px wide) and embed it bare. It MUST render as a picture inside the cell — never filename-only text.
 
 **Upload + embed flow:**
-1. Save the MP4 (and any text-verification screenshot, resized to ~600–640 px wide via `sips -Z 640 in.png --out out.png`) to a scratch dir outside the repo.
+1. Save the MP4 (and any text-verification screenshot, resized to ~600–640 px wide — macOS `sips -Z 640 in.png --out out.png`, ImageMagick `magick in.png -resize 640x out.png`, or `ffmpeg -i in.png -vf scale=640:-1 out.png`) to a scratch dir outside the repo.
 2. Upload each file: `POST /rest/api/3/issue/{KEY}/attachments` with `X-Atlassian-Token: no-check` (curl `-u email:token`, or authenticated browser fetch).
 3. In the `Evidence` cell of the verdict table: the MP4 link `[▶ …mp4|^…mp4]`, plus `!filename.png!` on text-verification rows — one case per row.
 
@@ -236,7 +252,7 @@ capture/evidence_reconcile.py <KEY>_evidence_plan.json --dir out/ [--jira]
 It opens and measures every file rather than counting names, and with `--jira` it fetches each
 attachment from the ticket so "the link resolves" stops being a claim. Contracts (arguments, exit
 codes, manifest names) are pinned in
-the workspace's `references/qa-capture-tooling.md`; a tool that cannot run is a
+`<workspace>/references/qa-capture-tooling.md`; a tool that cannot run is a
 **stop**, never a silent pass. A file the reconciler cannot find is a BLOCKED row with its reason,
 never a row quietly dropped.
 

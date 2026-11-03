@@ -13,19 +13,9 @@ Read and follow [the TC review workflow](../skills/tc-review-workflow/SKILL.md) 
 Pass arguments after `/tc-review` as the TC document and the ticket to check it against — a sheet/CSV/
 file link plus a Jira key or URL. If either is missing, ask for it before starting.
 
-Do not start without both the TC document (reachable and readable this session) and the ticket's own
-AC/EC (fetched from the ticket itself, not assumed). Build the traceability matrix before judging row
-quality. Skip struck-through AC/EC entirely. Raise a business rule or comment only when it conflicts with
-an AC/EC.
-
-Report findings as Good vs Need Improve, each anchored to a TC/AC id or quoted source text — never an
-unanchored impression. Every Need Improve item carries a "→ Suggest:" fix, sourced from the row's own
-data or the AC/EC wording, or marked "confirm with dev/PO". Never put an invented value in a suggestion. State plainly when a design source (Figma/PRD) could not be opened rather than
-guessing what it shows.
-
-Post the review in chat and get the user's go-ahead before sending it anywhere external. For an
-external send: never invent a channel, thread, or mention id — ask for the exact one; read the response
-back to confirm the destination and mentions before saying it is done; fix a wrong destination by
-delete-and-resend, and wrong content (correct destination) by editing in place.
+All review rules — the refusal-first gate, traceability matrix, struck-through AC/EC, business-rule
+conflicts, Good vs Need Improve with a sourced "→ Suggest:" line, design-source honesty, and the Step 5
+notify on every run — live only in the workflow's SKILL.md. Follow it end-to-end; do not work from a
+summary here.
 
 Follow [references/user-communication.md](../references/user-communication.md).

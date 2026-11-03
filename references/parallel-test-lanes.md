@@ -102,10 +102,29 @@ shared, a rate limit trips, a one-time code is consumed by the other lane.
 | Two units need the same role, pool has two accounts of that role | Two lanes, one account each |
 | Two units need the same role, pool has **one** account | Both units go in **one** lane, run in order |
 | Accounts share one OTP inbox / phone | **Parent pre-login:** before dispatch, the parent logs each of those leased accounts in one at a time (reading only the code issued after that request), saves each account's login file `{env}-{role}-{alias}.json` in the guide's auth dir (named by account, not by lane), then dispatches all lanes at once — each lane points at its leased account's file |
-| Saved login file exists from an earlier run | Load it, call the session endpoint, expect the leased user id. On 401/403, a redirect to login, or a different user → log in fresh and overwrite the file ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs)) |
+| Saved login file exists from an earlier run | Load it, call the session endpoint, expect the leased user id. On 401/403, a redirect to login, or a different user → the lane hands back `SESSION-DEAD {account tag}` and the parent recovers it (*Dead session* below; [round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs)) |
 | App is single-session per account | Already covered by the lease — never re-use a leased account in a second context |
 | Scenario needs a fresh / pre-first-use account | That account is leased to that lane only and is consumed — record it in the lease table |
 | Pool too small for the plan | Fewer lanes, never shared accounts. Ask the user for more accounts only if it changes the lane count |
+
+**Dead session → login by command, main thread only.** A lane never logs in, types credentials, gives login commands, or runs the login tool. On 401/403, a redirect to login, or a different user, the lane stops that account's cases and returns `SESSION-DEAD {account tag}`. The parent collects every dead account and then follows these steps.
+
+The parent, like the whole skill, never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>` and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
+
+1. **Relink.** One combined block over every needed account whose session is not live. This step uses no password:
+   ```bash
+   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/relink-$a.log)"; done
+   ```
+2. **Setup/mint.** One combined block over only the accounts whose relink printed **FAILED**, never an account that printed OK. The user types any secret in their own terminal; if the block pauses, the mint command is waiting for that input:
+   ```bash
+   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/mint-$a.log)"; done
+   ```
+3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
+
+Once the probe is OK, the parent re-dispatches that lane's remaining cases. Prefer accounts whose sessions are already live when leasing, so the run needs as few commands as possible (zero when enough are live).
+
+When choosing lane accounts, prefer accounts whose sessions are live now, so the run needs as few
+windows as possible — none when enough live accounts exist.
 
 **Proof of isolation (mandatory per lane).** Each lane's session preflight records the authenticated
 user id from the app's own session endpoint — **one id per leased account** when the lane holds more
@@ -152,8 +171,9 @@ these accounts. Do not log in with any other.
 Browser context: own context, started from the leased account's login file
 {auth dir}/{env}-{role}-{alias}.json (pre-logged-in by the parent when the account shares an OTP
 inbox — start from it, do not request a new code). Before any result counts, call the session
-endpoint and expect {user id}; on 401/403, a login redirect, or another user, log in fresh and
-overwrite the file.
+endpoint and expect {user id}; on 401/403, a login redirect, or another user, STOP that account's
+cases and return SESSION-DEAD {account tag}. Never log in, type credentials, give login commands, or run the
+login tool yourself — the parent restores sessions by ready-to-run command.
 Session lease: if the workspace provides a session-lease tool ({lease tool from guide}), acquire the
 lease on {account tag} BEFORE loading the login file — holder "{Lx} {round id}", TTL longer than the
 run — renew the lease before it expires, and release the lease with the same holder in finally (on
@@ -224,6 +244,7 @@ Then continue with the calling workflow's summary / comment step as a single mer
 | Rule | Because |
 |------|---------|
 | MUST default to parallel lanes and name a §4 predicate to run serial | Serial-by-habit is the main cost of long ticket runs |
+| NEVER open a browser or login window for a test account (parent or lane) — a lane returns `SESSION-DEAD`; the parent gives ready-to-run commands, one combined `bash` block per step (relink all needed → mint only the FAILED ones; each account isolated, prints OK / FAILED with a log path), then probes | Lanes that logged in by themselves popped a chain of login windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |
 | MUST lease each account to exactly one lane | A shared login ends sessions and shares state — false defects |
 | MUST keep shared-record and multi-role scenarios in one lane, in order | Concurrent edits of one record race |
 | MUST check each lane's authenticated user id against the lease | Proves no collision happened |

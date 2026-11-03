@@ -52,26 +52,26 @@ NEVER hardcode transition names in the skill — Jira workflows differ per proje
 
 Use `getTransitionsForJiraIssue` and match the names from config or the user.
 
-**Default transitions (override in project config):**
+**Shape of the config (placeholders only — never use these as names):**
 
-| Verdict | Target status | Typical transition name |
-|---------|--------------|------------------------|
-| PASSED | Done | "approve by QA" |
-| FAILED | In Progress | project-specific — check config |
+| Verdict | Target status | Transition name |
+|---------|--------------|-----------------|
+| PASSED | `{PASSED_TARGET_STATUS}` | `{PASSED_TRANSITION}` |
+| FAILED | `{FAILED_TARGET_STATUS}` | `{FAILED_TRANSITION}` |
 
-**Note:** some projects use BLOCKED for FAILED retests — check the project's `*-retest-guide.md` or `references/ols-project-guide.md` for the correct target status.
+The only sources for these values are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
 
 ### 8b. Find developer (project-overridable)
 
 From changelog: last move into the project's **active development** status (often named "In Progress" — use the name from config if different) → that author's `accountId`.
 
-**Some projects (e.g. OLS) never change assignee** — check the project guide before running this step.
+**Some projects never change assignee** — check the project guide before running this step.
 
 ### 8c. Assign (project-overridable)
 
 `editJiraIssue` → assignee = that developer (PASSED and FAILED).
 
-**Skip if the project guide says "never change assignee"** (e.g. OLS — ownership tracked by status, not assignee).
+**Skip if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
 
 ### 8d. Unblock linked stories (run once the bug reaches Done)
 
@@ -87,7 +87,7 @@ when **nothing else** still blocks it.
 2. For each of those stories, re-read the story's own **inward blocks links** ("is blocked by") — do
    NOT assume this bug was the only blocker.
 3. Move the story to the project's ready-for-QA status **only if every one of its blockers is in
-   Done**. Take the status/transition name from the project config (`references/*-retest-guide.md` /
+   Done**. Take the status/transition name from the project config (`<workspace>/references/*-retest-guide.md` /
    project guide) — never hardcode it here.
 4. **Only Done counts as resolved.** A blocker still in an in-flight status — being deployed, in
    review, in progress — leaves the story blocked.
@@ -136,7 +136,7 @@ comment to confirm the marker is its last line. The chat close-out MUST then car
 
 Never claim it without the search result.
 
-Write `references/helix-handoff-{KEY}.md` for this round ([handoff-file-template.md](../../../references/handoff-file-template.md)) —
+Write `<workspace>/references/helix-handoff-{KEY}.md` for this round ([handoff-file-template.md](../../../references/handoff-file-template.md)) —
 case list, AC/EC list, Figma node refs, Swagger version, last-round results, one fingerprint per source
 ([round-time-contract.md](../../../references/round-time-contract.md) §10).
 
@@ -158,6 +158,7 @@ After the transition, if the project defines a **QA notify channel** (Discord/Sl
 - **Recipient resolution (mandatory):** read the recipient from the ticket field the project guide names (e.g. a "QA Owner" custom field) — fetch that field's value from the bug itself for **every** notify; do not reuse a name from an earlier ticket, and do not default to the Reporter. The label printed next to the mention MUST match the field the value came from (label "QA Owner" ⇒ value from the QA Owner field). Resolve it before the 6d approval popup; if the field is empty or the guide names no field, queue the recipient question in the 6d decisions popup — never ask after approval.
 - This is a **result FYI**, not a "please review" request (the retest is already closed) — do not reuse the full-test-run "QA Review Requested / pending review" wording.
 - If the project provides a notify helper, **use it** (it gets @mention + headers right) instead of hand-assembling the payload.
+- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send again — never state a cause you have not checked. The round is not closed until the helper prints its success line (the guide names it).
 
 ### Pre-notify review gate (mandatory, every send)
 

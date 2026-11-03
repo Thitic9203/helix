@@ -36,6 +36,10 @@ Full routing and handoffs: [references/skill-routing.md](references/skill-routin
 | [retest-bug-workflow](skills/retest-bug-workflow/SKILL.md) | Retest a **bug** fix |
 | [testing-ticket-workflow](skills/testing-ticket-workflow/SKILL.md) | Playwright test for a ticket |
 | [create-bug-workflow](skills/create-bug-workflow/SKILL.md) | Open bug(s) on Jira/GitHub |
+| [catch-ai-workflow](skills/catch-ai-workflow/SKILL.md) | Audit finished work into sourced findings, questions, coverage gaps |
+| [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | Review an existing TC document against its ticket's AC/EC |
+| [review-result-workflow](skills/review-result-workflow/SKILL.md) | Review recorded test results and evidence (ols-qa workspace only) |
+| [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | Create, fix, or verify test data (ols-qa workspace only) |
 
 Full procedures: `skills/procedures/*/WORKFLOW.md` (loaded by each stub).
 

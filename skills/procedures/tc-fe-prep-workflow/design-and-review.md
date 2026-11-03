@@ -45,7 +45,7 @@ This workspace writes **all** FE test case content in Thai. There is no English-
 - **Term priority (stop at the first rule that answers):**
   1. **The project TC glossary** re-fetched at Step 2.6 — if the English term has a row with a non-empty Thai cell, use that Thai term **verbatim**. The glossary outranks every table in this file.
   2. **The fallback table below** — only for terms the glossary has no row for.
-  3. **Ask the user** — anything else. Never coin a term.
+  3. **Ask the user** — anything else. Never coin a term. The one deferral: an English UI label the ticket writes verbatim, with no glossary or fallback row, is kept as written during design and asked at Step 4.5 (Step 2.6.3 row "No row for the term" (a)).
 - Where the glossary and this file disagree, **the glossary wins**. Do not "reconcile" them or prefer the wording you remember.
 - Terms whose glossary row exists but has an **empty** Thai cell are a Step 2.6 blocking question, not a free choice. Where a former default exists (e.g. `Dropdown` → `รายการแบบเลื่อนลง`), offer it as a **suggestion** in that question — never as the answer.
 - **Fallback table — only for terms absent from the glossary:**
@@ -63,7 +63,7 @@ This workspace writes **all** FE test case content in Thai. There is no English-
   | Password | รหัสผ่าน |
   | Username | ชื่อผู้ใช้ |
   | Reset | รีเซ็ต *(ราชบัณฑิต ทับศัพท์)* |
-  | Submit | ส่ง / บันทึก *(แล้วแต่ context)* |
+  | Submit | `บันทึก` when the action stores data (save/update form); otherwise `ส่ง` |
   | Error message | ข้อความแสดงข้อผิดพลาด |
   | Toggle | ปุ่มสลับ |
   | Sidebar | แถบด้านข้าง |
@@ -75,16 +75,16 @@ This workspace writes **all** FE test case content in Thai. There is no English-
 - **Keep in English** (no official Thai term, or internationally standardised):
   - Acronyms and technical standards: API, URL, HTTP, HTTPS, CRUD, QA, UX, UI, ID, OTP, JWT, Token
   - Feature/module names **as displayed in the system UI** — if the UI shows a label in English, refer to it by that label
-  - Error codes and field keys (e.g. `OLS_ERR_401`, `user_id`)
+  - Error codes and field keys (e.g. `{PROJECT}_ERR_401`, `user_id`)
 
-  **Collision rule:** when a term is *both* in the glossary *and* rendered in English by the UI (e.g. glossary says `Dashboard → แผงควบคุม` but the screen reads "Dashboard"), this is a Step 2.6 question — **ask the user which to use**. Do not silently apply the UI-label exception to escape a glossary term.
+  **Collision rule:** when a term is *both* in the glossary *and* may be rendered in English by the UI (e.g. glossary says `Dashboard → แผงควบคุม` but the screen reads "Dashboard", or the ticket writes the label in English and no Figma/screenshot shows which word the screen uses), **ask the user which to use**. Do not silently apply the UI-label exception to escape a glossary term. The question is not a pre-design stop: design uses the glossary Thai term, and the term is asked as a question row at the Step 4.5 gate (Step 2.6.3 row "Glossary term the UI may show in English"), which stops and waits before any deliverable is written.
 - Numbered items in Test Steps and Expected Result must still use numerals (`1.`, `2.`, `3.`).
 
 ### 3c — TC ID rules (fixed — no user input)
 
 TC IDs are always simple sequential numbers: `1`, `2`, `3`, …
 
-- No prefix (`TC_`, `OLS-`, feature name, etc.)
+- No prefix (`TC_`, `{PROJECT}-`, feature name, etc.)
 - No leading-zero padding
 - Applies to **every output**: Jira comment table, Draft_Jira CSV, Import_Qase CSV, and all typed CSVs
 - In typed CSVs (Unit/Integration/System), the number column (`No.` / `ลำดับ`) restarts at 1 within that file (since the file is filtered to one Type)
@@ -103,7 +103,7 @@ TC IDs are always simple sequential numbers: `1`, `2`, `3`, …
   - **Unit Test** — isolated behaviour of one logic unit (e.g. a pure function, single component input→output), testable without the full UI flow
 - A ticket does **not** need to have all three types — derive only what the AC/EC actually requires.
 - When a type has no applicable test cases for this ticket, **do NOT invent cases just to fill the type**. Instead, add a Remark block under the table (see below).
-- Extra test cases may be added to cover a type's perspective **only if** they stay within the scope of the AC/EC on this ticket — do not pull in requirements from other tickets.
+- Add extra test cases for a type's perspective **only if** they stay within the scope of the AC/EC on this ticket — do not pull in requirements from other tickets.
 
 **Unit Test heuristic — derive from PRD, ticket description, and Figma only (do not ask dev):**
 
@@ -140,6 +140,14 @@ List only the types that are absent. Omit types that have at least one test case
 
 Include only the line(s) that apply (Figma / PRD / both). If both links exist, omit these lines entirely.
 
+**Blocked-case Remark lines** — append to the Remark block when Step 4e marked any case `BLOCKED` **and** the case's status and Remark will not reach the tracking sheet (Step 6.5 skipped: no guide row, a draft-only run, or the tab tool refused). One line per blocked case, Remark verbatim from Step 4e:
+
+```
+- TC {ID} — BLOCKED — {Step 4e Remark: actor, contact target, topic, unblock condition}
+```
+
+These lines appear in the HTML draft (Step 5), the `.md` file (Step 6) and the Jira comment or draft-only ADF (Step 7). The Draft_Jira, Import_Qase and typed CSV schemas stay unchanged.
+
 ---
 
 Default **10 columns** for the HTML draft, CSV files, and markdown `.md` — Type is always included:
@@ -161,12 +169,12 @@ Default **10 columns** for the HTML draft, CSV files, and markdown `.md` — Typ
 
 The Qase import CSV uses a **different** column set (AC/EC, Title, Preconditions, Priority, Type, Status, Suite, Steps, Tags) — see [qase-import-format.md](references/qase-import-format.md). The Jira markdown table above and the Qase CSV describe the same test cases in two layouts.
 
-**Shared data prep (above table)** — typical pattern:
+**Shared data prep (above table)** — required template; keep this order and omit a step only when the ticket needs none of it:
 
 1. Log in with the required role.
 2. Navigate to the feature area.
 3. Open the correct tab or filter.
-4. Ensure required data state exists (with "if missing, create via …" referencing another story id if needed).
+4. Ensure required data state exists. When the data may be missing, add "if missing, create via …" and reference the source story by key only.
 5. Identify the target entity used across TCs.
 
 Add a **Precondition column note** above the table explaining that the column means: *after shared prep, before Test Steps*.
@@ -205,7 +213,7 @@ end-of-run summary, and never go silent between rounds.
 
 Follow [ac-ec-coverage-review.md](references/ac-ec-coverage-review.md):
 
-- Build the **traceability matrix** (every AC and EC → one or more `TC_*`).
+- Build the **traceability matrix** (every AC and EC → one or more TC IDs, plain numbers per Step 3c).
 - Confirm **ไม่ขาด** (full AC/EC outcomes covered), **ไม่เกิน / ไม่กาว / ไม่เพ้อ** (no orphan or invented cases).
 - Row count **need not** equal AC+EC count; alignment matters, not 1:1 rows.
 
@@ -234,8 +242,9 @@ MUST NOT be resolved by guessing or by silently picking one interpretation.
 
 For every such case, do ALL of the following — no case may be skipped:
 
-1. Set that case's **Test Status = `BLOCKED`** (per-row, in the tracking sheet / result table — not
-   the whole ticket unless every case is affected).
+1. Set that case's **Test Status = `BLOCKED`** (per-row, not the whole ticket unless every case is
+   affected). Where it is written: the tracking sheet via Step 6.5 (`Sheet_Tab_{ISSUE_KEY}.json`);
+   when Step 6.5 is skipped, the Remark block's blocked-case lines (Step 3d) — never nowhere.
 2. Write a **Remark on that exact case's row** that names, explicitly:
    - **Actor** — the case's **QA Owner** is the person who must go make contact (name them, e.g.
      `QA Owner ({owner}) ติดต่อ …` — never a bare "waiting for X" with no actor);
@@ -264,8 +273,8 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
    surface, count, severity, or EC the ticket never states); scope honored (per the user's Step 2a/2.5
    decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability. For
    a thorough/"2 rounds"/"superpowers" request, run ≥2 independent reviewers per round.
-   **Working-draft file for reviewers (owner, 2026-10-14):** the draft may be handed to reviewers as a
-   file written **outside the repo** (the session scratchpad or a temp directory) — never inside the
+   **Working-draft file for reviewers (owner, 2026-10-14):** when the draft is handed to reviewers as a
+   file, write it **outside the repo** (the session scratchpad or a temp directory) — never inside the
    repository or the deliverable folder. It is review input only: not a deliverable, never attached,
    never committed. This is the one exception to the Step 4.5 no-file rule.
 2. **Reviewer output is binary per round:** `CLEAN` (zero actionable defects) or `HAS-COMMENTS` (a
@@ -278,6 +287,21 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
    go back to step 2. **If CLEAN →** the loop is done; continue to Step 4.5.
 5. **No round cap and no silent rounds.** Loop until a reviewer round returns zero comments, however
    many rounds it takes; a round whose result was never reported to the user does not count.
+6. **Not converging → checkpoint.** If the same finding comes back in 3 consecutive rounds after being
+   fixed, stop the loop, report that finding with each fix tried, and ask the user how to resolve it.
+   Wait for the answer, apply it, then continue the loop — it still ends only on a clean round.
+7. **CHECKPOINT — 5 rounds without CLEAN.** After round 5 (and after every further 5 rounds) with no
+   clean round, pause the loop: report to the user the open findings of each round so far and the
+   fixes tried, and ask whether to continue the loop, change scope (Step 2a / 2.5 decisions), or stop
+   the run. Wait for the answer. This is a pause, not a cap: it never skips Step 4.5 and never counts
+   as a clean round — the loop still ends only on a clean round, or the run stops on the user's word.
+
+**No subagents available** (the runtime has no Agent/Task tool, or dispatch fails): do not skip the
+loop and do not count the 4a–4e pass as a review round. Instead, for each round, run a separate
+**self-review** pass that starts from a fresh re-read of the ticket's **verbatim AC/EC + seed** (not
+your own summary of them) and applies every step-1 check to the current draft. Label every such round
+`SELF-REVIEW` in the round report (`รีวิวรอบ N (SELF-REVIEW): …`), tell the user once that independent
+reviewers were unavailable, and keep the same binary verdict and exit rule (steps 2–5).
 
 ---
 
@@ -303,7 +327,8 @@ These terms appear in the test cases. Thai follows the glossary first, then ร�
 
 **Rules:**
 - List **every** term where a Thai-vs-English choice was made — both the ones translated to Thai and the ones deliberately kept in English.
-- The **ที่มา** column is mandatory on every row: `glossary` (row in the Step 2.6 CSV), `fallback` (Step 3b table, no glossary row), or `user` (answered a Step 2.6 question). A row with no provenance means the term was invented — remove it and ask.
+- The **ที่มา** column is mandatory on every row: `glossary` (row in the Step 2.6 CSV), `fallback` (Step 3b table, no glossary row), or `user` (answered a Step 2.6 question, or a question row at this gate). A row with no provenance means the term was invented — remove it and ask.
+- **Question rows** — every term carried from Step 2.6.3 (a): put `? — ticket เขียนว่า "{label}"` in ใช้ในเทสเคสเป็น and `user` in ที่มา, and ask in the same message which word to use (keep the English label, or a Thai word the user gives). Every collision term carried from Step 2.6.3 is also a question row: put `? — glossary "{Thai term}" / UI "{English label}"` and `user`, state the evidence for the English label (ticket wording, or the Figma frame/screenshot), and ask which to use. Do not proceed until every question row has the user's answer; apply it to every cell before Step 5.
 - Where the glossary offered comma-separated variants (e.g. `แถบ, แท็บ`), propose one and mark the row `glossary` — the user confirms the pick here.
 - For each kept-English term, state the reason (no official Thai term / UI label is English / acronym or standard like API, URL, OTP).
 - **Wait for the user's response.** If the user asks to change any term, apply it and re-post the changed rows.
