@@ -15,6 +15,10 @@ Portable **QA skill pack** for AI coding agents ([Agent Skills](https://agentski
 - **Testing ticket** — Playwright on one Jira ticket
 - **Retest bug** — verify fix, post evidence, transition
 - **Create bug** — file issues on Jira or GitHub
+- **Catch AI** — audit finished work into sourced findings, questions, coverage gaps
+- **TC review** — review an existing TC document against its ticket's AC/EC
+- **TC change format** — copy a ticket's TC tab into the release TC template (Google Sheet)
+- **Review result**, **Test data prep** — ols-qa workspace only
 
 **Not tied to one vendor** — same skills in Claude Code, Cursor, Copilot, Gemini CLI, Windsurf, Cline, Codex, and more.
 
@@ -50,11 +54,11 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 **Installer does:**
 
 - Clone/update `~/.helix/tc-fe-prep`
-- Symlink **helix + 9 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
+- Symlink **helix + 10 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
 - Enable Claude marketplace plugin **`helix@helix-dev`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **auto-update**)
 
-**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/procedures/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **8 skills** linked per agent.
+**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/procedures/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **11 skills** linked per agent.
 
 | Agent | After install |
 |-------|----------------|
@@ -94,6 +98,7 @@ Commit `.github/skills/` if the team uses Copilot in the same repository.
 | Review a TC document | `/tc-review` | `tc-review-workflow` |
 | Review recorded results (ols-qa workspace only) | `/review-result` | `review-result-workflow` |
 | Prepare test data (ols-qa workspace only) | `/test-data-prep` | `test-data-prep-workflow` |
+| Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
 | Menu (optional) | `/helix` | skill **helix** |
 
 Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/references/menu-text.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
@@ -152,8 +157,13 @@ Full detail: [README — Update](https://github.com/Thitic9203/helix/blob/main/R
 | Retest | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/retest-bug-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/retest-bug-workflow/WORKFLOW.md) |
 | Testing ticket | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/testing-ticket-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/testing-ticket-workflow/WORKFLOW.md) |
 | Create bug | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/create-bug-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/create-bug-workflow/WORKFLOW.md) |
+| Catch AI | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/catch-ai-workflow/SKILL.md) | — (self-contained) |
+| TC review | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/tc-review-workflow/SKILL.md) | — (self-contained) |
+| Review result | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/review-result-workflow/WORKFLOW.md) |
+| Test data prep | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/test-data-prep-workflow/WORKFLOW.md) |
+| TC change format | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/tc-change-format-workflow/SKILL.md) | — (self-contained) |
 
-Plugin registers all six skills in [.claude-plugin/plugin.json](https://github.com/Thitic9203/helix/blob/main/.claude-plugin/plugin.json).
+Plugin registers every linked skill in [.claude-plugin/plugin.json](https://github.com/Thitic9203/helix/blob/main/.claude-plugin/plugin.json).
 
 ---
 

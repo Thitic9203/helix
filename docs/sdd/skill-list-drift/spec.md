@@ -47,6 +47,9 @@ Out: `install.sh`, `helix-auto-update.sh`, `.github/workflows/`, `hooks/`, `.cla
 - **R6** — When `helix-regression-check.sh` finds a non-executable `*.sh` under `scripts/` or
   `hooks/`, it must report FAIL and exit non-zero, not WARN. Source: global CLAUDE.md rule 7
   (no silencing); the WARN let b17272b ship a 100644 test file.
+- **R8** — When the doc check runs, it must fail if README.md's "options 1–N" differs from the N in
+  `references/menu-text.md` ("Reply with **1**–**N**"). Source: menu-text.md is the single source
+  (DOC-MAP); added 2026-11-03 after `tc-change-format` moved the menu to 1–13 during implementation.
 - **R7** — The doc check must run in CI through a `scripts/tests/*.test.sh` file, with a case that
   proves it fails on a planted drift. Source: `docs/CONTRIBUTING.md` ("Add a `*.test.sh` next to them when you change a script").
 
@@ -58,8 +61,9 @@ Out: `install.sh`, `helix-auto-update.sh`, `.github/workflows/`, `hooks/`, `.cla
 
 ## Done when
 
-- `bash scripts/helix-doctor.sh` prints "all 10 skills linked" on a fresh install.
+- `bash scripts/helix-doctor.sh` prints "all N skills linked" on a fresh install, N = skills link-skills.sh links.
 - Removing `test-data-prep-workflow` from README makes `bash scripts/tests/run.sh` fail.
 - Writing "helix + 7 workflow" anywhere in scope makes it fail.
+- Changing README to "options 1–12" while menu-text says 1–13 makes it fail.
 - A `chmod -x` on any `scripts/*.sh` makes `helix-regression-check.sh` exit non-zero.
 - `bash scripts/tests/run.sh` and `helix-regression-check.sh` pass on `main`.
