@@ -90,6 +90,10 @@ Commit `.github/skills/` if the team uses Copilot in the same repository.
 | Retest bug | `/retest-bug` | `retest-bug-workflow` |
 | Test ticket | `/testing-ticket` | `testing-ticket-workflow` |
 | Create bug | `/create-bug` | `create-bug-workflow` |
+| Audit finished work | `/catch-ai` | `catch-ai-workflow` |
+| Review a TC document | `/tc-review` | `tc-review-workflow` |
+| Review recorded results (ols-qa workspace only) | `/review-result` | `review-result-workflow` |
+| Prepare test data (ols-qa workspace only) | `/test-data-prep` | `test-data-prep-workflow` |
 | Menu (optional) | `/helix` | skill **helix** |
 
 Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/references/menu-text.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
