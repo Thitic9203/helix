@@ -40,7 +40,12 @@ else
   bad "Missing skills/helix"
 fi
 
-EXPECTED_SKILLS=(helix tc-fe-prep-workflow tc-api-prep-workflow retest-bug-workflow testing-ticket-workflow create-bug-workflow catch-ai-workflow tc-review-workflow)
+# Same list link-skills.sh links, read from the repo (Spec: docs/sdd/skill-list-drift R1).
+# An empty skills/ falls back to helix so the checks below still report what is missing.
+. "$(cd "$(dirname "$0")" && pwd)/lib/skill-list.sh"
+EXPECTED_SKILLS=()
+while IFS= read -r s; do EXPECTED_SKILLS+=("$s"); done < <(helix_linked_skills "$REPO")
+[ "${#EXPECTED_SKILLS[@]}" -gt 0 ] || EXPECTED_SKILLS=(helix)
 for s in "${EXPECTED_SKILLS[@]}"; do
   if [ -f "$REPO/skills/$s/SKILL.md" ]; then
     ok "Skill $s"
@@ -50,7 +55,7 @@ for s in "${EXPECTED_SKILLS[@]}"; do
 done
 
 echo ""
-echo "--- Global skill links (expect helix + 7 workflows) ---"
+echo "--- Global skill links (expect helix + $((${#EXPECTED_SKILLS[@]} - 1)) workflows) ---"
 
 check_dest() {
   local dest="$1"

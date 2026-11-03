@@ -135,9 +135,10 @@ Script tests: `bash scripts/tests/run.sh` runs every `scripts/tests/*.test.sh` a
 Quick check before commit (same as CI):
 
 ```bash
-chmod +x scripts/ci-check-portable-skills.sh scripts/ci-check-skill-structure.sh
+chmod +x scripts/ci-check-portable-skills.sh scripts/ci-check-skill-structure.sh scripts/ci-check-doc-skill-lists.sh
 ./scripts/ci-check-portable-skills.sh
 ./scripts/ci-check-skill-structure.sh
+./scripts/ci-check-doc-skill-lists.sh   # docs name every linked skill, counts and menu range match
 ```
 
 (README/install scripts may mention `~/.helix` for humans only — not in `skills/` or `commands/`.)

@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.153** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.154** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, **TC review**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -20,6 +20,7 @@ Portable skill pack for AI agents: **FE/API manual test-case prep** (with covera
 | **TC Review** | Review an existing TC document against its ticket's AC/EC and business rules → traceability matrix, Good vs Need Improve |
 | **Review Result** | Review already-recorded test results and evidence clips → PASSED / FAILED / AWAITING RE-REVIEW per case (ols-qa workspace) |
 | **Test Data Prep** | Create, fix, or verify test data on a named environment before testing (ols-qa workspace) |
+| **TC Change Format** | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
 
 TC prep workflows include **AC/EC or spec/Swagger alignment review**, **ISTQB / ISO/IEC/IEEE 29119-3–aligned** quality checks, and **mandatory Jira post-publish review** before close-out (see [qa-evidence-gates.md](references/qa-evidence-gates.md)). FE prep also ends with a **four-axis final TC review report** (AC/EC alignment, spelling, numbering, scope).
 
@@ -56,7 +57,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 9 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -108,6 +109,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Review an existing TC document against AC/EC | `/tc-review` | `tc-review-workflow` |
 | Review recorded test results and evidence | `/review-result` | `review-result-workflow` |
 | Prepare test data before testing | `/test-data-prep` | `test-data-prep-workflow` |
+| Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 

@@ -40,6 +40,7 @@ Full routing and handoffs: [references/skill-routing.md](references/skill-routin
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | Review an existing TC document against its ticket's AC/EC |
 | [review-result-workflow](skills/review-result-workflow/SKILL.md) | Review recorded test results and evidence (ols-qa workspace only) |
 | [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | Create, fix, or verify test data (ols-qa workspace only) |
+| [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | Copy a ticket's TC tab into the release TC template (Google Sheet) |
 
 Full procedures: `skills/procedures/*/WORKFLOW.md` (loaded by each stub).
 
