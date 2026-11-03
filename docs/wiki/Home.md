@@ -50,7 +50,7 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 **Installer does:**
 
 - Clone/update `~/.helix/tc-fe-prep`
-- Symlink **helix + 7 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
+- Symlink **helix + 9 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
 - Enable Claude marketplace plugin **`helix@helix-dev`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **auto-update**)
 
