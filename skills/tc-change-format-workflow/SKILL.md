@@ -4,12 +4,13 @@ description: |
   Copy each ticket's test cases from a TC tab in a Google Sheet into a new Google Sheet made from the project's release TC template, placed directly in the release folder the user picks — one tab or several tabs in one request. Only mapped template columns are filled; the template's look (coloured dropdowns, borders, header) is kept, empty rows and columns are removed, rows and columns are sized so no line wraps, and owners become people tags.
   Use when the user sends one or more TC sheet links (each with a tab) and asks to change the TC format, move the TC into the release template, or create the release TC file for a card, or says /tc-change-format, เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template.
   Do NOT use for writing new test cases (tc-fe-prep-workflow / tc-api-prep-workflow), reviewing test cases (tc-review-workflow), or recording test results (testing-ticket-workflow).
-proactive_triggers:
-  - /tc-change-format
-  - change tc format
-  - move tc to template
-  - เปลี่ยนฟอร์แมต TC
-  - ย้าย TC ลง template
+metadata:
+  proactive_triggers:
+    - /tc-change-format
+    - change tc format
+    - move tc to template
+    - เปลี่ยนฟอร์แมต TC
+    - ย้าย TC ลง template
 ---
 
 # TC change format
@@ -45,7 +46,9 @@ All project values come from the **user's** `references/*-guide.md` in the works
 | `{TC_TEMPLATE_SHEET}` | The release TC template as a **Google Sheet** (one tab, header in row 1, row 2 a formatted sample row) |
 | `{TC_RELEASE_ROOT_FOLDER}` | Drive folder whose sub-folders are the releases (default name pattern `Release <DD>_<Mon>`) |
 | `{TC_OWNER_EMAIL_MAP}` | Owner name → Google account e-mail, for people tags — keep it outside any public repo |
-| `{TC_TRACKING_SHEET}` + tab | Optional. The sheet where each delivered TC file gets a row (step 12), and its column rules |
+| `{TC_TRACKING_SHEET}` | Optional. The sheet where each delivered TC file gets a row (step 12) |
+| `{TC_TRACKING_BUG_TAB}` · `{TC_TRACKING_CR_TAB}` · `{TC_TRACKING_IMPROVEMENT_TAB}` | With the tracking sheet: the tab for each card kind (step 12.1) |
+| `{TC_TRACKING_COLUMN_RULES}` | With the tracking sheet: header name → value rule, per tab (step 12.4) |
 | Column mapping / value rules | Optional override of the defaults below |
 
 If a value is missing, ask the user. Never guess an ID or an e-mail.
@@ -191,7 +194,7 @@ Retyping non-ASCII text risks changing it. Copy inside Google Sheets instead. In
    - Dropdown (chip) columns are wider than their text; auto-size leaves them too narrow. Set them by hand (measured: a `Core`/`Edge` column 110 px, a status column 140 px).
    - `repeatCell` `wrapStrategy: WRAP` back on the table.
 5. **Row heights:** `autoResizeDimensions` on ROWS does not size multi-line cells (it set every row to 20 px in testing). Instead, in a temporary tab, put
-   `=MAX(ARRAYFORMULA(LEN(T!A2:M2)-LEN(SUBSTITUTE(T!A2:M2,CHAR(10),""))+1))` (T = the template tab) and fill it down N rows (`copyPaste` `PASTE_FORMULA`);
+   `=MAX(ARRAYFORMULA(LEN(T!A2:<L>2)-LEN(SUBSTITUTE(T!A2:<L>2,CHAR(10),""))+1))` (T = the template tab, `<L>` = its last column letter — `M` for the 13-column default mapping) and fill it down N rows (`copyPaste` `PASTE_FORMULA`);
    set each data row to `lines × 18 + 8` px and the header row to its template height. Check one known row first (a cell with 5 numbered steps must give 5).
 
 ### 10. Verify — in the sheet, with a control
@@ -218,36 +221,29 @@ Only when the project config names `{TC_TRACKING_SHEET}`. Run it after step 11, 
 
 **Gate — results must be attached (work-owner rule, 2026-10-18).** Read the release TC file fresh and check its `Test Result Link` column: **every** data row must carry a real link (a `hyperlink`, a link in `textFormatRuns`, or a `HYPERLINK` formula). Text such as `Link` with no URL does not count. If any row lacks one, add **no** tracking row for that file: tell the user which Test Case IDs still need a result link and that the row will be added when the TC is sent again with every link in place.
 
-1. **Pick the tab per card** (project rules; defaults below, checked in this order):
-   1. Jira issue type is **Bug** → the bug tab (default `Bug reported by HI`).
-   2. Card summary contains **`CR` as a separate upper-case word** (regex `(?<![A-Za-z])CR(?![A-Za-z])` — matches `[CR] …`, `CR-2508-005 …`, `[HOTFIX][CR] …`; not `CREATE`, `Screen`) → the CR tab (default `CR`).
-   3. Otherwise → the improvement tab (default `Improvement by SKL`).
-   Read the issue type from Jira; never infer it from the title.
+1. **Pick the tab per card** (tab names come from the project guide: `{TC_TRACKING_BUG_TAB}`, `{TC_TRACKING_CR_TAB}`, `{TC_TRACKING_IMPROVEMENT_TAB}`), checked in this order:
+   1. Jira issue type is **Bug** → `{TC_TRACKING_BUG_TAB}`.
+   2. Card summary contains **`CR` as a separate upper-case word** (regex `(?<![A-Za-z])CR(?![A-Za-z])` — matches `[CR] …`, `CR-2508-005 …`, `[HOTFIX][CR] …`; not `CREATE`, `Screen`) → `{TC_TRACKING_CR_TAB}`.
+   3. Otherwise → `{TC_TRACKING_IMPROVEMENT_TAB}`.
+   Read the issue type from Jira; never infer it from the title. A tab name missing from the guide → ask, then save it there.
 2. **Read the target tab** (header row + every data row) and its formats: dropdown lists, people chips, date formats, which cells carry links. Treat the sheet as shared with others (it may be customer-facing) — never edit existing rows unless the user asks.
 3. **One row per file** from this run. If the tab already has a row for the card (match the key column), do not add a second one — show that row and ask whether to update it.
-4. **Build every column** from the project's column rules. Columns are found by header name, never by letter. Default rules (first project that used this step) — the same rule applies to the matching header in every tab:
+4. **Build every column** from the project's column rules (`{TC_TRACKING_COLUMN_RULES}` in the project guide: header name → value rule, per tab). Columns are found by header name, never by letter. Header names, fixed status values and dropdown values are project-specific — take them from the guide only. Rule kinds the guide may use:
 
-| Column | Value |
+| Rule kind | Value written |
 |---|---|
-| Improvement Name | card summary from Jira |
-| Jira (Ticket improvement) | card key, linked to the Jira issue |
-| Bug (ที่ SKL พบเอง) | empty |
-| Ticket status | `PASSED ON PRE-PROD` |
-| QA Owner | people chip of the TC owner |
-| TC Status | `TC Delivered to HI-QA` |
-| Test Result Status | `Test Result Delivered to HI-QA` |
-| TC and Test result link | `Link`, linked to the new TC file |
-| วันสุดท้ายในการส่ง TC & Test Result ให้ลูกค้า | empty |
-| Demo · UAT | copied from rows whose TC link points to a file in the **same release folder**; none → ask |
-| Production Release | the release date from the folder name (e.g. `Release 04_Nov` → 4 Nov of the current year), written as a real date |
-| TC Approval Status by HI | `TO DO` |
-| Comment from HI (both) | empty |
-| No (CR tab) | highest whole number in the column + 1 |
-| CR Name · Jira (Story) (CR tab) | as Improvement Name · Jira |
-| Summary · SKL Ticket (bug tab) | card summary · card key linked to Jira |
-| Module · HI Ticket · Latest progress · Note after recheck · UAT by HI (bug tab) | no rule yet → ask |
+| card summary | Jira `summary`, verbatim |
+| card key | the key, linked to the Jira issue |
+| owner | people chip of the TC owner |
+| TC file link | the guide's link label, linked to the new TC file |
+| fixed value | the exact value the guide names (must be in the column's dropdown, if any) |
+| same release | copied from rows whose TC link points to a file in the **same release folder**; none → ask |
+| release date | the date in the release folder name (e.g. `Release 04_Nov` → 4 Nov of the current year), written as a real date |
+| next number | highest whole number in the column + 1 |
+| empty | left blank |
+| ask | no rule yet → ask |
 
-   Every value for a dropdown column must be in its list. A value the rules cannot fill, or any doubt (no matching release rows, a date that reads two ways, a header the rules do not know) → **ask before adding**, all questions in one message.
+   A header with no rule in the guide → ask, then save the rule there. Every value for a dropdown column must be in its list. A value the rules cannot fill, or any doubt (no matching release rows, a date that reads two ways, a header the rules do not know) → **ask before adding**, all questions in one message.
 5. **Final confirm.** Show the target tab per card and the rows exactly as they will be written (one table, every column) and wait for the user to say confirm. Without it, write nothing.
 6. **Append.** Insert the rows after the last data row, copy the format of the last data row onto them (`copyPaste` `PASTE_FORMAT`, so dropdowns and chips match), then write the values with `updateCells` — links as `textFormatRuns` with `format.link.uri`, owners as people chips, dates as numbers with a day/month/year format.
 7. **Verify.** Read the new rows back: every value equals the confirmed table, dropdown values are in their lists, links and chips are present. Report the row numbers written.
