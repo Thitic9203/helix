@@ -17,6 +17,7 @@
     "./skills/catch-ai-workflow",
     "./skills/tc-review-workflow",
     "./skills/test-data-prep-workflow",
-    "./skills/review-result-workflow"
+    "./skills/review-result-workflow",
+    "./skills/tc-change-format-workflow"
   ]
 }

@@ -4,7 +4,7 @@ Used by [commands/helix.md](../commands/helix.md) and [skills/helix/SKILL.md](..
 
 ## Opening block
 
-Show this block in **the user's language** ([user-communication.md](user-communication.md)): translate the sentences and option descriptions; keep the numbers **1**–**12**, their order, and the bold option names exactly as written, so the same reply routes the same way in every language and every entry point.
+Show this block in **the user's language** ([user-communication.md](user-communication.md)): translate the sentences and option descriptions; keep the numbers **1**–**13**, their order, and the bold option names exactly as written, so the same reply routes the same way in every language and every entry point.
 
 ```text
 Hi — I'm Helix, your QA assistant. I help with test-case preparation, ticket testing, bug retests, and related Jira workflows so you spend less time on repetitive steps.
@@ -24,7 +24,8 @@ What would you like to do?
 9. **Review Result** (ols-qa workspace only) — review already-recorded test results and their evidence clips
 10. **Smoke Test** (ols-qa workspace only) — smoke test a deployed build on a named environment
 11. **Test Data Prep** (ols-qa workspace only) — create, fix, or verify test data (content, covers, accounts)
-12. **Other** — describe what you need
+12. **TC Change Format** — copy a ticket's TC tab into the release TC template (Google Sheet)
+13. **Other** — describe what you need
 
-Reply with **1**–**12**, or the option name. You can also pass a Jira key or URL with your choice.
+Reply with **1**–**13**, or the option name. You can also pass a Jira key or URL with your choice.
 ```

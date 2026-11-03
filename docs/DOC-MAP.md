@@ -92,4 +92,4 @@ Deep detail lives under `skills/procedures/<name>/references/` (next to the cano
 ## Commands vs skills
 
 - **commands/** — thin frontmatter: read and follow the workflow SKILL.md, English only, short (most are 11–15 lines; `helix.md` holds the menu).
-- **skills/{name}/SKILL.md** — discovery stub; **skills/procedures/{name}-workflow/WORKFLOW.md** — full procedure and gates (except `catch-ai-workflow` and `tc-review-workflow`, which are self-contained).
+- **skills/{name}/SKILL.md** — discovery stub; **skills/procedures/{name}-workflow/WORKFLOW.md** — full procedure and gates (except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, which are self-contained).

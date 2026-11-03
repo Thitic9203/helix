@@ -19,7 +19,8 @@ The single routing source for the [helix router](../skills/helix/SKILL.md), [com
 | 9 | Review Result | `review-result-workflow` (ols-qa workspace only) | `/review-result` | Review already-recorded results and their evidence clips. Fallback outside ols-qa: offer 6 (`catch-ai-workflow`), which audits finished work. |
 | 10 | Smoke Test | `smoke-test-workflow` (ols-qa workspace only) | `/smoke-test` | Smoke test a deployed build on a named environment. Fallback outside ols-qa: offer 4 (`testing-ticket-workflow`), which tests one ticket, not a whole build. |
 | 11 | Test Data Prep | `test-data-prep-workflow` (ols-qa workspace only) | `/test-data-prep` | Create, fix, or verify test data (content, covers, accounts). Fallback outside ols-qa: none — ask what the user needs. |
-| 12 | Other | — | — | Ask one clarifying question in the user's language, then route by this table or [intent-shortcuts.md](intent-shortcuts.md); if nothing fits, say so. |
+| 12 | TC Change Format | [`tc-change-format-workflow`](../skills/tc-change-format-workflow/SKILL.md) | `/tc-change-format` | Copy a ticket's TC tab into the release TC template (Google Sheet). Pass every TC sheet link (with its tab) and card key/URL from the message. |
+| 13 | Other | — | — | Ask one clarifying question in the user's language, then route by this table or [intent-shortcuts.md](intent-shortcuts.md); if nothing fits, say so. |
 
 Unsure / multi-step: the `helix` skill or `/helix` (Claude Code), `@helix` elsewhere.
 
@@ -64,3 +65,4 @@ Not a routing rule: when and how the router suggests one workflow from context i
 | `catch-ai-workflow` | File the bug it confirms (→ create-bug), retest a ticket after a dev fix (→ retest-bug), or rewrite the audited work |
 | `smoke-test-workflow` | Test a single ticket (→ testing-ticket), retest after a fix (→ retest-bug), or run a full regression |
 | `test-data-prep-workflow` | Run tests on a ticket (→ testing-ticket), retest a bug (→ retest-bug), or draft TC tables (→ tc-fe-prep / tc-api-prep) |
+| `tc-change-format-workflow` | Write or edit test cases (→ tc-fe-prep / tc-api-prep), write into the source TC sheet, or record test results |

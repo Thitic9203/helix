@@ -126,7 +126,7 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–12 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
+The menu offers options 1–13 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
 
 ### First run tips
 
@@ -257,8 +257,9 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [tc-review-workflow](skills/tc-review-workflow/SKILL.md) | — (self-contained) | Review an existing TC document against its ticket's AC/EC → traceability matrix, Good vs Need Improve |
 | [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
 | [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
+| [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow` and `tc-review-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 
