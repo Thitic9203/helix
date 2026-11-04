@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.154** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.155** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
 

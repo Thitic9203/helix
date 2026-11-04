@@ -8,6 +8,24 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
+REPO_P="$(cd "$REPO" && pwd -P)"
+CLASHES=0
+# Spec: docs/sdd/link-skills-no-delete — never delete or replace what Helix did not create.
+. "$REPO/scripts/lib/helix-owned.sh"
+
+# warn_clash <label> <name> <path>: one stderr line per skipped entry (R2, R10)
+warn_clash() {
+  local label="$1" name="$2" path="$3" kind
+  if [ -L "$path" ]; then
+    kind="symlink -> $(readlink "$path")"
+  elif [ -d "$path" ]; then
+    kind="folder"
+  else
+    kind="file"
+  fi
+  echo "skip ($label) $name: $path is your own $kind, not a Helix link. Rename or remove it, then run: bash $REPO/scripts/link-skills.sh" >&2
+  CLASHES=$((CLASHES + 1))
+}
 
 link_into() {
   local DEST="$1"
@@ -30,18 +48,18 @@ link_into() {
 
   mkdir -p "$DEST"
 
-  find "$SKILL_ROOT" -name SKILL.md \
-    -not -path '*/in-progress/*' \
-    -not -path '*/procedures/*' \
-    -print0 |
+  # Process substitution, not a pipe: CLASHES must survive the loop (plan.md).
   while IFS= read -r -d '' skill_md; do
     local src name target link_target
     src="$(dirname "$skill_md")"
     name="$(basename "$src")"
     target="$DEST/$name"
 
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-      rm -rf "$target"
+    if [ -e "$target" ] || [ -L "$target" ]; then
+      if ! helix_is_skill_link "$target" "$name" "$RELATIVE" "$REPO" "$REPO_P"; then
+        warn_clash "$LABEL" "$name" "$target"   # R1, R3: leave it exactly as it is
+        continue
+      fi
     fi
 
     if [ "$RELATIVE" = 1 ]; then
@@ -50,9 +68,12 @@ link_into() {
       link_target="$src"
     fi
 
-    ln -sfn "$link_target" "$target"
+    ln -sfn "$link_target" "$target"   # target is absent or a Helix link (R4, R5)
     echo "linked ($LABEL) $name"
-  done
+  done < <(find "$SKILL_ROOT" -name SKILL.md \
+    -not -path '*/in-progress/*' \
+    -not -path '*/procedures/*' \
+    -print0)
 }
 
 echo "=== Helix link-skills (repo: $REPO) ==="
@@ -102,6 +123,10 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
     label="${entry##*|}"
     link_into "$dest" "$label" "$WS_SKILL_ROOT" "$WS_RELATIVE"
   done
+fi
+
+if [ "$CLASHES" -gt 0 ]; then
+  echo "$CLASHES skill(s) skipped because of name clashes (see above)" >&2
 fi
 
 echo ""
