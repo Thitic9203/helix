@@ -31,8 +31,13 @@ jq '.permissions.defaultMode' ~/.claude/settings.json 2>/dev/null
 
 ## สิ่งที่ทำได้ตอนนี้
 
-1. **ปิด auto-update ไว้ก่อน** — ตั้ง `HELIX_AUTO_UPDATE=0` (`scripts/helix-auto-update.sh:7`) แล้วเปิด session ใหม่
-   <!-- ยังไม่ verify (ต้องปิดก่อนเผยแพร่): ตั้งที่ไหนแล้ว hook ตอน SessionStart เห็นค่าจริง — shell profile (กรณีเปิด claude จาก terminal) หรือ `env` ใน ~/.claude/settings.json (กรณีแอป desktop) · ทดสอบด้วยการเปิด session แล้วดูว่า ~/.helix/auto-update.log ไม่มีบรรทัดใหม่ -->
+1. **ปิด auto-update ไว้ก่อน** — เพิ่มค่านี้ใน `~/.claude/settings.json` (ถ้ามี `"env"` อยู่แล้ว ให้เพิ่มบรรทัดเข้าไปข้างใน) แล้วเปิด session ใหม่
+   ```json
+   "env": { "HELIX_AUTO_UPDATE": "0" }
+   ```
+   เช็คว่าปิดได้จริง: หลังเปิด session ใหม่ `tail -n 3 ~/.helix/auto-update.log` ต้องไม่มีบรรทัดใหม่
+   <!-- ที่มา (อ่าน 2026-11-04): scripts/helix-auto-update.sh:44 อ่านค่าจาก env เท่านั้น · Claude Code settings-reference: `env` ใช้กับ "every session and for the subprocesses Claude Code starts from it" · hooks doc: "A hook process inherits the parent environment" -->
+
 
 2. **ถ้าเคยรัน devenv** — รัน `bash ~/.helix/tc-fe-prep/scripts/helix-setup-devenv.sh --uninstall` ขั้นตอนนี้จะลบกฎใน allowlist และบล็อกใน CLAUDE.md ออก แต่**จะไม่คืนค่า `defaultMode`** ให้เปิด `~/.claude/settings.json` แล้วลบหรือแก้ `"defaultMode": "acceptEdits"` เองถ้าคุณไม่ได้ตั้งไว้เอง และไฟล์สำรอง `*.helix-bak.*` จะยังอยู่
 3. **อย่าติดตั้งใหม่ด้วย `curl … | bash`** จนกว่าจะมีเวอร์ชันที่แก้แล้ว

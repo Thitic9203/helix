@@ -21,3 +21,5 @@ Decided with the owner on 2026-11-04: **retire `scripts/helix-setup-devenv.sh`, 
 - remove `~/.helix/.devenv-opted-in`.
 
 `helix-auto-update.sh` stops re-running devenv (today at `:223-228`). The gaps in today's `--uninstall` are listed in [research 02](../research/02-helix-footprint-inventory.md).
+
+Addendum (2026-11-04, deep re-check): `hooks/session-start:25-41` also tells the agent to suggest running devenv on every machine that has not opted in. Retiring the script includes removing that tip (SPEC R3).

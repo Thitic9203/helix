@@ -14,7 +14,8 @@ Status: decided, 2026-11-04. All decisions in [MAP.md](MAP.md) are closed. The [
   - restores `defaultMode` only if Helix set it;
   - deletes `~/.helix/.devenv-opted-in`.
 
-  `helix-auto-update.sh` no longer re-runs devenv (today at `:223-228`).
+  `helix-auto-update.sh` no longer re-runs devenv (today at `:223-228`). `hooks/session-start` no longer tells the agent to suggest running devenv (today at `:25-41`, shown on every machine that has not opted in).
+  - Done when: the session-start hook's output contains no `helix-setup-devenv`.
   - Done when: a test on a fake `$HOME` that has the old opt-in applied ends with settings and CLAUDE.md byte-equal to their pre-opt-in state.
 - **R4 — Install never deletes user files** ([07](tickets/07-link-skills-overwrite.md)). On a name clash with a non-symlink, `link-skills.sh` skips that skill and prints the clash. It never runs `rm -rf` on anything Helix did not create.
   - Done when: a test with a same-named user folder ends with the folder intact and a warning printed.

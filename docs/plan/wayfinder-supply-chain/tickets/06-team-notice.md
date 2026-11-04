@@ -14,3 +14,4 @@ Who receives the notice (everyone who may have installed Helix), and through whi
 ## Progress
 
 - 2026-11-04: the owner chose the channel, a notice file in this repo. The draft is in [notice-draft.md](../notice-draft.md) and is waiting for owner approval. One line in it is still unverified: where to set `HELIX_AUTO_UPDATE=0` so that the SessionStart hook sees it. That line is flagged inside the draft.
+- 2026-11-04: the open line is resolved. The draft now says to set `"env": {"HELIX_AUTO_UPDATE": "0"}` in `~/.claude/settings.json`. Sources: `scripts/helix-auto-update.sh:44` reads only the environment; the Claude Code settings reference says `env` applies to "every session and for the subprocesses Claude Code starts from it"; the hooks doc says "A hook process inherits the parent environment". The draft is still waiting for owner approval before it is published.
