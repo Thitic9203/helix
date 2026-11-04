@@ -8,7 +8,7 @@ created: 2026-11-04
 
 ## Destination
 
-A decided spec, `SPEC.md` in this folder, that closes the three risks the team lead raised on 2026-11-04. The spec also includes a team notice that is ready to send. Code changes happen after this map, through normal PRs. The owner chose both: fix the code **and** tell the team (2026-11-04).
+A decided spec, `SPEC.md` in this folder, that closes the three risks the team lead raised on 2026-11-04, plus a fourth found while charting (`link-skills.sh` deleting a user's same-named skill; in scope by owner decision 2026-11-04). The spec also includes a team notice that is ready to send. Code changes happen after this map, through normal PRs. The owner chose both: fix the code **and** tell the team (2026-11-04).
 
 The three risks, as checked against `origin/main` on 2026-11-04:
 
@@ -34,6 +34,12 @@ The three risks, as checked against `origin/main` on 2026-11-04:
 ## Decisions so far
 
 <!-- one line per closed ticket -->
+
+- [Claude Code plugin pinning and update controls](tickets/01-claude-plugin-pinning.md): a pin lives only in the marketplace entry (`ref`/`sha`), not in a CLI flag. Auto-update can be turned off with env vars, and hooks only all at once (`disableAllHooks`) or by org policy. `git verify-tag` (SSH or OpenPGP) is the free way to check a tag before a fast-forward.
+- [Everything Helix writes outside its clone](tickets/02-helix-footprint-inventory.md): every session start can fast-forward to a new tag and then run the new scripts. The only gate is "the tag is on origin/main", and the devenv opt-in re-applies itself on each update. `link-skills.sh` can `rm -rf` a user's own skill that has the same name. The only undo is devenv `--uninstall`, which is partial. `HELIX_AUTO_UPDATE=0` turns auto-update off.
+- [Auto-update policy](tickets/03-auto-update-policy.md): notify only. Session start reports a newer release and nothing runs on its own; the user updates by command. This replaces the 2026-10-20 wish for automatic updates.
+- [Install path and verification](tickets/04-install-path.md): pin a release tag and check the installer's SHA-256 before running it. `curl | bash` from main is removed. A signed release stays in the fog.
+- [setup-devenv posture](tickets/05-devenv-posture.md): retire the script and ship a full undo for machines that opted in (all rules ever added, the global CLAUDE.md block, defaultMode, the marker). Auto-update stops re-running it.
 
 ## Not yet specified
 

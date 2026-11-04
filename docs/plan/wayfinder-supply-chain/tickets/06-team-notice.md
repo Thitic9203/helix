@@ -2,7 +2,7 @@
 type: grilling
 status: open
 assignee:
-blocked_by: [03-auto-update-policy, 04-install-path, 05-devenv-posture]
+blocked_by: [03-auto-update-policy, 04-install-path, 05-devenv-posture, 07-link-skills-overwrite]
 ---
 
 # Team notice
