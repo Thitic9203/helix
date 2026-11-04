@@ -2,6 +2,8 @@
 
 **Version: 1.5.154** · [Releases](https://github.com/Thitic9203/helix/releases)
 
+> ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
+
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, **TC review**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
 > **Scope & expectations**  
