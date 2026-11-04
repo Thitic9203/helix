@@ -38,7 +38,9 @@ Evidence (worktree at `origin/main` 56def8b, read 2026-11-04):
   still recognised. A link into an older clone or an old plugin-cache path is **not** a Helix link
   (owner decision Q2, 2026-11-04): it is kept and warned about.
 - **Helix cache link**: an entry directly under `~/.claude/plugins/cache/helix-dev/helix/` that is
-  a symlink whose raw target is the clone (logical or physical path). Only these are deleted by
+  a symlink whose raw target names the clone: its logical or physical path as text, or a directory
+  whose `pwd -P` is the clone (`setup.sh` uses the physical git top level, `install.sh` the logical
+  `$REPO_DIR`). A link to any other place, or a broken one, is kept. Only these are deleted by
   `install.sh` / `setup.sh`.
 - **Clash**: a skill entry that exists (`-e` or `-L`) and is not a Helix link.
 

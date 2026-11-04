@@ -27,15 +27,20 @@ helix_is_skill_link() {
 }
 
 # helix_is_cache_link <entry> <clone> [clone_physical]
-# True when <entry> is a symlink whose raw target is the clone itself.
+# True when <entry> is a symlink whose raw target names the clone itself: the same text as
+# <clone> or <clone_physical>, or a directory whose `pwd -P` is <clone_physical> (install.sh links
+# the logical path, setup.sh the git top level, which is physical).
 helix_is_cache_link() {
-  local entry="$1" clone="$2" clone_p="${3:-}" t
+  local entry="$1" clone="$2" clone_p="${3:-}" t t_p
   [ -L "$entry" ] || return 1
   t="$(readlink "$entry")" || return 1
   t="${t%/}"
   [ "$t" = "$clone" ] && return 0
-  [ -n "$clone_p" ] && [ "$t" = "$clone_p" ] && return 0
-  return 1
+  [ -n "$clone_p" ] || return 1
+  [ "$t" = "$clone_p" ] && return 0
+  case "$t" in /*) ;; *) return 1 ;; esac   # never resolve a relative target against our cwd
+  t_p="$(cd "$t" 2>/dev/null && pwd -P)" || return 1
+  [ "$t_p" = "$clone_p" ]
 }
 
 # helix_link_plugin_cache <cache_base> <version> <clone>

@@ -18,12 +18,10 @@ CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
 bash "$REPO_ROOT/scripts/sync-version.sh"
 VERSION="$(tr -d '[:space:]' < VERSION)"
 
-mkdir -p "$CACHE_BASE"
-for OLD_ENTRY in "$CACHE_BASE"/*/; do
-  [ -e "$OLD_ENTRY" ] || continue
-  rm -rf "$OLD_ENTRY"
-done
-ln -sfn "$REPO_ROOT" "$CACHE_BASE/$VERSION"
+# Remove only Helix's own version links; keep and warn about anything else
+# (Spec: docs/sdd/link-skills-no-delete R11, R12).
+. "$REPO_ROOT/scripts/lib/helix-owned.sh"
+helix_link_plugin_cache "$CACHE_BASE" "$VERSION" "$REPO_ROOT"
 
 git config core.hooksPath scripts/hooks
 bash "$REPO_ROOT/scripts/link-skills.sh"
