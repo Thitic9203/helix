@@ -8,7 +8,7 @@ created: 2026-11-04
 
 ## Destination
 
-A decided spec, `SPEC.md` in this folder, that closes the three risks the team lead raised on 2026-11-04, plus a fourth found while charting (`link-skills.sh` deleting a user's same-named skill; in scope by owner decision 2026-11-04). The spec also includes a team notice that is ready to send. Code changes happen after this map, through normal PRs. The owner chose both: fix the code **and** tell the team (2026-11-04).
+A decided spec, [SPEC.md](SPEC.md) in this folder (drafted 2026-11-04; the team notice still needs owner approval), that closes the three risks the team lead raised on 2026-11-04, plus a fourth found while charting (`link-skills.sh` deleting a user's same-named skill; in scope by owner decision 2026-11-04). The spec also includes a team notice that is ready to send. Code changes happen after this map, through normal PRs. The owner chose both: fix the code **and** tell the team (2026-11-04).
 
 The three risks, as checked against `origin/main` on 2026-11-04:
 
@@ -40,12 +40,12 @@ The three risks, as checked against `origin/main` on 2026-11-04:
 - [Auto-update policy](tickets/03-auto-update-policy.md): notify only. Session start reports a newer release and nothing runs on its own; the user updates by command. This replaces the 2026-10-20 wish for automatic updates.
 - [Install path and verification](tickets/04-install-path.md): pin a release tag and check the installer's SHA-256 before running it. `curl | bash` from main is removed. A signed release stays in the fog.
 - [setup-devenv posture](tickets/05-devenv-posture.md): retire the script and ship a full undo for machines that opted in (all rules ever added, the global CLAUDE.md block, defaultMode, the marker). Auto-update stops re-running it.
+- [link-skills must not delete a user's own skill](tickets/07-link-skills-overwrite.md): skip and warn on a name clash; never `rm -rf` anything Helix did not create.
 
 ## Not yet specified
 
 - **Release integrity:** whether release tags or artifacts get signed (git tag signing, Sigstore or GitHub artifact attestations), who holds the key, and how the installer and updater verify the signature. This waits on the update-policy and install-path decisions.
 - **Regression guard:** a CI or lint check that fails when a script widens the allowlist, writes to the global `CLAUDE.md`, or adds an unverified download. Its shape depends on what the devenv decision keeps.
-- **Migration for existing installs:** how machines that already have auto-update, or the devenv opt-in, move to the new posture. That covers an uninstall or reset step and what the next session prints.
 - **`ols-qa` impact:** whether `ols-qa` carries copies of these scripts or hooks that need the same change.
 
 ## Out of scope
