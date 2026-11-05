@@ -42,11 +42,27 @@ check_readme() {
   fi
 }
 
+# The install block in README names the release tag (Spec: docs/sdd/install-pinned-checksum R3).
+check_readme_tag() {
+  local n bad
+  n="$(grep -c '^HELIX_TAG=v' "$README" || true)"
+  if [ "$n" -ne 1 ]; then
+    echo "error: README.md must hold exactly one install-block line HELIX_TAG=v... (found $n)" >&2
+    return 1
+  fi
+  bad="$(grep '^HELIX_TAG=v' "$README" | grep -v "^HELIX_TAG=v${VERSION}\$" || true)"
+  if [ -n "$bad" ]; then
+    echo "error: README.md install block has $bad, expected HELIX_TAG=v${VERSION} (run ./scripts/sync-version.sh)" >&2
+    return 1
+  fi
+}
+
 if [ "${1:-}" = "--check" ]; then
   err=0
   check_file "$PLUGIN_JSON" "plugin.json" || err=1
   check_file "$MARKETPLACE_JSON" "marketplace.json (metadata)" || err=1
   check_readme || err=1
+  check_readme_tag || err=1
   if [ "$err" -eq 0 ]; then
     echo "ok: all version markers match $VERSION"
   fi
@@ -78,6 +94,17 @@ else
   else
     sed -i "1a\\n**Version: ${VERSION}** · [Releases](https://github.com/Thitic9203/helix/releases)\n" "$README"
   fi
+fi
+
+# README install-block tag (only rewrites an existing line; never invents the block)
+if grep -q '^HELIX_TAG=v' "$README"; then
+  if [ "$(uname)" = "Darwin" ]; then
+    sed -i '' "s/^HELIX_TAG=v.*/HELIX_TAG=v${VERSION}/" "$README"
+  else
+    sed -i "s/^HELIX_TAG=v.*/HELIX_TAG=v${VERSION}/" "$README"
+  fi
+else
+  echo "warn: README.md has no HELIX_TAG=v... install-block line; not adding one" >&2
 fi
 
 echo "synced version $VERSION -> plugin.json, marketplace.json, README.md"

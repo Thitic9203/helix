@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.162** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.163** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
 
@@ -55,11 +55,18 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 
 ### Step 1 — Everyone (same command)
 
+This downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes. If a download fails or the hash does not match, nothing is installed and nothing is written under your home folder (the two files land in the current folder only).
+
 ```bash
-curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
+HELIX_TAG=v1.5.163
+base="https://github.com/Thitic9203/helix/releases/download/$HELIX_TAG"
+curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
+  && [ "$(wc -l < install.sh.sha256)" -eq 1 ] \
+  && { if command -v sha256sum >/dev/null; then sha256sum -c install.sh.sha256; else shasum -a 256 -c install.sh.sha256; fi; } \
+  && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
 
 ### Step 2 — By agent (what you do next)
 
@@ -197,11 +204,7 @@ bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh   # Claude Code: helix@he
 bash ~/.helix/tc-fe-prep/scripts/link-skills.sh            # if symlinks missing
 ```
 
-Or re-run the full installer:
-
-```bash
-curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
-```
+Or re-run the full installer: use the pinned install block under [Install (one-time)](#install-one-time).
 
 ### By agent (when something still looks old)
 
@@ -214,7 +217,7 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 
 ### Marketplace-only install (no `~/.helix` clone)
 
-If you only installed **`helix@helix-dev`** from Claude marketplace (never ran `curl …/install.sh`):
+If you only installed **`helix@helix-dev`** from Claude marketplace (never ran the install block):
 
 - **Plugin + hooks** can still update via SessionStart → `claude-plugin-sync.sh`
 - **Global skills** (`~/.cursor/skills`, etc.) need **`install.sh` once** so symlinks point at `~/.helix/tc-fe-prep`

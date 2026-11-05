@@ -21,7 +21,7 @@ echo ""
 
 # --- Repo ---
 if [ ! -d "$REPO/.git" ]; then
-  bad "Helix repo not found at $REPO — run: curl -sL .../install.sh | bash"
+  bad "Helix repo not found at $REPO — run the pinned install block in README.md (Install, one-time)"
   echo ""
   echo "Result: FAIL (install required)"
   exit 1

@@ -4,9 +4,7 @@ Helix is a **portable skill pack** ([Agent Skills](https://agentskills.io) / `SK
 
 ## Install
 
-```bash
-curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
-```
+Use the pinned install block in the README: [Install (one-time)](../README.md#install-one-time). It downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes.
 
 Optional — also link skills into the **current project** (for Copilot, team repos, Windsurf workspace skills):
 

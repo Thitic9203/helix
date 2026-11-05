@@ -47,9 +47,7 @@ Prompts: [agent-entry.md](https://github.com/Thitic9203/helix/blob/main/referenc
 
 ## Install (one-time)
 
-```bash
-curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
-```
+Use the pinned install block in the README: [Install (one-time)](https://github.com/Thitic9203/helix#install-one-time). It downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes.
 
 **Installer does:**
 
