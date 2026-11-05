@@ -29,11 +29,11 @@ lists one commit, 8894507 (2026-05-31); the file's blob at 8894507 and at e9955a
 
 ## Scope
 
-In: `scripts/helix-setup-devenv.sh`, `scripts/helix-auto-update.sh:223-228`, `hooks/session-start:25-41, :56`,
+In: `scripts/helix-setup-devenv.sh`, `scripts/helix-auto-update.sh:223-228`, `hooks/session-start:25-41, :56`, `scripts/helix-doctor.sh` (warning only),
 a new test under `scripts/tests/`, a test fixture, and the docs that tell people to run the script:
 `README.md:241-242, :300`, `docs/CONTRIBUTING.md:15-31`, `docs/wiki/Home.md:182`.
 
-Out: the repo's own `.claude/settings.json` ("Layer 1", project-scoped, applies only inside a Helix
+Out: `SECURITY-NOTICE.md` (Q5); the repo's own `.claude/settings.json` ("Layer 1", project-scoped, applies only inside a Helix
 clone — not a global write); the rest of the auto-update redesign (SPEC R2, its own SDD); the team
 notice (SPEC R5); deleting `*.helix-bak.*` backups.
 
@@ -47,8 +47,11 @@ notice (SPEC R5); deleting `*.helix-bak.*` backups.
 
 - **R1** — When `helix-setup-devenv.sh` runs without `--uninstall`, it must not add any allowlist
   rule, must not set `defaultMode`, must not write `~/.claude/CLAUDE.md`, and must not create the
-  marker. It prints that the script is retired and how to undo, then exits 0. Source: SPEC R3
-  ("no longer adds anything").
+  marker. If the marker `~/.helix/.devenv-opted-in` exists (an opted-in machine whose OLD updater
+  makes its last no-argument call), the run performs the full undo (R2–R9, R13) automatically.
+  If the marker does not exist, it touches no file. Either way it prints that the script is
+  retired and how to undo, then exits 0. Source: SPEC R3 ("no longer adds anything"); owner
+  decision Q2 (2026-11-04).
 - **R2** — When the undo (`--uninstall`) runs, it must remove from `permissions.allow` every rule in
   the shipped list (`:29-43`, the only list ever shipped — see Evidence) that Helix added. A rule
   counts as "added by Helix" unless it is already in the oldest `settings.json.helix-bak.*`
@@ -65,7 +68,7 @@ notice (SPEC R5); deleting `*.helix-bak.*` backups.
 - **R5** — The undo must remove `permissions.defaultMode` only when Helix set it: the current value
   is `"acceptEdits"` **and** the oldest settings backup has no `permissions.defaultMode`. If there is
   no backup, it must leave `defaultMode` alone and print one line saying how to check it by hand.
-  Source: SPEC R3 bullet 3; `:90` sets it only when unset; `:172` records nothing — see Q1.
+  Source: SPEC R3 bullet 3; `:90` sets it only when unset; `:172` records nothing; owner decision Q1 = option A (2026-11-04).
 - **R6** — The undo must remove the `HELIX-DEVENV:START…END` block from `~/.claude/CLAUDE.md` and
   leave every other byte as it was before opt-in; when the rest equals the oldest
   `CLAUDE.md.helix-bak.*` after trimming the newlines `:129-130` added, it writes that backup's bytes.
@@ -83,6 +86,13 @@ notice (SPEC R5); deleting `*.helix-bak.*` backups.
 - **R12** — README, CONTRIBUTING and the wiki must not tell anyone to opt in; they show only the undo
   command. Source: SPEC R3 (retired); `README.md:241-242, :300`, `docs/CONTRIBUTING.md:15-31`,
   `docs/wiki/Home.md:182`.
+- **R13** — The undo must delete `~/.helix/.devenv-notice-count` (written by
+  `hooks/session-start:38-39`). Source: owner decision Q3 (2026-11-04).
+- **R14** — `scripts/helix-doctor.sh` must print one `WARN` per devenv leftover found, with the
+  undo command: any of the shipped allowlist rules in `settings.json`, the `HELIX-DEVENV` block in
+  `CLAUDE.md`, the marker, or a `defaultMode` Helix set (R5 test). It prints no devenv line on a
+  clean machine and writes nothing. The skill-name-clash warning already exists
+  (`docs/sdd/link-skills-no-delete` R13). Source: owner decision Q4 (2026-11-04).
 
 ## Edge cases
 
@@ -109,27 +119,18 @@ notice (SPEC R5); deleting `*.helix-bak.*` backups.
   R2 removes it and prints it (same limit as Q1).
 - `SECURITY-NOTICE.md:41` already tells opted-in users to run `--uninstall`. Anyone who runs it
   before this change ships gets today's partial undo (`defaultMode` kept). R8 lets them run the new
-  undo again — see Q5.
+  undo again. The notice wording is updated later, with the fixed release (owner decision Q5) — not in this change.
 - Machines still on an old `helix-auto-update.sh`: after fetching the release with this change, the old
-  updater runs the new script with **no arguments** (`:227`). By R1 that call changes nothing — see Q2.
+  updater runs the new script with **no arguments** (`:227`). With the marker present, R1 makes that
+  run the full undo; without it, nothing changes.
 
-## Open questions for the owner
+## Owner decisions (2026-11-04, `docs/plan/wayfinder-supply-chain/owner-decisions-2026-11-04.md`)
 
-- **Q1** — `defaultMode`: the current script records nothing about who set it (`:90`, `:172`). Is the
-  backup-based check in R5 acceptable, including its limit (a user who set `acceptEdits` themselves
-  after opt-in, with no `defaultMode` before, loses it)? No better signal exists on disk today.
-- **Q2** — Should opted-in machines be undone automatically? Option A (this draft): R1 makes a no-arg
-  run a no-op, so nothing changes until the user runs `--uninstall` (told by the team notice, SPEC R5).
-  Option B: a no-arg run performs the undo; then the old updater (`:227`) undoes every opted-in
-  machine at its next update with no prompt.
-- **Q3** — Should the undo also delete `~/.helix/.devenv-notice-count` (written by
-  `hooks/session-start:38-39`)? It is Helix state, not named in SPEC R3. Draft: leave it.
-
-- **Q4** — `scripts/helix-doctor.sh` has no devenv check today (`grep -n -i devenv` → 0 lines).
-  Should doctor warn when it finds devenv residue (marker, block, or Helix rules) and print the undo
-  command? Draft: no change (adding is outside SPEC R3).
-- **Q5** — `SECURITY-NOTICE.md:41` asks users to run `--uninstall` now. Should it say to update
-  Helix first (to the release with this change), or to run it again after updating?
+- **Q1** — `defaultMode`: option A, decided from the pre-opt-in backup (R5). No backup: leave it and say so.
+- **Q2** — Yes: the old updater's last no-argument call on an opted-in machine undoes automatically (R1).
+- **Q3** — Yes: the undo deletes `~/.helix/.devenv-notice-count` (R13).
+- **Q4** — Yes: `helix-doctor` warns about devenv leftovers (R14); the clash warning exists already.
+- **Q5** — `SECURITY-NOTICE.md` is updated later, with the fixed release. Out of scope here.
 
 ## Done when
 
@@ -138,6 +139,8 @@ notice (SPEC R5); deleting `*.helix-bak.*` backups.
 - A pre-existing user rule that is also in the list survives the undo.
 - `defaultMode` set by the user before opt-in survives; one set by Helix is removed.
 - A no-arg run on a clean fake `$HOME` creates no file under `.claude/` or `.helix/`.
+- A no-arg run on a fake `$HOME` with the old opt-in applied leaves `settings.json` and `CLAUDE.md` byte-equal to Pre, marker and notice-count file gone.
+- `helix-doctor` on a fake `$HOME` with the old opt-in applied prints a devenv `WARN` for each leftover; on a clean one, none.
 - `grep -n devenv scripts/helix-auto-update.sh` returns nothing.
 - With no backups, the undo removes all 45 rules, leaves `defaultMode`, and prints both facts.
 - A second `--uninstall` run leaves every file under the fake `$HOME` byte-equal and creates none.
