@@ -33,7 +33,7 @@ Evidence (worktree at `origin/main` 5eb2bb9, read 2026-11-04):
 In: `hooks/session-start:9-23`; `scripts/helix-auto-update.sh` (all of it except `:223-228`, owned
 by retire-devenv); `scripts/tests/auto-update.test.sh`; a new hook test; the docs listed in R13.
 
-Out: `scripts/helix-setup-devenv.sh` and the devenv tip (`docs/sdd/retire-devenv/`); install path
+Out: `SECURITY-NOTICE.md` (Q4); `scripts/helix-setup-devenv.sh` and the devenv tip (`docs/sdd/retire-devenv/`); install path
 (SPEC R1); `link-skills.sh` clash handling (SPEC R4); Claude Code's **own** marketplace auto-update
 of the plugin (research 01 D4–D6 — a Claude Code setting, not Helix code); the git `post-merge`
 hook (`scripts/hooks/post-merge`, runs only on a `git pull` the user types); signed tags (SPEC
@@ -102,11 +102,14 @@ follow-up); the team notice (SPEC R5).
   to `auto-update.log`. Only the update command writes or clears `last-update-error`. The hook still
   surfaces a recorded error, and its text must point to the R6 command.
   Source: `README.md:177` "offline → skip (no error)"; `hooks/session-start:17-23`; `:36-41, :231-233`.
-- **R13** — Docs must describe notify-only: `README.md:145-178` (section, trigger table, steps,
-  env table, manual command, notes), `README.md:293`, `docs/wiki/Home.md:110-137`,
-  `docs/wiki/Home.md:175`, `docs/DOC-MAP.md:9, :32`, `scripts/install.sh:60, :84`,
-  `scripts/helix-doctor.sh:200`, `scripts/helix-auto-update.sh:2-11` (header).
-  Source: grep `helix-auto-update|HELIX_AUTO_UPDATE|HELIX_FORCE_UPDATE|INTERVAL_SEC` at 5eb2bb9.
+- **R13** — Docs must describe notify-only: `README.md:146-178` (section, trigger table, steps,
+  env table, manual command, notes), `README.md:193`, `README.md:211`, `README.md:291`,
+  `docs/wiki/Home.md:59`, `docs/wiki/Home.md:110-137`, `docs/wiki/Home.md:175`,
+  `docs/DOC-MAP.md:9, :32`, `scripts/install.sh:58, :82`, `scripts/helix-doctor.sh:150-163, :222`,
+  `scripts/helix-auto-update.sh:2-11` (header). `SECURITY-NOTICE.md` is not edited here (Q4).
+  Source: grep `helix-auto-update|HELIX_AUTO_UPDATE|HELIX_FORCE_UPDATE|INTERVAL_SEC` at 7a56f60
+  (line numbers re-read there; the devenv block and tip are already gone, so R2/R14 cites to
+  `:223-228` are history only).
 - **R14** — Migration: a machine still on the old updater gets the release that carries this change
   through its old session-start run (old code fetches it and runs its `link-skills.sh` /
   `claude-plugin-sync.sh` once). From the next session on, only R3–R5 run. The new release must not
@@ -126,16 +129,12 @@ follow-up); the team notice (SPEC R5).
   (`scripts/hooks/post-merge:23-24`): the hook runs that copy's script; R1–R2 hold for it too once it
   is on this release.
 
-## Open questions (owner)
+## Decisions (owner, 2026-11-04, `docs/plan/wayfinder-supply-chain/owner-decisions-2026-11-04.md`)
 
-- Q1 — The variable names keep the word "AUTO_UPDATE" while nothing updates automatically.
-  Draft: keep the names (R8–R10) so `SECURITY-NOTICE.md:36` settings keep working; no rename.
-- Q2 — Should a `/helix-update` slash command (agent runs R6 on request) be added? No source asks for it.
-  Draft: no; the terminal command only.
-- Q3 — Where should the notice line show: in the agent context with "tell the user once" (how
-  `update_tip` works today, `hooks/session-start:22`), or also straight to the user? Draft: context only.
-- Q4 — `SECURITY-NOTICE.md:28-39` tells teammates to set `HELIX_AUTO_UPDATE=0`. After this release
-  that turns off the notice too. Update it with the SPEC R5 notice, or here? Draft: with R5, not here.
+- Q1 — Keep the `HELIX_AUTO_UPDATE*` variable names (R8–R10). No rename.
+- Q2 — No `/helix-update` slash command. The update command is the existing documented bash command (R6).
+- Q3 — The notice line appears in the agent's context only (the hook's additional context), nowhere else.
+- Q4 — `SECURITY-NOTICE.md` is updated later, with the fixed release (SPEC R5). This change does not edit it.
 
 ## Done when
 

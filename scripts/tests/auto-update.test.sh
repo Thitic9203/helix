@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# helix-auto-update.sh follows release tags only, never moves backwards, and reports failures
-# that hooks/session-start then surfaces. Offline: origin is a local bare repo.
+# helix-auto-update.sh (the update command, no args) follows release tags only, never moves backwards,
+# and reports failures that hooks/session-start then surfaces. A session start only checks (--check).
+# Offline: origin is a local bare repo.
 . "$(dirname "$0")/lib.sh"
 W="$(mktemp -d)"; trap 'rm -rf "$W"' EXIT
 AU="$REPO_ROOT/scripts/helix-auto-update.sh"
@@ -12,9 +13,7 @@ for v in 1.0.0 1.0.1 1.0.2; do
   [ "$v" = 1.0.2 ] || git tag "v$v"          # 1.0.2 = on main, never released
 done
 git remote add origin "$W/origin.git"; git push -q origin main --tags
-echo 1.0.2 > "$W/remote-version"
-run_au() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_FORCE_UPDATE=1 \
-  HELIX_VERSION_URL="file://$W/remote-version" bash "$AU" >/dev/null 2>&1; }
+run_au() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" bash "$AU" >/dev/null 2>&1; }
 fresh_clone() { rm -rf "$W/clone"; git clone -q "$W/origin.git" "$W/clone"; git -C "$W/clone" reset -q --hard "$1"; }
 mkdir -p "$W/home"
 
@@ -34,17 +33,16 @@ grep -q "fast-forward to v1.0.1 failed" "$W/state/last-update-error" 2>/dev/null
 out="$(HOME="$W/home" HELIX_AUTO_UPDATE=0 bash "$REPO_ROOT/hooks/session-start" 2>/dev/null)"
 mkdir -p "$W/home/.helix"; cp "$W/state/last-update-error" "$W/home/.helix/last-update-error"
 out2="$(HOME="$W/home" HELIX_AUTO_UPDATE=0 bash "$REPO_ROOT/hooks/session-start" 2>/dev/null)"
-! printf '%s' "$out" | grep -q "auto-update problem" && printf '%s' "$out2" | grep -q "auto-update problem" \
-  && ok "session-start shows the notice only when an error is recorded" || fail "session-start notice wrong (without: $(printf '%s' "$out" | grep -c 'auto-update problem'), with: $(printf '%s' "$out2" | grep -c 'auto-update problem'))"
+! printf '%s' "$out" | grep -q "update problem" && printf '%s' "$out2" | grep -q "update problem" \
+  && ok "session-start shows the notice only when an error is recorded" || fail "session-start notice wrong (without: $(printf '%s' "$out" | grep -c 'update problem'), with: $(printf '%s' "$out2" | grep -c 'update problem'))"
 printf '%s' "$out2" | python3 -c "import json,sys; json.load(sys.stdin)" 2>/dev/null && ok "session-start output with the notice is valid JSON" || fail "session-start output is not valid JSON"
 
 fresh_clone v1.0.0; run_au
 [ ! -e "$W/state/last-update-error" ] && ok "the next clean run clears the notice" || fail "notice survived a clean run"
 
 fresh_clone v1.0.0
-HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_FORCE_UPDATE=1 \
-  HELIX_VERSION_URL="https://127.0.0.1:9/unreachable" bash "$AU" >/dev/null 2>&1
-[ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && ok "a clone install updates even when the VERSION URL is unreachable (curl/TLS failure)" || fail "unreachable VERSION URL left the clone at $(cat "$W/clone/VERSION")"
+HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_INTERVAL_SEC=0 bash "$AU" >/dev/null 2>&1
+[ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && ok "a clone install updates (FORCE_UPDATE / INTERVAL_SEC are accepted and ignored)" || fail "update with legacy env left the clone at $(cat "$W/clone/VERSION")"
 
 fresh_clone v1.0.0
 git -C "$W/clone" tag -f v1.0.1 v1.0.0 >/dev/null   # a stale local tag that disagrees with origin
@@ -54,24 +52,26 @@ run_au
 fresh_clone main; run_au
 [ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a clone ahead of the release is never moved back" || fail "clone moved back to $(cat "$W/clone/VERSION")"
 
-# Every session (no FORCE, the check interval not yet elapsed): a cheap tag probe decides.
-run_session() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" \
-  HELIX_VERSION_URL="file://$W/remote-version" bash "$AU" >/dev/null 2>&1; }
-fresh_clone v1.0.0; run_au                      # at release 1.0.1, stamp just written
+# Every session (R2 update-notify-only): a --check run probes the tag list and prints a notice; it never
+# fetches or moves. Only the update command moves the clone.
+run_session() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" bash "$AU" --check 2>/dev/null; }
+fresh_clone v1.0.0; run_au                      # at release 1.0.1
 fetches() { grep -c "fetching origin" "$W/state/auto-update.log" 2>/dev/null || true; }
-before="$(fetches)"; run_session
-[ "$(fetches)" = "$before" ] && [ "$(cat "$W/clone/VERSION")" = 1.0.1 ] \
-  && ok "a session with no new release skips the full fetch" || fail "no-new-release session fetched or moved (VERSION $(cat "$W/clone/VERSION"))"
+before="$(fetches)"; msg="$(run_session)"
+[ "$(fetches)" = "$before" ] && [ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && [ -z "$msg" ] \
+  && ok "a session with no new release prints nothing and fetches nothing" || fail "no-new-release session fetched, moved or printed (VERSION $(cat "$W/clone/VERSION"), msg '$msg')"
 git -C "$W/seed" tag v1.0.2 && git -C "$W/seed" push -q origin v1.0.2
-run_session
-[ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a release published after the last check reaches the next session" || fail "next session stayed at $(cat "$W/clone/VERSION")"
+msg="$(run_session)"
+[ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && [ "$(fetches)" = "$before" ] && printf '%s' "$msg" | grep -q "v1.0.2 is available" \
+  && ok "a release published after the last check is announced, not installed" || fail "session moved or stayed silent (VERSION $(cat "$W/clone/VERSION"), msg '$msg')"
+run_au
+[ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "the update command then installs it" || fail "update command left $(cat "$W/clone/VERSION")"
 
 # R10 (docs/sdd/retire-devenv): the updater never runs helix-setup-devenv.sh, even on an opted-in machine.
 mkdir -p "$W/seed/scripts"
 printf '#!/bin/sh\ntouch "%s/sentinel"\n' "$W" > "$W/seed/scripts/helix-setup-devenv.sh"; chmod +x "$W/seed/scripts/helix-setup-devenv.sh"
 echo 1.0.3 > "$W/seed/VERSION"; git -C "$W/seed" add VERSION scripts/helix-setup-devenv.sh; git -C "$W/seed" commit -qm "v1.0.3"
 git -C "$W/seed" tag v1.0.3 && git -C "$W/seed" push -q origin main v1.0.3
-echo 1.0.3 > "$W/remote-version"
 fresh_clone v1.0.2; mkdir -p "$W/state"; echo 1 > "$W/state/.devenv-opted-in"
 run_au
 [ "$(cat "$W/clone/VERSION")" = 1.0.3 ] && [ ! -e "$W/sentinel" ] && ok "an update on an opted-in machine does not run helix-setup-devenv.sh" || fail "R10: VERSION $(cat "$W/clone/VERSION"), sentinel $([ -e "$W/sentinel" ] && echo present || echo absent)"

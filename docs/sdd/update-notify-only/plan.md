@@ -1,6 +1,6 @@
 # Plan — update-notify-only
 
-Line numbers are at `origin/main` 5eb2bb9. `docs/sdd/retire-devenv/` also edits
+Line numbers were first taken at `origin/main` 5eb2bb9 and re-read at 7a56f60 (see Decisions in spec.md; the script cites below are shifted by the devenv removal: `:50-67` stays, `:196-221` is now `:195-221`; README/wiki/install/doctor cites are listed in spec R13). `docs/sdd/retire-devenv/` also edits
 `scripts/helix-auto-update.sh:223-228` and `hooks/session-start:25-41, :56`; whichever PR lands
 second rebases and re-reads the numbers. This plan never re-adds the devenv block or tip.
 
@@ -17,7 +17,7 @@ second rebases and re-reads the numbers. This plan never re-adds the devenv bloc
 | new `run_check` (replaces `:196-221` for `MODE=check`) | `ls-remote` once; on failure `log` only (no `note_error`); on success `mark_checked`; if newer → print one line to **stdout**: `Helix vNEW is available (installed vOLD). Update: bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh`; `exit 0` before any other function is reachable | R3–R5, R7, R11, R12 |
 | `scripts/helix-auto-update.sh:23, :91-93, :214-220` | delete the `curl` VERSION path; no-clone update mode runs `claude-plugin-sync.sh` (`:172-188`) only in `MODE=update` | R4, R6 |
 | `scripts/helix-auto-update.sh:124-170, :103-122, :231-238` | unchanged, reached only in `MODE=update` | R6, R12 |
-| `hooks/session-start:9-15` | `_notice="$(HELIX_QUIET=1 bash "$AU" --check 2>/dev/null \| head -1 \| tr -cd 'A-Za-z0-9 ._:/()+=,~-' \| cut -c1-200 \|\| true)"`; `update_tip` gets `**Helix update available:** ${_notice}. Tell the user once, briefly.` | R5, R7 |
+| `hooks/session-start:9-15` (notice goes into the agent context only, owner Q3) | `_notice="$(HELIX_QUIET=1 bash "$AU" --check 2>/dev/null \| head -1 \| tr -cd 'A-Za-z0-9 ._:/()+=,~-' \| cut -c1-200 \|\| true)"`; `update_tip` gets `**Helix update available:** ${_notice}. Tell the user once, briefly.` | R5, R7 |
 | `hooks/session-start:17-23` | keep the error tip; change text "auto-update problem" → "Helix update problem", manual command → `bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh` | R12 |
 | `scripts/tests/update-notify.test.sh` (new) | the Done-when matrix (below) | R1–R5, R7–R12 |
 | `scripts/tests/auto-update.test.sh:16-17, :45-46` | drop `HELIX_FORCE_UPDATE=1` (no longer needed; still passes with it) | R6, R9 |
@@ -27,7 +27,7 @@ second rebases and re-reads the numbers. This plan never re-adds the devenv bloc
 | `README.md:293` | "Session start: check only (`--check`). No args: update to the newest release (run by you)" | R13 |
 | `docs/wiki/Home.md:110-137, :175` | mirror the README text | R13 |
 | `docs/DOC-MAP.md:9, :32` | "Update notice on session · update command" | R13 |
-| `scripts/install.sh:60, :84` | `:60` "Enabling git hooks (cache rename on pull)…"; `:84` → the R6 command | R13 |
+| `scripts/install.sh:58, :82` | `:58` "Enabling git hooks (cache rename on pull)…"; `:82` → the R6 command (only that hint line; install-block text/checksum logic belongs to R1) | R13 |
 | `scripts/helix-doctor.sh:145-146, :156, :200` | wording "update check" instead of "auto-update"; `:200` → "Update: you run `bash …/helix-auto-update.sh`; session start only checks" | R11, R13 |
 
 ## Options weighed
@@ -40,7 +40,7 @@ second rebases and re-reads the numbers. This plan never re-adds the devenv bloc
 | D | Keep the interval to throttle `ls-remote` | fewer network calls | today already probes every session (`:63-66`); a throttle hides releases (the 1.5.105 case) | no (R10) |
 
 Notice channel: the hook already embeds text in `additionalContext` (`hooks/session-start:56-64`);
-writing to stderr is dropped (`2>/dev/null`). Keep context-only until Q3 is answered.
+writing to stderr is dropped (`2>/dev/null`). Context-only (owner Q3, 2026-11-04). No `/helix-update` command (Q2); `SECURITY-NOTICE.md` untouched (Q4).
 
 Tools: bash, git, python3 (JSON check, already used by `auto-update.test.sh:39`). All free; no new
 dependency, no network in tests (bare repo on disk, `file://`-free local path).

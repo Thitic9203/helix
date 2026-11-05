@@ -147,8 +147,8 @@ fi
 
 echo ""
 echo "--- Auto-update freshness ---"
-# helix-auto-update.sh writes this stamp after each successful check. A stamp older than a day
-# means the SessionStart hook is not running the updater (e.g. the hook itself fails).
+# helix-auto-update.sh --check writes this stamp after each successful check. A stamp older than a day
+# means the SessionStart hook is not running the check (e.g. the hook itself fails).
 STAMP="${HELIX_STATE_DIR:-$HOME/.helix}/.last-auto-update-check"
 STALE_SEC="${HELIX_DOCTOR_STALE_SEC:-86400}"
 if [ ! -f "$STAMP" ]; then
@@ -219,7 +219,7 @@ echo ""
 echo "Docs:  $REPO/docs/supported-agents.md"
 echo "Start: /helix (Claude) · @helix / skill helix (others)"
 echo "Direct: /tc-fe-prep /tc-api-prep /retest-bug /testing-ticket /create-bug"
-echo "Auto-update: HELIX_AUTO_UPDATE=1 (default) — see scripts/helix-auto-update.sh · log ~/.helix/auto-update.log"
+echo "Update: you run bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh · session start only checks (HELIX_AUTO_UPDATE=0 turns the check off) · log ~/.helix/auto-update.log"
 echo ""
 
 if [ "$FAIL" -gt 0 ]; then
