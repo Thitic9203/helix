@@ -21,15 +21,20 @@ List every Acceptance Criteria / Expected-Condition line from the ticket, one id
 
 ### In scope (coverage gate layer 2 — every AC/EC id maps to ≥1 row)
 
-| # | Scenario | AC/EC id(s) | Spec / path | Data setup |
-|---|----------|-------------|-------------|------------|
-| 1 | | | | |
-| 2 | | | | |
+| # | Scenario | AC/EC id(s) | Width | Spec / path | Data setup |
+|---|----------|-------------|-------|-------------|------------|
+| 1 | | | 1440 | | |
+| 2 | | | 390 | | |
 
-**Coverage check:** every AC/EC id above appears in the `AC/EC id(s)` column of ≥1 scenario. An id with no scenario = a gap → add the scenario (or move it to Out of scope with a reason). Do not confirm the plan until every enumerated id is covered or explicitly excluded.
+One row per scenario x width: a scenario in scope at 1440 and 390 is two rows, not "1440 · 390" in one cell. A scenario with no layout dependence (for example a pure API check) uses one row with Width = n/a.
+
+**Coverage check:** every AC/EC id above appears in the `AC/EC id(s)` column of ≥1 scenario. An id with no scenario = a gap → add the scenario (or move it to Out of scope with a reason). Do not confirm the plan until every enumerated id is covered or explicitly excluded. An id is not covered at a width it has no row for.
+
+**Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch in the summary and does not block the run.
 
 ### Out of scope
 
+- {each out-of-scope width as width + reason, never as a row in the In-scope table}
 - {explicit exclusions — an AC/EC id deferred here is listed by id + reason, never silently dropped}
 
 ### Evidence to collect

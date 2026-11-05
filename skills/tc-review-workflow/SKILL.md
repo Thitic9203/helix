@@ -253,7 +253,7 @@ placeholder, thread rule, mention rule). The real ids and the webhook live in th
 named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<thread>`), never in the repo.
 
 - **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already
-  in config, so asking again is a repeat question (#0059). Ask exactly one question: which thread of that channel to post in. Offer the threads already used for this ticket or
+  in config, so asking again is a repeat question (#0059). Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or
   recorded in the config as options. The answer is the go-ahead to send. Where the workspace carries
   `tools/ask-guard` (workspace-optional, see [dependencies.md](../../references/dependencies.md)), it
   blocks the channel question for such projects (state `fixed-destination`); without it, apply the same
@@ -269,8 +269,9 @@ named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<threa
 
 Then:
 
-1. **Identity for a mention:** ask for the exact id (Discord user id, Jira account id, etc.) rather than
-   guessing one from a display name — a wrong id either pings nobody or pings the wrong person. The same
+1. **Identity for a mention:** take the exact id (Discord user id, Jira account id, etc.) from the project
+   config § *TC review notify* — never ask the user for it. Only when the config has none for the person to
+   mention, ask for the exact id rather than guessing one from a display name — a wrong id either pings nobody or pings the wrong person. The same
    holds for a channel or thread id: never invent one; it comes from config or from the user's answer.
 2. 🔴 **GATE — before the external send:** show in chat the destination (channel + thread), the final text
    exactly as it will be sent (after any item-5 tightening) and its character count. The thread answer

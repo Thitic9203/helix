@@ -87,5 +87,5 @@ Field formatting (match the target tracker's own convention when it has one):
 - Write **What happens** (actual) as **bullet points — one fact per line**, not a single run-on
   paragraph. Reviewers scan bullets; they skip walls of prose. The source quote inside What should happen stays verbatim.
 - **Embed the evidence screenshot inline in the actual-result field** when the tracker supports inline
-  images (attach to the issue first, then reference it inline) — not only as a loose attachment — so the
+  images (for a new bug create the issue first, attach, then update the body to reference it inline) — not only as a loose attachment — so the
   proof sits next to the claim. Re-render and confirm the image resolved (not a literal `!filename!`).

@@ -184,8 +184,8 @@ What is specific to retest:
   recommendation (A adjust the expected/TC · B re-test · C confirm defect)` and queue it for the Step 6d
   decisions popup ([round-time-contract.md](../../../references/round-time-contract.md) §2). Picking
   **B re-test** there starts a new round (§1).
-- **Superseded bug ER → no "confirm defect" option (owner, 2026-10-14).** When the bug's own Expected
-  Result was superseded by a later ticket, comment or design (quote the superseding source char-exact),
+- **Superseded bug ER or task AC → no "confirm defect" option (owner, 2026-10-14).** When the bug's own Expected
+  Result or the task's Acceptance Criteria was superseded by a later ticket, comment or design (quote the superseding source char-exact),
   the end menu offers only **A adjust the expected/TC · B re-test** — never **C confirm defect**, because
   there is no confirmed spec left for the defect to differ from.
 - **Never edit the ticket's expected-result field** to match the app on your own — QA reports the

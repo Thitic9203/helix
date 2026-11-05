@@ -43,7 +43,7 @@ Every must-read file for this workflow, linked directly from here. References al
 
 **Read when the run reaches that phase** — mandatory at the moment named:
 
-- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing the first draft body (Phase C), before the confirm block is shown; a run where every candidate is dropped or Needs Review writes no draft.
+- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing the first draft body (Phase C), before the confirm block is shown; a run where every candidate is Dropped writes no draft; a Needs Review candidate is drafted and shown labelled "Needs Review — not filed".
 - [shared-must-never.md](../../references/shared-must-never.md) — read before the first write of the run: the first create call, attachment upload or comment in Phase D — rules shared by every workflow.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim — at Phase F before saying any issue is created or verified, and at the end of a run that files nothing.
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — read before reporting done, whether or not anything was filed — shared QA closing gates, including the cross-ticket conflict check.

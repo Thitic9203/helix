@@ -230,9 +230,11 @@ Then give each candidate one label, written on its draft summary line:
 - **Likely** — checks passed but one rests on the reporter's word only → goes to Phase C marked
   **Likely**; filed only if the user approves it as Likely there.
 - **Needs Review** — a check failed or is still open (design source matches the app, a role/flake
-  question unanswered) → **not drafted and not filed.** List it in the Phase C confirm block on the
-  `Needs Review:` line with its open question; it is filed only after the user answers the question and
-  it is re-checked here as Confirmed or Likely.
+  question unanswered) → **drafted and shown, never filed.** Draft its body like any other and show it
+  under the Phase C confirm block labelled **Needs Review — not filed**, with its open question on the
+  `Needs Review:` line; it is not counted in Bug count and `confirm` does not create it. It is filed only
+  after the user answers the question and it is re-checked here as Confirmed or Likely, and the confirm
+  block is shown again.
 - **Dropped** — the check proves it is not a defect (e.g. the design shows the current behavior) →
   report it in chat with the source link, as for a Phase B2 conflict.
 
@@ -251,7 +253,7 @@ Format:     {user template name or Helix default}
 Board check: {N candidates searched — M dropped as already-settled/duplicate, K to file}
 Fields:     {GitHub: labels that exist / labels missing + the user's choice · Jira: Priority → field, Severity → field id from the workspace guide, required fields with their values}
 Bug count:  {K}
-Needs Review: {none · or per item: title — open question (not drafted, not filed)}
+Needs Review: {none · or per item: title — open question (draft shown below, labelled Needs Review — not filed; not counted in Bug count)}
 
 Draft summaries:
   1. [{Severity}] {Module} — {title one line} · Priority {Priority} · {Confirmed | Likely}
@@ -321,12 +323,16 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 
 A markdown body on the v2 path returns HTTP 200 and renders as garbage — the gates are the only catch.
 
-Attach screenshots to Jira before embedding them in wiki bodies, and embed them **bare** —
-`!file.png!`, resized to ~600–640 px before upload. A width parameter puts a pipe inside a
-table cell and splits the row. If an attachment upload fails (rejected type, size limit, permission, any
-non-2xx), show the error verbatim, do not create or post a body that embeds the missing file, and
-ask the user: retry the upload, file without that image (embed line removed from the draft, shown
-again for **confirm**), or attach it by hand. Never continue on your own. When the workspace carries `tools/retest-guard/retest_rules.js`,
+Embed screenshots **bare** — `!file.png!`, resized to ~600–640 px before upload. A width parameter puts
+a pipe inside a table cell and splits the row. The attachments endpoint needs an issue key
+(`issueIdOrKey`), so for a **new bug** create the issue first with a body that has no image embed, then
+upload the attachments to the returned key, then update the body to embed them bare, then re-fetch the
+issue and confirm every embed rendered (not a literal `!file.png!`). "Attach before embed" applies only
+to an issue that already has a key. If an upload fails (rejected type, size limit, permission, any
+non-2xx), show the error verbatim, do not post a body that embeds the missing file, and ask the user:
+retry the upload, leave the image out (embed line removed from the draft, shown again for **confirm**),
+or attach it by hand. When the issue is created but the attach failed, also tell the user the issue key
+that now exists. Never continue on your own. When the workspace carries `tools/retest-guard/retest_rules.js`,
 run its scanner (rule `img-width-param`); when it does not, check every embed by hand for a bare
 `!file.png!` and say so.
 
