@@ -7,7 +7,7 @@ cd "$REPO_ROOT"
 # the pattern is built from parts so this file does not match itself
 PIPE="[|] *ba""sh"
 hits="$(git grep -nE "curl.*${PIPE}" -- README.md docs scripts .github ':!docs/sdd' ':!docs/plan' || true)"
-if [ -z "$hits" ]; then ok "no 'curl ... | bash' line in README, docs, scripts, .github"
+if [ -z "$hits" ]; then ok "no curl-into-bash line in README, docs, scripts, .github"
 else fail "curl piped into bash still present:"; printf '%s\n' "$hits" | sed 's/^/        /'; fi
 hits="$(git grep -nE "raw\.githubusercontent\.com/[^ ]*/main/[^ ]*install\.sh" -- README.md docs scripts .github ':!docs/sdd' ':!docs/plan' || true)"
 if [ -z "$hits" ]; then ok "no install.sh URL that reads from main"
