@@ -163,9 +163,15 @@ jobs:
               echo "Skill and workflow updates."
             fi
             echo ""
-            echo 'Install: `curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash`'
+            echo "Install (pinned to ${TAG}, SHA-256 checked before anything runs): follow [Install (one-time)](https://github.com/Thitic9203/helix#install-one-time) with HELIX_TAG=${TAG}."
+            echo ""
+            echo "Assets: https://github.com/Thitic9203/helix/releases/download/${TAG}/install.sh and https://github.com/Thitic9203/helix/releases/download/${TAG}/install.sh.sha256"
           } > "$NOTES_FILE"
-          gh release create "$TAG" \
+          # install.sh + install.sh.sha256 of this commit; if this fails, no release is created
+          DIST="$(mktemp -d)"
+          bash scripts/release-install-assets.sh "$DIST" || { echo "::error::could not build the install assets"; exit 1; }
+          gh release create "$TAG" "$DIST/install.sh" "$DIST/install.sh.sha256" \
+            --target "$(git rev-parse HEAD)" \
             --title "Helix ${V}" \
             --notes-file "$NOTES_FILE"
           echo "Created release $TAG at https://github.com/Thitic9203/helix/releases/tag/${TAG}"

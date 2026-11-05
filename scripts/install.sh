@@ -1,11 +1,12 @@
 #!/bin/bash
 # One-command install: clone + symlinks for major agent skill directories
 #
-# Usage:
-#   curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install.sh | bash
+# Usage: run the pinned install block from README.md ("Install (one-time)"). It downloads this file
+# from a named release, checks its SHA-256, and runs it with HELIX_TAG set to that release.
+# The clone is checked out at that tag, not at main.
 #
-# Optional (from your project root):
-#   HELIX_LINK_WORKSPACE=1 curl -sL .../install.sh | bash
+# Optional (from your project root), set in the same shell before the block's last line:
+#   HELIX_LINK_WORKSPACE=1
 #   — or after install: HELIX_LINK_WORKSPACE=$PWD ~/.helix/tc-fe-prep/scripts/link-skills.sh
 
 set -e
@@ -20,14 +21,35 @@ CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
 echo "=== Helix QA assistant installer ==="
 echo ""
 
-# 1. Clone or pull
+# 1. Clone, or move the existing clone, to the named release tag (never main).
+# Spec: docs/sdd/install-pinned-checksum R6 R7
+die() { echo "install.sh: $*" >&2; exit 1; }
+HELIX_TAG="${HELIX_TAG:-}"
+if [ -n "$HELIX_TAG" ] && ! [[ "$HELIX_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  die "HELIX_TAG must be a release tag like v1.2.3 (got: $HELIX_TAG)"
+fi
 if [ -d "$REPO_DIR/.git" ]; then
-  echo "[1/5] Repo exists — pulling latest..."
-  git -C "$REPO_DIR" pull origin main --quiet
+  if [ -z "$HELIX_TAG" ]; then
+    echo "[1/5] Repo exists — HELIX_TAG not set, using the clone as it is (no git move)."
+  else
+    echo "[1/5] Repo exists — moving to $HELIX_TAG..."
+    if [ -n "$(git -C "$REPO_DIR" status --porcelain --untracked-files=no)" ]; then
+      die "$REPO_DIR has local changes; commit or undo them yourself, nothing was changed"
+    fi
+    git -C "$REPO_DIR" fetch origin "+refs/tags/$HELIX_TAG:refs/tags/$HELIX_TAG" --quiet \
+      || die "could not fetch tag $HELIX_TAG from origin (offline, or the tag does not exist); nothing was changed"
+    if ! git -C "$REPO_DIR" merge-base --is-ancestor HEAD "$HELIX_TAG" 2>/dev/null; then
+      die "$REPO_DIR sits on a commit that is not an ancestor of $HELIX_TAG (local commits or unreleased main); nothing was changed"
+    fi
+    git -C "$REPO_DIR" merge --ff-only "$HELIX_TAG" --quiet \
+      || die "could not fast-forward $REPO_DIR to $HELIX_TAG; nothing was changed"
+  fi
 else
-  echo "[1/5] Cloning repo..."
+  [ -n "$HELIX_TAG" ] || die "HELIX_TAG is not set; run the pinned install block from README.md (Install, one-time)"
+  echo "[1/5] Cloning repo at $HELIX_TAG..."
   mkdir -p "$(dirname "$REPO_DIR")"
-  git clone "$REPO_URL" "$REPO_DIR" --quiet
+  git -c advice.detachedHead=false clone --branch "$HELIX_TAG" "$REPO_URL" "$REPO_DIR" --quiet \
+    || die "could not clone tag $HELIX_TAG from $REPO_URL"
 fi
 
 cd "$REPO_DIR"
