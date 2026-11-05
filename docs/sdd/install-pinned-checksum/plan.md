@@ -1,17 +1,19 @@
 # Plan — install-pinned-checksum
 
+Owner decisions of 2026-11-04 are applied (Q1 yes, Q2 link, Q3 option B); paths re-grepped on `origin/main` a3bfd92.
+
 ## Files
 
-| File | Today (origin/main 37e36e6) | Change | Rule |
+| File | Today (origin/main a3bfd92) | Change | Rule |
 |------|-----------------------------|--------|------|
 | `.github/workflows/version.yml` | `:143-171` "Create GitHub Release if tag missing": notes at `:157-167`, `gh release create "$TAG" --title … --notes-file …` at `:168-170`, no assets, no `--target` | before `gh release create`: `bash scripts/release-install-assets.sh "$DIST"` (`DIST="$(mktemp -d)"`); then `gh release create "$TAG" "$DIST/install.sh" "$DIST/install.sh.sha256" --target "$(git rev-parse HEAD)" --title … --notes-file …`; replace `:166` with the pinned block for `$TAG` | R1, R2, R5 |
 | `scripts/release-install-assets.sh` (new) | — | `<out-dir>`: copies `scripts/install.sh` there and writes `install.sh.sha256` with `sha256sum`, falling back to `shasum -a 256`; then runs the same `-c` check on its own output and exits non-zero if it fails. Kept out of the YAML so the hashing is testable outside CI | R1, R9 |
-| `scripts/install.sh` | usage `:4-9` is `curl … \| bash`; `:24-31` clones/pulls `main`; `:84` update hint is `git pull` | usage comment shows the pinned block; read `HELIX_TAG` (set by the block); clone with `--branch "$HELIX_TAG"` or, on an existing clone, `fetch` the tag and `merge --ff-only` to it, refusing on local changes or divergence; update hint names the update command of `docs/sdd/update-notify-only` R6 | R5–R8 (R6, R7 after Q1) |
-| `README.md` | `:59` and `:204` `curl … \| bash`; `:218` "never ran `curl …/install.sh`" | one pinned block under "Install (one-time)" (`:54`); `:204` links to it; `:218` wording | R3, R5 |
-| `docs/supported-agents.md` | `:8` `curl … \| bash` | link to README block (Q2) or same block | R3, R5 |
-| `docs/wiki/Home.md` | `:51` `curl … \| bash` | same as above | R3, R5 |
+| `scripts/install.sh` | usage `:4-9` is `curl … \| bash`; `:24-31` clones/pulls `main`; `:82` update hint already names `helix-auto-update.sh` (kept) | usage comment shows the pinned block; read `HELIX_TAG` (set by the block); clone with `--branch "$HELIX_TAG"` or, on an existing clone, `fetch` the tag and `merge --ff-only` to it, refusing on local changes or divergence; the `Update:` hint (`:82`) stays | R5–R8 |
+| `README.md` | `:59` and `:203` `curl … \| bash`; `:217` "never ran `curl …/install.sh`" | one pinned block under "Install (one-time)" (`:54`); `:203` links to it; `:217` wording | R3, R5 |
+| `docs/supported-agents.md` | `:8` `curl … \| bash` | link to README's install section (Q2: no copy) | R3, R5 |
+| `docs/wiki/Home.md` | `:51` `curl … \| bash` | link to README's install section (Q2: no copy) | R3, R5 |
 | `scripts/helix-doctor.sh` | `:24` "run: curl -sL .../install.sh \| bash" | point to README install section | R8 |
-| `scripts/sync-version.sh` | `:65-81` rewrites the `**Version: X**` line only; `--check` reads it at `:38-43` | also rewrite the tag in the README install block, and fail `--check` (same style as `:39-40`) if it differs from VERSION (option B, Q3) | R3 |
+| `scripts/sync-version.sh` | `:65-81` rewrites the `**Version: X**` line only; `--check` reads it at `:38-43` | also rewrite the tag in the README install block, and fail `--check` (same style as `:39-40`) if it differs from VERSION (option B, decided Q3) | R3 |
 | `scripts/tests/install-checksum.test.sh` (new) | — | extracts the install block from README, points its base URL at a `file://` fake release, runs it from a temp working dir with a throwaway `HOME` | R4, R10 |
 | `scripts/tests/no-pipe-from-main.test.sh` (new, or a case in the test above) | — | `git grep` over README.md, `docs/` (minus `docs/sdd`, `docs/plan`), `scripts/`, `.github/` for `\| bash` with `/main/` must find nothing; the pattern is built from parts so the test file does not match itself | R5 |
 
@@ -70,7 +72,7 @@ are free for public repos. No new dependency, no paid service, no other repo tou
    (research 01 C1). Rejected.
 3. **Hash file next to the installer (chosen, ticket 04)**. Sub-choices:
    - A. Docs name `releases/latest/download/…` — never stale, but not "a named release tag" (SPEC.md:7). Rejected.
-   - B. Docs name `vX.Y.Z`, rewritten by `sync-version.sh` with VERSION (Q3, proposed) — at most
+   - B. Docs name `vX.Y.Z`, rewritten by `sync-version.sh` with VERSION (Q3, decided by the owner) — at most
      one release behind for the window below; `--check` stops drift.
    - C. Docs name a tag a person bumps by hand — fewer moving parts, but docs go stale.
 4. **Hash printed in README instead of a release asset** — README is on `main`, the same place an
@@ -97,9 +99,7 @@ are free for public repos. No new dependency, no paid service, no other repo tou
   `sync-version.sh` gains the README tag rewrite, add cases there for the install block (T5).
 - **`helix-doctor.sh`**: only the hint text at `:24` changes; `scripts/tests/doctor-stale.test.sh`
   runs the doctor but does not assert on that line.
-- **README / wiki / supported-agents**: the install snippet grows from one line to five. The wiki is
-  a copy (`docs/wiki/`); if it is also published to the GitHub wiki by hand, that copy needs the
-  same edit.
+- **README / wiki / supported-agents**: the install snippet grows from one line to five. The block exists once (README); `docs/supported-agents.md` and `docs/wiki/Home.md` link to it (Q2). If `docs/wiki/` is also published to the GitHub wiki by hand, that copy gets the same link edit.
 - **ols-qa**: none of these scripts are in ols-qa (SPEC.md follow-up note); helix-sync only if a
   shared `references/` or `skills/` file changes, which this plan does not.
 - **CI workflow change** is on the "ask first" list (`CLAUDE.md:57`); the PR must say so.

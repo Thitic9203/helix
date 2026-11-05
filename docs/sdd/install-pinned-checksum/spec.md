@@ -5,19 +5,19 @@
 The only documented install pipes the installer from `main` straight into bash. Nothing is pinned
 and nothing is checked, so whatever `main` holds at that second runs on the user's machine.
 
-Evidence (state of `origin/main` at 37e36e6, re-grepped 2026-11-04 with
+Evidence (state of `origin/main` at a3bfd92, re-grepped 2026-11-05 with
 `git grep -n '| *bash' -- README.md docs scripts .github`, `docs/sdd` and `docs/plan` left out):
 
 | Place | What it says today | Problem |
 |-------|--------------------|---------|
 | `scripts/install.sh:5`, `:8` | usage `curl -sL https://raw.githubusercontent.com/<owner>/helix/main/scripts/install.sh \| bash` | runs `main`, no pin, no check |
-| `README.md:59`, `:204` | same `curl … \| bash` line | same |
+| `README.md:59`, `:203` | same `curl … \| bash` line | same |
 | `docs/supported-agents.md:8`, `docs/wiki/Home.md:51` | same line | same |
 | `.github/workflows/version.yml:166` | every release's notes print the same `curl … \| bash` line | each release advertises the unpinned path |
 | `.github/workflows/version.yml:168-170` | `gh release create "$TAG" --title … --notes-file …` | no files attached, so no SHA-256 is published |
 | `scripts/install.sh:24-31` | existing clone: `git pull origin main`; new clone: default branch | even a checked installer installs `main`, not the release |
-| `scripts/install.sh:84` | prints `Update: cd $REPO_DIR && git pull && bash …/install.sh` | update hint pulls `main` |
-| `scripts/helix-doctor.sh:24` | "run: curl -sL .../install.sh \| bash" | points users back to the unpinned path |
+| `scripts/install.sh:82` | the `Update:` hint already names `helix-auto-update.sh` (done by `docs/sdd/update-notify-only`); no `git pull` hint is left | nothing to change |
+| `scripts/helix-doctor.sh:24` | "run: curl -sL .../install.sh \| bash" (unchanged on `a3bfd92`) | points users back to the unpinned path |
 | `install.sh`, `setup.sh` | a search for sha256, checksum or shasum returned 0 hits (MAP.md:15) | no check exists |
 
 Decision: SPEC.md R1 (`docs/plan/wayfinder-supply-chain/SPEC.md:7-8`) and
@@ -27,14 +27,14 @@ owner, 2026-11-04 — pinned release tag plus SHA-256; `curl … | bash` from `m
 ## Scope
 
 In: `scripts/install.sh`, `.github/workflows/version.yml` (publish job, release step `:143-171`),
-`scripts/sync-version.sh` (only if the README install block carries the tag, Q3), `README.md`,
+`scripts/sync-version.sh` (rewrites the tag named in the README install block, Q3 = B), `README.md`,
 `docs/supported-agents.md`, `docs/wiki/Home.md`, `scripts/helix-doctor.sh:24`, a new
 `scripts/release-install-assets.sh`, new tests under `scripts/tests/`.
 
 Out: `helix-auto-update.sh` and `hooks/` (that is `docs/sdd/update-notify-only`), signed tags or
 signed artifacts (SPEC.md:31 follow-up "Release integrity"), `link-skills.sh` (SPEC R4),
-`helix-setup-devenv.sh` (SPEC R3), the plugin-cache `rm -rf` in `install.sh:45-49`
-(`docs/sdd/link-skills-no-delete` Q1), Claude Code's own marketplace install
+`helix-setup-devenv.sh` (SPEC R3), the plugin-cache link handling at `install.sh:45-48`
+(already changed by `docs/sdd/link-skills-no-delete`), Claude Code's own marketplace install
 (`claude plugin install` has no version flag — research 01 C1).
 
 Both `install.sh` and `.github/workflows/` are on the repo's "ask first" list (`CLAUDE.md:56-57`).
@@ -57,8 +57,8 @@ owner reviews before code starts (global rule 27).
   `version.yml:168-170` attaches nothing today.
 - **R2** — When the release job writes release notes, it must print the pinned install of that
   release and must not print a `curl … | bash` line. Source: SPEC.md:7; `version.yml:166`.
-- **R3** — When a user follows the documented install (README.md, `docs/supported-agents.md`,
-  `docs/wiki/Home.md`), the steps must name one release tag, download `install.sh` and
+- **R3** — When a user follows the documented install (the single block in README.md; `docs/supported-agents.md`
+  and `docs/wiki/Home.md` link to it and do not copy it, Q2), the steps must name one release tag, download `install.sh` and
   `install.sh.sha256` of that tag, check the hash, and run the installer only if the check passed.
   Source: SPEC.md:7; the doc lines in the table above.
 - **R4** — When the hash check fails, or the hash file is missing or fails to download, the install
@@ -70,15 +70,15 @@ owner reviews before code starts (global rule 27).
   `| bash` line that reads from `main`. Source: SPEC.md:7-8 ("README has no `| bash` from `main`").
 - **R6** — When `install.sh` runs with a release tag, it must clone, or move the existing clone,
   to that tag, not to `main`. Source: SPEC.md:7 title ("Install is pinned"); `install.sh:24-31`
-  installs `main` today. **Pending owner question Q1.**
+  installs `main` today. Owner decision Q1 = yes (2026-11-04).
 - **R7** — When `install.sh` runs on an existing clone that has local changes or sits on a commit
   that is not an ancestor of the tag, it must stop and print why; it must not reset, stash or
   discard anything. Source: global rule 5 (never damage existing work);
-  `helix-auto-update.sh:163-164` already refuses a diverged clone the same way. Applies only if
-  Q1 = yes.
+  `helix-auto-update.sh:163-164` already refuses a diverged clone the same way. Applies because Q1 = yes.
 - **R8** — When `install.sh` or `helix-doctor.sh` prints how to install or update, it must not print
-  a `curl … | bash` hint or a `git pull` of `main`. Source: `install.sh:84`, `helix-doctor.sh:24`;
-  SPEC.md:7. The update hint names the update command of `docs/sdd/update-notify-only` R6.
+  a `curl … | bash` hint or a `git pull` of `main`. Source: `helix-doctor.sh:24`, `install.sh:5`, `:8`;
+  SPEC.md:7. The update hint (`install.sh:82`) already names the update command of
+  `docs/sdd/update-notify-only` R6 and stays.
 - **R9** — When the check runs, it must use only tools already on macOS and Linux (`shasum -a 256`
   or `sha256sum`) and GitHub release downloads; no new dependency and no paid service. Source:
   global rule 3; SPEC.md:35 "Cost and repos"; `README.md:270` already lists `shasum`.
@@ -105,15 +105,13 @@ owner reviews before code starts (global rule 27).
   a compromised upstream (SPEC.md:24 "Accepted limits", research 01). The repo that `install.sh`
   then clones is pinned by tag (R6), not hashed.
 
-## Questions for the owner
+## Owner decisions (2026-11-04, `docs/plan/wayfinder-supply-chain/owner-decisions-2026-11-04.md`)
 
-- **Q1** — R6/R7: should `install.sh` also check out the named tag instead of `main`? Without it the
-  checked installer still installs `main`. Proposed: yes, in this change.
-- **Q2** — Should the documented block live only in README (copied into the other two docs), or
-  should the other docs link to README's block? Proposed: link, so there is one block to keep
-  pinned.
-- **Q3** — Who bumps the tag named in the docs: `sync-version.sh` on every release (always latest),
-  or a person when they choose (docs may lag)? Proposed: `sync-version.sh`, see plan option B.
+- **Q1 = yes** — `install.sh` checks out the named tag instead of `main` (R6, R7).
+- **Q2 = link** — the install block lives only in README; `docs/supported-agents.md` and
+  `docs/wiki/Home.md` link to it.
+- **Q3 = B** — `sync-version.sh` rewrites the tag named in README's install block on every release,
+  and `--check` fails when it does not match VERSION.
 
 ## Done when
 
