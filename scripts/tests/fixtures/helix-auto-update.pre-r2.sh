@@ -1,0 +1,233 @@
+#!/usr/bin/env bash
+# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with the
+# newest GitHub release tag (never an unreleased main).
+#
+# Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron. Every session probes the
+# release tag list (one ls-remote); the full fetch runs when a newer release exists or the interval passed.
+# Opt out: HELIX_AUTO_UPDATE=0
+#
+# Usage:
+#   bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
+#   HELIX_AUTO_UPDATE_VERBOSE=1 bash scripts/helix-auto-update.sh
+
+set -euo pipefail
+
+REPO="${HELIX_REPO_DIR:-$HOME/.helix/tc-fe-prep}"
+STATE_DIR="${HELIX_STATE_DIR:-$HOME/.helix}"
+STAMP_FILE="$STATE_DIR/.last-auto-update-check"
+LOG_FILE="$STATE_DIR/auto-update.log"
+# Last failure of a step that should have worked; hooks/session-start surfaces it once per session.
+ERR_FILE="$STATE_DIR/last-update-error"
+ERRORS_THIS_RUN=0
+MIN_INTERVAL_SEC="${HELIX_AUTO_UPDATE_INTERVAL_SEC:-14400}"
+REMOTE_VERSION_URL="${HELIX_VERSION_URL:-https://raw.githubusercontent.com/Thitic9203/helix/main/VERSION}"
+MARKETPLACE_NAME="helix-dev"
+PLUGIN_NAME="helix"
+CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
+
+log() {
+  if [ -n "${HELIX_AUTO_UPDATE_VERBOSE:-}" ]; then
+    echo "[helix-auto-update] $*" | tee -a "$LOG_FILE"
+  else
+    echo "[helix-auto-update] $*" >>"$LOG_FILE" 2>/dev/null || true
+  fi
+}
+
+note_error() {
+  ERRORS_THIS_RUN=$((ERRORS_THIS_RUN + 1))
+  log "ERROR: $*"
+  mkdir -p "$STATE_DIR" 2>/dev/null || true
+  printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >>"$ERR_FILE" 2>/dev/null || true
+}
+
+auto_update_disabled() {
+  case "${HELIX_AUTO_UPDATE:-1}" in
+    0 | false | FALSE | no | NO | off | OFF) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+should_run_check() {
+  if [ -n "${HELIX_FORCE_UPDATE:-}" ]; then
+    return 0
+  fi
+  if [ ! -f "$STAMP_FILE" ]; then
+    return 0
+  fi
+  local now last
+  now=$(date +%s)
+  last=$(tr -d '[:space:]' <"$STAMP_FILE" 2>/dev/null || echo 0)
+  if [ $((now - last)) -ge "$MIN_INTERVAL_SEC" ]; then
+    return 0
+  fi
+  # Inside the interval, a release published since the last check must still reach this session
+  # (1.5.105 was tagged 3 minutes after a check and stayed invisible for 4 hours). One ls-remote
+  # reads only the tag list; the full fetch runs only when it names a newer release.
+  release_newer_than_local
+}
+
+version_gt() {
+  [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)" = "$1" ]
+}
+
+newest_remote_release() {
+  git -C "$REPO" ls-remote --tags --refs origin 'v*' 2>/dev/null \
+    | sed -n 's#.*refs/tags/v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)$#\1#p' \
+    | sort -t. -k1,1n -k2,2n -k3,3n | tail -1
+}
+
+release_newer_than_local() {
+  [ -d "$REPO/.git" ] || return 1
+  local remote
+  remote=$(newest_remote_release)
+  [ -n "$remote" ] && version_gt "$remote" "$(local_version)"
+}
+
+mark_checked() {
+  mkdir -p "$STATE_DIR"
+  date +%s >"$STAMP_FILE"
+}
+
+remote_version_curl() {
+  curl -fsSL --connect-timeout 5 --max-time 20 "$REMOTE_VERSION_URL" 2>/dev/null | tr -d '[:space:]'
+}
+
+local_version() {
+  if [ -f "$REPO/VERSION" ]; then
+    tr -d '[:space:]' <"$REPO/VERSION"
+  else
+    echo ""
+  fi
+}
+
+refresh_cache_symlink() {
+  local ver="$1"
+  [ -n "$ver" ] || return 0
+  [ -d "$REPO" ] || return 0
+  mkdir -p "$CACHE_BASE"
+  ln -sfn "$REPO" "$CACHE_BASE/$ver"
+}
+
+refresh_after_pull() {
+  local ver="$1"
+  refresh_cache_symlink "$ver"
+  if [ -x "$REPO/scripts/link-skills.sh" ]; then
+    HELIX_QUIET=1 bash "$REPO/scripts/link-skills.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "link-skills.sh failed (exit $?) after updating to $ver"
+  fi
+  if [ -x "$REPO/scripts/claude-plugin-sync.sh" ]; then
+    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "claude-plugin-sync.sh failed (exit $?) after updating to $ver"
+  fi
+}
+
+update_git_clone() {
+  # Release-gated: move the clone only to the newest published release tag (vX.Y.Z), never to an
+  # unreleased main. The publish job creates a tag only after every CI check passed, so a red main
+  # (e.g. 1.5.89-1.5.92, 2026-09) never reaches users.
+  if [ ! -d "$REPO/.git" ]; then
+    return 1
+  fi
+  log "fetching origin/main and release tags..."
+  # Release tags on origin are authoritative for this install clone: force-update local tags
+  # (some installs carry stale v1.5.x tags that once pointed elsewhere, and a plain --tags fetch
+  # refuses with "would clobber existing tag").
+  if ! git -C "$REPO" fetch origin main '+refs/tags/v*:refs/tags/v*' --quiet 2>>"$LOG_FILE"; then
+    note_error "git fetch from origin failed in $REPO (offline, proxy or TLS) — no update this session"
+    return 1
+  fi
+  local tag
+  tag=$(git -C "$REPO" tag -l 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -1)
+  if [ -z "$tag" ]; then
+    log "no release tag found — skip (never pull unreleased main)"
+    return 1
+  fi
+  if ! git -C "$REPO" merge-base --is-ancestor "$tag" origin/main 2>/dev/null; then
+    log "release $tag is not on origin/main — skip"
+    return 1
+  fi
+  local target="${tag#v}"
+  TARGET_VERSION="$target"
+  local local_ver
+  local_ver=$(local_version)
+  if [ "$local_ver" = "$target" ]; then
+    log "clone already at release $target"
+    refresh_cache_symlink "$target"
+    return 2
+  fi
+  if git -C "$REPO" merge-base --is-ancestor "$tag" HEAD 2>/dev/null; then
+    log "clone ($local_ver) is already past release $target — nothing to do"
+    return 2
+  fi
+  log "updating $local_ver -> release $target..."
+  if ! git -C "$REPO" merge --ff-only "$tag" --quiet 2>>"$LOG_FILE"; then
+    note_error "fast-forward to $tag failed (local changes or diverged branch in $REPO)"
+    return 1
+  fi
+  refresh_after_pull "$target"
+  log "clone updated to release $target"
+  return 0
+}
+
+update_marketplace_only() {
+  local remote="$1"
+  if ! command -v claude >/dev/null 2>&1; then
+    log "no ~/.helix clone and no claude CLI — skip"
+    return 0
+  fi
+  if [ -x "$REPO/scripts/claude-plugin-sync.sh" ]; then
+    HELIX_QUIET=1 HELIX_REPO_DIR="$REPO" bash "$REPO/scripts/claude-plugin-sync.sh" >>"$LOG_FILE" 2>&1 \
+      || note_error "claude-plugin-sync.sh failed (exit $?)"
+  fi
+  if claude plugin list 2>/dev/null | grep -A3 "helix@helix-dev" | grep -q "Version: $remote"; then
+    log "helix@helix-dev already at $remote"
+  else
+    log "helix@helix-dev sync requested (target $remote)"
+  fi
+  return 0
+}
+
+# --- main ---
+if auto_update_disabled; then
+  exit 0
+fi
+
+mkdir -p "$STATE_DIR"
+if ! should_run_check; then
+  exit 0
+fi
+mark_checked
+
+UPDATED=0
+TARGET_VERSION=""
+REMOTE=""
+if [ -d "$REPO/.git" ]; then
+  # Clone installs need no HTTP probe: git fetch reads the release tags directly. The old curl
+  # probe failed on machines whose curl cannot verify TLS (e.g. a MacPorts curl behind TLS
+  # inspection) and silently skipped every update.
+  pull_rc=0
+  update_git_clone || pull_rc=$?
+  if [ "$pull_rc" -eq 0 ]; then
+    UPDATED=1
+    REMOTE="$TARGET_VERSION"
+  fi
+else
+  REMOTE="$(remote_version_curl || true)"
+  if [ -z "$REMOTE" ]; then
+    note_error "could not read the remote VERSION from $REMOTE_VERSION_URL (curl failed; check proxy or TLS settings)"
+  else
+    update_marketplace_only "$REMOTE"
+  fi
+fi
+
+# A run that finished without a step failure clears the previous error notice.
+if [ "$ERRORS_THIS_RUN" -eq 0 ]; then
+  rm -f "$ERR_FILE" 2>/dev/null || true
+fi
+
+# Export hint for session-start (optional one-line user notice)
+if [ "$UPDATED" -eq 1 ] && [ -n "${HELIX_AUTO_UPDATE_NOTIFY:-}" ]; then
+  echo "Helix updated to v$REMOTE (skills active; restart Claude Code once for plugin hooks if /helix looks old)." >&2
+fi
+
+exit 0

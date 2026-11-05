@@ -55,7 +55,7 @@ fi
 bash "$REPO_DIR/scripts/link-skills.sh"
 
 # 4. Git hooks for cache rename on pull
-echo "[4/5] Enabling auto-update hooks..."
+echo "[4/5] Enabling git hooks (cache rename on pull)..."
 git config core.hooksPath scripts/hooks
 
 # 5. Claude Code: helix@helix-dev (not legacy helix@local)
@@ -79,7 +79,7 @@ echo ""
 echo "Supported agents: docs/supported-agents.md"
 echo "Health check:   bash $REPO_DIR/scripts/helix-doctor.sh"
 echo "Claude plugin:  bash $REPO_DIR/scripts/claude-plugin-sync.sh  (helix@helix-dev only)"
-echo "Update:         cd $REPO_DIR && git pull && bash $REPO_DIR/scripts/install.sh"
+echo "Update:         bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh"
 echo ""
 if [ -z "${HELIX_LINK_WORKSPACE:-}" ]; then
   echo "Tip: link into current project (Copilot team):"

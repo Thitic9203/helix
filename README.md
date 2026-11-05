@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.161** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.162** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
 
@@ -143,39 +143,38 @@ The menu offers options 1–13 (TC FE, TC API, retest, testing ticket, create bu
 
 Releases: [github.com/Thitic9203/helix/releases](https://github.com/Thitic9203/helix/releases) (tagged on every `main` push that bumps [VERSION](VERSION)).
 
-### Default: auto-update (recommended)
+### Updates: Helix tells you, you update
 
-After a **one-time** [install](#install-one-time), you usually **do not** run `git pull` yourself. When a new version is **released** (a `vX.Y.Z` tag, created only after CI passes on `main`), your machine catches up on the **next agent session**. Every session reads the release tag list (one quick `git ls-remote`); the full fetch runs only when a newer release exists:
+After a **one-time** [install](#install-one-time), a new **released** version (a `vX.Y.Z` tag, created only after CI passes on `main`) is **announced**, not installed. Each agent session start runs one read-only `git ls-remote` on the release tags; when a newer release exists, the agent mentions it once. **Nothing is fetched, moved or re-linked at session start.** You update when you choose to:
+
+```bash
+bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
+```
 
 | Trigger | What runs |
 |---------|-----------|
-| New **Claude Code** session (`helix@helix-dev` enabled) | [hooks/session-start](hooks/session-start) → [scripts/helix-auto-update.sh](scripts/helix-auto-update.sh) |
+| New **Claude Code** session (`helix@helix-dev` enabled) | [hooks/session-start](hooks/session-start) → `helix-auto-update.sh --check` (read-only; prints one line if a newer release exists) |
 | New **Cursor** session (Helix hooks active) | same |
+| **You** run the update command above | [scripts/helix-auto-update.sh](scripts/helix-auto-update.sh) (no arguments) |
 | You run `git pull` in `~/.helix/tc-fe-prep` | [scripts/hooks/post-merge](scripts/hooks/post-merge) → refresh symlinks + [claude-plugin-sync](scripts/claude-plugin-sync.sh) |
 
-**Auto-update steps (when a newer release tag exists):**
+**What the update command does:**
 
-1. Fetch `main` and tags, then fast-forward `~/.helix/tc-fe-prep` to the newest release tag — never to unreleased `main` (skill symlinks pick up new `SKILL.md` immediately)
+1. Fetch `main` and tags, then fast-forward `~/.helix/tc-fe-prep` to the newest release tag — never to unreleased `main`, never backwards (skill symlinks pick up new `SKILL.md` immediately)
 2. `link-skills.sh` (refresh global + optional workspace symlinks)
 3. `claude plugin update helix@helix-dev` (Claude Code marketplace plugin + hooks)
 
-Log file: `~/.helix/auto-update.log` · Doctor: [helix-doctor.sh](scripts/helix-doctor.sh)
+Failures are recorded in `~/.helix/last-update-error` and shown once at the next session start. Log file: `~/.helix/auto-update.log` · Doctor: [helix-doctor.sh](scripts/helix-doctor.sh)
 
-| Opt out / tune | Environment variable |
-|----------------|----------------------|
-| Disable auto-update | `HELIX_AUTO_UPDATE=0` |
-| Force check now | `HELIX_FORCE_UPDATE=1` |
-| Full re-check interval (seconds) | `HELIX_AUTO_UPDATE_INTERVAL_SEC` (default `14400` = 4h; a newer release tag still updates the next session) |
+| Setting | Environment variable |
+|---------|----------------------|
+| Turn off the session-start check (the update command still works) | `HELIX_AUTO_UPDATE=0` |
 | Print progress to terminal | `HELIX_AUTO_UPDATE_VERBOSE=1` |
-
-```bash
-# Manual check (same as the hook, useful for debugging)
-HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_VERBOSE=1 bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
-```
+| Ignored since this change (accepted, no effect) | `HELIX_FORCE_UPDATE`, `HELIX_AUTO_UPDATE_INTERVAL_SEC` |
 
 **Notes**
 
-- Needs **network** when the session starts; offline → skip (no error).
+- The session-start check needs **network**; offline → no notice, no error.
 - **Cursor / Copilot / Codex / …** — skills update via symlinks after pull; **Reload window** (Cursor) if the agent still shows old skill text.
 - **Claude Code** — after a plugin version jump, **start a new session** once if `/helix` or slash commands look stale (skills via `~/.claude/skills` are usually current sooner).
 
@@ -183,14 +182,14 @@ HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_VERBOSE=1 bash ~/.helix/tc-fe-prep/script
 
 | Plugin | Status |
 |--------|--------|
-| **`helix@helix-dev`** | Canonical — install/update/enable (installer + auto-update) |
+| **`helix@helix-dev`** | Canonical — install/update/enable (installer + update command) |
 | **`helix@local`** | Legacy — **disabled** automatically (do not enable; uninstall can break `helix@helix-dev`) |
 
 `install.sh` and `claude-plugin-sync.sh` keep the marketplace plugin aligned with [VERSION](VERSION).
 
 ### Manual update (fallback)
 
-Use if auto-update is off, you deleted `~/.helix/tc-fe-prep`, or you want to force sync now:
+Use if the session-start check is off, you deleted `~/.helix/tc-fe-prep`, or you want to force sync now:
 
 ```bash
 cd ~/.helix/tc-fe-prep && git pull
@@ -208,7 +207,7 @@ curl -sL https://raw.githubusercontent.com/Thitic9203/helix/main/scripts/install
 
 | Agent / IDE | Usually enough | Re-run only if… |
 |-------------|----------------|-----------------|
-| **Claude Code** | Open a **new session** (auto-update) | `/helix` still old → `bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh` or full `install.sh` |
+| **Claude Code** | Run the update command, then open a **new session** | `/helix` still old → `bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh` or full `install.sh` |
 | **Cursor** | New session + Reload Window | Skills missing → `link-skills.sh` |
 | **Codex / Copilot / Gemini / Windsurf / Cline / Pi** | New session | Symlinks removed → `link-skills.sh` |
 | **Team `.github/skills/`** | Auto-update of clone + pull your app repo | New Helix skill added → `HELIX_LINK_WORKSPACE=$PWD …/link-skills.sh` |
@@ -288,7 +287,7 @@ Requires `jq`. Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environm
 | Script | Purpose |
 |--------|---------|
 | [install.sh](scripts/install.sh) | One-time setup: clone, symlinks, `helix@helix-dev`, hooks |
-| [helix-auto-update.sh](scripts/helix-auto-update.sh) | Read release tags, fast-forward to the newest release, sync (SessionStart / manual) |
+| [helix-auto-update.sh](scripts/helix-auto-update.sh) | `--check`: read release tags and print a notice (SessionStart). No arguments: fast-forward to the newest release, sync (you run it) |
 | [claude-plugin-sync.sh](scripts/claude-plugin-sync.sh) | Update/enable `helix@helix-dev`, disable `helix@local` |
 | [helix-doctor.sh](scripts/helix-doctor.sh) | Health check; `HELIX_DOCTOR_FIX=1` to repair |
 | [link-skills.sh](scripts/link-skills.sh) | Refresh global + workspace skill symlinks |

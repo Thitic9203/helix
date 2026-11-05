@@ -6,7 +6,7 @@ Use this map to avoid duplicating content across markdown files.
 
 | Topic | Canonical file | Do not duplicate in |
 |-------|----------------|---------------------|
-| Install / update / auto-update | [README.md](../README.md) | AGENTS.md, wiki |
+| Install / update / update notice | [README.md](../README.md) | AGENTS.md, wiki |
 | Wiki home (mirror README update topics) | [docs/wiki/Home.md](wiki/Home.md) | Duplicate full README |
 | Supported AI agents | [docs/supported-agents.md](supported-agents.md) | README (summary table only) |
 | Per-agent start prompts | [references/agent-entry.md](../references/agent-entry.md) | — |
@@ -29,7 +29,7 @@ Use this map to avoid duplicating content across markdown files.
 | Router intent (Thai/mixed) | [references/intent-shortcuts.md](../references/intent-shortcuts.md) | helix skill + commands/helix |
 | Install health check | [scripts/helix-doctor.sh](../scripts/helix-doctor.sh) | README install section |
 | Claude plugin (helix@helix-dev) | [scripts/claude-plugin-sync.sh](../scripts/claude-plugin-sync.sh) | Legacy helix@local handling |
-| Auto-update on session | [scripts/helix-auto-update.sh](../scripts/helix-auto-update.sh) | Manual git pull for daily use |
+| Update notice on session · update command | [scripts/helix-auto-update.sh](../scripts/helix-auto-update.sh) | Manual git pull for daily use |
 | Skill invocation / priority | [references/skill-invocation-discipline.md](../references/skill-invocation-discipline.md) | Full discipline in every skill |
 | Session bootstrap (hooks) | [references/helix-session-bootstrap.md](../references/helix-session-bootstrap.md), [hooks/session-start](../hooks/session-start) | Dumping full SKILL.md in hook |
 | QA evidence gates | [references/qa-evidence-gates.md](../references/qa-evidence-gates.md) | Ad-hoc “done” without proof |

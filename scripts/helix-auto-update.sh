@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-# Best-effort silent update: align ~/.helix clone, skill symlinks, and helix@helix-dev with the
-# newest GitHub release tag (never an unreleased main).
-#
-# Triggered from SessionStart hooks (Claude Code / Cursor) and optional cron. Every session probes the
-# release tag list (one ls-remote); the full fetch runs when a newer release exists or the interval passed.
-# Opt out: HELIX_AUTO_UPDATE=0
+# Helix updater. Two modes, picked by the argument:
+#   --check   read-only. Run by the SessionStart hook: one `git ls-remote --tags` on the release tags,
+#             prints ONE line when a newer release exists, changes nothing else (no fetch, no merge,
+#             no link-skills, no plugin sync). HELIX_AUTO_UPDATE=0 turns this check off.
+#   (no args) the update command, run by the user: fetch origin, fast-forward ~/.helix/tc-fe-prep to the
+#             newest release tag (never an unreleased main), refresh the plugin-cache link, run
+#             link-skills.sh and claude-plugin-sync.sh. Failures are recorded in last-update-error.
+# HELIX_FORCE_UPDATE and HELIX_AUTO_UPDATE_INTERVAL_SEC are accepted and ignored.
 #
 # Usage:
-#   bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
-#   HELIX_AUTO_UPDATE_VERBOSE=1 bash scripts/helix-auto-update.sh
+#   bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh              # update (you run it)
+#   HELIX_AUTO_UPDATE_VERBOSE=1 bash scripts/helix-auto-update.sh      # same, print progress
+#   bash scripts/helix-auto-update.sh --check                          # what the hook runs
 
 set -euo pipefail
 
@@ -19,8 +22,8 @@ LOG_FILE="$STATE_DIR/auto-update.log"
 # Last failure of a step that should have worked; hooks/session-start surfaces it once per session.
 ERR_FILE="$STATE_DIR/last-update-error"
 ERRORS_THIS_RUN=0
-MIN_INTERVAL_SEC="${HELIX_AUTO_UPDATE_INTERVAL_SEC:-14400}"
-REMOTE_VERSION_URL="${HELIX_VERSION_URL:-https://raw.githubusercontent.com/Thitic9203/helix/main/VERSION}"
+# Where release tags are read when there is no clone (tests point this at a local bare repo).
+REMOTE_URL="${HELIX_REMOTE_URL:-https://github.com/Thitic9203/helix.git}"
 MARKETPLACE_NAME="helix-dev"
 PLUGIN_NAME="helix"
 CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
@@ -47,40 +50,20 @@ auto_update_disabled() {
   esac
 }
 
-should_run_check() {
-  if [ -n "${HELIX_FORCE_UPDATE:-}" ]; then
-    return 0
-  fi
-  if [ ! -f "$STAMP_FILE" ]; then
-    return 0
-  fi
-  local now last
-  now=$(date +%s)
-  last=$(tr -d '[:space:]' <"$STAMP_FILE" 2>/dev/null || echo 0)
-  if [ $((now - last)) -ge "$MIN_INTERVAL_SEC" ]; then
-    return 0
-  fi
-  # Inside the interval, a release published since the last check must still reach this session
-  # (1.5.105 was tagged 3 minutes after a check and stayed invisible for 4 hours). One ls-remote
-  # reads only the tag list; the full fetch runs only when it names a newer release.
-  release_newer_than_local
-}
-
 version_gt() {
   [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)" = "$1" ]
 }
 
+# Highest vX.Y.Z on the remote, from one read-only ls-remote. Non-zero when the remote cannot be read.
+# GIT_HTTP_LOW_SPEED_* make a stalled connection give up after 5 s instead of hanging session start.
 newest_remote_release() {
-  git -C "$REPO" ls-remote --tags --refs origin 'v*' 2>/dev/null \
+  local remote="$1" tags dir="."
+  [ "$remote" = origin ] && dir="$REPO"
+  tags=$(GIT_TERMINAL_PROMPT=0 GIT_HTTP_LOW_SPEED_LIMIT=1000 GIT_HTTP_LOW_SPEED_TIME=5 \
+    git -C "$dir" ls-remote --tags --refs "$remote" 'v*' 2>>"$LOG_FILE") || return 1
+  printf '%s\n' "$tags" \
     | sed -n 's#.*refs/tags/v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)$#\1#p' \
     | sort -t. -k1,1n -k2,2n -k3,3n | tail -1
-}
-
-release_newer_than_local() {
-  [ -d "$REPO/.git" ] || return 1
-  local remote
-  remote=$(newest_remote_release)
-  [ -n "$remote" ] && version_gt "$remote" "$(local_version)"
 }
 
 mark_checked() {
@@ -88,13 +71,12 @@ mark_checked() {
   date +%s >"$STAMP_FILE"
 }
 
-remote_version_curl() {
-  curl -fsSL --connect-timeout 5 --max-time 20 "$REMOTE_VERSION_URL" 2>/dev/null | tr -d '[:space:]'
-}
-
 local_version() {
-  if [ -f "$REPO/VERSION" ]; then
-    tr -d '[:space:]' <"$REPO/VERSION"
+  # With a clone: its VERSION. Without one: the VERSION of the repo this script runs from.
+  local f="$REPO/VERSION"
+  [ -d "$REPO/.git" ] || f="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/VERSION"
+  if [ -f "$f" ]; then
+    tr -d '[:space:]' <"$f"
   else
     echo ""
   fi
@@ -187,24 +169,41 @@ update_marketplace_only() {
   return 0
 }
 
-# --- main ---
-if auto_update_disabled; then
+# --- check mode: read-only. Nothing below run_check is reachable from it. ---
+run_check() {
+  auto_update_disabled && exit 0
+  mkdir -p "$STATE_DIR" 2>/dev/null || true
+  local remote_ref="$REMOTE_URL" newest
+  [ -d "$REPO/.git" ] && remote_ref="origin"
+  log "check: ls-remote release tags ($remote_ref)"
+  newest=$(newest_remote_release "$remote_ref") || { log "check: remote not readable — no notice"; exit 0; }
+  mark_checked
+  local installed
+  installed=$(local_version)
+  if [ -n "$newest" ] && [ -n "$installed" ] && version_gt "$newest" "$installed"; then
+    echo "Helix v$newest is available (installed v$installed). Update: bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh"
+  fi
   exit 0
+}
+
+MODE=update
+case "${1:-}" in
+  "") ;;
+  --check) MODE=check ;;
+  *) echo "usage: helix-auto-update.sh [--check]" >&2; exit 2 ;;
+esac
+if [ "$MODE" = check ]; then
+  run_check
 fi
 
+# --- update mode: the command the user starts ---
 mkdir -p "$STATE_DIR"
-if ! should_run_check; then
-  exit 0
-fi
 mark_checked
 
 UPDATED=0
 TARGET_VERSION=""
 REMOTE=""
 if [ -d "$REPO/.git" ]; then
-  # Clone installs need no HTTP probe: git fetch reads the release tags directly. The old curl
-  # probe failed on machines whose curl cannot verify TLS (e.g. a MacPorts curl behind TLS
-  # inspection) and silently skipped every update.
   pull_rc=0
   update_git_clone || pull_rc=$?
   if [ "$pull_rc" -eq 0 ]; then
@@ -212,9 +211,9 @@ if [ -d "$REPO/.git" ]; then
     REMOTE="$TARGET_VERSION"
   fi
 else
-  REMOTE="$(remote_version_curl || true)"
+  REMOTE="$(newest_remote_release "$REMOTE_URL" || true)"
   if [ -z "$REMOTE" ]; then
-    note_error "could not read the remote VERSION from $REMOTE_VERSION_URL (curl failed; check proxy or TLS settings)"
+    note_error "could not read the release tags from $REMOTE_URL (git ls-remote failed; check proxy or TLS settings)"
   else
     update_marketplace_only "$REMOTE"
   fi
@@ -225,9 +224,8 @@ if [ "$ERRORS_THIS_RUN" -eq 0 ]; then
   rm -f "$ERR_FILE" 2>/dev/null || true
 fi
 
-# Export hint for session-start (optional one-line user notice)
-if [ "$UPDATED" -eq 1 ] && [ -n "${HELIX_AUTO_UPDATE_NOTIFY:-}" ]; then
-  echo "Helix updated to v$REMOTE (skills active; restart Claude Code once for plugin hooks if /helix looks old)." >&2
+if [ "$UPDATED" -eq 1 ]; then
+  echo "Helix updated to v$REMOTE (skills active; restart Claude Code once for plugin hooks if /helix looks old)."
 fi
 
 exit 0
