@@ -42,12 +42,10 @@ fi
 bash "$REPO_DIR/scripts/sync-version.sh" --check 2>/dev/null || bash "$REPO_DIR/scripts/sync-version.sh"
 
 echo "[2/5] Claude plugin cache symlink (v$VERSION)..."
-mkdir -p "$CACHE_BASE"
-for OLD_ENTRY in "$CACHE_BASE"/*/; do
-  [ -e "$OLD_ENTRY" ] || continue
-  rm -rf "$OLD_ENTRY"
-done
-ln -sfn "$REPO_DIR" "$CACHE_BASE/$VERSION"
+# Remove only Helix's own version links; keep and warn about anything else
+# (Spec: docs/sdd/link-skills-no-delete R11, R12).
+. "$REPO_DIR/scripts/lib/helix-owned.sh"
+helix_link_plugin_cache "$CACHE_BASE" "$VERSION" "$REPO_DIR"
 
 # 3. Link skills for all supported agents
 echo "[3/5] Linking skills (global + optional workspace)..."
