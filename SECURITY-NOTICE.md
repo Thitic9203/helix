@@ -1,52 +1,56 @@
-# ประกาศความเสี่ยงด้านความปลอดภัยของ Helix
+# ประกาศความเสี่ยงด้านความปลอดภัยของ Helix — แก้แล้วใน v1.5.167
 
-เผยแพร่ 2026-11-04 · แผนแก้: [docs/plan/wayfinder-supply-chain/SPEC.md](docs/plan/wayfinder-supply-chain/SPEC.md)
+เผยแพร่ 2026-11-04 · อัปเดต 2026-11-05 (แก้แล้ว) · แผนและเหตุผล: [docs/plan/wayfinder-supply-chain/SPEC.md](docs/plan/wayfinder-supply-chain/SPEC.md)
 
 ## สรุปสั้น
 
-ถ้าคุณติดตั้ง Helix ไว้ในเครื่อง ตอนนี้ Helix มีความเสี่ยง 4 ข้อ ทีมกำลังแก้ ระหว่างรอขอให้ทำตาม "สิ่งที่ทำได้ตอนนี้" ด้านล่าง
+ความเสี่ยง 4 ข้อที่ประกาศไว้เมื่อ 2026-11-04 ถูกแก้ครบแล้วใน **v1.5.167** ทุกคนที่ติดตั้ง Helix ไว้ควรอัปเดตให้ถึงเวอร์ชันนี้ ขั้นตอนอยู่ในหัวข้อ "อัปเดตอย่างไร"
 
-## ความเสี่ยง
+## ความเสี่ยงที่แก้แล้ว
 
-1. **คำสั่งติดตั้งไม่ได้ล็อกเวอร์ชันและไม่ได้ตรวจไฟล์** — README ให้รัน `curl … | bash` จาก branch `main` โดยตรง ไม่มีการตรวจ checksum
-2. **อัปเดตตัวเองแล้วรันโค้ดใหม่ทันทีทุกครั้งที่เปิด session** — hook ตอนเปิด session จะดึง release ล่าสุดแล้วรันสคริปต์ชุดใหม่ใน session นั้นเลย ไม่มีการตรวจลายเซ็น ถ้าต้นทางถูกเจาะ โค้ดอันตรายจะรันในเครื่องทุกคน
-3. **สคริปต์ `helix-setup-devenv.sh` (เฉพาะคนที่เคยรัน)** — ใส่สิทธิ์กว้าง 45 กฎ เช่น `npx *`, `node *`, `python3 *`, `gh api *`, `bash scripts/*` ลงใน `~/.claude/settings.json` ตั้ง `defaultMode: acceptEdits` และใส่กฎ "ทำเลย ถามน้อยลง" ลงใน `~/.claude/CLAUDE.md` ระดับ global จากนั้นทุกครั้งที่อัปเดตจะใส่กลับเข้าไปเองโดยไม่ถาม
-4. **อาจลบ skill ของคุณ** — ถ้าคุณมีโฟลเดอร์ skill ชื่อซ้ำกับ skill ของ Helix ตัวติดตั้งหรือตัวอัปเดตจะลบโฟลเดอร์นั้นทิ้ง แล้วแทนด้วยของ Helix
+| # | ความเสี่ยงเดิม | แก้อย่างไร | PR |
+|---|---|---|---|
+| 1 | คำสั่งติดตั้ง `curl … \| bash` จาก `main` ไม่ล็อกเวอร์ชัน ไม่ตรวจไฟล์ | ติดตั้งจาก release ที่ระบุ โหลด `install.sh` กับ `install.sh.sha256` มาตรวจ SHA-256 ก่อนรัน ถ้าตรวจไม่ผ่านจะไม่ติดตั้งและไม่เขียนอะไรใต้โฟลเดอร์ home ตัวติดตั้ง checkout ที่ tag เดียวกัน ไม่ใช่ `main` | [#19](https://github.com/Thitic9203/helix/pull/19) |
+| 2 | ตอนเปิด session ดึง release ใหม่แล้วรันสคริปต์ใหม่ทันที | ตอนเปิด session แค่ตรวจและแจ้งว่ามีเวอร์ชันใหม่ (อ่านอย่างเดียว) ไม่ดึงและไม่รันโค้ดใหม่ คุณอัปเดตเองด้วยคำสั่ง `bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh` | [#18](https://github.com/Thitic9203/helix/pull/18) |
+| 3 | `helix-setup-devenv.sh` ใส่กฎ allowlist 45 ข้อ, `defaultMode: acceptEdits` และกฎ "ถามน้อยลง" ลงไฟล์ global แล้วใส่ซ้ำเองทุกครั้งที่อัปเดต | เลิกใช้สคริปต์ (ไม่เพิ่มอะไรอีก) เหลือแต่คำสั่งถอนที่คืนค่าให้ครบ ตัวอัปเดตและ hook ตอนเปิด session เลิกยุ่งกับ devenv `helix-doctor.sh` เตือนถ้ายังมีของค้าง | [#17](https://github.com/Thitic9203/helix/pull/17) |
+| 4 | ตัวติดตั้ง/ตัวอัปเดตลบโฟลเดอร์ skill ของคุณที่ชื่อซ้ำกับของ Helix | ข้ามและแจ้งเตือนแทน ไม่ลบหรือเขียนทับสิ่งที่ Helix ไม่ได้สร้าง รวมถึงโฟลเดอร์ plugin cache ที่ไม่ใช่ของ Helix `helix-doctor.sh` แสดงคำเตือนชื่อชน | [#16](https://github.com/Thitic9203/helix/pull/16) |
 
-## เช็คเครื่องตัวเอง (อ่านอย่างเดียว ไม่เปลี่ยนอะไร)
+## อัปเดตอย่างไร
+
+เช็คเวอร์ชันที่ติดตั้งอยู่ก่อน:
 
 ```bash
-# ติดตั้ง Helix ไว้ไหม และเวอร์ชันอะไร
 git -C ~/.helix/tc-fe-prep describe --tags 2>/dev/null
-
-# auto-update เปิดอยู่ไหม และเคยอัปเดตเมื่อไหร่
-echo "HELIX_AUTO_UPDATE=${HELIX_AUTO_UPDATE:-<ไม่ได้ตั้ง = เปิดอยู่>}"
-tail -n 20 ~/.helix/auto-update.log 2>/dev/null
-
-# เคยรัน devenv ไหม (ถ้าขึ้น DEVENV OPTED IN = เคยรัน)
-ls ~/.helix/.devenv-opted-in 2>/dev/null && echo "DEVENV OPTED IN"
-grep -n 'HELIX-DEVENV' ~/.claude/CLAUDE.md 2>/dev/null
-jq '.permissions.defaultMode' ~/.claude/settings.json 2>/dev/null
 ```
 
-## สิ่งที่ทำได้ตอนนี้
+- **ถ้าไม่ได้ตั้ง `HELIX_AUTO_UPDATE=0`** — ตัวอัปเดตเดิมจะดึงเวอร์ชันที่แก้แล้วให้เองหนึ่งครั้งสุดท้ายตอนเปิด session (spec R14 มีเทสต์รองรับ) หลังจากนั้นจะไม่อัปเดตเองอีก
+- **ถ้าตั้ง `HELIX_AUTO_UPDATE=0` ตามประกาศวันที่ 2026-11-04** — ตัวอัปเดตเดิมจะออกทันทีแม้คุณสั่งเอง (บรรทัด `if auto_update_disabled; then exit 0` ในเวอร์ชันก่อน v1.5.162) ให้สั่งครั้งนี้ด้วยค่า 1 จาก terminal:
 
-1. **ปิด auto-update ไว้ก่อน** — เพิ่มค่านี้ใน `~/.claude/settings.json` (ถ้ามี `"env"` อยู่แล้ว ให้เพิ่มบรรทัดเข้าไปข้างใน) แล้วเปิด session ใหม่
-   ```json
-   "env": { "HELIX_AUTO_UPDATE": "0" }
-   ```
-   เช็คว่าปิดได้จริง: หลังเปิด session ใหม่ `tail -n 3 ~/.helix/auto-update.log` ต้องไม่มีบรรทัดใหม่
-   <!-- ที่มา (อ่าน 2026-11-04): scripts/helix-auto-update.sh:44 อ่านค่าจาก env เท่านั้น · Claude Code settings-reference: `env` ใช้กับ "every session and for the subprocesses Claude Code starts from it" · hooks doc: "A hook process inherits the parent environment" -->
+  ```bash
+  HELIX_AUTO_UPDATE=1 bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
+  ```
 
-2. **ถ้าเคยรัน devenv** — รัน `bash ~/.helix/tc-fe-prep/scripts/helix-setup-devenv.sh --uninstall` ขั้นตอนนี้จะลบกฎใน allowlist และบล็อกใน CLAUDE.md ออก แต่**จะไม่คืนค่า `defaultMode`** ให้เปิด `~/.claude/settings.json` แล้วลบหรือแก้ `"defaultMode": "acceptEdits"` เองถ้าคุณไม่ได้ตั้งไว้เอง และไฟล์สำรอง `*.helix-bak.*` จะยังอยู่
-3. **อย่าติดตั้งใหม่ด้วย `curl … | bash`** จนกว่าจะมีเวอร์ชันที่แก้แล้ว
-4. **เช็ค skill ของคุณ** — ถ้าเคยมี skill ชื่อเดียวกับ skill ของ Helix ในโฟลเดอร์ skill ของ agent (เช่น `~/.claude/skills/`) ให้ตรวจว่ายังอยู่ไหม
+  หลังอัปเดตแล้วจะลบบรรทัด `"HELIX_AUTO_UPDATE": "0"` ออกจาก `~/.claude/settings.json` หรือเก็บไว้ก็ได้ ในเวอร์ชันใหม่ค่า 0 หมายถึง "ไม่ต้องตรวจเวอร์ชันใหม่ตอนเปิด session" เท่านั้น และไม่ขวางคำสั่งอัปเดต
+- **ติดตั้งใหม่** — ใช้บล็อก "Install (one-time)" ใน [README](README.md) เท่านั้น (ล็อก release + ตรวจ SHA-256)
 
-## สิ่งที่จะเปลี่ยนในเวอร์ชันที่แก้แล้ว
+## ถ้าเคยรัน devenv
 
-- ตอนเปิด session จะแค่แจ้งว่ามีเวอร์ชันใหม่ ไม่อัปเดตหรือรันโค้ดใหม่เอง คุณอัปเดตเองด้วยคำสั่ง
-- วิธีติดตั้งจะล็อก release ที่ระบุ และตรวจ SHA-256 ก่อนรัน
-- เลิกใช้ `helix-setup-devenv.sh` และมีคำสั่งถอนที่คืนค่าให้ครบ
-- ตัวติดตั้งจะไม่ลบโฟลเดอร์ของคุณ ถ้าชื่อซ้ำจะข้ามแล้วแจ้งเตือนแทน
+เครื่องที่เคยรัน `helix-setup-devenv.sh` จะถูกถอนให้เองตอนตัวอัปเดตเดิมเรียกสคริปต์นี้ครั้งสุดท้าย หลังอัปเดตให้เช็คว่าไม่มีของค้าง:
 
-จะแจ้งอีกครั้งเมื่อเวอร์ชันที่แก้แล้วออก
+```bash
+bash ~/.helix/tc-fe-prep/scripts/helix-doctor.sh
+```
+
+ถ้ายังมีคำเตือน `devenv leftover` ให้ถอนเอง:
+
+```bash
+bash ~/.helix/tc-fe-prep/scripts/helix-setup-devenv.sh --uninstall
+```
+
+คำสั่งนี้ลบกฎ allowlist ที่ Helix เพิ่ม (กฎที่คุณมีมาก่อนจะอยู่ต่อ) ลบบล็อก `HELIX-DEVENV` ใน `~/.claude/CLAUDE.md` ลบ `defaultMode` ถ้า Helix เป็นคนตั้ง (ตัดสินจากไฟล์สำรองก่อน opt-in) และลบไฟล์ marker ไฟล์สำรอง `*.helix-bak.*` จะยังอยู่ ถ้าไม่มีไฟล์สำรอง สคริปต์จะไม่แตะ `defaultMode` และบอกวิธีลบเอง
+
+## ข้อจำกัดที่ยังเหลือ
+
+- SHA-256 ที่ตรวจอยู่บน GitHub เดียวกับตัวโค้ด จึงกันไฟล์เสียหรือผิดไฟล์ได้ แต่ไม่กันกรณีที่ repo ต้นทางถูกเจาะ การเซ็นลายเซ็น release (เช่น `git verify-tag`) ยังไม่ได้ทำ เป็นงานถัดไป
+- ตัว clone ผูกกับ tag แต่ไม่ได้ตรวจ hash ของเนื้อ repo ทั้งก้อน
+- คำสั่งอัปเดตที่คุณสั่งเองยังเลื่อนไปที่ release ล่าสุดโดยไม่ตรวจลายเซ็น เพราะยังไม่มีลายเซ็นให้ตรวจ

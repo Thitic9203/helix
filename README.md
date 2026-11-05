@@ -2,7 +2,7 @@
 
 **Version: 1.5.167** · [Releases](https://github.com/Thitic9203/helix/releases)
 
-> ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
+> ⚠️ **Security notice (2026-11-04, fixed in v1.5.167):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) and update to v1.5.167 or later.
 
 Portable skill pack for AI agents: **FE/API manual test-case prep** (with coverage + quality review), **Playwright ticket testing**, **create bug**, **Jira bug retests**, **TC review**, and **Catch AI** self-audit of finished work — one entry menu across tools.
 
@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap + **auto-update**.
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -214,7 +214,7 @@ Or re-run the full installer: use the pinned install block under [Install (one-t
 | **Claude Code** | Run the update command, then open a **new session** | `/helix` still old → `bash ~/.helix/tc-fe-prep/scripts/claude-plugin-sync.sh` or full `install.sh` |
 | **Cursor** | New session + Reload Window | Skills missing → `link-skills.sh` |
 | **Codex / Copilot / Gemini / Windsurf / Cline / Pi** | New session | Symlinks removed → `link-skills.sh` |
-| **Team `.github/skills/`** | Auto-update of clone + pull your app repo | New Helix skill added → `HELIX_LINK_WORKSPACE=$PWD …/link-skills.sh` |
+| **Team `.github/skills/`** | Update the clone with the update command + pull your app repo | New Helix skill added → `HELIX_LINK_WORKSPACE=$PWD …/link-skills.sh` |
 
 ### Marketplace-only install (no `~/.helix` clone)
 
