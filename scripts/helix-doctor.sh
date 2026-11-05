@@ -43,6 +43,9 @@ fi
 # Same list link-skills.sh links, read from the repo (Spec: docs/sdd/skill-list-drift R1).
 # An empty skills/ falls back to helix so the checks below still report what is missing.
 . "$(cd "$(dirname "$0")" && pwd)/lib/skill-list.sh"
+# Same "Helix link" test link-skills.sh uses (Spec: docs/sdd/link-skills-no-delete R13).
+. "$(cd "$(dirname "$0")" && pwd)/lib/helix-owned.sh"
+REPO_P="$(cd "$REPO" && pwd -P)"
 EXPECTED_SKILLS=()
 while IFS= read -r s; do EXPECTED_SKILLS+=("$s"); done < <(helix_linked_skills "$REPO")
 [ "${#EXPECTED_SKILLS[@]}" -gt 0 ] || EXPECTED_SKILLS=(helix)
@@ -60,6 +63,7 @@ echo "--- Global skill links (expect helix + $((${#EXPECTED_SKILLS[@]} - 1)) wor
 check_dest() {
   local dest="$1"
   local label="$2"
+  local relative="${3:-0}"
   if [ ! -d "$(dirname "$dest")" ]; then
     warn "$label: parent missing ($(dirname "$dest")) — agent may not be installed"
     return
@@ -68,17 +72,18 @@ check_dest() {
     warn "$label: $dest not found — run: bash $REPO/scripts/link-skills.sh"
     return
   fi
-  local missing=0
+  local missing=0 clashes=0
   for s in "${EXPECTED_SKILLS[@]}"; do
-    if [ -L "$dest/$s" ] || [ -d "$dest/$s" ]; then
-      :
-    else
+    if [ ! -e "$dest/$s" ] && [ ! -L "$dest/$s" ]; then
       missing=$((missing + 1))
+    elif ! helix_is_skill_link "$dest/$s" "$s" "$relative" "$REPO" "$REPO_P"; then
+      clashes=$((clashes + 1))
+      warn "$label: skill-name clash — $dest/$s is not a Helix link (your own skill?), so Helix's $s is not linked there. Rename or remove it, then run: bash $REPO/scripts/link-skills.sh"
     fi
   done
-  if [ "$missing" -eq 0 ]; then
+  if [ "$missing" -eq 0 ] && [ "$clashes" -eq 0 ]; then
     ok "$label: all ${#EXPECTED_SKILLS[@]} skills linked"
-  else
+  elif [ "$missing" -gt 0 ]; then
     warn "$label: $missing skill(s) missing under $dest"
   fi
 }
@@ -174,8 +179,10 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
   echo ""
   echo "--- Workspace: $HELIX_LINK_WORKSPACE ---"
   WS="$(cd "$HELIX_LINK_WORKSPACE" && pwd)"
+  _ws_rel=0
+  [ -f "$WS/skills/helix/SKILL.md" ] && _ws_rel=1
   for sub in .github/skills .agents/skills .windsurf/skills .cline/skills .gemini/skills; do
-    check_dest "$WS/$sub" "${sub}"
+    check_dest "$WS/$sub" "${sub}" "$_ws_rel"
   done
   if [ -f "$WS/skills/helix/SKILL.md" ] && [ -L "$WS/.github/skills/helix" ]; then
     _hl="$(readlink "$WS/.github/skills/helix" 2>/dev/null || true)"
