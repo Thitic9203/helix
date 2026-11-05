@@ -12,7 +12,7 @@ Line numbers are at `origin/main` e9955a9.
 | `scripts/helix-setup-devenv.sh:81-94, :109-136` | delete `merge_settings` and `write_claude_md` | R1 |
 | `scripts/helix-setup-devenv.sh:96-107` | rewrite `unmerge_settings`: find oldest backup, R2 removal with keep-list, R5 `defaultMode`, R4 byte restore or in-place edit, backup only if the result differs | R2–R5, R8, R9 |
 | `scripts/helix-setup-devenv.sh:138-158` | rewrite `remove_claude_md`: remove block, R6 byte restore from oldest `CLAUDE.md.helix-bak.*` when equal after trim | R6, R8, R9 |
-| `scripts/helix-setup-devenv.sh:160-177` | `--uninstall` → undo + `rm -f` marker; any other argument (incl. none) → print "retired" + undo command, exit 0, touch nothing | R1, R7 |
+| `scripts/helix-setup-devenv.sh:160-177` | `--uninstall` → undo + `rm -f` marker and `.devenv-notice-count`; any other argument (incl. none) → if the marker exists run the same undo, otherwise touch nothing; print "retired" + undo command, exit 0 | R1, R7, R13 |
 | `scripts/helix-auto-update.sh:223-228` | delete the block | R10 |
 | `hooks/session-start:25-41` | delete the tip block | R11 |
 | `hooks/session-start:56` | drop `${devenv_tip}` from `session_context` | R11 |
@@ -20,13 +20,15 @@ Line numbers are at `origin/main` e9955a9.
 | `scripts/tests/fixtures/helix-setup-devenv.v1.sh` (new) | exact copy of the shipped opt-in script; the test asserts `git hash-object` = c925107 | R2, test setup |
 | `scripts/tests/auto-update.test.sh` | add: marker present + update happens → no `helix-setup-devenv` line in the log, settings untouched | R10 |
 | `scripts/tests/hook-exec.test.sh` or new check in `devenv-undo.test.sh` | run `hooks/session-start` with a fake `$HOME` (no marker, count 0) → output has no `helix-setup-devenv` | R11 |
+| `scripts/helix-doctor.sh` | new section "Devenv leftovers": WARN per leftover (shipped rule in `settings.json`, block in `CLAUDE.md`, marker, Helix-set `defaultMode`), each naming the undo command; read-only, reuses the SHIPPED_RULES list via a sourced lib `scripts/lib/devenv-rules.sh` | R14 |
+| `scripts/lib/devenv-rules.sh` (new) | the shipped-rules list, markers; sourced by the script and by doctor so there is one copy | R2, R14 |
 | `README.md:235-243` | replace the opt-in paragraph with: "retired; if you ran it, undo with `bash scripts/helix-setup-devenv.sh --uninstall`" | R12 |
 | `README.md:300` | contributor list: `helix-setup-devenv.sh` (retired — `--uninstall` only) | R12 |
 | `docs/CONTRIBUTING.md:15-31` | Layer 2 section → retired notice + undo command; drop the auto-sync and SessionStart tip text | R12 |
 | `docs/wiki/Home.md:182` | row text → "Retired — undo only (`--uninstall`)" | R12 |
 
 Not touched: `.claude/settings.json` (project scope, out of SPEC R3); `SECURITY-NOTICE.md`
-(already says devenv is retired and points to `--uninstall`, lines 13, 41, 49 — wording waits on Q5);
+(wording is updated later with the fixed release — owner decision Q5);
 `docs/plan/**` (history).
 
 ## Data
@@ -47,17 +49,11 @@ Not touched: `.claude/settings.json` (project scope, out of SPEC R3); `SECURITY-
 
 ## How "Helix set defaultMode" can be known
 
-Nothing records it today: the marker holds only `date +%s` (`:172`), and `:90` sets the value
-without logging which branch ran. The only on-disk signal is the backup taken just before the
-first merge (`:85`). Options for the owner (spec Q1):
-
-| Option | How | Cost / limit |
-|--------|-----|--------------|
-| A (in spec R5) | Remove when current = `acceptEdits` and the oldest backup has no `defaultMode` | Wrong if the user later set `acceptEdits` themselves; wrong if the oldest backup is stale (re-opt-in) or overwritten in the same second |
-| B | Never remove; print the current value and the one-line `jq` to remove it | Never wrong, but does not meet "restores defaultMode if Helix set it" for users who just run the command |
-| C | Ask interactively (`read -p`) when A says "Helix set it" | Needs a TTY; the old updater (`helix-auto-update.sh:227`) and CI have none — must fall back to A or B |
-
-No option can be exact for machines that already opted in, because the fact was never stored.
+Nothing records it today (marker holds only `date +%s`; `:90` logs nothing). Owner decision Q1 =
+option A: the only on-disk signal is the backup taken just before the first merge (`:85`). Remove
+`defaultMode` only when the current value is `acceptEdits` and the oldest settings backup has no
+`defaultMode`; with no backup, leave it and print how to check by hand. Known limit: a user who set
+`acceptEdits` themselves after opt-in, with none before, loses it.
 
 ## Libraries / cost
 
@@ -76,8 +72,8 @@ Bash, `jq`, `python3`, `cmp`, `sort` — `jq` and `python3` are already required
 ## What may break
 
 - **Opted-in machines on an old updater:** at their next update, `:227` runs the new script with no
-  arguments. With R1 that is a no-op and prints "retired" into `~/.helix/auto-update.log`. Their
-  allowlist stays until they run `--uninstall` (spec Q2 decides whether a no-arg run should undo).
+  arguments. With the marker present, R1 makes that run the full undo (owner decision Q2); the result is
+  logged in `~/.helix/auto-update.log`.
 - **Users who change settings after opt-in:** R4 falls back to an in-place edit; their own rule order
   is not restored. The script prints this.
 - **Tests:** no existing test mentions devenv (`grep -rn -i devenv scripts/tests` → 0 lines), so
@@ -85,6 +81,6 @@ Bash, `jq`, `python3`, `cmp`, `sort` — `jq` and `python3` are already required
   (`.github/workflows/*.yml:24, :72`). Whether `jq` is preinstalled there is not verified here —
   the first CI run shows it.
 - **Doctor:** `scripts/helix-doctor.sh` has no devenv, `settings.json` or `helix-bak` reference
-  (grep → 0 lines); nothing breaks. A residue warning is spec Q4.
+  (grep → 0 lines); nothing breaks. The residue warning is R14 (owner decision Q4).
 - **README / wiki / CONTRIBUTING:** the CONTRIBUTING anchor `#dev-environment--fewer-agent-questions-two-layers`
   is linked from `docs/wiki/Home.md:182`; keep the heading or update the link in the same commit.

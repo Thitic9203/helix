@@ -12,23 +12,18 @@ decisions across auto-compaction). Ships and updates via git — no manual steps
 Intentionally conservative because this is a public repo: no `acceptEdits`, no code
 execution is auto-approved.
 
-**Layer 2 — opt-in, one command (`scripts/helix-setup-devenv.sh`).**
-For the fuller productivity config that touches your **global** `~/.claude/`:
-`defaultMode: acceptEdits`, a wider safe Bash allowlist (node/python/gh-read/…), and
-"bias toward action" + "memory discipline" rules in `~/.claude/CLAUDE.md`.
+**Layer 2 — retired (`scripts/helix-setup-devenv.sh`).**
+The old opt-in that wrote `acceptEdits`, a wider Bash allowlist and "bias toward action" rules
+into your **global** `~/.claude/` no longer adds anything, and updates no longer re-run it.
+If you ran it in the past, undo it. The undo removes the rules and block Helix added, restores
+your files byte-for-byte from the backups it made when nothing else changed, and keeps your own rules:
 
 ```bash
-bash scripts/helix-setup-devenv.sh            # install (idempotent, backs up first)
-bash scripts/helix-setup-devenv.sh --uninstall # revert (keeps your own rules)
+bash scripts/helix-setup-devenv.sh --uninstall
 ```
 
-It merges (never clobbers), is safe to re-run, and once opted in,
-`helix-auto-update.sh` keeps it in sync on future updates. Requires `jq`.
+Requires `jq`. `scripts/helix-doctor.sh` warns if it finds anything left over.
 
-Existing installs are **auto-notified**: the SessionStart hook surfaces a one-line
-tip about this command up to 3 times (never once opted in). It does **not** silently
-change your global config — applying Layer 2 is always your explicit choice. Silence
-the tip with `HELIX_DEVENV_NOTICE=0`.
 The narrowed git/`gh` allowlist deliberately leaves destructive/outward verbs
 (`git push --force`, `git reset --hard`, `gh pr merge`, `gh repo delete`) to prompt.
 

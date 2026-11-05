@@ -179,7 +179,7 @@ Plugin registers every linked skill in [.claude-plugin/plugin.json](https://gith
 | [export-markdown-table-to-csv.py](https://github.com/Thitic9203/helix/blob/main/scripts/export-markdown-table-to-csv.py) | TC table → CSV |
 | [export-test-md.py](https://github.com/Thitic9203/helix/blob/main/scripts/export-test-md.py) | TC table → Test.md |
 | [helix-regression-check.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-regression-check.sh) | Contributor: pre-merge regression gate (`/helix-check`) |
-| [helix-setup-devenv.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-setup-devenv.sh) | Contributor opt-in: fewer agent questions ([CONTRIBUTING](https://github.com/Thitic9203/helix/blob/main/docs/CONTRIBUTING.md#dev-environment--fewer-agent-questions-two-layers)) |
+| [helix-setup-devenv.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-setup-devenv.sh) | Retired — undo only (`--uninstall`) ([CONTRIBUTING](https://github.com/Thitic9203/helix/blob/main/docs/CONTRIBUTING.md#dev-environment--fewer-agent-questions-two-layers)) |
 
 ---
 

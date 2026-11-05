@@ -195,6 +195,21 @@ if [ -n "${HELIX_LINK_WORKSPACE:-}" ]; then
   fi
 fi
 
+# Leftovers from the retired helix-setup-devenv.sh (Spec: docs/sdd/retire-devenv R14). Read-only:
+# prints one WARN per leftover and the undo command; prints nothing on a clean machine.
+. "$(cd "$(dirname "$0")" && pwd)/lib/devenv-rules.sh"
+_dv_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+_dv_undo="bash $REPO/scripts/helix-setup-devenv.sh --uninstall"
+if command -v jq >/dev/null 2>&1 && [ -f "$_dv_dir/settings.json" ]; then
+  _dv_n="$(devenv_leftover_rules "$_dv_dir/settings.json" | jq 'length' 2>/dev/null || echo 0)"
+  [ "${_dv_n:-0}" -gt 0 ] && warn "devenv leftover: $_dv_n Helix allowlist rule(s) in $_dv_dir/settings.json — undo: $_dv_undo"
+  devenv_helix_set_mode "$_dv_dir/settings.json" && warn "devenv leftover: permissions.defaultMode acceptEdits in $_dv_dir/settings.json was set by Helix — undo: $_dv_undo"
+fi
+[ -f "$_dv_dir/CLAUDE.md" ] && grep -qF "$DEVENV_MARK_START" "$_dv_dir/CLAUDE.md" 2>/dev/null \
+  && warn "devenv leftover: HELIX-DEVENV block in $_dv_dir/CLAUDE.md — undo: $_dv_undo"
+[ -f "${HELIX_STATE_DIR:-$HOME/.helix}/.devenv-opted-in" ] \
+  && warn "devenv leftover: opt-in marker ${HELIX_STATE_DIR:-$HOME/.helix}/.devenv-opted-in — undo: $_dv_undo"
+
 echo ""
 echo "--- Works best with ---"
 echo "  • Jira (MCP or browser logged in)"
