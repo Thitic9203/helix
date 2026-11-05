@@ -62,6 +62,7 @@ HELIX_TAG=v1.5.166
 base="https://github.com/Thitic9203/helix/releases/download/$HELIX_TAG"
 curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && [ "$(wc -l < install.sh.sha256)" -eq 1 ] \
+  && ! grep -q "$(printf '\r')" install.sh.sha256 \
   && { if command -v sha256sum >/dev/null; then sha256sum -c install.sh.sha256; else shasum -a 256 -c install.sh.sha256; fi; } \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
