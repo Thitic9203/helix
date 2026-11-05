@@ -153,7 +153,7 @@ From API spec + Swagger:
    - Idempotency / side effects when the spec or Swagger documents them (row shape: [api-tc-guidelines.md](references/api-tc-guidelines.md) § Coverage per endpoint)
    - **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) → do not invent a status for the affected error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.
 3. Map each row to **Services Impacted** from spec or user naming.
-4. **Test Case ID** pattern: `TC_API_{Module}_{nn}` — unique, stable.
+4. **Test Case ID** pattern: `TC_API_{Module}_{nn}` — unique; `nn` follows the row order below (every 2xx row of a module has a lower `nn` than any 4xx row), so renumber whenever Phase D/E adds or moves a row; ids are stable only after the user approves the Phase F draft.
 
 Writing rules: [references/api-tc-guidelines.md](references/api-tc-guidelines.md).
 
@@ -193,7 +193,7 @@ Also verify writing rules in [api-tc-guidelines.md](references/api-tc-guidelines
 
 ### E3 — Post review summary in chat
 
-Post the **API TC coverage review** block from spec-coverage-review.md (with **Ready for draft: YES**).
+Post the **API TC coverage review** block from spec-coverage-review.md: the endpoint matrix table (one row per in-scope operation) comes before **Ready for draft: YES**; a one-line "Endpoint coverage: complete" without the table is not the block.
 
 MUST NOT post the full TC table until **Ready for draft: YES**.
 

@@ -286,8 +286,8 @@ Then:
    editing it. **Wrong content, correct destination → edit in place** — never delete and repost just to
    fix wording.
 5. **Fit the platform's message limit before sending** (Discord: 2,000 characters). Count the characters.
-   If the text is too long, tighten the wording. Do not drop findings the user saw in chat, and do not
-   split the review into several posts unless the user asks.
+   If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
+   Still over after tightening → stop, show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
 6. **Revising a review that is already posted** (new suggestions, a scope cut): edit the existing
    message in place, e.g. a Discord webhook `PATCH …/messages/{id}`, adding `thread_id` when the message is
    in a thread. The edited text must still fit the item 5 limit. Do not post a second copy. Read back the edited message and check the id, the destination,

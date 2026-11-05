@@ -71,6 +71,10 @@ Document **explicit out-of-scope list** in the review block (endpoints or scenar
 Sources: spec {link/summary} · Swagger {url}
 In-scope endpoints: {N} · Test cases: {M}
 
+Endpoint coverage matrix (one row per in-scope operation; never replace it with a one-line summary):
+| Endpoint (method path) | In spec scope | Swagger present | Covered by TC ID(s) | Out of scope reason |
+|---|---|---|---|---|
+| {METHOD /path} | Yes | Yes | {TC_API_*_01–nn} | — |
 Endpoint coverage: complete — YES | gaps: {list}
 Out of scope (documented): {bullet list or "none"}
 Spec/Swagger gaps flagged: {list or "none"}

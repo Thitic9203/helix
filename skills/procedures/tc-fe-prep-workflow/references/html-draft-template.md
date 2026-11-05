@@ -315,7 +315,7 @@ Generate the file from this template. Replace all `{placeholders}` with real val
 
 ## How to build TABLE_ROWS
 
-Group by Type: Unit Test → Integration Test → System Test. For each group that has TCs:
+Group by Type: Unit Test → Integration Test → System Test. Inside each group write rows AC ascending by number (AC_01, AC_02, AC_03 …), then EC ascending (EC_01, EC_02 …) — never AC_03 ahead of AC_01; TC IDs continue across groups (Step 3e). For each group that has TCs:
 
 ```html
 <!-- group header — pick correct class: group-unit / group-integration / group-system -->

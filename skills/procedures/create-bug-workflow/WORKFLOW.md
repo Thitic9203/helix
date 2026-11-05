@@ -179,6 +179,9 @@ re-filing it wastes a full file → retest → close-out round.
    - Jira (`text ~` covers summary, description and comments):
      `project = <KEY> AND text ~ "\"<exact error text>\"" ORDER BY updated DESC` — then repeat with the
      field label or component name.
+   - If the user pastes board-search results instead, accept the pasted results only when they show
+     the query terms, the scope (open and closed, summary and comments) and a result per candidate;
+     otherwise re-run the search yourself or ask the user for the missing part.
    - GitHub: `gh issue list --repo <owner/repo> --state all --search '"<exact error text>" in:title,body,comments'`.
 2. **Read the conclusion of any match**, including resolved/closed ones. A closed ticket can still hold
    the authoritative decision.

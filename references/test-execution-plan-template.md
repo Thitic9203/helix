@@ -32,6 +32,17 @@ One row per scenario x width: a scenario in scope at 1440 and 390 is two rows, n
 
 **Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch in the summary and does not block the run.
 
+### Execution lanes
+
+The plan always shows both lane rows, L1 and L2, one account per lane ([parallel-test-lanes.md](parallel-test-lanes.md)). If fewer than two accounts are leasable, keep the L2 row and write the reason in it (serial plan only with a named §4 predicate).
+
+| Lane | Account (role) | Scenario # | Order | Data prefix |
+|------|----------------|------------|-------|-------------|
+| L1 | | | | QA-L1 |
+| L2 | | | | QA-L2 |
+
+**Starting state:** {the state each lane begins in: logged-in user id, toggles/flags, record status, data it needs — checked before the first scenario}
+
 ### Out of scope
 
 - {each out-of-scope width as width + reason, never as a row in the In-scope table}

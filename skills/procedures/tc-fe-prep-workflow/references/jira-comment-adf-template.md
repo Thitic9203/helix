@@ -57,8 +57,8 @@ Top-level nodes, in this order:
 Input — approved TC rows (2 shown) and the request "draft only, do not post":
 
 ```text
-1 | AC_01 | <SERVICE_A> | <TITLE_A> | High | System Test
-2 | EC_01 | <SERVICE_A> | <TITLE_B> | Medium | Integration Test
+1 | AC_01 | <SERVICE_A> | <TITLE_A> | High | Integration Test
+2 | EC_01 | <SERVICE_A> | <TITLE_B> | Medium | System Test
 ```
 
 Output — `Jira_comment_{ISSUE_KEY}.adf.json` (complete; no Unit Test rows, so one skip-note):
@@ -68,8 +68,8 @@ Output — `Jira_comment_{ISSUE_KEY}.adf.json` (complete; no Unit Test rows, so 
  {"type":"paragraph","content":[{"type":"text","text":"Draft TC FE as below — ดูรายละเอียด Precondition / Steps / Expected ได้ในไฟล์แนบ"}]},
  {"type":"table","content":[
   {"type":"tableRow","content":[{"type":"tableHeader","attrs":{"colwidth":[90]},"content":[{"type":"paragraph","content":[{"type":"text","text":"AC/EC Ref","marks":[{"type":"strong"}]}]}]},{"type":"tableHeader","attrs":{"colwidth":[130]},"content":[{"type":"paragraph","content":[{"type":"text","text":"Services Impacted","marks":[{"type":"strong"}]}]}]},{"type":"tableHeader","attrs":{"colwidth":[50]},"content":[{"type":"paragraph","content":[{"type":"text","text":"ID","marks":[{"type":"strong"}]}]}]},{"type":"tableHeader","attrs":{"colwidth":[510]},"content":[{"type":"paragraph","content":[{"type":"text","text":"Test Title","marks":[{"type":"strong"}]}]}]},{"type":"tableHeader","attrs":{"colwidth":[90]},"content":[{"type":"paragraph","content":[{"type":"text","text":"Priority","marks":[{"type":"strong"}]}]}]},{"type":"tableHeader","attrs":{"colwidth":[150]},"content":[{"type":"paragraph","content":[{"type":"text","text":"Type","marks":[{"type":"strong"}]}]}]}]},
-  {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"AC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"1"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"High"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"System Test"}]}]}]},
-  {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"EC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"2"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_B>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Medium"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Integration Test"}]}]}]}
+  {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"AC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"1"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"High"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Integration Test"}]}]}]},
+  {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"EC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"2"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_B>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Medium"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"System Test"}]}]}]}
  ]},
  {"type":"paragraph","content":[{"type":"text","text":"Import_Qase_{ISSUE_KEY}.csv","marks":[{"type":"link","attrs":{"href":"__ATT1_ID__"}}]}]},
  {"type":"paragraph","content":[{"type":"text","text":"ไม่มี TC ประเภท Unit Test สำหรับ ticket นี้"}]},
@@ -82,6 +82,6 @@ Output — first lines of `Jira_comment_{ISSUE_KEY}.preview.md`:
 ```text
 PREVIEW — not postable; post the .adf.json
 Draft TC FE as below — ดูรายละเอียด Precondition / Steps / Expected ได้ในไฟล์แนบ
-AC_01 · <SERVICE_A> · 1 · <TITLE_A> · High · System Test
-EC_01 · <SERVICE_A> · 2 · <TITLE_B> · Medium · Integration Test
+AC_01 · <SERVICE_A> · 1 · <TITLE_A> · High · Integration Test
+EC_01 · <SERVICE_A> · 2 · <TITLE_B> · Medium · System Test
 ```

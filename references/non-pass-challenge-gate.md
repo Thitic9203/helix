@@ -128,7 +128,7 @@ The recommendation is exactly one of:
   [defect-report-completeness.md](defect-report-completeness.md)).
 - **(B) Re-test** — a test-side cause was fixed, or the fixture/steps/entry-point need correcting;
   re-run and re-observe before any verdict.
-- **(C) Confirm the defect** — not offered when the expected was superseded (only A or B then). The expected is authoritative, the app genuinely differs, cause is on
+- **(C) Confirm the defect** — not offered when the expected was superseded (only A or B then). Also not offered while a newer source that may supersede the expected is unresolved (an `unclear` AC/EC check with a competing newer source): C is offered only when the AC/EC check is confirmed authoritative. The expected is authoritative, the app genuinely differs, cause is on
   the product side. You may proceed to the verdict / bug, but still state the finding so the user sees
   the reasoning, and file it with its full write-up (repro matrix + expected-verbatim + labelled root
   cause + resolution options).

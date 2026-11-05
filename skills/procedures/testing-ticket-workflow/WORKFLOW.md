@@ -244,8 +244,9 @@ Lanes:       L1 · {account} ({role}) · scenarios {ids} · data prefix QA-L1
              L2 · {account} ({role}) · scenarios {ids} (#n after L1 #m) · data prefix QA-L2
              ...
 Barrier:     {scenario ids run alone after lanes — or none}
+Starting state: {state each lane begins in, checked before its first scenario}
 
-Execution plan: see filled template (preflight, evidence, pass criteria).
+Execution plan: see filled template (preflight, evidence, pass criteria). Its Execution lanes rows (L1/L2, QA-L1/QA-L2) and Starting state line are copied from test-execution-plan-template.md, always present.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Reply **confirm** to start the run, or tell me what to change.
 ```

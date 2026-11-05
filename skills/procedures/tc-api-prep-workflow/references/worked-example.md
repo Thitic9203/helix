@@ -14,7 +14,7 @@
 1. **Phase A:** Fetched Swagger; noted `POST /orders`, `GET /orders/{id}`, `PATCH` status, `DELETE` soft-delete.
 2. **Phase B:** User replied `default` columns.
 3. **Phase D:** Designed happy + 401 + 400 validation per endpoint.
-4. **Phase E:** Caught missing 404 on `GET` — added `TC_API_Orders_05`.
+4. **Phase E:** Caught missing 404 on `GET` — inserted it after the 2xx and 401 rows and renumbered so ids follow the row order (2xx first).
 5. **Phase F:** Draft in chat → user `approve`.
 6. **Phase G1:** Wrote `references/orders_API_TC.md` + CSV via [csv-export-rules.md](../../../../references/csv-export-rules.md).
 
