@@ -84,7 +84,7 @@ If either is missing, ask the user once:
 >
 > ถ้า story นี้ไม่มีทั้งสองอย่าง ตอบว่า "ไม่มี PRD / ไม่มี Figma" ได้เลยครับ ผมจะใช้เนื้อหาใน ticket อย่างเดียว
 
-**Wait for the user's response.** If the user confirms that a source does not exist (or provides no link after being asked):
+**Wait for the user's response.** At this stop post only the request above: the Step 2a.3 decision prompt is not posted in this turn; it is asked after the Step 2.5d report is opened. If the user confirms that a source does not exist (or provides no link after being asked):
 
 - **Record which links are absent** (Figma / PRD / both) for the HTML report and the Remark block (design-and-review Step 3d / Step 5).
 - Continue to Step 2.5b with available sources only.
