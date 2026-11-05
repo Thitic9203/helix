@@ -220,13 +220,6 @@ else
   fi
 fi
 
-# If the user opted into the global devenv config (via scripts/helix-setup-devenv.sh),
-# keep it in sync after a successful update. Opt-in only: skipped unless the marker exists.
-if [ "$UPDATED" -eq 1 ] && [ -f "$STATE_DIR/.devenv-opted-in" ] && [ -x "$REPO/scripts/helix-setup-devenv.sh" ]; then
-  log "re-syncing opted-in devenv config..."
-  bash "$REPO/scripts/helix-setup-devenv.sh" >>"$LOG_FILE" 2>&1 || log "devenv re-sync failed (non-fatal)"
-fi
-
 # A run that finished without a step failure clears the previous error notice.
 if [ "$ERRORS_THIS_RUN" -eq 0 ]; then
   rm -f "$ERR_FILE" 2>/dev/null || true

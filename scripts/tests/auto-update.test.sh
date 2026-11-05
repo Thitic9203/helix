@@ -65,4 +65,15 @@ before="$(fetches)"; run_session
 git -C "$W/seed" tag v1.0.2 && git -C "$W/seed" push -q origin v1.0.2
 run_session
 [ "$(cat "$W/clone/VERSION")" = 1.0.2 ] && ok "a release published after the last check reaches the next session" || fail "next session stayed at $(cat "$W/clone/VERSION")"
+
+# R10 (docs/sdd/retire-devenv): the updater never runs helix-setup-devenv.sh, even on an opted-in machine.
+mkdir -p "$W/seed/scripts"
+printf '#!/bin/sh\ntouch "%s/sentinel"\n' "$W" > "$W/seed/scripts/helix-setup-devenv.sh"; chmod +x "$W/seed/scripts/helix-setup-devenv.sh"
+echo 1.0.3 > "$W/seed/VERSION"; git -C "$W/seed" add VERSION scripts/helix-setup-devenv.sh; git -C "$W/seed" commit -qm "v1.0.3"
+git -C "$W/seed" tag v1.0.3 && git -C "$W/seed" push -q origin main v1.0.3
+echo 1.0.3 > "$W/remote-version"
+fresh_clone v1.0.2; mkdir -p "$W/state"; echo 1 > "$W/state/.devenv-opted-in"
+run_au
+[ "$(cat "$W/clone/VERSION")" = 1.0.3 ] && [ ! -e "$W/sentinel" ] && ok "an update on an opted-in machine does not run helix-setup-devenv.sh" || fail "R10: VERSION $(cat "$W/clone/VERSION"), sentinel $([ -e "$W/sentinel" ] && echo present || echo absent)"
+! grep -q devenv "$AU" && ok "helix-auto-update.sh has no devenv reference" || fail "R10: devenv still referenced in helix-auto-update.sh"
 finish

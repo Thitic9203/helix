@@ -99,7 +99,7 @@ newhome; write_pre; old_optin
 jq '.permissions.allow += ["Bash(make *)"] | .x = 1' "$S" > "$W/t" && cp "$W/t" "$S"
 printf '\nadded after opt-in\n' >> "$M"
 out="$(run "$NEW" --uninstall 2>&1)"
-[ "$(jq -c '.permissions.allow' "$S")" = '["Bash(alpha)","Bash(make *)","Bash(zeta *)"]' ] && [ "$(jq -r .x "$S")" = "1" ] && [ "$(jq -r .model "$S")" = "opus" ] && ok "later settings edits kept, 45 rules gone" || fail "6: settings is $(jq -c . "$S")"
+[ "$(jq -c '.permissions.allow' "$S")" = '["Bash(alpha)","Bash(zeta *)","Bash(make *)"]' ] && [ "$(jq -r .x "$S")" = "1" ] && [ "$(jq -r .model "$S")" = "opus" ] && ok "later settings edits kept, 45 rules gone" || fail "6: settings is $(jq -c . "$S")"
 grep -q "added after opt-in" "$M" && ! grep -q "HELIX-DEVENV" "$M" && ok "later CLAUDE.md text kept, block gone" || fail "6: CLAUDE.md wrong"
 echo "$out" | grep -qi "could not be restored" && ok "order/format message printed" || fail "6: no order message: $out"
 
@@ -135,4 +135,10 @@ newhome; write_pre; old_optin; mkdir -p "$H/.helix"; echo 3 > "$H/.helix/.devenv
 run "$NEW" --uninstall >/dev/null 2>&1
 [ ! -e "$H/.helix/.devenv-notice-count" ] && ok "undo deletes .devenv-notice-count" || fail "13: notice count still there"
 run "$NEW" --uninstall >/dev/null 2>&1 && ok "undo without the notice file is fine" || fail "13: failed without notice file"
+# T11 (R11): the SessionStart hook no longer tells anyone to run the script
+newhome
+out="$(HOME="$H" HELIX_AUTO_UPDATE=0 bash "$REPO_ROOT/hooks/session-start" 2>/dev/null)"
+[ -n "$out" ] && ! printf '%s' "$out" | grep -q "helix-setup-devenv" && ok "session-start output has no helix-setup-devenv" || fail "11: session-start mentions the script"
+[ ! -e "$H/.helix/.devenv-notice-count" ] && ok "session-start does not create the notice count" || fail "11: notice count created"
+
 finish
