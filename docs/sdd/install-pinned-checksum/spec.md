@@ -70,7 +70,7 @@ owner reviews before code starts (global rule 27).
   `| bash` line that reads from `main`. Source: SPEC.md:7-8 ("README has no `| bash` from `main`").
 - **R6** — When `install.sh` runs with a release tag, it must clone, or move the existing clone,
   to that tag, not to `main`. Source: SPEC.md:7 title ("Install is pinned"); `install.sh:24-31`
-  installs `main` today. Owner decision Q1 = yes (2026-11-04).
+  installs `main` today. Owner decision Q1 = yes (2026-11-04). When `HELIX_TAG` is unset, `install.sh` does not guess a tag: with no clone it stops and points to the README block; with an existing clone it re-links that clone as it is and runs no git move. A `HELIX_TAG` that is not `vN.N.N` is refused.
 - **R7** — When `install.sh` runs on an existing clone that has local changes or sits on a commit
   that is not an ancestor of the tag, it must stop and print why; it must not reset, stash or
   discard anything. Source: global rule 5 (never damage existing work);
