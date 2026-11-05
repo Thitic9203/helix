@@ -141,4 +141,10 @@ out="$(HOME="$H" HELIX_AUTO_UPDATE=0 bash "$REPO_ROOT/hooks/session-start" 2>/de
 [ -n "$out" ] && ! printf '%s' "$out" | grep -q "helix-setup-devenv" && ok "session-start output has no helix-setup-devenv" || fail "11: session-start mentions the script"
 [ ! -e "$H/.helix/.devenv-notice-count" ] && ok "session-start does not create the notice count" || fail "11: notice count created"
 
+# T12 (R12): docs only show the undo, never an opt-in
+bad="$(cd "$REPO_ROOT" && grep -n 'helix-setup-devenv' README.md docs/CONTRIBUTING.md docs/wiki/Home.md | grep -v -i -e '--uninstall' -e 'retired')"
+[ -z "$bad" ] && ok "docs mention helix-setup-devenv only as retired / --uninstall" || fail "12: docs still show an opt-in: $bad"
+(cd "$REPO_ROOT" && grep -n -i -e 'HELIX_DEVENV_NOTICE' -e 'opt-in, idempotent' -e 're-synced by auto-update' README.md docs/CONTRIBUTING.md docs/wiki/Home.md) >/dev/null && fail "12: stale opt-in wording in docs" || ok "no stale opt-in wording in docs"
+grep -q '^## Dev environment — fewer agent questions' "$REPO_ROOT/docs/CONTRIBUTING.md" 2>/dev/null || grep -qi '^#.*fewer agent questions' "$REPO_ROOT/docs/CONTRIBUTING.md" && ok "CONTRIBUTING heading kept (wiki anchor resolves)" || fail "12: CONTRIBUTING heading gone"
+
 finish

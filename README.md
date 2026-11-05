@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.159** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.160** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) before installing or updating.
 
@@ -232,18 +232,16 @@ cd helix
 git config core.hooksPath scripts/hooks
 ```
 
-**Fewer agent questions while developing Helix** (optional). Opening the repo in
+**Fewer agent questions while developing Helix.** Opening the repo in
 Claude Code already gives you read-only command allows + context hooks (committed
-`.claude/settings.json`). For the fuller global config (`acceptEdits`, wider safe
-allowlist, "bias toward action" rules in `~/.claude/CLAUDE.md`):
+`.claude/settings.json`). The old global opt-in script is retired and adds nothing.
+If you ran it in the past, undo it (restores your files from the backups it made):
 
 ```bash
-bash scripts/helix-setup-devenv.sh             # opt-in, idempotent, backs up first
-bash scripts/helix-setup-devenv.sh --uninstall # revert (keeps your own rules)
+bash scripts/helix-setup-devenv.sh --uninstall
 ```
 
-Idempotent and re-synced by auto-update once opted in. Requires `jq`.
-Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agent-questions-two-layers).
+Requires `jq`. Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agent-questions-two-layers).
 
 </details>
 
@@ -297,7 +295,7 @@ Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environment--fewer-agen
 | [export-markdown-table-to-csv.py](scripts/export-markdown-table-to-csv.py) | TC table → CSV (UTF-8 BOM) |
 | [export-test-md.py](scripts/export-test-md.py) | TC table → Test.md (agent-native hand-off) |
 
-Contributor: `bump-version.sh`, `sync-version.sh --check`, `list-skills.sh`, `helix-regression-check.sh` (pre-merge gate via `/helix-check`), `helix-setup-devenv.sh` (opt-in: fewer agent questions)
+Contributor: `bump-version.sh`, `sync-version.sh --check`, `list-skills.sh`, `helix-regression-check.sh` (pre-merge gate via `/helix-check`), `helix-setup-devenv.sh` (retired — `--uninstall` only)
 
 ## License
 
