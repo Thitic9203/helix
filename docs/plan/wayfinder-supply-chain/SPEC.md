@@ -1,6 +1,16 @@
 # Spec: Helix install and update supply-chain hardening
 
-Status: decided, 2026-11-04. All decisions in [MAP.md](MAP.md) are closed. The [Team notice](tickets/06-team-notice.md) draft is waiting for the owner's approval. Code changes land through normal PRs, each with its own `docs/sdd/<slug>/` spec, plan and tasks.
+Status: **implemented and released in v1.5.167 (2026-11-05).** All decisions in [MAP.md](MAP.md) are closed; owner answers to the SDD questions are in [owner-decisions-2026-11-04.md](owner-decisions-2026-11-04.md). Each rule shipped as one PR with its own `docs/sdd/<slug>/` spec, plan and tasks:
+
+| Rule | SDD | PR |
+|---|---|---|
+| R4 | `docs/sdd/link-skills-no-delete` | [#16](https://github.com/Thitic9203/helix/pull/16) |
+| R3 | `docs/sdd/retire-devenv` | [#17](https://github.com/Thitic9203/helix/pull/17) |
+| R2 | `docs/sdd/update-notify-only` | [#18](https://github.com/Thitic9203/helix/pull/18) |
+| R1 | `docs/sdd/install-pinned-checksum` | [#19](https://github.com/Thitic9203/helix/pull/19) |
+| R5 | [SECURITY-NOTICE.md](../../../SECURITY-NOTICE.md) | updated for v1.5.167 |
+
+Checked after release (2026-11-05): release `v1.5.167` targets the merge commit and carries `install.sh` and `install.sh.sha256`; the README install block run against it in a sandbox home exits 0, leaves the clone at `v1.5.167`, and writes nothing outside the sandbox.
 
 ## Rules
 
@@ -30,7 +40,8 @@ Status: decided, 2026-11-04. All decisions in [MAP.md](MAP.md) are closed. The [
 
 - Release integrity: sign tags (`git verify-tag` with SSH signing, free) and verify before update.
 - Regression guard: a CI check that fails on new broad allowlist entries, global `CLAUDE.md` writes, or unverified downloads.
-- `ols-qa` impact: the 2026-11-04 check of `ols-qa` (`origin/main` as last fetched; a fresh fetch failed during a GitHub incident) found none of these scripts. Its project `.claude/settings.json` allows `Bash(python3 *)` and `Bash(npx playwright *)`. Re-check after a fresh fetch.
+- `ols-qa` impact: checked on 2026-11-04 after a fresh fetch (`origin/main` `e0a512e`): none of these scripts exist there. Its project `.claude/settings.json` allows `Bash(python3 *)` and `Bash(npx playwright *)`. Nothing to change.
+- Doc wording: a grep on 2026-11-05 of README, wiki, DOC-MAP, supported-agents, CONTRIBUTING, `references/` and the helix skill found no user-facing "auto-update" claim left outside script and file names (`helix-auto-update.sh`, `auto-update.log`, `HELIX_AUTO_UPDATE`). The update-notify-only test (R13) covers only the patterns it names, so this grep is not enforced.
 
 ## Cost and repos
 
