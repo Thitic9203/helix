@@ -18,6 +18,7 @@
     "./skills/tc-review-workflow",
     "./skills/test-data-prep-workflow",
     "./skills/review-result-workflow",
-    "./skills/tc-change-format-workflow"
+    "./skills/tc-change-format-workflow",
+    "./skills/taskfolio-log-workflow"
   ]
 }

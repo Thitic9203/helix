@@ -52,11 +52,11 @@ Use the pinned install block in the README: [Install (one-time)](https://github.
 **Installer does:**
 
 - Clone/update `~/.helix/tc-fe-prep`
-- Symlink **helix + 10 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
+- Symlink **helix + 11 workflow skills** into global agent folders (`~/.cursor/skills/`, etc.)
 - Enable Claude marketplace plugin **`helix@helix-dev`** (disable legacy **`helix@local`**)
 - Register **SessionStart** hooks (bootstrap + **update check**)
 
-**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/procedures/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **11 skills** linked per agent.
+**Skill layout:** Discovery stubs at `skills/{name}/SKILL.md` → full procedure at `skills/procedures/{name}/WORKFLOW.md`. `helix-doctor.sh` expects **12 skills** linked per agent.
 
 | Agent | After install |
 |-------|----------------|
@@ -97,6 +97,7 @@ Commit `.github/skills/` if the team uses Copilot in the same repository.
 | Review recorded results (ols-qa workspace only) | `/review-result` | `review-result-workflow` |
 | Prepare test data (ols-qa workspace only) | `/test-data-prep` | `test-data-prep-workflow` |
 | Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
+| Fill your Taskfolio timesheet from evidence | `/taskfolio-log` | `taskfolio-log-workflow` |
 | Menu (optional) | `/helix` | skill **helix** |
 
 Menu text: [menu-text.md](https://github.com/Thitic9203/helix/blob/main/references/menu-text.md) · Routing: [skill-routing.md](https://github.com/Thitic9203/helix/blob/main/references/skill-routing.md)
@@ -164,6 +165,7 @@ Full detail: [README — Update](https://github.com/Thitic9203/helix/blob/main/R
 | Review result | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/review-result-workflow/WORKFLOW.md) |
 | Test data prep | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](https://github.com/Thitic9203/helix/blob/main/skills/procedures/test-data-prep-workflow/WORKFLOW.md) |
 | TC change format | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/tc-change-format-workflow/SKILL.md) | — (self-contained) |
+| Taskfolio log | [SKILL.md](https://github.com/Thitic9203/helix/blob/main/skills/taskfolio-log-workflow/SKILL.md) | — (self-contained) |
 
 Plugin registers every linked skill in [.claude-plugin/plugin.json](https://github.com/Thitic9203/helix/blob/main/.claude-plugin/plugin.json).
 
