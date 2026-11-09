@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 11 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -120,6 +120,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Review recorded test results and evidence | `/review-result` | `review-result-workflow` |
 | Prepare test data before testing | `/test-data-prep` | `test-data-prep-workflow` |
 | Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
+| Fill your Taskfolio timesheet from evidence | `/taskfolio-log` | `taskfolio-log-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -138,7 +139,7 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–13 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
+The menu offers options 1–14 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, Taskfolio log, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
 
 ### First run tips
 
@@ -263,8 +264,9 @@ Requires `jq`. Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environm
 | [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
 | [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
 | [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
+| [taskfolio-log-workflow](skills/taskfolio-log-workflow/SKILL.md) | — (self-contained) | Fill your own Taskfolio timesheet from Jira/Slack/Calendar evidence, with a time/project/completeness gate |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow`, `tc-change-format-workflow` and `taskfolio-log-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 
