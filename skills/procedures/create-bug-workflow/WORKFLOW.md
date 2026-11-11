@@ -12,20 +12,7 @@ File **one or more bug reports** on the tracker the user names (Jira, GitHub Iss
 
 ## Contents
 
-- [Progress checklist](#progress-checklist)
-- [Discipline](#discipline)
-- [Refusal-first (precondition gate)](#refusal-first-precondition-gate)
-- [Phase A — Intake (one message, three parts) \[medium freedom\]](#phase-a--intake-one-message-three-parts-medium-freedom)
-- [Phase B — Parse target \[medium freedom\]](#phase-b--parse-target-medium-freedom)
-- [🔴 GATE: Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) \[low freedom\]](#-gate-phase-b2--board-conflict-re-check-hard-gate-before-draftingconfirm-low-freedom)
-- [Phase E — Falsification (before create) \[high freedom\]](#phase-e--falsification-before-create-high-freedom)
-- [🔴 GATE: Phase C — Confirm before create (hard gate) \[low freedom\]](#-gate-phase-c--confirm-before-create-hard-gate-low-freedom)
-- [Phase D — Create issues \[low freedom\]](#phase-d--create-issues-low-freedom)
-- [Phase F — Fix-verify and close (mandatory) \[low freedom\]](#phase-f--fix-verify-and-close-mandatory-low-freedom)
-- [QA closing (mandatory before "done") \[low freedom\]](#qa-closing-mandatory-before-done-low-freedom)
-- [Out of scope](#out-of-scope)
-- [References](#references)
-- [MUST / NEVER](#must--never)
+This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.
 
 Sections appear in execution order: Phase E (falsification) runs after Phase B2 and before Phase C —
 its letter is kept from the original numbering, its place is not.
@@ -40,12 +27,12 @@ Create bug progress:
 - [ ] Refusal-first (precondition gate)
 - [ ] Phase A — Intake (one message, three parts)
 - [ ] Phase B — Parse target
-- [ ] Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm)
-- [ ] Phase E — Falsification (before create)
-- [ ] Phase C — Confirm before create (hard gate)
-- [ ] Phase D — Create issues
-- [ ] Phase F — Fix-verify and close (mandatory)
-- [ ] QA closing (mandatory before "done")
+- [ ] Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) — open phase-b2-board-check.md
+- [ ] Phase E — Falsification (before create) — open phase-e-falsification.md
+- [ ] Phase C — Confirm before create (hard gate) — open phase-c-confirm.md
+- [ ] Phase D — Create issues — open phase-d-create.md
+- [ ] Phase F — Fix-verify and close (mandatory) — open phase-f-close.md
+- [ ] QA closing (mandatory before "done") — in phase-f-close.md
 ```
 
 ## Discipline
@@ -167,234 +154,37 @@ If pre-flight fails (auth, repo missing), report and stop — MUST NOT create is
 
 ## 🔴 GATE: Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) [low freedom]
 
-**For every bug about to be filed, search the tracker/board first** — a defect the team already
-discussed and concluded is *intended behavior* is not a bug, even if it looks wrong to you, and
-re-filing it wastes a full file → retest → close-out round.
-
-1. **Search the board** for existing or closed tickets covering the same **screen / field / message /
-   behavior** as each candidate bug. On Jira use `searchJiraIssuesUsingJql` (search summaries **and**
-   comment text — the deciding conclusion often lives in a comment, not the title); on GitHub search
-   open **and** closed issues. Use the distinctive terms of the finding (the exact error text, the
-   field label, the component) — not just the ticket type. No status filter, so resolved tickets are
-   included. Examples:
-   - Jira (`text ~` covers summary, description and comments):
-     `project = <KEY> AND text ~ "\"<exact error text>\"" ORDER BY updated DESC` — then repeat with the
-     field label or component name.
-   - If the user pastes board-search results instead, accept the pasted results when they show the
-     query terms, the open and closed state and a result per candidate; otherwise re-run the search
-     yourself or ask the user for the missing part. If the paste does not state whether comments were
-     searched, write `comment scope not stated` on the Phase C Board check line and ask once whether
-     the search covered summary and comments; do not hold the draft. Phase D does not create that
-     candidate until the user says comments were searched or the search is re-run over comments.
-   - GitHub: `gh issue list --repo <owner/repo> --state all --search '"<exact error text>" in:title,body,comments'`.
-2. **Read the conclusion of any match**, including resolved/closed ones. A closed ticket can still hold
-   the authoritative decision.
-3. **Decide per candidate:**
-   - **Conflict — not a bug.** A resolved ticket records that the current behavior is correct (e.g. a
-     discussion concluded the message must be exactly what the app now shows) → **drop this candidate,
-     do not draft or file it.** Report to the user in chat: what you found, the ticket key, and the
-     **direct link to the concluding comment** (`…/browse/KEY?focusedCommentId=<id>` or the GitHub
-     comment anchor) so they can verify the reasoning themselves.
-   - **Duplicate — already open.** The same defect is already filed and unresolved → do not open a
-     second one; point the user at the existing ticket.
-   - **No conflict.** No ticket settles it → proceed to Phase E for this candidate.
-4. **Uncertain whether a match truly settles it?** Treat it as a **question to the user / PO, not a
-   bug** — surface the ticket link and ask, rather than filing over a possible prior decision.
-5. **The search itself cannot run** (no tracker read access, MCP down, search error) → **STOP.**
-   Report the error verbatim, hold every candidate as **BLOCKED (board search not run)**, and do not
-   move to Phase E or Phase C until a search has completed for each candidate.
-
-Only candidates that clear this gate move on — to Phase E, then Phase C. Note in the confirm block
-that the board was checked (see Phase C).
-
-(Root cause this prevents: re-filing a defect against a point the team already closed with an
-agreed-upon expected value.)
-
-**Go back:** A candidate that fails this gate (conflict or duplicate) leaves the batch here. If the user or PO answers an uncertain match with "still a bug", return to item 3 of this phase and decide that candidate again. After a blocked search (item 5), return to item 1 once access is restored.
+At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow every line of it before you move on. Hard gate: nothing is drafted, confirmed or filed until every candidate has its board-check result.
 
 ---
 
 ## Phase E — Falsification (before create) [high freedom]
 
-Runs here — after Phase B2, before the Phase C confirm — for every candidate that cleared B2.
-
-For each bug, run every check below once and record its result (the board-conflict search is Phase B2 —
-do not skip it just because a bug "looks obvious"). A check counts as already done only when a
-testing-ticket run **in this same chat** recorded, for this exact defect, the evidence that check asks
-for (design source text, roles/accounts seen, occurrence count) — cite that record in the Record
-column. Anything else (a summary, memory, a run in another chat, "I tested it earlier") does not count:
-run the check.
-
-| Check | How | Record |
-|-------|-----|--------|
-| Intentional design? | Open the design frame / AC / PRD line the expected side cites (Refusal-first) and compare char-exact with the evidence | Source link + the matching or differing text |
-| Role-only or data-only? | From the reporter's evidence, note which roles / accounts / entry points showed it; if only one, ask the reporter whether another was tried (never reproduce it yourself with new steps) | Roles/accounts seen, and the reporter's answer |
-| Flake? | Check the evidence for more than one occurrence (two screenshots, a repeated error, the reporter's "every time"); if a single occurrence, ask the reporter how often it happens | Occurrence count + evidence refs |
-
-Then give each candidate one label, written on its draft summary line:
-
-- **Confirmed** — every check passed with evidence → goes to Phase C.
-- **Likely** — checks passed but one rests on the reporter's word only, or a question only the reporter
-  can answer is still open (another role tried? how often?) and nothing in the evidence argues against
-  the defect → goes to Phase C marked **Likely**, with that open question on its Likely line; filed only
-  if the user approves it as Likely there.
-- **Needs Review** — a check failed, or the evidence argues against the defect (design source matches
-  the app, the reporter's own evidence contradicts the report) → **drafted and shown, never filed**
-  (never a hedged expected side, which stops at Refusal-first). Draft its body like any other and show it
-  under the Phase C confirm block labelled **Needs Review — not filed**, with its open question on the
-  `Needs Review:` line; it is not counted in Bug count and `confirm` does not create it. It is filed only
-  after the user answers the question and it is re-checked here as Confirmed or Likely, and the confirm
-  block is shown again.
-- **Dropped** — the check proves it is not a defect (e.g. the design shows the current behavior) →
-  report it in chat with the source link, as for a Phase B2 conflict.
-
-**Go back:** If the disproof attempt finds the item already settled in another ticket, return to Phase B2 — Board-conflict re-check for that candidate. When the user answers a Needs Review question, return to the top of this phase for that candidate. Confirmed and Likely candidates move to Phase C.
+At Phase E, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line of it before you move on. No candidate reaches Phase C until it survives falsification.
 
 ---
 
 ## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]
 
-Show:
-
-```text
-━━━ Create bug — confirm before filing ━━━
-Target:     {Jira PROJ / GitHub owner/repo}
-Format:     {user template name or Helix default}
-Board check: {N candidates searched — M dropped as already-settled/duplicate, K to file}{ · comment scope not stated — when a pasted search does not say}
-Fields:     {GitHub: labels that exist / labels missing + the user's choice · Jira: Priority → field, Severity → field id from the workspace guide, required fields with their values}
-Bug count:  {K}
-Needs Review: {none · or per item: title — open question (draft shown below, labelled Needs Review — not filed; not counted in Bug count)}
-
-Draft summaries:
-  1. [{Severity}] {Module} — {title one line} · Priority {Priority} · {Confirmed | Likely — open question: {reporter question, if any}}
-  2. ...
-
-(Full drafts below — review each body)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Reply **confirm** to create all listed bugs (a Likely item is approved as Likely by this confirm), or specify edits.
-```
-
-Then post **full drafts** (one block per bug) per [bug-draft-template.md](references/bug-draft-template.md).
-
-**Do not call `gh issue create`, `createJiraIssue`, or browser create until the user confirms.**
-
-**Go back:** If the user asks for edits instead of **confirm**, revise the drafts and return to the start of Phase C — show the confirm block again. Phase D waits for **confirm**.
+At Phase C, open [phase-c-confirm.md](phase-c-confirm.md) and follow every line of it before you move on. Hard gate: no create call before the user replies confirm.
 
 ---
 
 ## Phase D — Create issues [low freedom]
 
-Follow [posting-discipline.md](references/posting-discipline.md).
-
-### GitHub
-
-```bash
-gh issue create --repo <owner/repo> \
-  --title "<title>" \
-  --label "bug,severity:<Severity>" \
-  --body "<body>"
-```
-
-`<Severity>` is the Severity in the approved draft (Low / Medium / High / Urgent). Pass only labels the
-Phase B pre-flight found in the repo, or that the user created/approved; when the user chose to file
-without a missing label, leave it out and say so in the Phase F report. Capture the returned issue URL.
-
-**🔴 GATE — `gh issue create` exits non-zero** (rejected label, validation error, auth, rate limit,
-network) → treat that issue as not created until `gh issue list --repo <owner/repo> --state all
---search '"<title>" in:title'` shows otherwise (a timeout can still create it — never file twice). Show
-the user the stderr **verbatim**, which bugs were and were not created, and the fix you propose; **retry
-nothing until the user approves.** Rate limit → say when `gh api rate_limit` reports the reset and
-wait for the user's go-ahead. Never strip a label, shorten the body or switch repo to make it pass.
-
-### Jira
-
-1. Lock **v2 wiki** (FE/UI) vs **v3 ADF** (API) per user format — do not switch mid-session.
-2. Prefer Atlassian MCP `createJiraIssue`, with the field mapping shown in the Phase C `Fields:` line
-   (Priority → `priority`, Severity → the guide's field id, every required field filled).
-3. **Field-validation error** (HTTP 400 / an `errors` object naming a field — required, invalid option,
-   unknown custom field) → nothing was created. Show the error **verbatim**, name the field and the fix
-   you propose (from the create metadata), and **wait for the user's approval** before retrying on the
-   same path. Never drop or blank the field to make the create pass, and never treat this as an MCP
-   failure that switches path.
-4. **MCP fails** (unreachable, auth, tool error, timeout — not a field error) → the create may still have gone through, so **check before you switch path**:
-   - Search for the approved summary with no status filter (`searchJiraIssuesUsingJql`, or the REST search on the locked path).
-   - **Found one** → it is this run's issue: record its key, do **not** create it again, and continue at Phase F. **Found two or more** → show the keys and ask which is this run's issue; create nothing.
-   - **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create on another path blind.
-   - **Found none** → pick the first path that applies, and say which one you used:
-     - macOS with a logged-in browser session → JXA + Chrome fallback per posting-discipline (ASCII-only script, dry-run before post);
-     - otherwise, Jira REST credentials configured (see [dependencies.md](../../../references/dependencies.md)) → REST on the locked path;
-     - otherwise → **STOP**: hand the approved drafts to the user to file manually, report the run as BLOCKED (no create path), and skip to Phase F only for anything the user files and links back.
-
-**Write the body in the markup of the path you post through**, from the first keystroke
-([jira-wiki-vs-markdown.md](../../../references/jira-wiki-vs-markdown.md) § The rule). One table, one rule:
-
-| Path | Body markup | Gates in jira-wiki-vs-markdown.md |
-|------|-------------|-----------------------------------|
-| MCP `createJiraIssue` | markdown (MCP converts it to ADF) | Post-post: re-fetch and confirm zero literal markup left in the rendered text |
-| REST v2 (`/rest/api/2/…`) — FE/UI lock | Jira wiki markup (`*bold*`, `----`, `\|\|header\|\|` with no divider row) | Pre-post string scan **and** post-post counts — both |
-| REST v3 (`/rest/api/3/…`) — API lock | ADF JSON | Post-post: re-fetch and confirm zero literal markup left in the rendered text |
-| JXA + Chrome fallback | the markup of the endpoint the script calls (v2 → wiki, v3 → ADF) | the gates of that endpoint's row |
-
-A markdown body on the v2 path returns HTTP 200 and renders as garbage — the gates are the only catch.
-
-Embed screenshots **bare** — `!file.png!`, resized to ~600–640 px before upload. A width parameter puts
-a pipe inside a table cell and splits the row. The attachments endpoint needs an issue key
-(`issueIdOrKey`), so for a **new bug** create the issue first with a body that has no image embed, then
-upload the attachments to the returned key, then update the body to embed them bare, then re-fetch the
-issue and confirm every embed rendered (not a literal `!file.png!`). "Attach before embed" applies only
-to an issue that already has a key. If an upload fails (rejected type, size limit, permission, any
-non-2xx), show the error verbatim, do not post a body that embeds the missing file, and ask the user:
-retry the upload, leave the image out (embed line removed from the draft, shown again for **confirm**),
-or attach it by hand. When the issue is created but the attach failed, also tell the user the issue key
-that now exists. Never continue on your own. When the workspace carries `tools/retest-guard/retest_rules.js`,
-run its scanner (rule `img-width-param`); when it does not, check every embed by hand for a bare
-`!file.png!` and say so.
+At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of it before you move on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.
 
 ---
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
-After Phase D create calls:
-
-1. List each issue with **URL or key** from tool output (not guessed).
-2. **Fix-verify round 1:** Open or fetch each link — confirm title/summary and body match approved draft.
-3. **🔴 GATE — mismatch** (wrong project, truncated body, wrong priority/severity): show the user the
-   draft-vs-destination difference and the proposed fix (edit in place, or recreate), and **wait for
-   approval**. Then fix via the edit API, or recreate — when recreating, also close or link the wrong
-   issue as a duplicate (with the same approval) so no stray issue stays behind → **re-fetch** each link.
-4. **Maximum 2 fix-verify rounds** — then report partial success honestly.
-5. If any create failed → report which succeeded and which failed.
-6. **Fetch fails** (permission, 404, MCP down) → report that key/URL from the tool output as **created-unverified** with the error verbatim, retry the fetch once by another read path (REST, browser or `gh issue view`); still failing → `Verdict: CREATED {N}/{N} — {m} unverified`. Never call it verified.
-
-**Go back:** If fix-verify round 1 finds a mismatch, fix it (item 3) and return to item 2 of this phase — re-fetch every link. After round 2, stop and report partial success.
-
-The `Verdict: CREATED` line below is create-bug's form of the `Verdict:` line in [session-closing.md](../../../references/session-closing.md) §5.
-
-MUST NOT say “all bugs created” until at least one full fix-verify round passes — because create APIs can return success with wrong content.
-
-```text
-━━━ Create bug — complete ━━━
-Verdict: CREATED {N}/{N} — verified at destination
-| # | Target  | Issue              | Priority |
-|---|---------|--------------------|----------|
-| 1 | Jira    | PROJ-456 (link)    | High     |
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of it before you move on. Mandatory: no done claim before every created URL is verified.
 
 ---
 
 ## QA closing (mandatory before "done") [low freedom]
 
-Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific:
-
-- [ ] Board-conflict search (Phase B2) ran for every candidate; any dropped as already-settled/duplicate reported to the user with the reference link.
-- [ ] Every created issue has URL/key from tool output (not guessed).
-- [ ] Each URL opened or fetched — title visible.
-- [ ] Close-out includes `Verdict: CREATED x/y`.
-- [ ] [verify-closing-checklist.md](../../../references/verify-closing-checklist.md) (Create bug section).
-- [ ] Offer **retest** after the fix; handoff if blocked.
-
-**Go back:** If any item above is unchecked, return to the phase it names (B2, D or F) and redo from there; do not report done.
+At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of it before you move on. Mandatory before done, whether or not anything was filed.
 
 ---
 
@@ -406,17 +196,13 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 ## References
 
-| File | Use |
-|------|-----|
-| [bug-draft-template.md](references/bug-draft-template.md) | Default draft layout |
-| [posting-discipline.md](references/posting-discipline.md) | GitHub + Jira posting, JXA rules |
-| [worked-example.md](references/worked-example.md) | On-demand: anonymized sample (read only when format reference needed) |
+All shared references and the trigger that opens each: [skill-reference-index.md](../../../references/skill-reference-index.md). This skill's own files: [bug-draft-template.md](references/bug-draft-template.md) at Phase A2/C (default draft layout), [posting-discipline.md](references/posting-discipline.md) at Phase D (GitHub + Jira posting), [worked-example.md](references/worked-example.md) only when a format sample is needed.
 
 ---
 
 ## MUST / NEVER
 
-Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). Skill-specific:
+Shared rules: at Phase D, before the first write, read [shared-must-never.md](../../../references/shared-must-never.md). Skill-specific:
 
 | Rule | Because |
 |------|---------|

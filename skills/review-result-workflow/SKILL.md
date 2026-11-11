@@ -21,48 +21,33 @@ metadata:
 
 When invoked:
 
+0. First, before any other work, follow [session-start-context.md](../../references/session-start-context.md) (caveman lite + context-mode).
 1. Announce once: `Using **review-result-workflow** to review the recorded results and evidence.`
 2. **Settle and strategize first** — before any tool call, follow [settle-and-strategize.md](../../references/settle-and-strategize.md). Any investigation that starts during the review (a clip that will not decode, a verdict that disagrees with the sheet, a tool that returns nothing) runs under `superpowers:systematic-debugging` — never a guess, never a blind retry loop.
 3. **Create the run's working directory before writing the first file** — never a system temp directory; a cleared temp directory takes the whole review with it.
 4. **Judge every case against all ten criteria** (WORKFLOW.md Step 5). All ten must pass for a case to pass; one failure is enough to fail it.
 5. **Only three closing statuses exist** — `PASSED`, `FAILED`, `AWAITING RE-REVIEW`. No interim status may be left on a case: a half-status makes the board read as finished while cases are still open.
 6. **Result quality gate before any verdict** — [result-quality-gate.md](../../references/result-quality-gate.md): all 20 layers on every case before a verdict is reported or written; the main thread re-runs it on the lanes' files.
-7. Read and follow [WORKFLOW.md](../procedures/review-result-workflow/WORKFLOW.md) **end-to-end** — every step, gate, and reference.
+7. Read [WORKFLOW.md](../procedures/review-result-workflow/WORKFLOW.md) and run its progress checklist in order; open each reference file at the step that names it, not before. Never skip a step or gate.
 
 Claude Code shortcut: `/review-result` → [commands/review-result.md](../../commands/review-result.md).
 
 ## Contents
 
-Every must-read file for this workflow, linked directly from here. References already linked above are not repeated.
+Shared reference index, with the trigger that opens each file (see also): [skill-reference-index.md](../../references/skill-reference-index.md).
 
-- [WORKFLOW.md](../procedures/review-result-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
-- [defect-candidates.md](../../references/output-templates/defect-candidates.md) — before reporting any defect found in the round — follow this exact table and the fixed owner question; never file without the owner.
-- [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — when recording or judging evidence clips and the AC/EC coverage gate.
-- [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
-- [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone).
-- [skill-rules-style.md](../../references/skill-rules-style.md) — when stopping for missing input, and for the fresh-eyes re-read of long drafts.
-- [test-through-real-steps.md](../../references/test-through-real-steps.md) — before executing any case — drive the real screen, never a backend shortcut.
-- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step; each excuse has its correct action.
-- [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — read before setting any priority or a PWMI / FAILED verdict.
-- [customer-escape-prevention.md](../../references/customer-escape-prevention.md) — read before any QA run; the gates that stop shipped defects.
-- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing up any defect or non-pass.
+At the start of every run: [shared-preamble.md](../../references/shared-preamble.md), [user-communication.md](../../references/user-communication.md), [long-workflow-todos.md](../../references/long-workflow-todos.md).
+
+Triggers specific to reviewing results (each is a gate at the moment named):
+
+- [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read when recording or judging evidence clips and the AC/EC coverage gate.
+- [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md), [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — read before recording any result that is not PASSED, setting any priority or a PWMI / FAILED verdict.
 - [figma-design-comparison.md](../../references/figma-design-comparison.md) — read before judging any UI or visual result against the design.
-- [helix-session-constraints.md](../../references/helix-session-constraints.md) — read once at session start.
-- [jira-comment-post-review.md](../../references/jira-comment-post-review.md) — read after posting a Jira comment, before saying done.
-- [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) — read before posting a Jira table with multi-line cells.
-- [long-workflow-todos.md](../../references/long-workflow-todos.md) — read when the workflow has many steps; keep the todo list.
-- [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) — read before recording any result that is not PASSED.
-- [playwright-preflight.md](../../references/playwright-preflight.md) — read before any Playwright run.
-- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read when a QA follow-up could be suggested.
-- [qa-closing-shared.md](../../references/qa-closing-shared.md) — read before saying done; shared closing checklist.
-- [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — read when a test is flaky or a tool errors.
-- [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing Playwright selectors.
-- [root-cause-investigation.md](../../references/root-cause-investigation.md) — read before naming a cause for any failure.
-- [round-time-contract.md](../../references/round-time-contract.md) — read when a round starts and before reporting times.
-- [session-closing.md](../../references/session-closing.md) — read at session end.
-- [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read before invoking or switching skills.
-- [skill-routing.md](../../references/skill-routing.md) — read when choosing which skill handles a request.
-- [user-communication.md](../../references/user-communication.md) — read before any message to the user.
+- [defect-report-completeness.md](../../references/defect-report-completeness.md), [defect-candidates.md](../../references/output-templates/defect-candidates.md) — read before reporting any defect found in the round: this exact table and the fixed owner question; never file without the owner.
+- [shared-must-never.md](../../references/shared-must-never.md) — read before any write or post.
+- [qa-closing-shared.md](../../references/qa-closing-shared.md) — read before saying done.
+
+Also read each only when its trigger (in WORKFLOW.md or the index) fires: [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [skill-routing.md](../../references/skill-routing.md), [skill-rules-style.md](../../references/skill-rules-style.md), [test-through-real-steps.md](../../references/test-through-real-steps.md), [agent-rationalizations.md](../../references/agent-rationalizations.md), [helix-session-constraints.md](../../references/helix-session-constraints.md), [jira-comment-post-review.md](../../references/jira-comment-post-review.md), [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md), [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md), [qa-debug-discipline.md](../../references/qa-debug-discipline.md), [root-cause-investigation.md](../../references/root-cause-investigation.md), [round-time-contract.md](../../references/round-time-contract.md), [session-closing.md](../../references/session-closing.md), [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md).
 
 ## Refusal-first (precondition gate)
 

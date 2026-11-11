@@ -17,6 +17,8 @@ metadata:
 
 # TC Review Workflow
 
+**Session start:** before anything else, follow [session-start-context.md](../../references/session-start-context.md).
+
 ## Contents
 
 - [Progress checklist](#progress-checklist)
@@ -40,8 +42,6 @@ Judge a test case document that someone has **already written** — this workflo
 test cases itself. It answers one question: *does this document, as written, prove the ticket's AC/EC and
 business rules will be checked?*
 
-Slash-command shortcut (runtimes that support commands): `/tc-review` → [commands/tc-review.md](../../commands/tc-review.md).
-
 ## Progress checklist
 
 Copy this block into your response when the run starts and tick each line as it completes. A
@@ -52,11 +52,11 @@ TC review progress:
 - [ ] Refusal-first (precondition gate)
 - [ ] Step 1 — Load both sources verbatim
 - [ ] Step 2 — Build the traceability matrix
-- [ ] Step 3 — Row-quality check
-- [ ] Step 3b — Source sweep before "ask the PO / reporter" (mandatory)
+- [ ] Step 3 — Row-quality check (open tc-quality-standards.md)
+- [ ] Step 3b — Source sweep before "ask the PO / reporter" (mandatory; result-quality-gate.md layer 14)
 - [ ] Step 4 — Report Good vs Need Improve
 - [ ] Step 5 — Notify the project's TC-review channel (ask only the thread)
-- [ ] QA closing (mandatory before "done")
+- [ ] QA closing (mandatory before "done") — qa-closing-shared.md + qa-evidence-gates.md core + qa-evidence-coverage.md, then session-closing.md
 ```
 
 ## Discipline
@@ -75,9 +75,6 @@ actually opened). "The TC looks incomplete" from a general sense of quality, wit
 wording quoted next to it, is not a finding — read the ticket, then judge. A design-source claim (exact
 copy text, exact UI state) with no source actually opened this session is not a finding either — say
 "not verified — could not open {source}" instead of guessing.
-
-This is the same discipline `catch-ai-workflow` runs for finished work in general; this workflow is its
-TC-specific instance, run **before** execution rather than after.
 
 ## Refusal-first (precondition gate)
 
@@ -323,8 +320,6 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
 
 **Go back:** A matrix item unchecked returns to Step 2; an unanchored finding or a missing "→ Suggest:" line returns to Step 4; a design-source claim not opened returns to Step 1 item 3; an unverified send returns to Step 5 item 5.
 
-See also [qa-evidence-gates.md](../../references/qa-evidence-gates.md).
-
 ---
 
 ## Skill composition
@@ -347,40 +342,38 @@ See also [qa-evidence-gates.md](../../references/qa-evidence-gates.md).
 
 Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Skill-specific:
 
-| Rule | Because |
-|------|---------|
-| MUST read the ticket's own AC/EC/business-rules text this session before writing any finding | A finding built from memory of a similar ticket is a guess wearing a citation |
-| MUST anchor every finding to a TC/AC id or a quoted source | An unanchored finding cannot be checked by the user and cannot be regenerated when scope changes |
-| NEVER claim a design-source (Figma/PRD) match without having opened that source this session | A guessed match reads as verified and is trusted like one |
-| MUST distinguish a spec-level gap (missing from the ticket's own AC list) from a TC-authoring defect | Blaming the document for a hole the ticket never asked it to fill misdirects the fix |
-| NEVER count or mention a struck-through AC/EC | The ticket has already taken it out of scope, so mentioning it is noise |
-| NEVER report a business rule or comment that does not conflict with an AC/EC | The AC/EC are the contract. A rule with no TC but no conflict is not a defect in the document |
-| MUST give every Need Improve item a sourced "→ Suggest:" fix, and NEVER invent a value for it | A problem without a fix leaves the author guessing. An invented number gets copied into the TC as if it were spec |
-| MUST run Step 5 exactly as written — it is the single source for the notify rules | A second copy of those rules drifts from the first |
-| MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat | The review is the deliverable to approve first — an external send is not the review itself |
+| Rule |
+|------|
+| MUST read the ticket's own AC/EC/business-rules text this session before writing any finding |
+| MUST anchor every finding to a TC/AC id or a quoted source |
+| NEVER claim a design-source (Figma/PRD) match without having opened that source this session |
+| MUST distinguish a spec-level gap (missing from the ticket's own AC list) from a TC-authoring defect |
+| NEVER count or mention a struck-through AC/EC |
+| NEVER report a business rule or comment that does not conflict with an AC/EC |
+| MUST give every Need Improve item a sourced "→ Suggest:" fix, and NEVER invent a value for it |
+| MUST run Step 5 exactly as written — it is the single source for the notify rules |
+| MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat |
 
 ## Must-read files
 
-Every file this skill's procedure requires, one hop from here. Read each at the point its line names.
+See also (optional lookup, not a must-read): [skill-reference-index.md](../../references/skill-reference-index.md) lists every shared reference.
 
-- Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
-- Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging any UI or visual result against the design.
-- Read [helix-session-constraints.md](../../references/helix-session-constraints.md) once at session start.
-- Read [long-workflow-todos.md](../../references/long-workflow-todos.md) when the workflow has many steps; keep the todo list.
-- Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
-- Read [qa-closing-shared.md](../../references/qa-closing-shared.md) before saying done; shared closing checklist.
-- Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
-- Read [qa-evidence-gates.md](../../references/qa-evidence-gates.md) before any completion claim.
-- Read [root-cause-investigation.md](../../references/root-cause-investigation.md) before naming a cause for any failure.
-- Read [round-time-contract.md](../../references/round-time-contract.md) when a round starts and before reporting times.
-- Read [session-closing.md](../../references/session-closing.md) at session end.
-- Read [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) before invoking or switching skills.
-- Read [skill-routing.md](../../references/skill-routing.md) when choosing which skill handles a request.
+Open each file below at the step that names it, never all up front.
+
+- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) when the run has many steps (keep the todo list).
+- Before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
+- At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (AC/EC coverage and pre-delivery gates, applied to the review before it is handed over; capture and re-record parts never apply — this workflow records no evidence); at session end [session-closing.md](../../references/session-closing.md).
 
 ### Only if triggered (exact condition on each line)
 
 This workflow never posts to Jira or records a verdict on its own. Load these only when the condition holds.
 
+- Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
+- Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging any UI or visual result against the design (Step 1 item 3).
+- Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
+- Read [root-cause-investigation.md](../../references/root-cause-investigation.md) before naming a cause for any failure.
+- Read [round-time-contract.md](../../references/round-time-contract.md) when a round starts and before reporting times.
+- Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
 - Read [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) only when the ticket's own spec looks contradictory or its expected side is unconfirmed (§ Skill composition).
 - Read [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) only when the user asks for the review to be posted to a Jira ticket as well, before building that table.
 - Read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) only after such a user-requested Jira post, before saying done.

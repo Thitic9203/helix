@@ -34,7 +34,8 @@ Phase E runs in this order; each step names its output:
 **Fan out whenever the plan has 2 or more units** ([round-time-contract.md §4](../../../references/round-time-contract.md)) —
 dispatch the planned lanes at once, after any parent pre-login for accounts sharing one OTP
 inbox (§3), one subagent per lane, all in a single message, each
-with the lane prompt from [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §5.
+with the lane prompt from [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §5 — it passes
+file paths (the §5 *Lane rules*, the lane's `scenarios.md`, this workflow), never pasted rule or scenario text.
 Lane count = min(units, accounts leasable without collision); **no fixed lane cap** for this flow.
 **Each lane owns its unit end to end:** execution, the E0 Figma compare, recording during execution
 ([round-time-contract.md §8](../../../references/round-time-contract.md) — the run that executes the
@@ -136,7 +137,7 @@ These three cannot be reconstructed while writing Phase F — do them before mov
 
 ### E2 — Root-cause investigation (mandatory for every FAILED and BLOCKED scenario, during the run)
 
-Follow [root-cause-investigation.md](../../../references/root-cause-investigation.md) end to end — the
+Only when a scenario is FAILED or BLOCKED, follow [root-cause-investigation.md](../../../references/root-cause-investigation.md) end to end — the
 debugging skill (§0), the 8-boundary evidence sweep (§1), compare against something that works (§2),
 one falsifiable hypothesis at a time (§3), and a confidence label (§4). The reference is the single
 source for those steps; do not paraphrase them here.
@@ -161,7 +162,7 @@ What is specific to testing a ticket:
 
 ### E3 — Challenge the non-PASS + queue it for the user (mandatory for every non-PASSED scenario)
 
-Follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
+Only when a verdict is not PASSED, follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
 the scenario is written into Phase F as a defect** — name the discrepancy (§1), re-verify the expected
 side against an authoritative source including related tickets' AC/EC (§2, and its three outcomes),
 rule out a test-side cause (§3), then surface it (§4). The reference is the single source for those
@@ -205,14 +206,8 @@ never hidden by skipping or sampling a layer.
 
 **Go back:** A layer red for missing or unopened evidence returns that case to Phase E to capture it again; if it cannot be fixed, report the case as BLOCKED with the reason. Phase F waits until every case has a final line.
 
-**Source sweep before any BLOCKED, FAILED or "ask the PO / reporter" outcome** (layer 14 of
-[result-quality-gate.md](../../../references/result-quality-gate.md)): read the product code at the default
-branch with `path:line` including its inline comments and `git log -L` / blame on those lines, the
-main ticket's description and every comment, the surrounding tickets (parent / epic, linked,
-sibling stories on the same screen or API, and every ticket the commit messages name), the
-regression results, and the design node; if data is missing, try to create it first. Quote each
-source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot be done", "wrong"
-or "wait for someone" before this sweep is written down.
+**Source sweep before any BLOCKED, FAILED or "ask the PO / reporter" outcome** — run layer 14 of
+[result-quality-gate.md](../../../references/result-quality-gate.md) in its order (code at the default branch with `path:line`, comments and blame; the main ticket and every comment; surrounding tickets; regression results; the design node; create missing data first) and quote each source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot be done", "wrong" or "wait for someone" before this sweep is written down.
 
 **Required output when defects are found — never auto-file.** The round's report carries the two
 tables of [result-quality-gate.md](../../../references/result-quality-gate.md) § *Required output
@@ -261,7 +256,7 @@ Report defects **without filing them**, as these two tables (bullets or prose do
 | `{ISSUE_KEY}` | `TC_nn` · `ER_n` | … | … | AC id / design node / PO comment id: "…" | … | … | Confirmed | … | Not filed yet (Thai: ยังไม่ได้เปิดบั๊ก) |
 
 **Needs PO decision** — `| Ticket | TC / ER point | Source 1 + char-exact quote | Source 2 + char-exact quote | Observed |`, one row per spec conflict; the case stays BLOCKED.
-Follow the template and example in [defect-candidates.md](../../../references/output-templates/defect-candidates.md):
+Only when the round found a defect, follow the template and example in [defect-candidates.md](../../../references/output-templates/defect-candidates.md):
 when the candidate table has at least one row, the report ends with its fixed owner question
 `Open bugs for the <N> candidate(s) above? (Yes → create-bug for all · Choose rows · No)` — filing
 starts only after the owner answers.
@@ -269,24 +264,7 @@ The **Confidence** column carries the E2 label — `Confirmed` / `Suspected` / `
 investigated` — and it describes the **cause**, not how strongly you feel about the defect.
 
 **The `Priority` column is judged only by the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md)** — match the observed defect to its row, never invent a severity/priority
-notion. Cheat-sheet (full matrix + hard rule at the link):
-
-| If the defect reads like… | Priority | Verdict |
-|---|---|---|
-| cosmetic / typo / UI misalignment | Low | **PWMI** |
-| minor calculation or display error | Low | **PWMI** |
-| major feature affected **but a workaround exists** | Low | **PWMI** |
-| minor glitch that does **not** block the workflow | Medium | **PWMI** |
-| **optional** feature not working | Medium | **PWMI** |
-| functionality problem affecting **several** users | Medium | **PWMI** |
-| critical feature **partially** broken | Medium | **PWMI** |
-| rarely-used feature **fully** broken | High | **FAILED** |
-| feature issue affecting **some** users | High | **FAILED** |
-| core functionality affected / partial outage | High | **FAILED** |
-| core system failure affecting **most** users | High | **FAILED** |
-| security warning in a minor feature | Highest | **FAILED** |
-| system crash for some users | Highest | **FAILED** |
-| complete outage / data loss / security breach | Highest | **FAILED** |
+notion. Open the matrix (its priority → verdict table and hard rule) only when a defect row needs a Priority; it is not copied here.
 
 **Each defect row expands into a complete write-up** — this is what gets pasted into a bug, a Jira
 comment, or a sheet cell later, so it must stand alone
@@ -369,7 +347,7 @@ Round time: AGENT+EXEC {n} min · human wait {h} min · overrun {max(0, n-15)} m
 
 ### F5 — End of round (fixed order)
 
-Follow [round-time-contract.md §3](../../../references/round-time-contract.md):
+When a round ends, follow [round-time-contract.md §3](../../../references/round-time-contract.md):
 
 1. **Reviewer and bundle in parallel.** If the project names an independent reviewer subagent, start it
    in the background; meanwhile build the bundle — the render and media check

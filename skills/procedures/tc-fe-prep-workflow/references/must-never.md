@@ -21,7 +21,7 @@ Shared rules: [shared-must-never.md](../../../../references/shared-must-never.md
 | MUST keep Type to exactly `System Test` / `Unit Test` / `Integration Test` (Step 3d) | These are the project's Qase Type values; other values break import |
 | MUST set Status = `Done` on every Qase CSV row | Workspace rule for the project's Qase import |
 | MUST inspect the project's existing Qase suites and reuse a fitting one; create a new suite only with user approval and never a duplicate | Duplicate/colliding suites corrupt the existing Qase tree |
-| MUST verify the project's Qase Type and Status options exist before import (Step 6 suite gate; method in [qase-import-format.md](qase-import-format.md) — Field option values); stop and tell user if a value is missing | Qase silently resets unknown Type/Status values on import |
+| MUST verify the project's Qase Type and Status options exist before import (at step 6, suite gate; method in [qase-import-format.md](qase-import-format.md) — Field option values); stop and tell user if a value is missing | Qase silently resets unknown Type/Status values on import |
 | MUST produce both `Draft_Jira_{ISSUE_KEY}.csv` (Jira 10-col schema) and `Import_Qase_{ISSUE_KEY}.csv` (Qase schema) | Two different audiences: comment table consumers and Qase importers |
 | MUST upload both CSV files before posting the comment; embed both as footer links | Footer must have two clickable download lines — one per file |
 | MUST use simple sequential numbers (1, 2, 3) as TC IDs in all outputs — no prefix, no padding, do not ask user | Fixed workspace standard |
@@ -43,7 +43,7 @@ Shared rules: [shared-must-never.md](../../../../references/shared-must-never.md
 | MUST apply tc-quality-standards on every row | ISTQB / 29119-3 consistency |
 | MUST convert `<br>` to Jira-native line breaks before posting (see [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)) | `<br>` renders as literal text on Jira |
 | MUST pass post-publish review ([jira-comment-post-review.md](../../../../references/jira-comment-post-review.md)) before reporting "commented" or "done" to user | Prevents false success claims with broken formatting |
-| MUST post Step 7.5 final review report ([tc-final-review-report.md](tc-final-review-report.md)) with overall **PASS** before Step 8 or any "TC prep complete" message | User receives certified four-axis review of final TC |
+| MUST post the final review report at step 7.5 ([tc-final-review-report.md](tc-final-review-report.md)) with overall **PASS** before Step 8 or any "TC prep complete" message | User receives certified four-axis review of final TC |
 | MUST attach CSV/Excel to Jira issue when file was generated (not just workspace) | User expects downloadable file on the issue |
 | MUST NOT use `\n` inside markdown table cells of the Step 6 `{ISSUE_KEY}_FE_TC.md` file — use `<br>` | Breaks table row in markdown renderers |
 | MUST generate a typed CSV for each Type that has TCs — no user selection needed; skip if a Type has zero TCs | Only Types with actual TCs produce a deliverable file |

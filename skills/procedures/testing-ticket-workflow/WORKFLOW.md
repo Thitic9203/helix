@@ -22,10 +22,10 @@ Run **Playwright-based** testing for a **single ticket** after intake (the intak
 - [Phase B — Load context \[high freedom\]](#phase-b--load-context-high-freedom)
 - [Phase C — Show the plan, wait for confirmation \[medium freedom\]](#phase-c--show-the-plan-wait-for-confirmation-medium-freedom)
 - [Phase D — Pre-flight (mandatory) \[low freedom\]](#phase-d--pre-flight-mandatory-low-freedom)
-- [Phase E — Execute tests (Playwright) \[low freedom\]](execute-and-summarize.md#phase-e--execute-tests-playwright-low-freedom)
-- [Result quality gate (mandatory before Phase F) \[low freedom\]](execute-and-summarize.md#result-quality-gate-mandatory-before-phase-f-low-freedom)
-- [Phase F — Summarize in this chat (mandatory) \[high freedom\]](execute-and-summarize.md#phase-f--summarize-in-this-chat-mandatory-high-freedom)
-- [Phase G — Optional: update results elsewhere \[low freedom\]](results-update.md#phase-g--optional-update-results-elsewhere-low-freedom)
+- [Phase E — Execute tests (Playwright) \[low freedom\]](execute-and-summarize.md#phase-e--execute-tests-playwright-low-freedom) — file opened at Phase E
+- [Result quality gate (mandatory before Phase F) \[low freedom\]](execute-and-summarize.md#result-quality-gate-mandatory-before-phase-f-low-freedom) — at Phase E end
+- [Phase F — Summarize in this chat (mandatory) \[high freedom\]](execute-and-summarize.md#phase-f--summarize-in-this-chat-mandatory-high-freedom) — at Phase F
+- [Phase G — Optional: update results elsewhere \[low freedom\]](results-update.md#phase-g--optional-update-results-elsewhere-low-freedom) — file opened at Phase G
 - [Phase H — A question arrives after results were published \[low freedom\]](#phase-h--a-question-arrives-after-results-were-published-low-freedom)
 - [QA closing (mandatory before session end) \[low freedom\]](#qa-closing-mandatory-before-session-end-low-freedom)
 - [Out of scope](#out-of-scope)
@@ -41,16 +41,16 @@ failed gate sends you back to the step its **Go back:** line names — untick fr
 ```text
 Testing ticket progress:
 - [ ] Refusal-first — required intake fields answered (before Phase B)
-- [ ] Phase A — Session intake (mandatory)
-- [ ] Phase B — Load context
+- [ ] Phase A — Session intake (mandatory) — open references/session-intake.md, workspace-guide-discovery.md, intake-one-pager.md
+- [ ] Phase B — Load context — step 4 figma-design-comparison.md, step 5 customer-escape-prevention.md, step 7 parallel-test-lanes.md §2
 - [ ] Login smoke gate — in-scope roles log in (Refusal-first; after Phase B)
 - [ ] Phase C — Show the plan, wait for confirmation
-- [ ] Phase D — Pre-flight (mandatory)
-- [ ] Phase E — Execute tests (Playwright)
-- [ ] Result quality gate (mandatory before Phase F)
-- [ ] Phase F — Summarize in this chat (mandatory)
-- [ ] Phase G — Optional: update results elsewhere
-- [ ] QA closing (mandatory before session end)
+- [ ] Phase D — Pre-flight (mandatory) — playwright-preflight.md; dead session → parallel-test-lanes.md §3
+- [ ] Phase E — Execute tests (Playwright) — open execute-and-summarize.md (E2 root-cause-investigation.md, E3 non-pass-challenge-gate.md)
+- [ ] Result quality gate (mandatory before Phase F) — result-quality-gate.md (in execute-and-summarize.md)
+- [ ] Phase F — Summarize in this chat (mandatory) — execute-and-summarize.md Phase F; defects → defect-candidates.md
+- [ ] Phase G — Optional: update results elsewhere — open results-update.md + references/result-update-discipline.md
+- [ ] QA closing (mandatory before session end) — qa-closing-shared.md
 - [ ] Phase H — only if a question arrives after results were published (event-driven)
 ```
 
@@ -96,11 +96,11 @@ case below is trimmed, batched away or skipped to stay under it; time over it is
 **Every FAILED or BLOCKED scenario** is governed by [defect-report-completeness.md](../../../references/defect-report-completeness.md) — the write-up must answer the reader's five questions (what, **which entry points**, what it should be instead, why that is a fail, **what changes and who decides**) before it leaves this workflow. A question asked afterwards means a section was missing;
 the fix is the write-up, not a chat reply.
 
-**Root cause is mandatory, never inferred** — every FAILED or BLOCKED scenario; stated once at **E2** ([execute-and-summarize.md](execute-and-summarize.md#e2--root-cause-investigation-mandatory-for-every-failed-and-blocked-scenario-during-the-run)).
+**Root cause is mandatory, never inferred** — every FAILED or BLOCKED scenario; opened at Phase E; stated once at **E2** ([execute-and-summarize.md](execute-and-summarize.md#e2--root-cause-investigation-mandatory-for-every-failed-and-blocked-scenario-during-the-run)).
 
-**Challenge every non-PASS before you record it (the "wait, really?" gate)** — stated once at **E3** ([execute-and-summarize.md](execute-and-summarize.md#e3--challenge-the-non-pass--queue-it-for-the-user-mandatory-for-every-non-passed-scenario)).
+**Challenge every non-PASS before you record it (the "wait, really?" gate)** — opened at Phase E, stated once at **E3** ([execute-and-summarize.md](execute-and-summarize.md#e3--challenge-the-non-pass--queue-it-for-the-user-mandatory-for-every-non-passed-scenario)).
 
-**Test every AC/EC — a hard, fail-closed gate** (the 7-layer coverage gate in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md)), stated once where each layer runs: layers 1–2 at **Phase B step 3** · layers 3–5 in **Phase E** ([execute-and-summarize.md](execute-and-summarize.md), *Cover every enumerated AC/EC id*) · layers 6–7 in **Phase F** (*AC/EC coverage reconciliation*) before Phase G.
+**Test every AC/EC — a hard, fail-closed gate** (the 7-layer coverage gate in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md)), opened at Phase E; stated once where each layer runs: layers 1–2 at **Phase B step 3** · layers 3–5 in **Phase E** ([execute-and-summarize.md](execute-and-summarize.md), *Cover every enumerated AC/EC id*) · layers 6–7 in **Phase F** (*AC/EC coverage reconciliation*) before Phase G.
 
 **Compare against the design (Figma) on every UI scenario — no design, no verdict** ([figma-design-comparison.md](../../../references/figma-design-comparison.md)), stated once where it runs: does a reference exist at **Phase B step 4** · the comparison itself at **E0**.
 
@@ -128,7 +128,7 @@ If **VPN** is required per user and environment is unreachable in Phase D, stop 
 
 Recite once at the start of Phase A (first response only) from [helix-session-constraints.md](../../../references/helix-session-constraints.md) — **All Helix workflows** block, then the **Testing ticket** block.
 
-Then follow [workspace-guide-discovery.md](../../../references/workspace-guide-discovery.md) for **Testing ticket** and show [intake-one-pager.md](../../../references/intake-one-pager.md) (Testing ticket section).
+At Phase A, follow [workspace-guide-discovery.md](../../../references/workspace-guide-discovery.md) for **Testing ticket** and show [intake-one-pager.md](../../../references/intake-one-pager.md) (Testing ticket section).
 
 ---
 
@@ -179,7 +179,7 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
 
    Before writing the plan, extract **every** Acceptance Criteria and Expected Condition / Expected Result line **char-exact** and give each a stable id (`AC1…`, `EC1…`). Then build the numbered **test plan** so **every id maps to ≥1 scenario** — record the coverage matrix (`AC/EC id → scenario #`). A compound AC ("does A **and** B") splits into one scenario per clause; an id with no
    scenario is a coverage gap → add it, never drop it. (in-scope, out-of-scope, API vs UI.)
-4. **Design reference gate (mandatory — every UI scenario).** Follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4. Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` /
+4. **Design reference gate (mandatory — every UI scenario).** At Phase B step 4, follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4. Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` /
    `get_design_context`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in a Figma URL uses `-`, the MCP `nodeId` uses `:` (`?node-id=1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render,
    screenshot the node. Dismiss the **"Want to view this file in Dev Mode?"** modal with **"Not now"** — NEVER "Request access". A View+Comment account is enough. Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A
    screen with no design node → report it back to the person or channel that assigned this run** (ticket · screen · where you looked · what you need: the node link, a written visual contract, or an explicit "function only"). Keep testing everything that does not depend on the design; the visual points stay **BLOCKED** with a remark naming who was asked. Never assume a label, order, or
@@ -246,7 +246,7 @@ Execution plan: see filled template (preflight, evidence, pass criteria). Its Ex
 Reply **confirm** to start the run, or tell me what to change.
 ```
 
-If results contradict expectations or tests are flaky, follow [qa-debug-discipline.md](../../../references/qa-debug-discipline.md) before changing pass/fail wording. "Flaky" is a hypothesis, not a
+If the results contradict expectations or tests are flaky, follow [qa-debug-discipline.md](../../../references/qa-debug-discipline.md) before changing pass/fail wording. "Flaky" is a hypothesis, not a
 conclusion — it needs the E2 investigation and an artifact like any other cause.
 
 **Go back:** If the user corrects the plan at this gate, revise it and show it again (still waiting). If the end decisions popup corrects it after the run, return to Phase C — the correction starts a new round.
@@ -255,7 +255,7 @@ conclusion — it needs the E2 investigation and an artifact like any other caus
 
 ## Phase D — Pre-flight (mandatory) [low freedom]
 
-Follow [playwright-preflight.md](../../../references/playwright-preflight.md) end-to-end. 🔴 GATE: MUST NOT start Phase E until **Ready to run: YES**.
+At Phase D, follow [playwright-preflight.md](../../../references/playwright-preflight.md) in full. 🔴 GATE: MUST NOT start Phase E until **Ready to run: YES**.
 
 The login smoke table from *Refusal-first* already shows which roles log in; this phase does not
 repeat it. It re-checks each lane's session right before that lane's first scenario, because a session
@@ -267,19 +267,7 @@ the authenticated user id before the first result line. Any of these missing = s
 **Login reuse** ([round-time-contract.md §5](../../../references/round-time-contract.md)): load the saved login file for the account (`{auth dir from guide}/{env}-{role}-{alias}.json`, named by account, not by lane, gitignored), then call the session endpoint and expect the account's user id. On 401/403, a redirect to login, or a different user, a lane stops that account's cases and
 returns `SESSION-DEAD {account tag}` — it never logs in itself. One account belongs to one lane and is never shared across concurrent sessions.
 
-**Fresh login = main thread, login by command** ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3 *Dead session*). Pick lane accounts whose sessions are live first. Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (owner order 2026-10-21: log in by command, as the e2e suite does — lanes that logged in by themselves popped a chain of login windows). Claude never asks for, accepts, collects, stores or fills a password; a password the user pastes is never used or echoed. Instead the main thread
-gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>` and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does
-not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
-
-1. **Relink.** One combined block over every needed account whose session is not live. This step uses no password:
-   ```bash
-   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/relink-$a.log)"; done
-   ```
-2. **Setup/mint.** One combined block over only the accounts whose relink printed **FAILED**, never an account that printed OK. The user types any secret in their own terminal; if the block pauses, the mint command is waiting for that input:
-   ```bash
-   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/mint-$a.log)"; done
-   ```
-3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
+**Fresh login = main thread, login by command** ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3 *Dead session*). Pick lane accounts whose sessions are live first. Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (owner order 2026-10-21: log in by command, as the e2e suite does — lanes that logged in by themselves popped a chain of login windows). Claude never asks for, accepts, collects, stores or fills a password; a password the user pastes is never used or echoed. Instead the main thread gives the user the ready-to-run **Relink → Setup/mint → Probe** steps exactly as written in [parallel-test-lanes.md §3 *Dead session*](../../../references/parallel-test-lanes.md#3-account-isolation--no-collision) (one combined `bash` block per step, built from the intake answers; the user presses Run and Claude never runs them; an account still FAILED after the probe blocks only its cases, reported BLOCKED "session not restored", never PASSED). Open that section at Phase D, only when a needed session is not live.
 
 **In a parallel run the session preflight runs per lane**, inside each lane, and records the
 authenticated user id — the parent accepts a lane's results only when that id matches the lane's
@@ -291,13 +279,13 @@ leased account ([parallel-test-lanes.md](../../../references/parallel-test-lanes
 
 ## Phases E–F — execute and summarize
 
-Read and follow [execute-and-summarize.md](execute-and-summarize.md) before Phase E — Phase E (execute), the result quality gate and Phase F (summarize in chat), end to end.
+At Phase E, open [execute-and-summarize.md](execute-and-summarize.md) and follow it through Phase E (execute), the result quality gate and Phase F (summarize in chat); every gate in it is mandatory.
 
 ---
 
 ## Phase G — update results elsewhere
 
-Read and follow [results-update.md](results-update.md) before Phase G — whenever the run updates results outside this chat (sheet, Jira comment, usage marker).
+At Phase G, open and follow [results-update.md](results-update.md) — only when the run updates results outside this chat (sheet, Jira comment, usage marker); every gate in it is mandatory.
 
 ---
 
@@ -323,20 +311,20 @@ A follow-up question is a **defect in the write-up**, not a normal step
 
 ## QA closing (mandatory before session end) [low freedom]
 
-Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) first** — apply its unattended default (step 5) and queue *Investigate further* / *Close out now* into the F5 end decisions popup, before the approval popup ([round-time-contract.md
+At phase close (only when the run reaches QA closing), follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) first** — apply its unattended default (step 5) and queue *Investigate further* / *Close out now* into the F5 end decisions popup, before the approval popup ([round-time-contract.md
 §3](../../../references/round-time-contract.md)); the session is not done until the user has answered it there:
 
 - [ ] F1–F4 posted before any external update.
 - [ ] **AC/EC coverage gate (7-layer)** green — Phase B step 3 · Phase E *Cover every enumerated AC/EC id* · Phase F *AC/EC coverage reconciliation* ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *AC/EC & bug-detail coverage*).
 - [ ] Every scenario has PASSED/PWMI/FAILED/BLOCKED (not run = BLOCKED with reason) with evidence reference.
-- [ ] **Design (Figma) comparison** done for every UI scenario — Phase B step 4 · [E0](execute-and-summarize.md#e0--design-comparison--depth-checks-every-scenario-passed-ones-included).
+- [ ] **Design (Figma) comparison** done for every UI scenario — Phase B step 4 · [E0](execute-and-summarize.md#e0--design-comparison--depth-checks-every-scenario-passed-ones-included). (file opened at Phase E)
 - [ ] **Depth gates** green — Phase F *Design + depth reconciliation* ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)).
 - [ ] **Story evidence-completeness gate (5-step)** green, fail-closed — [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#story-testing-evidence-completeness-gate-5-step-per-story) (MP4s per its *MP4 evidence — 7-layer* gate).
 - [ ] **Pre-delivery completeness gate (7-layer)** green before ANY external write or "done" — [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester).
 - [ ] **F3 defect blocks** complete for every FAILED/BLOCKED defect — Phase F *F3* ([defect-report-completeness.md](../../../references/defect-report-completeness.md)).
-- [ ] **E2 root-cause investigation** ran for every FAILED and BLOCKED scenario — [E2](execute-and-summarize.md#e2--root-cause-investigation-mandatory-for-every-failed-and-blocked-scenario-during-the-run).
-- [ ] **E3 challenge gate** ran for every non-PASSED scenario — [E3](execute-and-summarize.md#e3--challenge-the-non-pass--queue-it-for-the-user-mandatory-for-every-non-passed-scenario).
-- [ ] **F4 reader gate + cause gate** passed before Phase G — Phase F *F4* ([execute-and-summarize.md](execute-and-summarize.md#phase-f--summarize-in-this-chat-mandatory-high-freedom)).
+- [ ] **E2 root-cause investigation** ran for every FAILED and BLOCKED scenario — [E2](execute-and-summarize.md#e2--root-cause-investigation-mandatory-for-every-failed-and-blocked-scenario-during-the-run). (file opened at Phase E)
+- [ ] **E3 challenge gate** ran for every non-PASSED scenario — [E3](execute-and-summarize.md#e3--challenge-the-non-pass--queue-it-for-the-user-mandatory-for-every-non-passed-scenario). (file opened at Phase E)
+- [ ] **F4 reader gate + cause gate** passed before Phase G — Phase F *F4* ([execute-and-summarize.md](execute-and-summarize.md#phase-f--summarize-in-this-chat-mandatory-high-freedom)). (file opened at Phase E)
 - [ ] If Phase G ran: destination re-read matches agreed column formats.
 - [ ] Close-out includes `Verified:` (or partial-failure honesty per Phase F).
 - [ ] Phase G6 fix-verify completed when Phase G ran.
@@ -383,7 +371,7 @@ See [skill-routing.md](../../../references/skill-routing.md) — **Handoffs** af
 
 ## MUST / NEVER
 
-Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). Skill-specific:
+Shared rules, opened only when the run writes or posts: [shared-must-never.md](../../../references/shared-must-never.md). Skill-specific:
 
 | Rule | Because |
 |------|---------|

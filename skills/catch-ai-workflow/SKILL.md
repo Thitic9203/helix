@@ -17,6 +17,8 @@ metadata:
 
 # Catch AI
 
+**Session start:** before anything else, follow [session-start-context.md](../../references/session-start-context.md).
+
 ## Contents
 
 - [Progress checklist](#progress-checklist)
@@ -38,8 +40,6 @@ Audit finished work the way a senior QA engineer does: every claim traced to the
 
 **Core principle: a defect is "actual differs from a *confirmed* expected".** Actual differing from what you assumed, translated, or inferred is not a defect — it is a question.
 
-Claude Code shortcut: `/catch-ai` → [commands/catch-ai.md](../../commands/catch-ai.md).
-
 ## Progress checklist
 
 Copy this block into your response when the run starts and tick each line as it completes. A
@@ -55,11 +55,11 @@ Catch AI progress:
 - [ ] Procedure 4 — Inspect the actual side directly
 - [ ] Procedure 5 — Compare character-exact
 - [ ] Procedure 6 — Map coverage
-- [ ] Procedure 7 — Find the root cause of each defect
+- [ ] Procedure 7 — Find the root cause of each defect (open root-cause-investigation.md)
 - [ ] Procedure 8 — Propose the fix and the prevention
-- [ ] Procedure 9 — Report and give the verdict
-- [ ] Result quality gate (mandatory before an audited verdict is confirmed; N/A only when no test verdict is in scope — say so in the report)
-- [ ] QA closing (mandatory before "done")
+- [ ] Procedure 9 — Report and give the verdict (open qa-evidence-gates.md core first)
+- [ ] Result quality gate — result-quality-gate.md (mandatory before an audited verdict is confirmed; N/A only when no test verdict is in scope — say so in the report)
+- [ ] QA closing (mandatory before "done") — qa-closing-shared.md, then session-closing.md
 ```
 
 ## Discipline
@@ -161,20 +161,7 @@ item to Procedure step 4 — Inspect the actual side directly — and then step 
 
 ## Rationalizations — STOP
 
-| Excuse | Reality |
-|---|---|
-| "They said there are three, so there are three" | A claim is not evidence. Report what survives verification, even if that is zero. |
-| "Coming back with one finding looks lazy" | One verified finding beats three inventions. |
-| "The file timestamp proves the date is wrong" | A proxy that correlates does not govern the claim. Cite the source that defines it or file a Question. |
-| "Nothing backs this line, so it is fabricated" | Unbacked ≠ false. Report it as an unsourced claim, or a Question — never assert a value you could not observe. |
-| "I know this API well enough to skip the docs" | Knowing it is how wrong flags get published. Open the page and quote it. |
-| "The URL is probably right" | Probably-right URLs are invented citations. Open it or drop it. |
-| "Fixing where it showed up is faster" | That is a symptom patch. It returns as the same finding next audit. |
-| "While I am here, the title should also change" | Out of scope. Audit, do not rewrite. |
-| "It passed the second time I ran it" | Flaky is FAILED. Find the cause. |
-| "It is probably the cache — good enough to close" | A guessed cause closed quietly is the defect. Run the check that confirms it, layer by layer, until it is Confirmed. |
-| "`Suspected` is an allowed label, so I can stop there" | `Suspected` is a waypoint, not an ending. Run the confirming check; stop only when access is missing, and then it stays an open Question. |
-| "The guess was right in the end" | Right by luck is still unchecked. The defect is the missing check, not the answer. |
+Each excuse below is already answered by the rule named after it — stop and apply that rule: "they said three, so three" / "one finding looks lazy" (Iron Law: the count is what survives) · "the file timestamp proves it" (step 3: a proxy governs nothing) · "nothing backs it, so it is false" (Quick reference: unsourced claim or Question) · "I know this API" / "the URL is probably right" (Iron Law: open and quote the source) · "fix it where it showed up" (step 7: owning layer) · "the title should also change" (MUST NOT rewrite) · "it passed the second time" (flaky is FAILED) · "probably the cache" / "`Suspected` is allowed" / "the guess was right" (Hedged conclusions rules 2–4).
 
 ## Red flags — start over
 
@@ -230,64 +217,43 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + this work
 
 ## MUST / NEVER
 
-| Rule | Because |
-|------|---------|
-| MUST verify the expected side against its governing source before reporting a defect | A guess dressed as a spec wastes a full retest cycle |
-| MUST report the count that survives verification, never the count claimed | Matching a claimed number is fabrication |
-| MUST open every source cited in a recommendation | A remembered citation is an invented one |
-| MUST attach a prevention layer to every defect | A fix without prevention returns as the same finding |
-| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed | A guess that ends the work quietly ships as fact and sends the fix to the wrong layer |
-| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run | The audit would repeat the defect it exists to catch |
-| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes | An audit must not change the thing it audits |
-| MUST NOT file a Jira bug from this workflow | Filing belongs to `create-bug-workflow` after the defect is confirmed |
-| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) | Audit and rewrite are different jobs; an unasked edit changes delivered work behind the owner's back |
+| Rule |
+|------|
+| MUST verify the expected side against its governing source before reporting a defect |
+| MUST report the count that survives verification, never the count claimed |
+| MUST open every source cited in a recommendation |
+| MUST attach a prevention layer to every defect |
+| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed |
+| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run |
+| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes |
+| MUST NOT file a Jira bug from this workflow |
+| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) |
 
 ## Must-read files
 
-Every file this skill's procedure requires, one hop from here. Read each at the point its line names.
+See also (optional lookup, not a must-read): [skill-reference-index.md](../../references/skill-reference-index.md) lists every shared reference.
+
+Open each file below at the step that names it, never all up front.
 
 **Read for every audit:**
 
-- Read [helix-session-constraints.md](../../references/helix-session-constraints.md) once at session start.
-- Read [long-workflow-todos.md](../../references/long-workflow-todos.md) at the start of every audit (this procedure has 9 steps); keep the todo list.
-- Read [qa-evidence-gates.md](../../references/qa-evidence-gates.md) before any completion claim.
-- Read [root-cause-investigation.md](../../references/root-cause-investigation.md) before naming a cause for any failure.
-- Read [session-closing.md](../../references/session-closing.md) at session end.
-- Read [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) before invoking or switching skills.
-- Read [skill-routing.md](../../references/skill-routing.md) when choosing which skill handles a request.
-- Read [skill-rules-style.md](../../references/skill-rules-style.md) before asking the user or stopping on a missing input.
-- Read [user-communication.md](../../references/user-communication.md) before any message to the user.
+- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (9 steps — keep the todo list).
+- Before any message to the user: [user-communication.md](../../references/user-communication.md); before asking or stopping on a missing input: [skill-rules-style.md](../../references/skill-rules-style.md); before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
+- Step 7 and Hedged conclusions rule 3, before naming a cause for any failure: [root-cause-investigation.md](../../references/root-cause-investigation.md).
+- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core). At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC or pre-delivery coverage.
+- QA closing: [qa-closing-shared.md](../../references/qa-closing-shared.md); at session end [session-closing.md](../../references/session-closing.md).
 
-**Read only when the audit target needs it.** This workflow never posts, files or runs anything on its own; pick the group that matches the audit target from step 1 and read only that group (several groups only when the target spans them):
+**Read only when the audit target needs it.** This workflow never posts, files or runs anything on its own; read only the group(s) matching the step-1 target:
 
-*Defect or non-pass verdict in scope:*
+*Defect or non-pass verdict in scope:* read [bug-priority-matrix.md](../../references/bug-priority-matrix.md) before any priority or PWMI / FAILED verdict · [defect-report-completeness.md](../../references/defect-report-completeness.md) before writing up any defect or non-pass · [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) before recording any non-PASSED result · [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
 
-- Read [bug-priority-matrix.md](../../references/bug-priority-matrix.md) before setting any priority or a PWMI / FAILED verdict.
-- Read [defect-report-completeness.md](../../references/defect-report-completeness.md) before writing up any defect or non-pass.
-- Read [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) before recording any result that is not PASSED.
-- Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
+*UI screen or design in scope:* read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging a screen or visual result against the design.
 
-*UI screen or design in scope:*
+*Test run in scope (re-executed or its results audited):* read [customer-escape-prevention.md](../../references/customer-escape-prevention.md) when re-executing a run or judging whether its gates would have stopped a shipped defect · [playwright-preflight.md](../../references/playwright-preflight.md) only when re-executing a Playwright run · [resilient-selectors.md](../../references/resilient-selectors.md) only when Playwright selectors are under review · [test-through-real-steps.md](../../references/test-through-real-steps.md) when judging whether the action was tested through its real steps · [round-time-contract.md](../../references/round-time-contract.md) when the work reports round times · [verify-closing-checklist.md](../../references/verify-closing-checklist.md) when the target is a verify or retest close-out.
 
-- Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging a UI screen or visual result against the design.
+*Jira artifact in scope (already-posted comment or table):* read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) when the target is a posted Jira comment · [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) when that comment has a table with multi-line cells.
 
-*Test run in scope (the audit re-executes a run, or audits a run's results):*
-
-- Read [customer-escape-prevention.md](../../references/customer-escape-prevention.md) when the audit re-executes a test run, or judges whether a run's gates would have stopped a shipped defect.
-- Read [playwright-preflight.md](../../references/playwright-preflight.md) only when the audit re-executes a Playwright run.
-- Read [resilient-selectors.md](../../references/resilient-selectors.md) only when the audited work includes Playwright selectors under review.
-- Read [test-through-real-steps.md](../../references/test-through-real-steps.md) when judging whether a run tested the action through its real steps (no API shortcut for the action under test).
-- Read [round-time-contract.md](../../references/round-time-contract.md) when the audited work reports round times or durations.
-- Read [verify-closing-checklist.md](../../references/verify-closing-checklist.md) when the audit target is a verify or retest close-out.
-
-*Jira artifact in scope (an already-posted comment or table is the audit target):*
-
-- Read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) when the audit target is a Jira comment someone already posted.
-- Read [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) when that posted comment has a table with multi-line cells.
-
-*Follow-up after the report:*
-
-- Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
+*Follow-up after the report:* read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
 
 ## Dependencies
 

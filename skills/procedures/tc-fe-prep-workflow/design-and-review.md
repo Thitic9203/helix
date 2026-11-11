@@ -268,13 +268,15 @@ Run it as a loop, and **tell the user the result of each round the moment it fin
 verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until a round is clean.
 
 1. **Dispatch reviewer(s).** Give each reviewer the ticket's **verbatim AC/EC + seed** and the current
-   TC draft, and instruct them to judge **only** against the ticket content (no requirements of their
+   TC draft **as a file path, not pasted text** (owner G3, 2026-11-11: write the draft to the working-draft
+   file below and give each reviewer its path plus the ticket's AC/EC + seed; the reviewer reads the file
+   itself — the check list and the ≥2-reviewer rule are unchanged), and instruct them to judge **only** against the ticket content (no requirements of their
    own). Each must check: every AC/EC covered; **nothing fabricated** (no invented role, service,
    surface, count, severity, or EC the ticket never states); scope honored (per the user's Step 2a/2.5
    decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability. For
    a thorough/"2 rounds"/"superpowers" request, run ≥2 independent reviewers per round.
-   **Working-draft file for reviewers (owner, 2026-10-14):** when the draft is handed to reviewers as a
-   file, write it **outside the repo** (the session scratchpad or a temp directory) — never inside the
+   **Working-draft file for reviewers (owner, 2026-10-14):** write the draft reviewers read as a
+   file **outside the repo** (the session scratchpad or a temp directory) — never inside the
    repository or the deliverable folder. It is review input only: not a deliverable, never attached,
    never committed. This is the one exception to the Step 4.5 no-file rule.
 2. **Reviewer output is binary per round:** `CLEAN` (zero actionable defects) or `HAS-COMMENTS` (a

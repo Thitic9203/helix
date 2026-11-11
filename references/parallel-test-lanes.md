@@ -157,44 +157,58 @@ A constraint on **part** of the plan limits **that part**, never the whole run:
 
 ## 5. Lane prompt (what the parent sends)
 
-Each lane gets a self-contained prompt — a subagent does not see the conversation:
+A subagent does not see the conversation, so the prompt must be complete — but it passes **file
+paths, not pasted text**: the fixed lane rules live once in *Lane rules* below and the lane reads
+them from this file; the scenarios, the calling workflow and the guide are files the lane opens.
+Only the per-lane values go inline. Before dispatch, the parent writes each lane's scenarios
+(ids, steps, expected, design node per screen, widths, fixture) to `{evidence dir}/lane-{Lx}/scenarios.md`.
 
 ```text
-You are lane {Lx} of a {N}-lane test run for {TICKET}. Read-only on Jira/chat: never post,
-transition, assign, or notify.
+You are lane {Lx} of a {N}-lane test run for {TICKET}.
+First read and obey, in full: {path to this file} §5 "Lane rules" — every rule there binds you.
 Environment: {env} · base URL {url} · build {build id}
-Account lease: {account(s) + role} — credentials from {guide path / env var name}. Use ONLY
-these accounts. Do not log in with any other.
-Browser context: own context, started from the leased account's login file
-{auth dir}/{env}-{role}-{alias}.json (pre-logged-in by the parent when the account shares an OTP
-inbox — start from it, do not request a new code). Before any result counts, call the session
-endpoint and expect {user id}; on 401/403, a login redirect, or another user, STOP that account's
-cases and return SESSION-DEAD {account tag}. Never log in, type credentials, give login commands, or run the
-login tool yourself — the parent restores sessions by ready-to-run command.
-Session lease: if the workspace provides a session-lease tool ({lease tool from guide}), acquire the
-lease on {account tag} BEFORE loading the login file — holder "{Lx} {round id}", TTL longer than the
-run — renew the lease before it expires, and release the lease with the same holder in finally (on
-error too). Never load a login file without a lease. If acquire is refused because another holder has
-the account, use a different account or wait — never force or delete another lane's lease. (When the
-parent already holds it: LEASE-HELD-BY-PARENT — do not acquire or release it yourself.)
-NO-ADVISOR: do not call the advisor tool — the parent reviews your work. A cut-off advisor call can
-stall a lane for minutes with nothing written.
-Time limit: run every driver or browser script under a hard time limit — `timeout {seconds} node …`,
-or the script's own overall deadline that closes the browser and exits. Never leave a script without
-one. Before you return, make sure no process you started is still running (driver, browser, shell);
-stop any that is, by its PID, and report each one you had to stop.
-You own your units end to end: execution, Figma compare (one per screen × width), recording during
-execution, non-PASS root-cause investigation, and the repro shape.
-Scenarios (run in this order): {ids, steps, expected, design node per screen, widths, fixture}
-Test data: prefix every record you create with QA-{Lx}-; list every id you create.
-Evidence dir: {path}/lane-{Lx}/
+Account lease: {account(s) + role} — credentials from {guide path / env var name}; login file
+{auth dir}/{env}-{role}-{alias}.json; expected user id {user id}; lease tool {lease tool from guide
+| none}; holder "{Lx} {round id}" {| LEASE-HELD-BY-PARENT}.
+Scenarios (run in file order): {evidence dir}/lane-{Lx}/scenarios.md
+Evidence dir: {evidence dir}/lane-{Lx}/ · record prefix QA-{Lx}- · script time limit {seconds}s
 Follow: {calling WORKFLOW.md path} — Phase D preflight + Phase E (E0–E2), or Step 4 (4a–4h).
-Return: (1) session preflight — env, build id, authenticated user id (2) one row per scenario:
-status · actual · evidence paths (3) every non-PASS with the root-cause investigation and its
-artifacts (4) records created (5) anything that blocked you (6) every lease you acquired and that you
-released it (7) every process you had to stop before returning (none = say none). Never report a
-status without evidence.
 ```
+
+### Lane rules (the lane reads these from this file)
+
+1. **Read-only on Jira/chat:** never post, transition, assign, or notify.
+2. **Accounts:** use ONLY the leased accounts; do not log in with any other.
+3. **Session:** own browser context, started from the leased account's login file (pre-logged-in by
+   the parent when the account shares an OTP inbox — start from it, do not request a new code).
+   Before any result counts, call the session endpoint and expect the given user id; on 401/403, a
+   login redirect, or another user, STOP that account's cases and return `SESSION-DEAD {account tag}`.
+   Never log in, type credentials, give login commands, or run the login tool yourself — the parent
+   restores sessions by ready-to-run command.
+4. **Session lease:** if a lease tool is given, acquire the lease on the account BEFORE loading the
+   login file — with the given holder, TTL longer than the run — renew it before it expires, and
+   release it with the same holder in finally (on error too). Never load a login file without a
+   lease. If acquire is refused because another holder has the account, use a different account or
+   wait — never force or delete another lane's lease. With `LEASE-HELD-BY-PARENT`, do not acquire or
+   release it yourself.
+5. **NO-ADVISOR:** do not call the advisor tool — the parent reviews your work. A cut-off advisor
+   call can stall a lane for minutes with nothing written.
+6. **Time limit:** run every driver or browser script under a hard time limit — `timeout {seconds}
+   node …`, or the script's own overall deadline that closes the browser and exits. Never leave a
+   script without one. Before you return, make sure no process you started is still running
+   (driver, browser, shell); stop any that is, by its PID, and report each one you had to stop.
+7. **Ownership:** you own your units end to end: execution, Figma compare (one per screen × width),
+   recording during execution, non-PASS root-cause investigation, and the repro shape.
+8. **Test data:** prefix every record you create with `QA-{Lx}-`; list every id you create.
+9. **Return:** (1) session preflight — env, build id, authenticated user id (2) one row per scenario:
+   status · actual · evidence paths (3) every non-PASS with the root-cause investigation and its
+   artifacts (4) records created (5) anything that blocked you (6) every lease you acquired and that
+   you released it (7) every process you had to stop before returning (none = say none). Never
+   report a status without evidence.
+
+The parent checks before dispatch that the prompt names this file's path, the scenarios file exists
+and is non-empty, and every inline value is filled; a lane prompt missing the *Lane rules* line is
+not sent.
 
 Never paste a password into the prompt or let a lane echo one in its report — point to where the
 credential lives.

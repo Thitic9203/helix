@@ -20,26 +20,28 @@ metadata:
 
 When invoked:
 
+0. **Session start first** — do [session-start-context.md](../../references/session-start-context.md) before step 1.
 1. Announce once: `Using **retest-bug-workflow** to retest the bug fix.`
 2. **Settle and strategize first** — before any tool call, follow [settle-and-strategize.md](../../references/settle-and-strategize.md): invoke **`engineering:testing-strategy`** to plan the retest approach, no guessing an expected/spec, no blind retry loops.
 3. **Design (Figma) comparison is mandatory on every UI retest** ([figma-design-comparison.md](../../references/figma-design-comparison.md)) — rule stated once at [Step 2d](../procedures/retest-bug-workflow/WORKFLOW.md#design-reference-gate) (no reference → visual points BLOCKED) and [Step 4d](../procedures/retest-bug-workflow/execute-and-evidence.md#design-comparison) (the comparison).
 4. **Retest deeply** — [customer-escape-prevention.md](../../references/customer-escape-prevention.md): cover the whole surface the fix touched, measure overflow/overlap at every in-scope width, evidence on passed rows too, and never PASSED over a "cannot verify" actual result.
 5. **Run in parallel lanes by default** — [parallel-test-lanes.md](../../references/parallel-test-lanes.md): split the case list across subagents, **one leased account per lane** (never two lanes on one login), barrier for anything every lane sees; serial only with a named predicate.
-5a. **Login by command, never a login window** — when an account must log in or its session has expired, give the user ready-to-run commands as one combined `bash` block per step that loops over the accounts (each isolated, prints OK / FAILED with a log path): relink every needed account, then setup/mint only the FAILED ones. Then probe and report. Never collect or fill a password ([parallel-test-lanes.md](../../references/parallel-test-lanes.md) §3).
+5a. **Login by command, never a login window** — never collect or fill a password; at step 4 the relink → setup/mint command blocks in [execute-and-evidence.md](../procedures/retest-bug-workflow/execute-and-evidence.md) (one copy) restore a dead session.
 6. **Result quality gate before any verdict** — [result-quality-gate.md](../../references/result-quality-gate.md): all 20 layers on every case before a verdict is reported or written; the main thread re-runs it on the lanes' files.
 6a. **No-wait decision gate before any BLOCKED / "needs decision" / held post** — [no-wait-decision-gate.md](../../references/no-wait-decision-gate.md): all 20 layers — read every source, apply precedent, create missing data, decide and act; never park a case or a finished post waiting for someone.
-7. Read and follow [WORKFLOW.md](../procedures/retest-bug-workflow/WORKFLOW.md) **end-to-end** — every step, gate, and reference.
+7. Read [WORKFLOW.md](../procedures/retest-bug-workflow/WORKFLOW.md) and run its progress checklist in order; open each phase or reference file at the step whose line names it — never before.
 
 Claude Code shortcut: `/retest-bug` → [commands/retest-bug.md](../../commands/retest-bug.md).
 
 ## Contents
 
-Every file this workflow uses, linked directly from here. Only WORKFLOW.md is read up front; load each other file at the step or moment its line names. References already linked above are not repeated.
+Read at start: [WORKFLOW.md](../procedures/retest-bug-workflow/WORKFLOW.md) and [shared-preamble.md](../../references/shared-preamble.md). Every other file below is opened only at the step or moment its line names.
 
-- [WORKFLOW.md](../procedures/retest-bug-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
-- [execute-and-evidence.md](../procedures/retest-bug-workflow/execute-and-evidence.md) — before Step 4 — read and follow Steps 4–5 and the result quality gate, end to end.
-- [comment-and-post.md](../procedures/retest-bug-workflow/comment-and-post.md) — before drafting the comment — read and follow Steps 6–7, end to end.
-- [closeout-and-notify.md](../procedures/retest-bug-workflow/closeout-and-notify.md) — right after the comment is posted — read and follow Steps 8–10, end to end.
+See also (optional lookup, not read at start): [skill-reference-index.md](../../references/skill-reference-index.md).
+
+- [execute-and-evidence.md](../procedures/retest-bug-workflow/execute-and-evidence.md) — open at step 4 (Steps 4–5 and the result quality gate).
+- [comment-and-post.md](../procedures/retest-bug-workflow/comment-and-post.md) — open at step 6 (Steps 6–7).
+- [closeout-and-notify.md](../procedures/retest-bug-workflow/closeout-and-notify.md) — open at step 8, after the post (Steps 8–10).
 - [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — whenever a Priority/Severity is named or judged.
 - [comment-template-v2.md](../procedures/retest-bug-workflow/references/comment-template-v2.md) — before drafting the v2 comment — render it from run.json per this template; never type the body.
 - [defect-candidates.md](../../references/output-templates/defect-candidates.md) — before reporting any defect found in the round — follow this exact table and the fixed owner question; never file without the owner.
@@ -52,6 +54,8 @@ Every file this workflow uses, linked directly from here. Only WORKFLOW.md is re
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates, including the cross-ticket conflict check.
 - [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — when results conflict with expectations, with dev claims, or look flaky.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read when recording or judging evidence clips and the AC/EC coverage gate.
+- [qa-evidence-capture.md](../../references/qa-evidence-capture.md) — at step 5: capture scope and the MP4 7-layer gate.
+- [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) — at step 5 and before the step 6d approval: coverage and pre-delivery gates.
 - [retest-fix-intake.md](../../references/retest-fix-intake.md) — when building the retest plan, before executing tests.
 - [root-cause-investigation.md](../../references/root-cause-investigation.md) — before calling any case FAILED or BLOCKED — investigate to a verified root cause.
 - [round-time-contract.md](../../references/round-time-contract.md) — before logging in or reusing a session for the round.

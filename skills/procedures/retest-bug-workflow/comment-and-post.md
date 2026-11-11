@@ -103,7 +103,7 @@ this line in any round where a case passed, failed or was PWMI (`run-time-not-me
 **This block is the shape the renderer produces, not something to hand-type.** Build `run.json` and
 render it (Step 6·0); the guard rejects a body that drifts from this shape, including one typed from
 this very block.
-Follow [comment-template-v2.md](references/comment-template-v2.md) for the render command, the
+At step 6, follow [comment-template-v2.md](references/comment-template-v2.md) for the render command, the
 line order and a machine-checked manifest → body example.
 
 🔴 **ONE table — owner format, 2026-09-24.** The comment carries a single table, heading exactly
@@ -156,7 +156,7 @@ is the image width parameter (`!img|width=N!`, PM-004) — that one is still for
 
 The **`Evidence` column** sits between `Actual Result` and `Status`, for PASSED and FAILED rows alike.
 
-**Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
+<a id="evidence-per-row"></a>**Evidence per row (one rule; the [Step 8·0 gate] (run at step 8)(closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
 
 For an API bug the header row is therefore `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Status*||` — a cURL block does not fit in a cell.
 
@@ -295,11 +295,11 @@ wait here.
 ### 6c. Independent reviewer pass (mandatory before the first post)
 
 6b is the author re-reading their own draft, and
-[qa-evidence-gates.md](../../../references/qa-evidence-gates.md) sets the real bar itself: *a second
+[qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the real bar itself: *a second
 QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
 
-1. **Dispatch a reviewer subagent in the background** (Agent/Task tool) with **only**: the ticket, the
-   rendered body, and the evidence files. Not the session, not the reasoning, not what you meant. While
+1. **Dispatch a reviewer subagent in the background** (Agent/Task tool) with **only**: the ticket key, the
+   **file path** of the rendered body, and the **paths** of the evidence files — never paste the body or evidence text into the prompt; the reviewer opens each path itself and reads it in full. Not the session, not the reasoning, not what you meant. While
    it runs, build the Step 6d bundle in parallel; the reviewer must return **CLEAN before the approval
    popup** ([round-time-contract.md](../../../references/round-time-contract.md) §3 step 1).
 2. **It answers the four adversarial questions** from the pre-delivery gate, each **by pointing at a
@@ -307,8 +307,8 @@ QA — or another agent given the ticket, the deliverable and nothing else*. Mak
    was not tested and where the deliverable says so.
 3. **Binary verdict per round:** `CLEAN` or `HAS-COMMENTS` with a numbered list. Nitpicks are not
    defects; only gaps against the ticket and the evidence count.
-4. **Report the round to the user** as it finishes, then fix every finding and dispatch a **fresh**
-   round. Loop until a round is clean — no round cap ([round-time-contract.md](../../../references/round-time-contract.md) §3
+4. **Report the round to the user** as it finishes, then fix every finding, save the fixed body to the same path, and dispatch a **fresh**
+   round with the same paths. Loop until a round is clean — no round cap ([round-time-contract.md](../../../references/round-time-contract.md) §3
    step 1), and a round whose result was never reported does not count.
    **Exit when the loop stops converging:** the same finding comes back in two consecutive rounds
    after you fixed it → stop dispatching reviewers. The draft is **not** CLEAN: put that finding in the
@@ -329,7 +329,7 @@ resolve as BLOCKED rows with reasons — never halt the queue, never post over a
 
 **Delegated actions:** the approval wait is skipped only for an outward action — post, transition, or notify — that the owner explicitly delegated by name, in this session, for this round (for example "post and transition this round without asking me"). General cues ("handle it", "don't ask", "don't wait") never skip a write approval; the [no-wait decision gate](../../../references/no-wait-decision-gate.md) layer 19 states the same rule. For a delegated action, the decisions popup carries only what the no-wait decision gate could not resolve; print the item 4 bundle list in chat before executing it, and every format, syntax and readback gate below still runs. An action not named still waits for item 4. Opening new bugs still needs a live yes.
 
-Follow [round-time-contract.md](../../../references/round-time-contract.md) §3 in this order:
+At step 6d, follow [round-time-contract.md](../../../references/round-time-contract.md) §3 in this order:
 
 1. **Reviewer and bundle in parallel** — the 6c reviewer runs in the background while you build the
    bundle: run the cross-ticket conflict check (QA closing) and queue its result, then run the
@@ -425,7 +425,7 @@ Before Step 8 transition, run review per [jira-comment-post-review.md](../../../
    - [ ] **Numbered items** (`1. ` `2. ` `3. `) each on a separate line — not running together.
    - [ ] No truncation; FE MP4 link resolves + plays, and text-verification screenshots render.
    - [ ] Each FE MP4 clears the 7-layer quality+correctness gate — plays sharp end-to-end **with no flicker/judder at 100%** (layers 1b/1c: ≤5% repeated moving frames, provenance manifest present), **scrolls to and holds the stated target in frame** (no early cut), ER visible; one clip per named role.
-   - [ ] **Pre-delivery completeness gate (7-layer) green** ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *Pre-delivery completeness*): scope re-counted from the bug **this round**, role × case matrix full, **every** attachment opened and played from Jira (not sampled), every claim points at a row, verdict↔bug↔priority↔remark agree, nothing recorded only in prose, **4-question adversarial pass answered with a pointer for every question**; unattended runs resolve to BLOCKED rows and report incomplete rather than halting silently. Fail closed — no transition, no notify, no "done" while red.
+   - [ ] **Pre-delivery completeness gate (7-layer) green** ([qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) § *Pre-delivery completeness*): scope re-counted from the bug **this round**, role × case matrix full, **every** attachment opened and played from Jira (not sampled), every claim points at a row, verdict↔bug↔priority↔remark agree, nothing recorded only in prose, **4-question adversarial pass answered with a pointer for every question**; unattended runs resolve to BLOCKED rows and report incomplete rather than halting silently. Fail closed — no transition, no notify, no "done" while red.
    - [ ] API evidence: cURL + response present per row.
 3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).
 

@@ -17,18 +17,20 @@ metadata:
 
 **Thin entry for agent skill discovery.** Full procedure: [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md).
 
+**Session start (do this first):** follow [session-start-context.md](../../references/session-start-context.md) before anything else.
+
 When invoked:
 
 1. Announce once: `Using **testing-ticket-workflow** to test the ticket with Playwright.`
 2. **Settle and strategize first** — before any other tool call (the *Dependencies* check below runs right after this step, before Phase A), follow [settle-and-strategize.md](../../references/settle-and-strategize.md): invoke **`engineering:testing-strategy`** to plan the approach, no guessing an expected/spec, no blind retry loops. If that skill is not in the session's available-skills list, write the strategy inline (scope, order, done-when, risks) and say in chat that you did so ([dependencies.md](../../references/dependencies.md)).
 3. **Design (Figma) comparison on every UI scenario** — [figma-design-comparison.md](../../references/figma-design-comparison.md); rule stated once at WORKFLOW Phase B step 4 and E0.
-4. **Test deeply** — follow [customer-escape-prevention.md](../../references/customer-escape-prevention.md); stated once at WORKFLOW Phase B step 5, Phase D *Session preflight*, E0 and F *Design + depth reconciliation*.
+4. **Test deeply** — open at Phase B step 5 [customer-escape-prevention.md](../../references/customer-escape-prevention.md); stated once at WORKFLOW Phase B step 5, Phase D *Session preflight*, E0 and F *Design + depth reconciliation*.
 5. **Parallel lanes by default, one leased account per lane** — [parallel-test-lanes.md](../../references/parallel-test-lanes.md); lane plan at WORKFLOW Phase B step 7, dispatch and lane failure in Phase E.
 6. **Login by command, never a login window or a password** — stated once at WORKFLOW Phase D *Fresh login* ([parallel-test-lanes.md](../../references/parallel-test-lanes.md) §3).
 7. **Result quality gate, all 20 layers on every case before any verdict** — [result-quality-gate.md](../../references/result-quality-gate.md); mechanical layers by checker, judgement layers by hand, gate time counted in the round line (execute-and-summarize *Result quality gate*).
 8. **No-wait decision gate, all 20 layers before any BLOCKED / "needs decision" / held post** — [no-wait-decision-gate.md](../../references/no-wait-decision-gate.md); runs at E3 (execute-and-summarize); never park a case or a finished post waiting for someone.
 9. 🔴 GATE: confirm before the first Playwright run — stated once at WORKFLOW Phase C (bot-run branch included).
-10. Read and follow [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md) **end-to-end** — every step, gate, and reference.
+10. Read and follow [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md) step by step — open each phase or reference file at the step that names it (the progress checklist names each file at its step); no gate is skipped.
 
 Claude Code shortcut: `/testing-ticket` → [commands/testing-ticket.md](../../commands/testing-ticket.md).
 
@@ -36,9 +38,11 @@ Claude Code shortcut: `/testing-ticket` → [commands/testing-ticket.md](../../c
 
 The must-read files for this workflow, linked directly from here (references already linked above are not repeated; WORKFLOW.md links any further file at the step that uses it). Read the **Always** tier at the start; read each **On trigger** file only when its trigger is reached.
 
+Full index of shared references: [skill-reference-index.md](../../references/skill-reference-index.md). Only the files below are listed here.
+
 ### Always (at the start of every run)
 
-- [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
+- [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md) — always: the procedure; open each phase file at its step.
 - [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone); it links the session constraints and the user-communication rules, so those are not listed again here.
 
 ### On trigger
@@ -63,7 +67,7 @@ Grouped by the phase that reaches the trigger; each line names its exact trigger
 - [playwright-discipline.md](../procedures/testing-ticket-workflow/references/playwright-discipline.md) — before writing or running any Playwright step.
 - [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing Playwright selectors.
 - [test-through-real-steps.md](../../references/test-through-real-steps.md) — before executing any case — drive the real screen, never a backend shortcut.
-- [execute-and-summarize.md](../procedures/testing-ticket-workflow/execute-and-summarize.md) — before Phase E — read and follow Phase E, the result quality gate and Phase F, end to end.
+- [execute-and-summarize.md](../procedures/testing-ticket-workflow/execute-and-summarize.md) — open at Phase E: Phase E, the result quality gate and Phase F.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read when recording or judging evidence clips and the AC/EC coverage gate.
 - [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — when results conflict with expectations, with dev claims, or look flaky.
 
@@ -77,7 +81,7 @@ Grouped by the phase that reaches the trigger; each line names its exact trigger
 
 #### Writes outside the chat (Phase G)
 
-- [results-update.md](../procedures/testing-ticket-workflow/results-update.md) — before Phase G — read and follow it whenever results are updated outside this chat.
+- [results-update.md](../procedures/testing-ticket-workflow/results-update.md) — open at Phase G, only when results are updated outside this chat.
 - [result-update-discipline.md](../procedures/testing-ticket-workflow/references/result-update-discipline.md) — read before updating a results destination.
 - [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
 - [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md) — before and after posting any Jira body (v2 wiki vs v3 ADF).
