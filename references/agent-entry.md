@@ -73,6 +73,6 @@ Open [AGENTS.md](../AGENTS.md) in the Helix repo (or add a line in your projectâ
 | File bugs | `create-bug-workflow` |
 | Audit finished work | `catch-ai-workflow` |
 | Review a TC document | `tc-review-workflow` |
-| Review recorded results (ols-qa workspace only) | `review-result-workflow` |
-| Prepare test data (ols-qa workspace only) | `test-data-prep-workflow` |
+| Review recorded results | `review-result-workflow` |
+| Prepare test data | `test-data-prep-workflow` |
 | Copy a TC tab into the release TC template | `tc-change-format-workflow` |

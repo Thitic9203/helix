@@ -4,7 +4,7 @@ The single routing source for the [helix router](../skills/helix/SKILL.md), [com
 
 ## Primary menu
 
-`#` is the number the user replies with; **Option** is the bold name in [menu-text.md](menu-text.md) for the same number. Rows 8–11 are not shipped in helix: outside the ols-qa workspace, say so and offer only the fallback named on that row.
+`#` is the number the user replies with; **Option** is the bold name in [menu-text.md](menu-text.md) for the same number. Rows 8 and 10 are not shipped in helix: outside the ols-qa workspace, say so and offer only the fallback named on that row.
 
 | # | Option | Route to | Command | User intent · what to pass on |
 |---|--------|----------|---------|-------------------------------|
@@ -16,9 +16,9 @@ The single routing source for the [helix router](../skills/helix/SKILL.md), [com
 | 6 | Catch AI | [`catch-ai-workflow`](../skills/catch-ai-workflow/SKILL.md) | `/catch-ai` | Audit finished work against its governing sources. Pass the audit target from the message. |
 | 7 | TC Review | [`tc-review-workflow`](../skills/tc-review-workflow/SKILL.md) | `/tc-review` | Review an existing TC document against a ticket's AC/EC. Pass the TC document and the ticket key/URL. |
 | 8 | Content Takedown | `content-takedown-workflow` (ols-qa workspace only) | `/content-takedown` | Hide a set of published content from public view. Fallback outside ols-qa: none — no shipped workflow hides content; ask what the user needs. |
-| 9 | Review Result | `review-result-workflow` (ols-qa workspace only) | `/review-result` | Review already-recorded results and their evidence clips. Fallback outside ols-qa: offer 6 (`catch-ai-workflow`), which audits finished work. |
+| 9 | Review Result | [`review-result-workflow`](../skills/review-result-workflow/SKILL.md) | `/review-result` | Review already-recorded results and their evidence clips. |
 | 10 | Smoke Test | `smoke-test-workflow` (ols-qa workspace only) | `/smoke-test` | Smoke test a deployed build on a named environment. Fallback outside ols-qa: offer 4 (`testing-ticket-workflow`), which tests one ticket, not a whole build. |
-| 11 | Test Data Prep | `test-data-prep-workflow` (ols-qa workspace only) | `/test-data-prep` | Create, fix, or verify test data (content, covers, accounts). Fallback outside ols-qa: none — ask what the user needs. |
+| 11 | Test Data Prep | [`test-data-prep-workflow`](../skills/test-data-prep-workflow/SKILL.md) | `/test-data-prep` | Create, fix, or verify test data (content, covers, accounts). |
 | 12 | TC Change Format | [`tc-change-format-workflow`](../skills/tc-change-format-workflow/SKILL.md) | `/tc-change-format` | Copy a ticket's TC tab into the release TC template (Google Sheet). Pass every TC sheet link (with its tab) and card key/URL from the message. |
 | 13 | Other | — | — | Ask one clarifying question in the user's language, then route by this table or [intent-shortcuts.md](intent-shortcuts.md); if nothing fits, say so. |
 

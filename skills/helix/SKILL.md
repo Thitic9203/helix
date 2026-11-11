@@ -1,7 +1,7 @@
 ---
 name: helix
 description: |
-  Helix QA assistant menu — routes the user to the right QA workflow: TC FE prep, TC API prep, retest bug, testing ticket, create bug, catch-ai or TC review (content takedown, review result, smoke test and test data prep exist only in the ols-qa workspace).
+  Helix QA assistant menu — routes the user to the right QA workflow: TC FE prep, TC API prep, retest bug, testing ticket, create bug, catch-ai, TC review, review result or test data prep (content takedown and smoke test exist only in the ols-qa workspace).
   Use when the user says Helix, /helix or QA assistant menu, asks which QA workflow fits, or wants help with QA work without naming a workflow (e.g. "help me test this ticket", "ช่วยดูงาน QA นี้ให้หน่อย").
   Do NOT use when the request already names a specific workflow — run that workflow's command instead (listed in references/skill-routing.md); if Helix is loaded anyway, it routes straight to that workflow without showing the menu.
 metadata:
@@ -81,7 +81,7 @@ When routing cannot proceed:
 |-----------|-----|
 | Reply is not 1–13, an option name, or an intent-shortcuts phrase | Re-show the menu once; if still unclear, treat it as 13 (Other). |
 | User ignores or declines a proactive suggestion (replies about something else, or says no) | Do not start that workflow. Show the menu once; do not repeat the same suggestion in this session. |
-| Row 8–11 chosen outside the ols-qa workspace | Say it is not shipped in helix, then offer only that row's named fallback. |
+| Row 8 or 10 chosen and its `skills/{name}/SKILL.md` is not in the loaded skill set | Say it is not shipped in helix, then offer only that row's named fallback. |
 | The routed `SKILL.md` is missing or cannot be loaded | Say which file is missing, do not imitate the workflow from memory, and show the menu again. |
 | menu-text.md or skill-routing.md cannot be read | Name the file; do not route or show a menu from memory; stop. |
 | One message names workflow A, then workflow B only if A's result calls for it (e.g. retest, then file a bug if still broken) | Route to A; record B as the handoff per [skill-routing.md § Handoffs](../../references/skill-routing.md#handoffs-after-a-workflow-ends); do not ask a clarifying question. Two workflows both matching one goal is a different case — ask one question per intent-shortcuts.md. |
