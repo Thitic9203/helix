@@ -36,7 +36,9 @@ Shared skills are edited in ols-qa and synced to helix (`chore(sync): pull share
 - R5. When any Helix skill starts, the agent must first call `caveman` with level `lite` and `context-mode:context-mode`. If either is not in the session's skill list, the agent must ask once whether to install it, with a one-line reason for each (context-mode keeps large tool output in a sandbox so the context window fills slower and long runs stay accurate; caveman lite removes filler from replies so chats are shorter and cheaper, with full grammar and politeness kept). It must never install without a yes. On no, it continues and filters large output itself. The rule lives in one shared reference linked from every skill. On hosts without skills (Codex, Copilot, Cursor) it is skipped with one line.
 - R6. A change must not remove or weaken any gate, approval step or evidence rule (global rule 7); moving text to where it is used is allowed.
 - R7. Every change must pass `scripts/tests/run.sh`, `ci-check-portable-skills.sh`, `ci-check-skill-structure.sh` and `ci-check-doc-skill-lists.sh`.
-- R8. Out of this spec until the owner decides: changing `install.sh` (skills listed twice, G2), capping review/lane loops (G3), shortening descriptions (G4).
+- R8. Claude Code installs Helix only through the plugin `helix@helix-dev`; `install.sh`/`link-skills.sh` stop symlinking skills into the Claude skills folder and remove old Helix-owned symlinks there (owner G2, 11/Nov/2026; spec `docs/sdd/single-claude-install`).
+- R9. Review rounds and lanes stay uncapped, but reviewers and lane subagents receive file paths, not pasted full text (owner G3, 11/Nov/2026).
+- R10. Skill descriptions are cut to ≤ 500 bytes; the frozen trigger eval (160 queries) must not score lower than after-10 (owner G4, 11/Nov/2026).
 
 ## Edge cases
 

@@ -11,3 +11,22 @@
 | 7 | Release helix and sync ols-qa (lane L29) | Done when | — | GitHub Release on helix; ols-qa sync PR merged with parity files |
 
 Order: 1 → 2 → 3 → 4 → 5 (each its own PR, ols-qa first for shared text) → 6 → 7. Tasks 1–5 need the owner's plan approval first (ADLC gate, global rule 27).
+
+## Lanes (owner 11/Nov/2026: "แยกเลนทำให้มากที่สุด", every lane runs `superpowers:verification-before-completion` before claiming done)
+
+File-disjoint, run in parallel, edits in ols-qa (shared skills) or helix (scripts):
+
+| Lane | Files owned | Rules |
+|---|---|---|
+| ROUTER | `skills/helix/SKILL.md`, `commands/helix.md` | R1, R4, R5 |
+| REFS | new `references/session-start-context.md`, `references/skill-reference-index.md` | R4, R5 |
+| GATES | `references/qa-evidence-gates.md` + new `qa-evidence-capture.md`, `qa-evidence-rerecord.md`, `qa-evidence-coverage.md` | R3 |
+| RETEST | retest stub + `skills/procedures/retest-bug-workflow/**` | R2, R4, R5, R9 |
+| TT | testing-ticket stub + procedures + `references/parallel-test-lanes.md` | R2, R4, R5, R9 |
+| TCFE | tc-fe stub + procedures | R2, R4, R5, R9 |
+| SMALL | create-bug, tc-api-prep, review-result stubs + procedures | R2, R4, R5 |
+| CR | `skills/catch-ai-workflow/SKILL.md`, `skills/tc-review-workflow/SKILL.md` | R2, R3 links, R4, R5 |
+| INSTALL (helix) | `scripts/install.sh`, `scripts/link-skills.sh`, `scripts/helix-doctor.sh`, tests, README/wiki | R8 |
+| DESC (after the skill lanes merge) | frontmatter `description` of every SKILL.md + trigger eval | R10 |
+
+Merge order: REFS and GATES first (new files), then the skill lanes rebase; then sync to helix and parity; then DESC; then task 6 (re-measure + eval) and task 7 (release).
