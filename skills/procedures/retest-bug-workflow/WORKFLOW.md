@@ -83,14 +83,14 @@ invoking a real debugging skill — **`superpowers:systematic-debugging`** first
 (QA diagnoses; QA does not patch product code). No cause without a captured artifact and a
 `Confirmed` / `Suspected` / `Unknown — not investigated` label.
 
-**Any verdict that is not a clean PASSED** is governed by [defect-report-completeness.md](../../../references/defect-report-completeness.md) — the comment must answer the reader's five questions (what, **which entry points**, what it should be instead, why that is a fail, **what changes and who decides**) before it is posted. A question asked after posting means a section was missing; the fix is the comment, not a chat reply.
+**Any verdict that is not a clean PASSED** is governed by [defect-report-completeness.md](../../../references/defect-report-completeness.md) — the comment must answer the reader's five questions (what, **which entry points**, what correct looks like, why that is a fail, **what changes and who decides**) before it is posted. A question asked after posting means a section was missing; the fix is the comment, not a chat reply.
 
 **Challenge every non-PASS before you record it (the "wait, really?" gate).** A retest result that is
 not a clean PASSED is a **hypothesis, not a verdict**. Before it becomes FAILED / BLOCKED — or a posted
 comment — re-verify the **expected** side against an authoritative source, **including the AC/EC of
 related / linked tickets** (the parent story, linked issues, sibling tickets on the same surface),
 read character-exact. The bug's own Expected Result is the primary contract (Step 2), but a related
-ticket may have **superseded** or **clarified** it, and a transliteration or an unconfirmed-spec hedge
+ticket can have **superseded** or **clarified** it, and a transliteration or an unconfirmed-spec hedge
 turns a correct app into a phantom FAILED. Run this at **Step 4i**, then **surface it to the user in
 chat** so they can decide whether to adjust the expected/TC, re-test, or confirm the defect. Full gate:
 [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md).
@@ -178,7 +178,7 @@ Ask **one question at a time** using [references/project-config-template.md](ref
 - Environments + base URLs + Swagger paths
 - Portals, login URLs, login method
 - Test accounts (username/email only — a password is never collected, stored, or filled; a dead session is restored by ready-to-run relink/mint commands the user runs; record their templates (`<project-dir>`, `<env>`, `<account>`) when the guide names none)
-- Optional error docs, transitions, gotchas
+- Error docs, transitions, gotchas — when the project has them
 
 Write `<workspace>/references/{project}-retest-guide.md` and tell them where it was saved.
 Each answered value is saved to the guide **immediately** — no second "save this?" question; a value
@@ -215,7 +215,7 @@ Capture: environment, test steps, expected/actual results, API endpoint, bug typ
 - **PASSED** only if the retest satisfies **ALL** expected results stated in the bug — every item, character-exact where the bug specifies wording.
 - <a id="verdict-rule"></a>🔴 **Verdict rule (the one rule for any difference):** a partial match is **never PASSED**. An item **observed to differ** — any difference, including one word or one pixel; there is no "minor wording" or "cosmetic" exception to *not PASSED* — is a non-PASS row whose verdict comes **only** from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md): **Lowest / Low / Medium → PWMI**, **High / Highest → FAILED**. An item **not verified / unreachable** is a **BLOCKED** row (a coverage gap, never a product FAILED). The round's summary verdict follows the rows, worst finding first: FAILED, then PWMI, then BLOCKED, then PASSED (`computedVerdict` in `tools/retest-guard/retest_manifest.js`; when the workspace has no such tool ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)), apply this order by hand from the rows and state `manifest tool not installed — verdict computed by hand` with the draft — the check is never skipped).
 - Parent-story AC / Figma are **supplements** for context or when the bug is title-only — they never override or dilute the bug's own expected results. If the bug's expected result and the parent AC conflict, test against the bug's text and flag the conflict to the user.
-- **Enumerate the full contract now (coverage gate layers 1–2).** Extract **every** Expected-Result item **and** each bullet of the bug's detail/steps char-exact, give each a stable id (`ER1…`), and map each id 1:1 to a row you will fill in the Step 6 verdict table — so the ALL-items check is a **visible row per id**, not implied. The ids follow the ticket's own numbering: a compound expected ("shows A **and** B") stays **one** `ER` id and one row, quoted whole, and splits into one Step 2c **case** per clause — so the `Expected-result coverage` denominator equals the ticket's item count; an item with no row is a coverage gap → add it, never drop it. Nothing verified-or-reported may live outside this list, and nothing in it may be silently omitted.
+- **Enumerate the full contract now (coverage gate layers 1–2).** Extract **every** Expected-Result item **and** each bullet of the bug's detail/steps char-exact, give each a stable id (`ER1…`), and map each id 1:1 to a row you will fill in the Step 6 verdict table — so the ALL-items check is a **visible row per id**, not implied. The ids follow the ticket's own numbering: a compound expected ("shows A **and** B") stays **one** `ER` id and one row, quoted whole, and splits into one Step 2c **case** per clause — so the `Expected-result coverage` denominator equals the ticket's item count; an item with no row is a coverage gap → add it, never drop it. Nothing verified-or-reported lives outside this list, and nothing in it is silently omitted.
 
 **Task / Story retest — the contract is the AC, and the case list is built rather than inherited.** A
 Task has no Expected Result field, so read the ticket **type** first and branch:
@@ -436,7 +436,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST read project config before testing | No hardcoded env URLs |
 | MUST run the case list in parallel lanes, one leased account per lane, unless a [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §4 predicate is named | Shortest retest time with no shared login — a shared account ends sessions and shares state, producing false defects |
 | NEVER open a browser or login window for a test account (main thread or lane) — a lane returns `SESSION-DEAD`; the main thread gives ready-to-run commands, one combined `bash` block per step (relink every needed account → setup/mint only the FAILED ones; each account isolated, prints OK / FAILED with a log path), then probes ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3) | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |
-| MUST treat Swagger (+ error docs) over stale ticket text | Ticket may be wrong |
+| MUST treat Swagger (+ error docs) over stale ticket text | Ticket text can be stale |
 | MUST use exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** in the summary line — the round's real verdict; a round nobody could reach reads BLOCKED, never FAILED | Scanability for dev/QA; a coverage gap is not a defect (`SUMMARY_VERDICTS` in `retest_rules.js`) |
 | MUST keep a PASSED comment inside the Step 6 template fields only — no narrative padding, one-line evidence captions | A tight comment is scannable in seconds; prose bloat buries the verdict (locked from an owner-accepted format 2026-07-23) |
 | MUST give every table column an explicit English header; row-number column = `No.` | bare `#` renders as a blank header cell in Jira |
@@ -444,9 +444,9 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST bold every table header cell (`\| **No.** \| **Test Case** \| …`) | Jira doesn't auto-bold markdown headers; non-bold looks unprofessional |
 | MUST compare actual text against the Expected Result field (field id from the project guide) character-by-character when expected specifies exact wording | Any text difference is **never PASSED** — no "minor wording" or "cosmetic" exceptions; its verdict (PWMI or FAILED) comes from the matrix per the [verdict rule](#verdict-rule) |
 | MUST pass the Step 8·0 format-completeness gate before ANY status transition — FE bug evidence follows the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule (MP4 link in every row's `Evidence` cell, plus an inline `!file.png!` still — pre-resized, no `\|width` — on text-verification rows), link and still render-verified; a text-only FE comment fails the gate | Transitioning on an evidence-incomplete comment silently hides the gap (learned on a past retest: FE bug moved to Done with a text-only comment) |
-| MUST NOT offer the user a "skip the MP4 / stills / text-only" option for an FE bug — that evidence is mandatory, not optional; if upload is blocked, STOP and resolve, don't bypass | Offering to skip a mandatory step is how the gate got bypassed (same past retest) |
+| MUST NOT offer the user a "skip the MP4 / stills / text-only" option for an FE bug — that evidence is mandatory; if upload is blocked, STOP and resolve, don't bypass | Offering to skip a mandatory step is how the gate got bypassed (same past retest) |
 | MUST verify the Jira UI after post (Step 7d) before Step 8, then run Step 8 unless the user stopped you | Truncation / wrong endpoint; workflow closure |
-| MUST run Step 8d as soon as the bug lands in Done — Done = fixed = the stories it blocked may be releasable | Otherwise blocked stories sit in the backlog after their blocker is already closed |
+| MUST run Step 8d as soon as the bug lands in Done — Done = fixed = the stories it blocked can be releasable | Otherwise blocked stories sit in the backlog after their blocker is already closed |
 | MUST check EVERY "is blocked by" link on a story before moving it in Step 8d, treat only **Done** as resolved, and move only stories parked in the blocked status | This bug is often not the story's only blocker; moving a still-blocked story sends untestable work back to QA, and touching a story already in QA/dev moves it backwards |
 | MUST create missing test data in the [4c order](execute-and-evidence.md#4c-test-data) — ask the user only after steps 1–3 fail | "No data" is not an excuse |
 | MUST perform the action under test through its real surface (UI bug → through the UI, every Test Step); API only for test-data/precondition prep, and for an API-layer bug the API call is the real step | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action verifies the wrong layer and can pass while the screen is broken |

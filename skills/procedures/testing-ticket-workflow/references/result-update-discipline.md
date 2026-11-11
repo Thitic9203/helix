@@ -13,7 +13,7 @@ Used in **Phase G** after test summary in chat.
 ## Write-scope guard — only ever touch this run's own work (3 layers, mandatory)
 
 **The one rule: work someone else already did is off limits.** In a shared results sheet or a
-shared evidence folder, you may write only the cells and files that belong to the run you are
+shared evidence folder, you write only the cells and files that belong to the run you are
 doing right now. Everything else is read-only — no overwrite, no delete, no rename, no reorder,
 no reformat, even when it looks stale, wrong, or half-empty. If you believe an existing entry
 needs changing, **ask the user**; do not decide for the person who wrote it.
@@ -25,7 +25,7 @@ Every layer **fails closed**: if a check cannot be satisfied, do not write.
 | Existing state of the row | Yours? |
 |---|:---:|
 | Status empty or `NOT STARTED`, **and** no result text, **and** no evidence links | ✅ untested — this run owns it |
-| Result text starts with your own run marker (e.g. `Tested by <agent> …`) | ✅ your earlier run — re-runs and retests may update it |
+| Result text starts with your own run marker (e.g. `Tested by <agent> …`) | ✅ your earlier run — re-runs and retests are allowed to update it |
 | Anything else — a status, a note, or a link a person put there | ⛔ hands off |
 
 ### Integrity — three kinds of damage a "successful" write can leave behind
@@ -35,7 +35,7 @@ sheet, so every layer also checks that **nothing came out damaged**:
 
 | # | Damage | How it happens | Guard |
 |:-:|---|---|---|
-| **I1** | **A formula is destroyed** | writing a literal over a cell that held a formula; a spilling array formula blocked by leftover values in its spill range | refuse to write a literal onto a formula cell; after writing, every pre-existing formula must still be a formula and the same one, and **no new `#REF!`/`#NAME?`/`#VALUE!`/`#N/A`/`#DIV/0!` may appear anywhere in the block**. Clear an array formula's spill range *before* writing it |
+| **I1** | **A formula is destroyed** | writing a literal over a cell that held a formula; a spilling array formula blocked by leftover values in its spill range | refuse to write a literal onto a formula cell; after writing, every pre-existing formula must still be a formula and the same one, and **no new `#REF!`/`#NAME?`/`#VALUE!`/`#N/A`/`#DIV/0!` is allowed anywhere in the block**. Clear an array formula's spill range *before* writing it |
 | **I2** | **A value is altered on the way in** | the sheet re-reads text as something else: `=…`/`+…`/`-…`/`@…` becomes a formula, `1/2` or `2026-07-23` becomes a date, `007` loses its zero | write text **RAW**; reserve the "interpret this" input mode for values you genuinely mean as formulas; refuse a literal that would be reinterpreted; after writing, **read the cells back and compare them to what was sent** |
 | **I3** | **Values land in the wrong column** | a row shorter than the range shifts every later value one column left; hardcoded column letters when the layout has variants; a moved header row | resolve columns **by header name**, require every written row to be exactly as wide as the range (pad with empty strings), and verify the **header row is unchanged** after the write — if the header moved, every column mapping in the run was wrong |
 
@@ -77,7 +77,7 @@ sheet, so every layer also checks that **nothing came out damaged**:
    link as this run's evidence** — rename your file and upload that instead. Keep no delete,
    trash, or rename path at all.
 3. **Folder audit** — list the folder before and after; every pre-existing file must still be
-   present and unchanged (same checksum and modified time), and the only new items may be yours.
+   present and unchanged (same checksum and modified time), and the only new items are yours.
 
 ### Escape hatch
 

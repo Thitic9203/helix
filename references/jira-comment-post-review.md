@@ -15,7 +15,7 @@ After posting a TC comment to Jira, the agent MUST review the rendered comment o
 ```
 Post comment → Review on Jira UI → Pass all checks?
   YES → Report to user: "commented"
-  NO  → Fix → Re-post → Re-review (max 3 rounds)
+  NO  → Fix → PUT to the same comment id → Re-review (max 3 rounds — the cap of this posted-comment re-read loop; a workflow step that states its own cap uses that cap)
         Still failing → Report specific failures to user, do NOT claim success
 ```
 
@@ -39,8 +39,8 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 ### 1. Content completeness
 
 - [ ] **All TC rows present** — count rows on Jira UI, must match approved draft row count
-- [ ] **Shared data preparation section** visible above table (if applicable)
-- [ ] **Precondition note** visible (if applicable)
+- [ ] **Shared data preparation section** visible above table (when the approved draft has one)
+- [ ] **Precondition note** visible (when the approved draft has one)
 - [ ] **Table header row** visible with all column names — every column has an explicit, **all-English** header; row-number column reads `No.` (a bare `#` renders as a **blank** header cell in Jira)
 - [ ] **Footer** visible (CSV/Excel reference line, attachment link)
 
@@ -56,7 +56,7 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 - [ ] **No literal `<br>`** in any cell (zero tolerance)
 - [ ] **No literal `<br/>`** or `<BR>` variants
 - [ ] **No other HTML tags** visible as text (`<b>`, `<p>`, `<li>`, `<ul>`, `<strong>`, etc.)
-- [ ] **No literal `**`** showing as text (markdown bold markers should render, not display)
+- [ ] **No literal `**`** showing as text (markdown bold markers render as bold, never as text)
 - [ ] **No `\n`** showing as literal text
 - [ ] **Structure survived** — in `renderedBody`, `<table>` count == source `||` header-row count (v2) or `|---|` divider count (markdown), `<hr>` count == source rule count, `<img>` count == source embed count. An unclosed `{macro}` (`{id}`, `{status}`, a raw JSON blob) silently turns every table below it into raw text while leaving images intact, so counting images alone proves nothing
 
@@ -80,7 +80,7 @@ If CSV/Excel was generated in a prior step but NOT attached to Jira → **attach
 
 | Failure | Fix |
 |---------|-----|
-| Missing rows / truncated table | Re-post full comment (delete old if partial); consider ADF for large tables |
+| Missing rows / truncated table | PUT the full corrected body to the same comment id (edit in place, `jira-wiki-vs-markdown.md` § Fixing a comment that already shipped); when the re-read still shows the table truncated, send that body as ADF (v3) — unless the session locked v2/v3, then hand the corrected body to the user |
 | Literal `<br>` or HTML tags | Re-run [jira-linebreak-conversion.md](jira-linebreak-conversion.md), strip tags, re-post |
 | Numbered items on same line | Verify conversion produced actual line breaks; re-post with corrected body |
 | Literal `**` visible | The body is markdown but was posted to the **v2 wiki** endpoint. Wiki bold is a single `*`; `**x**` renders as bold-wrapped-in-asterisks. Convert the whole body to wiki syntax (`*bold*`, `----`, `\|\|header\|\|` with no divider row, bare `!file.png!`) and PUT it back to the same comment id — never repost |
@@ -103,10 +103,10 @@ If a fix attempt fails, **find the best alternative — never give up or say "ca
 
 | Blocked by | Escalation path |
 |------------|-----------------|
-| MCP post shows `<br>` literal | Delete comment → re-post with `\n` conversion. If MCP still fails → switch to ADF via browser. If no browser → provide corrected body for user to paste manually. |
+| MCP post shows `<br>` literal | Re-convert with `\n` and PUT the corrected body to the same comment id (edit in place — never delete and re-post). If it still fails and the session has not locked v2/v3 → switch to ADF via browser. Format locked, or no browser → provide the corrected body for the user to paste manually. |
 | MCP truncates table | Switch to ADF + browser session. If no browser → split into 2 comments (header+first half, second half) with clear labels. |
 | CSV upload fails via MCP | Try browser upload. If no browser → save CSV in workspace + instruct user to drag-and-drop attach. |
-| Bold `**` not rendering | Switch to ADF bold nodes. If not possible → accept plain text headers (functional over pretty). |
+| Bold `**` not rendering | Session has not locked v2/v3 → switch to ADF bold nodes and PUT to the same comment id. Format locked, or ADF not possible → accept plain text headers (functional over pretty). |
 | Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before re-post. |
 
 After exhausting automated options → provide the user with:

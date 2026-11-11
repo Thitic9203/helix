@@ -205,7 +205,7 @@ no source answers goes to Step 4 as "confirm with dev/PO".
 
 ## Step 4 — Report Good vs Need Improve [medium freedom]
 
-Two short lists, each bullet anchored to a row id, AC id, or quoted text — never an unanchored opinion.
+The delivered review is the Step 2 matrix, then two short lists, each bullet anchored to a row id, AC id, or quoted text — never an unanchored opinion.
 
 ```text
 **Good**
@@ -225,18 +225,18 @@ leaves the TC author guessing. Each suggestion must come from a source, never an
 - **Taken from the AC/EC wording:** e.g. replace the wrong condition with the AC's own phrase, or add the
   missing Expected Result clause using the AC's own text.
 - **No source gives the value** (a threshold, count or timing the ticket never states, including a boundary inferred from
-  AC wording, e.g. "past 20" → 21): suggest adding it and say who confirms ("confirm with dev/PO"). Never make up a number.
+  AC wording, e.g. "past 20" → 21): the Suggest line says to add it and who confirms ("confirm with dev/PO"). Never make up a number.
 
-Keep each bullet tight. The suggestion says what to change, not a rewritten row. If the user asks to
+One finding per bullet, at most two lines plus its Suggest line. The Suggest line says what to change, not a rewritten row. If the user asks to
 narrow scope (e.g. "drop everything about
 X"), regenerate the list from Steps 2–3 with that category removed — do not hand-edit prose reactively,
 since the same category will resurface differently worded next time otherwise.
 
 **Language:** match the ticket's / TC document's own language by default. Mixed = the ticket's AC/EC and the TC
 document are written in different languages → ask the user once which language to write the review in.
-Helix menus and intake questions stay English per
-[user-communication.md](../../references/user-communication.md); the review content itself follows the
-destination document's language, the same exception that document already carries.
+Helix menus, intake questions and the thread question follow the user's language per
+[user-communication.md](../../references/user-communication.md); only the review content itself follows the
+destination document's language.
 
 Post the review in chat before the Step 5 send — an external message cannot be unsent the way a chat
 message can. The Step 5 thread question is the go-ahead; do not add a separate "send it?" question.
@@ -356,7 +356,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | NEVER count or mention a struck-through AC/EC | The ticket has already taken it out of scope, so mentioning it is noise |
 | NEVER report a business rule or comment that does not conflict with an AC/EC | The AC/EC are the contract. A rule with no TC but no conflict is not a defect in the document |
 | MUST give every Need Improve item a sourced "→ Suggest:" fix, and NEVER invent a value for it | A problem without a fix leaves the author guessing. An invented number gets copied into the TC as if it were spec |
-| MUST run Step 5 exactly as written — it is the single source for the notify rules (project's own channel every run whoever invoked it, ask only the thread, never invent a channel/thread/mention id, preview gate, length limit, read-back, delete-and-resend vs edit-in-place, decline branch) | Restating those rules in several places let copies drift apart |
+| MUST run Step 5 exactly as written — it is the single source for the notify rules | A second copy of those rules drifts from the first |
 | MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat | The review is the deliverable to approve first — an external send is not the review itself |
 
 ## Must-read files
@@ -367,7 +367,7 @@ Every file this skill's procedure requires, one hop from here. Read each at the 
 - Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging any UI or visual result against the design.
 - Read [helix-session-constraints.md](../../references/helix-session-constraints.md) once at session start.
 - Read [long-workflow-todos.md](../../references/long-workflow-todos.md) when the workflow has many steps; keep the todo list.
-- Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when a QA follow-up could be suggested.
+- Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
 - Read [qa-closing-shared.md](../../references/qa-closing-shared.md) before saying done; shared closing checklist.
 - Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
 - Read [qa-evidence-gates.md](../../references/qa-evidence-gates.md) before any completion claim.

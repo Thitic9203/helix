@@ -59,7 +59,7 @@ The plan always shows both lane rows, L1 and L2, one account per lane ([parallel
 
 - All in-scope scenarios **PASSED** with fresh runner output (see [qa-evidence-gates.md](qa-evidence-gates.md))
 - **Every enumerated AC/EC id is rowed-and-verdicted** — `enumerated in-scope ids == rows carrying a verdict + evidence` (AC/EC coverage gate layer 6); none parked only in a remark, none left `NOT TESTED`
-- No blocker labels without user ack
+- Every BLOCKED row carries its cause and is queued for the end decisions popup
 
 ### Risks
 

@@ -54,7 +54,7 @@ If no decisions are queued, step 2 is skipped, and the round has a single human 
 ## 5. Login reuse (per operator, across runs)
 
 - **Saved login file:** `{auth dir from guide}/{env}-{role}-{alias}.json`. It is named by account, not by lane, and is gitignored. The auth directory comes from the project guide.
-- **Before any result counts,** load the file and call the session endpoint. Expect the expected user id. On 401/403, a redirect to login, or a different user, log in fresh and overwrite the file.
+- **Before any result counts,** load the file and call the session endpoint. Expect the expected user id. On 401/403, a redirect to login, or a different user, return `SESSION-DEAD {account tag}`; the main thread restores the login by command (`parallel-test-lanes.md` §3 *Dead session*) — the agent never logs in itself.
 - **One account belongs to one lane,** and accounts are never shared across concurrent sessions.
 
 ## 6. Comment render and media check (before the approval popup)

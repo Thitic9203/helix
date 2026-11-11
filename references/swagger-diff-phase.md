@@ -27,7 +27,7 @@ If previous version is missing, ask once — do not invent a baseline.
 | New operation | Add new `TC_API_*` rows |
 | Removed operation | Mark old TC **deprecated** or remove with user confirm |
 | Breaking request/response | Update steps + expected for mapped TCs |
-| Non-breaking additive | Optional new row or note in Precondition |
+| Non-breaking additive | Add a new row, or a note in Precondition when no new behaviour needs its own row |
 
 4. Post **Swagger diff summary** in chat:
 
@@ -48,5 +48,5 @@ No TC change needed: {n}
 
 | Rule | Because |
 |------|---------|
-| MUST NOT delete TC rows silently | User may still need regression on old API |
-| MUST ask before removing coverage for deprecated endpoints | Contract may still be in production |
+| MUST NOT delete TC rows silently | User can still need regression on old API |
+| MUST ask before removing coverage for deprecated endpoints | Contract can still be in production |

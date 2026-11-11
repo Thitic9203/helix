@@ -175,7 +175,7 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
 2. **Confluence** / **Swagger** if provided.
 3. **Enumerate the AC/EC contract (coverage gate layers 1–2).**
    - **No AC/EC lines on the ticket** (or they live only in comments or attachments): read the description, every comment, the attachments, and the linked parent/epic, and enumerate whatever AC/EC text those hold, citing where each line came from. Still none → report it to the person or channel that assigned the run (ticket · where you looked · what is needed), plan the function-only
-     scenarios the ticket text supports and mark them **BLOCKED — no confirmed spec**, and put the question in the Phase C summary (and the end decisions popup if it is still open). Never invent an expected to fill the gap; the coverage gate then reconciles against the enumerated list, which may be empty.
+     scenarios the ticket text supports and mark them **BLOCKED — no confirmed spec**, and put the question in the Phase C summary (and the end decisions popup if it is still open). Never invent an expected to fill the gap; the coverage gate then reconciles against the enumerated list, which can be empty.
 
    Before writing the plan, extract **every** Acceptance Criteria and Expected Condition / Expected Result line **char-exact** and give each a stable id (`AC1…`, `EC1…`). Then build the numbered **test plan** so **every id maps to ≥1 scenario** — record the coverage matrix (`AC/EC id → scenario #`). A compound AC ("does A **and** B") splits into one scenario per clause; an id with no
    scenario is a coverage gap → add it, never drop it. (in-scope, out-of-scope, API vs UI.)
@@ -328,7 +328,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 - [ ] F1–F4 posted before any external update.
 - [ ] **AC/EC coverage gate (7-layer)** green — Phase B step 3 · Phase E *Cover every enumerated AC/EC id* · Phase F *AC/EC coverage reconciliation* ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *AC/EC & bug-detail coverage*).
-- [ ] Every scenario has PASSED/FAILED/BLOCKED/NOT TESTED with evidence reference.
+- [ ] Every scenario has PASSED/PWMI/FAILED/BLOCKED (not run = BLOCKED with reason) with evidence reference.
 - [ ] **Design (Figma) comparison** done for every UI scenario — Phase B step 4 · [E0](execute-and-summarize.md#e0--design-comparison--depth-checks-every-scenario-passed-ones-included).
 - [ ] **Depth gates** green — Phase F *Design + depth reconciliation* ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)).
 - [ ] **Story evidence-completeness gate (5-step)** green, fail-closed — [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#story-testing-evidence-completeness-gate-5-step-per-story) (MP4s per its *MP4 evidence — 7-layer* gate).
@@ -344,7 +344,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 - [ ] **Round-time contract** held (Phase C confirm, no mid-run waits, one approval popup, measured `Round time:` line, handoff with fingerprints) — [round-time-contract.md](../../../references/round-time-contract.md).
 - [ ] **Fresh-eyes:** re-read F2 before Phase G when **> 15 scenarios**.
 - [ ] [verify-closing-checklist.md](../../../references/verify-closing-checklist.md) (Testing ticket section).
-- [ ] When F3 lists a defect, the close-out ends with `Next: create-bug for {scenario ids}` — a suggestion only; this workflow never files it. Handoff file written every round (§10).
+- [ ] When F3 lists a defect, the close-out ends with `Next: create-bug for {scenario ids}` — an offer only; this workflow never files it. Handoff file written every round (§10).
 
 **Go back:** If any item above is unchecked, return to the phase it names (E, F or G) and redo from there; do not report done.
 
@@ -376,7 +376,7 @@ See [skill-routing.md](../../../references/skill-routing.md) — **Handoffs** af
 | [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) | Depth gates from the shipped-defect review — surface sweep, ER quality, widths measured, fixtures, build id, evidence on passed rows |
 | [qa-evidence-gates.md](../../../references/qa-evidence-gates.md) | AC/EC 7-layer coverage gate (every AC/EC is a row, not a remark) · capture scope (a set per named role · every step on screen · scroll to the target) · story 5-step evidence gate · MP4 7-layer gate · pre-delivery 7-layer gate before handing results over |
 | [result-update-discipline.md](references/result-update-discipline.md) | Sheets, Jira, Confluence update rules |
-| [workspace-guide-template.md](references/workspace-guide-template.md) | Optional non-secret defaults |
+| [workspace-guide-template.md](references/workspace-guide-template.md) | Non-secret defaults (not required) |
 | [worked-example.md](references/worked-example.md) | On-demand: anonymized sample (read only when format reference needed) |
 
 ---

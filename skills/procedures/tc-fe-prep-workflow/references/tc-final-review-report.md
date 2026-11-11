@@ -66,7 +66,7 @@ Build a traceability table for the report (see output template).
 | Jira formatting | Per [jira-formatting.md](jira-formatting.md): the ADF comment shows no literal `**`, `<br>` or HTML; the `.md` file bolds headers |
 | Bold inline numbering | Every multi-item cell that the column table in [design-and-review.md](../design-and-review.md) Step 3 numbers inline (e.g. **Services Impacted** with 2+ services) uses bold `**1.** … **2.** …` — never a `- ` bullet or bare `1.` |
 
-**Note:** Row sort order (e.g. Unit → Integration → System) may differ from ticket AC/EC order — that is **not** a numbering failure unless the user asked to preserve ticket order.
+**Note:** A row sort order (e.g. Unit → Integration → System) that differs from ticket AC/EC order is **not** a numbering failure unless the user asked to preserve ticket order.
 
 **FAIL examples:** steps jump `1.` → `3.`; TC `8` followed by TC `10`; shared prep missing item 3.
 
@@ -90,7 +90,7 @@ Build a traceability table for the report (see output template).
 2. Load **final TC** — Jira comment (preferred) or approved draft + CSV.
 3. Build traceability matrix (AC/EC → TC IDs).
 4. Run axes 2–4 on full table text.
-5. Record **optional improvements** (non-blocking suggestions only).
+5. Record **non-blocking improvements** (they never block Step 8).
 6. If any axis **FAIL** → fix TC → re-publish or re-show draft → re-run from step 2.
 
 ---
@@ -99,7 +99,7 @@ Build a traceability table for the report (see output template).
 
 Post this report in chat **immediately before** Step 8 session closing. Use **direct tone** — no polite particles or filler closings.
 
-Do **not** say TC prep is complete until this report is posted with overall **PASS** (or **PASS with optional improvements**).
+Do **not** say TC prep is complete until this report is posted with overall **PASS** (or **PASS with non-blocking improvements**).
 
 ### Template
 
@@ -166,11 +166,11 @@ Compared final TC against story **{ISSUE_KEY}** ({summary short}).
 
 ---
 
-## Optional improvements (non-blocking)
+## Non-blocking improvements
 
 {Omit section if none.}
 
-1. {TC_ID} — {suggestion}
+1. {TC_ID} — {improvement}
 2. …
 ```
 
@@ -178,7 +178,7 @@ Compared final TC against story **{ISSUE_KEY}** ({summary short}).
 
 - Use markdown links for issue and comment URLs.
 - **FAIL** overall → fix and re-run; do not proceed to Step 8.
-- **PASS** with optional improvements → proceed to Step 8; list improvements without blocking.
+- **PASS** with non-blocking improvements → proceed to Step 8; list improvements without blocking.
 - Keep prose concise; tables carry the evidence.
 - Language: follow [user-communication.md](../../../../references/user-communication.md) for chat (English default). Match ticket language for quoted UI strings and error messages.
 

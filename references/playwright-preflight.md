@@ -11,8 +11,8 @@ Complete **every** item before starting Phase E. Stop on first hard failure and 
 
 - [ ] `URL` loads (HTTP 200 or expected redirect — not CF challenge / login wall unless expected)
 - [ ] VPN: if **Required**, user confirmed tunnel active or runner can reach PD3/private network
-- [ ] Login: saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` (named by account, not by lane; gitignored) exists **or** credentials ready for headed login flow
-- [ ] Saved login checked: load the file, call the session endpoint, expected user id returned. On 401/403, a redirect to login, or a different user → log in fresh and overwrite the file ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs))
+- [ ] Login: saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` (named by account, not by lane; gitignored) exists (no file → the main thread restores it by command, `parallel-test-lanes.md` §3 *Dead session*)
+- [ ] Saved login checked: load the file, call the session endpoint, expected user id returned. On 401/403, a redirect to login, or a different user → return `SESSION-DEAD {account tag}`; the main thread restores the login by command (`parallel-test-lanes.md` §3 *Dead session*) — the agent never logs in itself ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs))
 
 ## 3 — Playwright readiness (user project)
 

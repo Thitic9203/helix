@@ -120,7 +120,7 @@ verbatim). One rule settles the two values, in this order:
    is never replaced by your own reading.
 2. **Priority** — its own field: the column of the matrix cell, in the reporter's Severity row, whose
    example text matches the defect.
-3. **Ask, never decide** — when no Severity was given, the given word is not a matrix row, or the
+3. **🔴 STOP — Ask, never decide** — when no Severity was given, the given word is not a matrix row, or the
    reporter's Severity row has only `N/A` / no matching cell for this defect, or the reporter gave a
    Priority that differs from the matrix cell: show that matrix row (and the cell) and ask the reporter
    to choose. A reporter-given Priority is never silently replaced by your own pick. Do not swap in another Severity or Priority yourself and do not draft the
@@ -131,7 +131,7 @@ follow-up question here, never a line you add to the draft.
 
 If the user references findings from a **prior testing-ticket** run in the same chat, reuse that evidence; do not invent details.
 
-**Wait** until A1–A3 are sufficient to draft. Ask follow-ups only for gaps.
+**🔴 STOP — Wait** until A1–A3 are sufficient to draft. Ask follow-ups only for gaps.
 
 ---
 
@@ -364,8 +364,11 @@ After Phase D create calls:
    issue as a duplicate (with the same approval) so no stray issue stays behind → **re-fetch** each link.
 4. **Maximum 2 fix-verify rounds** — then report partial success honestly.
 5. If any create failed → report which succeeded and which failed.
+6. **Fetch fails** (permission, 404, MCP down) → report that key/URL from the tool output as **created-unverified** with the error verbatim, retry the fetch once by another read path (REST, browser or `gh issue view`); still failing → `Verdict: CREATED {N}/{N} — {m} unverified`. Never call it verified.
 
 **Go back:** If fix-verify round 1 finds a mismatch, fix it (item 3) and return to item 2 of this phase — re-fetch every link. After round 2, stop and report partial success.
+
+The `Verdict: CREATED` line below is create-bug's form of the `Verdict:` line in [session-closing.md](../../../references/session-closing.md) §5.
 
 MUST NOT say “all bugs created” until at least one full fix-verify round passes — because create APIs can return success with wrong content.
 

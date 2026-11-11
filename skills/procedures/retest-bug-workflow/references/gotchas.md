@@ -5,7 +5,7 @@
 - After `evaluate`, if the page is `about:blank`, check `window.location.href` before each step.
 - `SyntaxError: await` in injected scripts → use `.then()` chains or an IIFE.
 - Always use **full URLs** in `fetch()` — no relative paths.
-- Token may be portal-specific — read project config.
+- Some projects issue a separate token per portal — read the project config for the one this portal uses.
 - Re-login when the session expires (see config).
 
 ## v2 wiki markup
@@ -45,4 +45,4 @@ wiki markup**. The one that bites hardest here is `**Retest Result: PASSED**` �
 
 Chrome decodes `\uXXXX` before `fetch` → Jira receives correct Unicode.
 
-See Step 7b in `WORKFLOW.md` and `publish-options.md` patterns in the TC prep skill for the same idea.
+The Step 7 pre-post checklist in [comment-and-post.md](../comment-and-post.md#pre-post-checklist) checks this (ASCII-safe JS when using JXA); `publish-options.md` in the TC prep skill uses the same pipeline.

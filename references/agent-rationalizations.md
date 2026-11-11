@@ -38,7 +38,7 @@ When you notice these thoughts, **stop** and follow the linked reference or skil
 |-----------------|----------------|
 | “Row count = AC count, good enough” | Run the AC/EC traceability step of [tc-fe-prep-workflow](../skills/tc-fe-prep-workflow/SKILL.md) |
 | “Extra TCs are helpful” | Orphan TCs violate scope — remove or get user sign-off |
-| “Swagger is enough, skip API spec” | Refuse Phase D until spec + Swagger per skill |
+| “Swagger is enough, skip API spec” | Refuse Phase D until spec + Swagger per skill — unless the user says the spec exists only in Swagger; then Swagger is both (tc-api-prep Phase A) |
 
 ## Session and skills
 
@@ -53,5 +53,5 @@ When you notice these thoughts, **stop** and follow the linked reference or skil
 | Rationalization | Correct action |
 |-----------------|----------------|
 | “Close ticket for user” | Only after user approves transition + evidence |
-| “Partial post is good enough” | [qa-evidence-gates.md](qa-evidence-gates.md) — fix-verify max 2 rounds |
+| “Partial post is good enough” | [qa-evidence-gates.md](qa-evidence-gates.md) — fix-verify max 2 rounds unless the workflow step states its own cap (`skill-rules-style.md` Rule 5) |
 | “Handoff not needed” | Write [handoff-file-template.md](handoff-file-template.md) if long or blocked |

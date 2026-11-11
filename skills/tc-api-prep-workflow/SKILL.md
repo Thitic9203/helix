@@ -2,7 +2,7 @@
 name: tc-api-prep-workflow
 description: |
   Prepare API manual test cases from API spec and Swagger with mandatory spec/Swagger coverage review and ISTQB/29119-3 quality check — confirm columns and delivery (Jira comment link and/or CSV/Excel in workspace).
-  Use when the user chooses TC API Preparation from Helix, invokes /tc-api-prep, or asks for API test cases from Swagger/OpenAPI.
+  Use when the user chooses TC API Preparation from Helix, invokes /tc-api-prep, or asks for API test cases from Swagger/OpenAPI. Use it whenever the user wants manual test cases for REST endpoints, an OpenAPI/Swagger file or a Postman collection — even if they do not say Swagger or TC (e.g. "เขียนเทสเคส API").
   Do NOT use for frontend story AC/EC tables (tc-fe-prep-workflow), Playwright or test execution (testing-ticket-workflow), retest-after-fix (retest-bug-workflow), or opening bugs (create-bug-workflow).
 metadata:
   proactive_triggers:
@@ -37,7 +37,7 @@ Every file this workflow can need, linked directly from here. Read the first gro
 - [intake-one-pager.md](../../references/intake-one-pager.md) — at intake, to show the one-page list of inputs the run needs.
 - [user-communication.md](../../references/user-communication.md) — read before any message to the user.
 - [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
-- [tc-quality-standards.md](../../references/tc-quality-standards.md) — read while writing every TC row.
+- [tc-quality-standards.md](../../references/tc-quality-standards.md) — read while writing every TC row. API mapping: with no Test Steps column (the default set, [default-columns.md](../procedures/tc-api-prep-workflow/references/default-columns.md)), Test Data (method, path, headers, body) is the step and Expected Result leads with the status code.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim.
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates, including the cross-ticket conflict check.
 - [session-closing.md](../../references/session-closing.md) — after the verify gate passes — artifact index, next workflow, handoff.
@@ -51,7 +51,7 @@ Every file this workflow can need, linked directly from here. Read the first gro
 - [coverage-delta-template.md](../../references/coverage-delta-template.md) — read after the coverage review, before the full draft.
 - [api-tc-guidelines.md](../procedures/tc-api-prep-workflow/references/api-tc-guidelines.md) — read at Phase D and Phase E2, while designing and checking every row.
 - [skill-rules-style.md](../../references/skill-rules-style.md) — when stopping for missing input, and for the fresh-eyes re-read of long drafts.
-- [csv-export-rules.md](../../references/csv-export-rules.md) — read when exporting the CSV file(s).
+- [csv-export-rules.md](../../references/csv-export-rules.md) — read when exporting the CSV file(s). API mapping: its `{ISSUE_KEY}_FE_TC` file names become `references/{SCOPE}_API_TC.csv` / `.xlsx` (WORKFLOW G1).
 - [csv-template-types.md](../../references/csv-template-types.md) — read before exporting a CSV.
 - [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) — before posting a table that contains line breaks to Jira.
 - [jira-fast-publish.md](../../references/jira-fast-publish.md) — read at Phase G2 before publishing to a Jira issue (ADF-direct patterns and error recovery).
@@ -64,7 +64,7 @@ Every file this workflow can need, linked directly from here. Read the first gro
 - [test-md-format.md](../../references/test-md-format.md) — read only when the user picks Test.md as a delivery format at Phase C.
 - [round-time-contract.md](../../references/round-time-contract.md) — read only when a round starts, and before reporting any time, duration or deadline to the user.
 - [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read only after G-verify passes, when writing the next-step suggestion in session closing.
-- [skill-routing.md](../../references/skill-routing.md) — read only when the request turns out not to be API TC drafting and another skill may own it.
+- [skill-routing.md](../../references/skill-routing.md) — read only when the request turns out not to be API TC drafting and another skill owns it.
 - [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read only before invoking or switching to another skill.
 - [agent-rationalizations.md](../../references/agent-rationalizations.md) — read only when you are about to skip or shorten a step or gate; each excuse has its correct action.
 - [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — read when a tool errors (fetch, export or publish).

@@ -90,7 +90,7 @@ customer's bug was exactly that ordering. (The follow-up probe confirmed the ord
 does require operator credentials — so the caveat was true, and the PASSED was indefensible.)
 
 - If the recorded actual result contains any of `caveat` · `not verifiable` · `could not verify` ·
-  `unable to confirm` · `assumed` · `ยืนยันไม่ได้` · `ตรวจไม่ได้` · `น่าจะ` — the status **may not be
+  `unable to confirm` · `assumed` · `ยืนยันไม่ได้` · `ตรวจไม่ได้` · `น่าจะ` — the status **must not be
   PASSED**. It is `BLOCKED` (unreachable — a coverage gap) or, where the point is minor and a bug is
   raised for it, `PASSED WITH MINOR ISSUE` per the [priority matrix](bug-priority-matrix.md).
 - An expected that depends on data the UI does not show (ranking score, internal ordering, a computed
@@ -109,7 +109,7 @@ the harness captured at one desktop width. Seven escaped defects were on other w
 - **Settle scope in writing before the run:** which widths are in scope this round, and which are
   explicitly not delivered yet. A width that is out of scope is stated out of scope to the customer —
   not silently untested (a "not yet delivered" scope is a change request, never our defect).
-- **In-scope widths are exercised as their own lane** (typically a mobile and a tablet width beside
+- **In-scope widths are exercised as their own lane** (the mobile and tablet widths the project guide names, beside
   desktop), and every in-scope page carries a result per width.
 - **Judge by measurement, not by eye** — these two checks caught the real defects and are cheap:
   - overflow: any element with `rect.right > window.innerWidth`, or

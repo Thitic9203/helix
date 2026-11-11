@@ -32,13 +32,13 @@ A **lane** = one subagent that owns:
 | **Scenarios** | A disjoint subset of the confirmed plan — every scenario is in exactly one lane |
 | **Unit work, end to end** | Execution, the Figma compare, recording during execution, the non-PASS root-cause investigation, and the repro shape ([round-time-contract.md §4](round-time-contract.md#4-fan-out-lanes-own-their-unit)) |
 | **Account(s)** | An exclusive lease on the account(s) its scenarios need — no other lane uses them during the run |
-| **Browser context** | Its own browser context, started from its leased account's saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` — named by account, not by lane, gitignored; never a shared profile. Session check before any result counts; fresh login on failure ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs)) |
+| **Browser context** | Its own browser context, started from its leased account's saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` — named by account, not by lane, gitignored; never a shared profile. Session check before any result counts; on failure the lane returns `SESSION-DEAD {account tag}` ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs)) |
 | **Session lease** | If the workspace provides a session-lease tool (see project guide): the lane acquires a lease on its account's login before loading the login file (holder = lane id + round id), renews it on long runs, and releases it in `finally`. Never load a login file without a lease |
 | **Test data** | Records it creates carry the lane id in their name (`QA-L2-…`) and are recorded in its report |
 | **Evidence dir** | Its own output folder (`…/lane-L2/`) — no two lanes write the same path |
 
-The **parent** (main thread) keeps everything that is not unit work: intake, plan (shown, then run —
-no mid-run confirm gate in these rounds), design-node collection, lane plan, merge (one report and one bundle from the lanes, including
+The **parent** (main thread) keeps everything that is not unit work: intake, plan (testing-ticket: shown, then the Phase C confirm; retest-bug: shown, then run —
+no mid-run confirm gate after that), design-node collection, lane plan, merge (one report and one bundle from the lanes, including
 the evidence re-check of every non-PASS in §6), queuing each non-PASS challenge for the end decisions
 popup, the summary, and every external write (Jira comment, transition, notify, results sheet).
 **A lane never posts, transitions, assigns, or notifies.**
@@ -64,7 +64,7 @@ popup, the summary, and every external write (Jira comment, transition, notify, 
      (publishing a course that no other lane opens) stays in that lane.
 3. **Assign units to lanes.** Lane count =
    `min(units, accounts that can be leased without collision, lane cap)`.
-   Default lane cap is **4** (each lane holds a live browser); the user may raise or lower it.
+   Default lane cap is **4** (each lane holds a live browser); the user sets a different cap by saying so.
    **Exception — retest, testing-ticket, and smoke rounds have no fixed cap:** lane count =
    `min(units, accounts leasable without collision)`, and any round with 2 or more units fans out
    ([round-time-contract.md §4](round-time-contract.md#4-fan-out-lanes-own-their-unit)).
@@ -101,7 +101,7 @@ shared, a rate limit trips, a one-time code is consumed by the other lane.
 |-----------|----|
 | Two units need the same role, pool has two accounts of that role | Two lanes, one account each |
 | Two units need the same role, pool has **one** account | Both units go in **one** lane, run in order |
-| Accounts share one OTP inbox / phone | **Parent pre-login:** before dispatch, the parent logs each of those leased accounts in one at a time (reading only the code issued after that request), saves each account's login file `{env}-{role}-{alias}.json` in the guide's auth dir (named by account, not by lane), then dispatches all lanes at once — each lane points at its leased account's file |
+| Accounts share one OTP inbox / phone | **Parent pre-login by command:** before dispatch, the parent gives the user the relink/mint block (*Dead session* below) for those leased accounts with one account per iteration, so each code is read after its own request; the commands save each account's login file `{env}-{role}-{alias}.json` in the guide's auth dir (named by account, not by lane), then dispatches all lanes at once — each lane points at its leased account's file |
 | Saved login file exists from an earlier run | Load it, call the session endpoint, expect the leased user id. On 401/403, a redirect to login, or a different user → the lane hands back `SESSION-DEAD {account tag}` and the parent recovers it (*Dead session* below; [round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs)) |
 | App is single-session per account | Already covered by the lease — never re-use a leased account in a second context |
 | Scenario needs a fresh / pre-first-use account | That account is leased to that lane only and is consumed — record it in the lease table |
@@ -122,9 +122,6 @@ The parent, like the whole skill, never opens a browser, login window or sign-in
 3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
 
 Once the probe is OK, the parent re-dispatches that lane's remaining cases. Prefer accounts whose sessions are already live when leasing, so the run needs as few commands as possible (zero when enough are live).
-
-When choosing lane accounts, prefer accounts whose sessions are live now, so the run needs as few
-windows as possible — none when enough live accounts exist.
 
 **Proof of isolation (mandatory per lane).** Each lane's session preflight records the authenticated
 user id from the app's own session endpoint — **one id per leased account** when the lane holds more
@@ -208,7 +205,7 @@ credential lives.
 
 1. **Isolation check** (§3) per lane — authenticated user id = leased account.
 2. **Coverage check** — the union of lane rows equals the confirmed plan; every AC/EC id has its own
-   row. A missing scenario is NOT TESTED until run, never assumed.
+   row. A missing scenario is BLOCKED (not run) until run, never assumed.
 3. **Evidence check** — open the evidence paths each lane cites; a row without evidence is not a
    result.
 4. **Verify every non-PASS yourself** — a lane's verdict and root cause are claims until the parent

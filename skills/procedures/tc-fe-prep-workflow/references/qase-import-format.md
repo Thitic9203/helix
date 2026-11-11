@@ -21,7 +21,7 @@ Qase field during import. Use the exact column set below; do not add the cut fie
 | **Steps – Action** | Step action | Numbered manual steps (Thai) |
 | **Steps – Expected result** | Step expected result | Numbered assertions (Thai) |
 | **Steps – Data** | Step data | Test data for the step |
-| **Tags** | Tags | optional; comma-separated |
+| **Tags** | Tags | not required; comma-separated |
 
 ### Cut fields — NEVER include
 
@@ -71,6 +71,6 @@ Qase accepts one of two layouts — pick one and stay consistent:
 
 ## Relationship to the Jira comment table
 
-The Jira comment keeps its existing 9-column markdown table (unchanged). This Qase CSV is
+The Jira comment keeps its own table schema ([markdown-template.md](markdown-template.md)), unchanged. This Qase CSV is
 the **attachment** — same test cases, restructured for Qase import. Row count of the CSV
 (by test case) MUST match the approved draft table.

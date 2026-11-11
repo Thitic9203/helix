@@ -138,7 +138,10 @@ or account, and any failure name the gate does not list as motion/freeze. A stil
 has an accepted clip; API-only cases use `evidence_mode: "api"` with a verified request/response
 (`api_verified`). Runs: checker `PASS_CLIP_UNVERIFIED` / `FAILED_NO_VERIFIED_CLIP` /
 `CLIP_HARD_FAILURE`. Proof: verifier output per clip, plus the reviewer record when the waiver is
-used.
+used. The waiver accepts the clip for the **result line** only. A clip that is posted or attached as
+evidence still clears the fail-closed MP4 gate in [qa-evidence-gates.md](qa-evidence-gates.md#mp4-evidence--7-layer-quality--correctness-defense-gate-mandatory-fail-closed)
+before it is delivered: a freeze-only red is cut with `freeze_cut.py` and re-verified, and a too-little-motion
+refusal is re-recorded with the flow that leads to the still screen. No reviewer record waives that gate.
 
 **11. The evidence shows the expected result on a real screen — J.** Stops: a lane flipping cases
 to pass while the clip itself showed a failing verdict strip (#0050). Check: the frame that shows
@@ -176,7 +179,7 @@ each source in the verdict line:
 A result with nothing found at a step says so, with the search used. Runs: per BLOCKED / FAILED
 line and before any question to the PO or reporter; checker `NO_SOURCE_SWEEP` refuses a BLOCKED or
 FAILED line without at least one `code_refs` entry shaped `path:line` **and** one `ticket_refs`
-entry shaped like a ticket key (optionally `KEY#comment-id`). Proof: `code_refs`, `ticket_refs` and
+entry shaped like a ticket key (`KEY` or `KEY#comment-id`). Proof: `code_refs`, `ticket_refs` and
 the regression / design sources on the line.
 
 **15. Every non-PASS survived the challenge gate — J.** Stops: a role that could not open a page

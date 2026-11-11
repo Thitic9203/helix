@@ -22,9 +22,9 @@ Use when retest shows the fix is incomplete or wrong — diagnose before closing
 
 | Situation | Conclusion |
 |-----------|------------|
-| Original bug case still fails | FAILED — fix ineffective |
-| Original passes, new defect found | PASSED for original + new ticket for new bug |
-| Mixed results | FAILED — list failing cases |
+| Original bug case still fails | Not PASSED — fix ineffective; the verdict comes from the [verdict rule](../WORKFLOW.md#verdict-rule): Lowest / Low / Medium → PWMI, High / Highest → FAILED |
+| Original passes, new defect found | PASSED for the original's ER rows; the new defect goes to the **Defect candidates — NOT filed** table ([defect-candidates.md](../../../../references/output-templates/defect-candidates.md)) with the owner question — never auto-filed ([result quality gate](../execute-and-evidence.md#result-quality-gate-mandatory-before-the-comment-is-drafted-low-freedom)) |
+| Mixed results | One verdict per row from the [verdict rule](../WORKFLOW.md#verdict-rule) and [bug-priority-matrix.md](../../../../references/bug-priority-matrix.md); the summary is the worst row, in the order FAILED, PWMI, BLOCKED, PASSED — list every non-PASSED case |
 
 ### 3. Evidence for FAILED
 

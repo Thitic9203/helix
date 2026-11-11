@@ -11,7 +11,7 @@ Ask **one section at a time**. Wait for answers before the next section.
 1. What is the Jira site domain? (e.g. `your-org.atlassian.net`)
 2. What is the ticket prefix? (e.g. `PROJ` from `PROJ-123`)
 3. Should FE TC comments go on the **story** by default? (yes/no)
-4. Cloud ID for API/MCP if needed (optional).
+4. Cloud ID for API/MCP (the user can leave it blank).
 
 ---
 

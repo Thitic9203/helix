@@ -26,12 +26,12 @@ Collect these before any Playwright run.
 
 ## Confluence
 
-- Optional page with AC tables, API notes, or test data.
+- A page with AC tables, API notes, or test data, when the user has one.
 - `none` if all context is on the Jira ticket.
 
 ## Swagger
 
-- Optional OpenAPI/Swagger URL for API scenarios tied to the ticket.
+- An OpenAPI/Swagger URL for API scenarios tied to the ticket, when the user has one.
 - `none` if UI-only.
 
 ## Confirmation gate

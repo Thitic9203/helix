@@ -5,7 +5,7 @@ Draft API test cases (not published yet)
 
 **Sources:** API spec: {API_SPEC_REF} · Swagger: {SWAGGER_URL}
 
-**Out of scope:** {optional list}
+**Out of scope:** {list, or none}
 
 | **Test Case ID** | **Module / Feature** | **Services Impacted** | **Test Title** | **Precondition** | **Test Data** | **Expected Result** | **Priority** |
 | --- | --- | --- | --- | --- | --- | --- | --- |

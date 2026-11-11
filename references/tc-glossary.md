@@ -24,7 +24,7 @@ The glossary outranks the skill's fallback table. Where they disagree, the gloss
 
 ## Re-check gate (before designing test cases)
 
-Every TC run re-fetches the tab and shows the user what it got. A cached CSV from a previous session is not evidence — the sheet may have changed.
+Every TC run re-fetches the tab and shows the user what it got. A cached CSV from a previous session is not evidence — the sheet can change between sessions.
 
 1. Fetch the published tab as CSV using the `gid` from the project guide:
 
@@ -45,7 +45,7 @@ Scan only the terms the test case set will actually use. Do not interrogate the 
 
 | Condition | Action |
 |-----------|--------|
-| Thai cell is **empty** | **STOP. Ask the user what word to use.** Offer the skill's fallback term as a suggestion if one exists, clearly labelled as a suggestion. |
+| Thai cell is **empty** | **STOP. Ask the user what word to use.** Offer the skill's fallback term if one exists, clearly labelled as a proposal. |
 | Same English key carries **conflicting Thai meanings** across rows (e.g. `Creator` vs `Creator (media owner)`) | **STOP. Ask the user which applies to this ticket.** |
 | Thai cell holds **multiple comma-separated variants** (e.g. `แถบ, แท็บ`) | Not blocking. Propose one variant in the term-confirmation table and let the user confirm. |
 | English term has **no row at all** | Use the skill's fallback table. If absent there too, ask. |

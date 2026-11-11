@@ -8,7 +8,7 @@ short step and prevents the two failure modes that waste the most time: guessing
 Invoke the **`engineering:testing-strategy`** skill first and let it shape the run — what to test, in
 what order, what "done" looks like, where the risk is. Announce it once:
 `Using **engineering:testing-strategy** to plan the test approach.` Then carry that plan into the
-workflow's own phases; do not improvise a test order that the strategy did not consider.
+workflow's own phases; do not improvise a test order that the strategy did not cover.
 
 ## 2. Settle — one deliberate pass before acting
 

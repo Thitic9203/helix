@@ -3,7 +3,7 @@
 Applies to **every** QA result that is not a clean PASSED, and to **every sentence anywhere that
 states or implies a cause** — chat, Jira comment, sheet cell, notify message, session record.
 
-A verdict says *what* happened. This document governs *why*, and it is not optional: the reader of a
+A verdict says *what* happened. This document governs *why*, and it is mandatory: the reader of a
 QA report acts on the cause, so an unverified cause is more expensive than no cause at all.
 
 ```

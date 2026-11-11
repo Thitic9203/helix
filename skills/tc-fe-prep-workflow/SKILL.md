@@ -55,7 +55,7 @@ Read each file below at the point written next to it, not up front. If that step
 - [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) — before posting a table that contains line breaks to Jira.
 - [publish-options.md (shared)](../../references/publish-options.md) — read when Step 7 has no browser tool or no signed-in Jira session — Option C manual handoff, comment Not posted.
 - [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md) — read when that manual handoff is prepared — which comment format to hand over.
-- [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates, including the cross-ticket conflict check.
+- [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates; its cross-ticket conflict check applies to testing-ticket and retest-bug only, not to TC prep.
 - [session-closing.md](../../references/session-closing.md) — after the verify gate passes — artifact index, next workflow, handoff.
 - [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
 - [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step; each excuse has its correct action.

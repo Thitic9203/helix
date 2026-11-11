@@ -43,7 +43,7 @@ Open bugs for the <N> candidate(s) above? (Yes → create-bug for all · Choose 
 Input (one result line plus the sources already opened):
 
 ```text
-TC_05 ER_2 FAILED · observed h1 = "<LABEL_B>" · AC_02 says "<LABEL_A>" · design node <NODE_ID> text "<LABEL_A>" · clip TC_05.mp4 verify ✔ · cause <PATH>:<LINE> (Confirmed) · matrix row "cosmetic / typo / UI misalignment" (bug-priority-matrix.md:52)
+TC_05 ER_2 PWMI · observed h1 = "<LABEL_B>" · AC_02 says "<LABEL_A>" · design node <NODE_ID> text "<LABEL_A>" · clip TC_05.mp4 verify ✔ · cause <PATH>:<LINE> (Confirmed) · matrix row "cosmetic / typo / UI misalignment" (bug-priority-matrix.md:52)
 ```
 
 Output:

@@ -47,7 +47,7 @@ After posting to Jira, re-read the comment on Jira UI and check:
 
 - [ ] No literal `<br>` text visible in any cell
 - [ ] Multi-line cells display each numbered item on a separate line
-- [ ] If literal `<br>` found → delete comment, re-convert, re-post
+- [ ] If literal `<br>` found → re-convert and PUT the corrected body to the same comment id (edit in place — never delete and re-post)
 
 ## Common mistakes
 

@@ -278,7 +278,7 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
    repository or the deliverable folder. It is review input only: not a deliverable, never attached,
    never committed. This is the one exception to the Step 4.5 no-file rule.
 2. **Reviewer output is binary per round:** `CLEAN` (zero actionable defects) or `HAS-COMMENTS` (a
-   numbered defect list). Nitpicks/optional polish are not defects — only genuine defects against the
+   numbered defect list). Nitpicks and cosmetic polish are not defects — only genuine defects against the
    ticket count.
 3. **Report the round to the user** immediately: `รีวิวรอบ N: CLEAN` or `รีวิวรอบ N: พบ X จุด — …` with
    the fixes applied. This report is mandatory every round (the user must never wonder whether a round

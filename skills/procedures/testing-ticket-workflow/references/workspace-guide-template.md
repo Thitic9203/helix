@@ -1,6 +1,6 @@
 # {Project} — Testing ticket guide
 
-Optional workspace file: `references/{project}-testing-ticket-guide.md`  
+Workspace file (not required): `references/{project}-testing-ticket-guide.md`  
 Save **non-secret** defaults only. Never store passwords here.
 
 ## Defaults

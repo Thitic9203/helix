@@ -37,7 +37,7 @@ Other issue types (Task, Epic, Sub-task) have no confirmed mapping yet: a runner
 
 ## Proactive suggestion (suggest-only)
 
-Not a routing rule: when and how the router suggests one workflow from context is defined in [skills/helix/SKILL.md § Proactive suggestion](../skills/helix/SKILL.md#proactive-suggestion-suggest-only-opt-out) and [proactive-qa-triggers.md](proactive-qa-triggers.md) (suggest only, never auto-run; `HELIX_PROACTIVE=0` opts out).
+Not a routing rule: when and how the router offers one workflow from context is defined in [skills/helix/SKILL.md § Proactive suggestion](../skills/helix/SKILL.md#proactive-suggestion-suggest-only-opt-out) and [proactive-qa-triggers.md](proactive-qa-triggers.md) (offer only, never auto-run; `HELIX_PROACTIVE=0` opts out).
 
 ## Handoffs (after a workflow ends)
 

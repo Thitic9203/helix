@@ -15,7 +15,7 @@
 
 1. **Phase B:** `gh auth status` OK; `gh label list` → `bug` and `severity:High` both exist.
 2. **Phase B2 (both items):** `gh issue list --state all --search '"Pay now" empty cart in:title,body,comments'` — 2 closed
-   issues matched, neither concluded the button may stay enabled on an empty cart → no conflict, no duplicate. The heading search
+   issues matched, neither concluded the button can stay enabled on an empty cart → no conflict, no duplicate. The heading search
    (`'"Order summary" in:title,body,comments'`) matched nothing.
 3. **Phase E:** three checks from the evidence only — no reproduction by the agent. Intentional design? AC-2
    opened, text matches the expected side char-exact, the app differs. Role-only? The reporter's two screenshots

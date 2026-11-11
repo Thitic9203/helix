@@ -6,4 +6,4 @@ Helix ships a shared CSV helper in the **Helix repository** (not in the user's p
 
 **In skills:** export in-agent by default — see [csv-export-rules.md](../../../../references/csv-export-rules.md).
 
-**Optional:** run the script only when the user provides `HELIX_INSTALL_ROOT` in the session. NEVER assume a default install path.
+**Not required:** run the script only when the user provides `HELIX_INSTALL_ROOT` in the session. NEVER assume a default install path.

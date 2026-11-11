@@ -75,11 +75,13 @@ Rule of thumb: **workaround exists · cosmetic · optional · "several"** → �
   Priority in the write-up.
 - **FAILED** = ONLY when the case hits a **High / Highest** bug.
 - A **coverage gap is not a defect** — it is not evidence of any Priority. Re-verify; if nothing
-  reproduces, the case is PASSED, with the caveat noted in the Actual Result.
+  reproduces, the case is BLOCKED with what is missing — never PASSED with a caveat
+  ([customer-escape-prevention.md](customer-escape-prevention.md) §3).
 - **When unsure, cite the matrix row — don't guess.** Never leave a Low/Medium defect as FAILED, and
   never leave a High/Highest defect as PWMI.
 - BLOCKED and SKIPPED are unrelated to this matrix (they are not verdicts about a bug's priority) —
-  see local agent memory `feedback_verdict-rubric` for the full rubric.
+  BLOCKED needs a stated cause per [qa-evidence-gates.md](qa-evidence-gates.md) and
+  [customer-escape-prevention.md](customer-escape-prevention.md).
 
 ## Verdict line format
 

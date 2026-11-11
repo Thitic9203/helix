@@ -1,7 +1,7 @@
 ---
 name: helix
 description: |
-  Helix QA assistant menu — routes the user to the right QA workflow: TC FE prep, TC API prep, retest bug, testing ticket, create bug, catch-ai, TC review, review result or test data prep (content takedown and smoke test exist only in the ols-qa workspace).
+  Helix QA assistant menu — routes the user to the right QA workflow: TC FE prep, TC API prep, retest bug, testing ticket, create bug, catch-ai, TC review, TC change format, review result or test data prep (content takedown and smoke test exist only in the ols-qa workspace).
   Use when the user says Helix, /helix or QA assistant menu, asks which QA workflow fits, or wants help with QA work without naming a workflow (e.g. "help me test this ticket", "ช่วยดูงาน QA นี้ให้หน่อย").
   Do NOT use when the request already names a specific workflow — run that workflow's command instead (listed in references/skill-routing.md); if Helix is loaded anyway, it routes straight to that workflow without showing the menu.
 metadata:
@@ -83,7 +83,7 @@ When routing cannot proceed:
 | User ignores or declines a proactive suggestion (replies about something else, or says no) | Do not start that workflow. Show the menu once; do not repeat the same suggestion in this session. |
 | Row 8 or 10 chosen and its `skills/{name}/SKILL.md` is not in the loaded skill set | Say it is not shipped in helix, then offer only that row's named fallback. |
 | The routed `SKILL.md` is missing or cannot be loaded | Say which file is missing, do not imitate the workflow from memory, and show the menu again. |
-| menu-text.md or skill-routing.md cannot be read | Name the file; do not route or show a menu from memory; stop. |
+| menu-text.md, skill-routing.md or helix-session-constraints.md cannot be read | Name the file; do not route or show a menu from memory; stop. If intent-shortcuts.md or proactive-qa-triggers.md cannot be read instead, name it, skip Opening step 1 or 3, and show the menu. |
 | One message names workflow A, then workflow B only if A's result calls for it (e.g. retest, then file a bug if still broken) | Route to A; record B as the handoff per [skill-routing.md § Handoffs](../../references/skill-routing.md#handoffs-after-a-workflow-ends); do not ask a clarifying question. Two workflows both matching one goal is a different case — ask one question per intent-shortcuts.md. |
 | Ticket lookup is unavailable (no Atlassian MCP or token) | Route anyway and ask the user to paste the ticket text or link; the child workflow handles its own intake. |
 
@@ -122,7 +122,7 @@ Read while routing:
 - Read [session-closing.md](../../references/session-closing.md) at session end.
 - Read [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) before invoking or switching skills.
 - Read [skill-routing.md](../../references/skill-routing.md) when choosing which skill handles a request.
-- Read [skill-rules-style.md](../../references/skill-rules-style.md) before asking the user or stopping on a missing input.
+- Read [skill-rules-style.md](../../references/skill-rules-style.md) for refusal wording only; its multi-item Missing list never overrides the one-item rule in Opening.
 
 Read only when the routed workflow reaches that step:
 

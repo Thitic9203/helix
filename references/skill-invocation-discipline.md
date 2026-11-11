@@ -18,15 +18,7 @@ If there is even a **small chance** a Helix workflow applies (TC prep, retest, P
 2. **Announce once:** `Using **{workflow}** to {purpose}.`  
 3. Follow the workflow’s gates and references.
 
-| Situation | Command |
-|-----------|---------|
-| Unsure which QA task | `/helix` |
-| FE manual TC | `/tc-fe-prep` |
-| API manual TC | `/tc-api-prep` |
-| Retest bug | `/retest-bug` |
-| Playwright ticket | `/testing-ticket` |
-| File bugs | `/create-bug` |
-| Review an existing TC document against AC/EC | `/tc-review` |
+Which command handles which request: the single table in [skill-routing.md § Primary menu](skill-routing.md#primary-menu) (unsure → `/helix`).
 
 ## Red flags
 
@@ -34,7 +26,7 @@ If tempted to skip a workflow skill (“I can draft TC without it”, “quick r
 
 ## Long workflows and todos
 
-When a skill lists **5+ mandatory checklist items** or multi-phase gates, create todos per major phase ([long-workflow-todos.md](long-workflow-todos.md)) if the platform supports it — so the user sees progress.
+When a skill lists **5+ mandatory checklist items** or multi-phase gates, create todos per major phase ([long-workflow-todos.md](long-workflow-todos.md)) with the agent's todo tool; with no todo tool, list the phases in chat and tick them off — so the user sees progress.
 
 ## Subagents and parallel work
 

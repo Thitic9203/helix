@@ -325,7 +325,7 @@ Verify ALL of the following are present in the ADF body before calling the Jira 
 | 4 | **Remark block** (content item 6, only when it applies) — `Remark — Type coverage:` + missing-Figma line (if Figma absent from ticket) + missing-PRD line (if PRD absent from ticket) + blocked-case lines (if any) | After attachment links / skip-notes |
 | 5 | **Disclaimer** — exact Thai text — **last line, nothing after it** | Very last node |
 
-Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (if applicable). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.
+Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (when content item 6 applies). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.
 
 **Go back:** If any row of this re-check is missing, add it to the ADF and run the re-check again from row 1 before calling the comment API.
 
@@ -371,7 +371,7 @@ Follow [tc-final-review-report.md](references/tc-final-review-report.md):
 
 1. Compare **published** Jira comment + attachment (or final approved draft + export) against the **story** AC, EC, description, and deferred-scope notes.
 2. Score all four dimensions: **AC/EC alignment**, **spelling**, **numbering order**, **content / scope**.
-3. Post the **user-facing report** from that reference (summary table + sections 1–4 + optional improvements).
+3. Post the **user-facing report** from that reference (summary table + sections 1–4 + non-blocking improvements).
 4. Overall **PASS** required before Step 8. On **FAIL** → fix TC → re-publish or re-show draft → re-run (max 2 rounds). After 2 failed rounds → post the report with the failing axes verbatim, do not say TC prep is complete, and ask the user how to proceed.
 
 **MUST NOT** say TC prep is complete, post the Step 8 `Verdict:` block, or offer the next workflow until this report is posted with overall **PASS**.
@@ -441,7 +441,7 @@ Complete [verify-closing-checklist.md](../../../references/verify-closing-checkl
 | [tc-final-review-report.md](references/tc-final-review-report.md) | Four-axis final review + close-out report template |
 | [tc-glossary.md](../../../references/tc-glossary.md) | Terminology source of truth: re-check gate, precedence, gap/ambiguity policy |
 | [tc-quality-standards.md](../../../references/tc-quality-standards.md) | ISTQB / 29119-3 TC quality |
-| [scripts/README.md](scripts/README.md) | Optional CSV/xlsx helper pointer |
+| [scripts/README.md](scripts/README.md) | CSV/xlsx helper pointer (only with a user-given install root) |
 
 ---
 

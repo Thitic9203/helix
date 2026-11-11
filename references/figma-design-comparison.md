@@ -41,6 +41,11 @@ In order of authority. Take the **first** one that exists and covers the screen 
 | 2 | Design spec / PRD / Confluence page that states the layout, order, wording | Only when there is no Figma frame for that screen. |
 | 3 | The ticket's own Expected Result / AC, when it states the visual contract in words | Weakest — it usually says "shows X", which is what this gate exists to catch. |
 
+**Bug retest precedence:** this table ranks design sources against each other, not against a bug's own
+Expected Result. In a Bug retest the bug's Expected Result is the primary verdict source and the design is a
+supplement — no design source overrides or dilutes it. Where they conflict, test against the bug's text and
+flag the conflict to the user (`retest-bug-workflow/WORKFLOW.md` § Step 2).
+
 An **assumption**, a sibling screen, a previous build, a screenshot in a chat thread, a
 transliteration of an English feature name, or **product code and its code comments** is **never**
 the design source of record. Code shows code intent only. Never write "as designed" / "by design" /
@@ -87,7 +92,7 @@ at it:
 | 5 | **No overflow / no overlap** at the agreed widths | an element's box crosses the viewport edge or another text box (measure it — §4 of [customer-escape-prevention.md](customer-escape-prevention.md)) |
 
 A difference found here is **not automatically a defect** — it goes through the non-pass challenge
-gate ([non-pass-challenge-gate.md](non-pass-challenge-gate.md)) first, because the design may itself
+gate ([non-pass-challenge-gate.md](non-pass-challenge-gate.md)) first, because the design can itself
 be stale (§5).
 
 ---
@@ -132,8 +137,8 @@ Do this, in order:
 ## 6. Accepted limitation — an AC changed to match the build must be recorded, not absorbed
 
 When an acceptance criterion is edited **after** the ticket reached QA so that it matches what the
-build does (a dev-stated constraint, a PO saying "pass it as tested"), the verdict may legitimately be
-PASSED — but a silent PASSED is how the highest-severity escaped defect in the review reached the
+build does (a dev-stated constraint, a PO saying "pass it as tested"), the verdict can legitimately be
+PASSED against the revised AC — but a silent PASSED is how the highest-severity escaped defect in the review reached the
 customer.
 
 The verdict line must therefore say so, in the comment itself:

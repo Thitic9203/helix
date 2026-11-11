@@ -18,7 +18,7 @@ Use at workflow **start** when two or more **read-only** fetches do not depend o
 
 ## Procedure
 
-1. List fetches needed for Phase A intake.  
+1. List fetches needed for intake or context load (testing-ticket: Phase B).  
 2. Run independent fetches in parallel (subagents or parallel tool calls if available).  
 3. **Single** merged [intake-one-pager.md](intake-one-pager.md) — resolve conflicts explicitly (e.g. AC in Jira vs Confluence).
 

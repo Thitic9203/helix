@@ -64,7 +64,7 @@ Every file this workflow uses, linked directly from here. Only WORKFLOW.md is re
 - [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) — read before posting a Jira table with multi-line cells.
 - [long-workflow-todos.md](../../references/long-workflow-todos.md) — read when the workflow has many steps; keep the todo list.
 - [playwright-preflight.md](../../references/playwright-preflight.md) — read before any Playwright run.
-- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read before the round report, to suggest (never start) at most one follow-up Helix workflow.
+- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read before the round report, to offer (never start) at most one follow-up Helix workflow.
 - [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing Playwright selectors.
 - [session-closing.md](../../references/session-closing.md) — read at session end.
 - [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read before invoking or switching skills.

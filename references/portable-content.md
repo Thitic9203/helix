@@ -1,13 +1,13 @@
 # Portable content rules (committed skills)
 
-Every file under `skills/` and `commands/` MUST follow these rules. **README / install docs** may mention the default clone directory for humans only.
+Every file under `skills/` and `commands/` MUST follow these rules. **README / install docs** are allowed to mention the default clone directory, for humans only.
 
 ## MUST NOT appear in skills or commands
 
 | Forbidden | Why |
 |-----------|-----|
 | Absolute paths (`/Users/...`, `C:\Users\...`, `/tmp/...`) | Tied to one machine |
-| Default agent install paths (`~/.helix/...`, `~/.cursor/skills/...`) as something the agent should run | User may install elsewhere |
+| Default agent install paths (`~/.helix/...`, `~/.cursor/skills/...`) as a command for the agent to run | The user can install elsewhere |
 | `python3 scripts/...` without the user supplying the Helix install root | Assumes cwd = Helix repo |
 | Real customer issue keys (`CP-1234`, `PROJ-9495`, …) | Tied to one project |
 | One product’s env names (`PD3`, `mycreditport.com`, …) | Tied to one deployment |
@@ -27,7 +27,7 @@ Every file under `skills/` and `commands/` MUST follow these rules. **README / i
 
 ## CSV export
 
-MUST generate CSV **in-agent** from the approved table (UTF-8 BOM, `<br>` → newline, strip `**`), unless the **user explicitly provides** the path to their Helix installation — then you MAY run `{user-provided-root}/scripts/export-markdown-table-to-csv.py`. NEVER guess an install path.
+MUST generate CSV **in-agent** from the approved table (UTF-8 BOM, `<br>` → newline, strip `**`), unless the **user explicitly provides** the path to their Helix installation — then running `{user-provided-root}/scripts/export-markdown-table-to-csv.py` is allowed. NEVER guess an install path.
 
 See [csv-export-rules.md](csv-export-rules.md).
 

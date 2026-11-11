@@ -105,7 +105,7 @@ Output (full comment — this is the entire body, nothing added):
 ----
 
 *Test Step (from ticket):* Admin opens the review action on a flagged item
-*Expected Result (from ticket, verbatim):* Reject button reads "Review Failed" and the queue row keeps its flagged badge
+*Expected Result (from ticket, verbatim):* Reject button reads "Review Failed" / queue row keeps its flagged badge
 
 ||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||
 |1|ER1|• TC_01 review modal button labels and queue badge (CONTENT_ADMIN)|Reject button reads "Review Failed"|• Reads "Review Failed" \\ • char-exact from the DOM|[▶ PROJ-88_TC_01_CONTENT_ADMIN.mp4|^PROJ-88_TC_01_CONTENT_ADMIN.mp4] !TC_01_CONTENT_ADMIN-ER_1.png!|✅|
@@ -122,6 +122,7 @@ _retestskillmarker · skill=retest-bug-workflow · src=ols-qa · via=retest-bug 
 ## Lessons (example 2)
 
 - No *API*/*Swagger* lines — FE bug, so they're omitted, not written as "N/A".
+- The ticket lists two expected-result items (joined with ` / ` on the header line, as the renderer writes them), so there are two `ER` rows; a single compound item ("A **and** B") stays one `ER` row with one case per clause.
 - No *Scope* line — a full round prints none; only a scoped round prints `*Scope:* CASES: <ids>`.
 - **One table.** Each row names the case(s) covering it in `Case (Role)` as `• TC_nn title (role)`,
   joined by ` \\ ` when there are several; there is no separate case table. The coverage lines follow it.

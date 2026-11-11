@@ -17,7 +17,7 @@ broken — the exact class of defect QA exists to catch.
 ## The one exception — test-data / precondition setup
 
 Preparing the data a case needs (seed a record, create a fixture, set a status / role, reach the
-starting state) **may** use the API. That is setup, not the thing under test. Create it via API with
+starting state) **can** use the API. That is setup, not the thing under test. Create it via API with
 clear test naming, then run the actual case through its real steps. This is the same allowance already
 written into retest **Step 4c** and the testing-ticket **"create test data"** rule — this file makes
 its boundary explicit: **API for the precondition, real steps for the action.**

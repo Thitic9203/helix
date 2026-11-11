@@ -36,7 +36,7 @@ Phase A grouped intake or the F5 decisions popup — and save the answer to the 
 
 Read from the guide; ask once and save immediately only for what is missing:
 
-1. **Link** — full URL to the destination (Jira issue, Sheet, Confluence page, file path in repo if applicable).
+1. **Link** — full URL to the destination (Jira issue, Sheet, Confluence page, or a file path in the repo for a file destination).
 2. **Columns** — which columns or fields to update (names or letters, e.g. `Result`, `Tester`, `Date`, `Notes`).
 3. **Formats** — per-column rules if specific (e.g. `Result` = `PASSED`/`FAILED` only; `Date` = `YYYY-MM-DD`; language; no bare ticket keys in Jira wiki).
 

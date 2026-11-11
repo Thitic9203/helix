@@ -8,7 +8,7 @@ When a Helix skill has **multiple mandatory phases** (e.g. testing-ticket A→F,
 - Session will exceed **~30 minutes** of tool use, or  
 - User asked for visible progress.
 
-## Suggested items (examples)
+## Example items
 
 **Testing ticket**
 

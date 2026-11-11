@@ -8,7 +8,7 @@ Complete [verify-closing-checklist.md](verify-closing-checklist.md) for this wor
 
 ## 2 — Artifact index (mandatory)
 
-Post paths and links the user may need next:
+Post the paths and links the user needs next:
 
 ```text
 ━━━ Artifacts ━━━
@@ -26,9 +26,9 @@ List only what was actually created. Use workspace-relative paths.
 
 ## 3 — Next workflow (mandatory one line)
 
-Offer **exactly one** logical next step from [skill-routing.md](skill-routing.md) when relevant — user may decline.
+Offer **exactly one** next step: the row below for the finished workflow ([skill-routing.md](skill-routing.md)); when no row matches, write `Next: none`. The user decides whether to start it.
 
-| Finished | Suggest (one line) |
+| Finished | Next step (one line) |
 |----------|-------------------|
 | TC FE prep | “Run **/testing-ticket** on the same story?” |
 | TC API prep | “Run **/testing-ticket** or export-only — your call.” |
@@ -47,7 +47,7 @@ blocked runs — with the per-round state and source fingerprints the next round
 
 Other workflows: write when **any** applies:
 
-- User may continue in a **new chat**
+- User can continue in a **new chat**
 - Workflow ran **> 30 minutes** or **> 15 TC rows**
 - Session ended **blocked** (VPN, auth, partial Jira post)
 

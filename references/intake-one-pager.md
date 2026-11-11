@@ -41,7 +41,7 @@ Required:
   • Where to file (Jira project URL/key or GitHub repo)
   • Format (template link, Helix default, or v2/v3 rule)
   • Bug details (title, steps, expected, severity, evidence)
-You may reference findings from a prior testing-ticket run in this chat.
+Findings from a prior testing-ticket run in this chat count as input; cite the run they came from.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

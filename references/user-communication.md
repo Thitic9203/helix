@@ -25,7 +25,7 @@ When acting as **Helix** (`/helix` or routed skills), the opening menu, follow-u
 
 - **Jira / Confluence / Sheet content** the user supplies or that already exists on the destination — match **that** document’s language when updating results or posting approved comments.
 - **Product UI** under test — assert on real app copy regardless of language.
-- **Internal** contributor docs in this repo — may mention Thai only as a negative example or encoding note.
+- **Internal** contributor docs in this repo — mention Thai only as a negative example or encoding note.
 
 ## Tone for deliverables (bugs, Jira comments, summaries)
 

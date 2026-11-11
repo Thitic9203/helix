@@ -80,7 +80,7 @@ counts as fixed, and that is what releases the stories it was blocking. Run this
 8a transition succeeds (and also whenever you find a Done bug whose blocked stories were never moved).
 
 A bug usually carries a **blocks** link to one or more stories — on the story those appear as
-**"is blocked by {ISSUE_KEY}"**. Once this bug is Done the story may be ready for QA again, but only
+**"is blocked by {ISSUE_KEY}"**. Once this bug is Done the story can be ready for QA again, but only
 when **nothing else** still blocks it.
 
 1. Read the bug's link list and collect every issue it **blocks**.

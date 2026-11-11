@@ -74,7 +74,7 @@ Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak
 ## ADF notes (when using API/browser ADF)
 
 - Map `<br>` to `{"type": "hardBreak"}` nodes in paragraph content — never literal `<br>` text.
-- Large tables may require ADF instead of markdown API.
+- A table that the markdown API truncates (row count on the re-read < draft rows) goes as ADF.
 - Some ADF node types for inline attachments return HTTP 400 — use a text link to `secure/attachment/{id}/{filename}` instead.
 
 ## Footer link pattern

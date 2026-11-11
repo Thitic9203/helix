@@ -22,8 +22,8 @@ List every **AC** and **EC** from the story (from Step 2). For each item record:
 Rules:
 
 - **Every AC and EC** must appear in the matrix with at least one TC ID (plain number, design-and-review Step 3c) — or STOP and add cases.
-- **One TC may cover multiple AC/EC** when they share the same flow and assertions.
-- **Multiple TCs may cover one AC/EC** when scenarios differ (e.g. role, data state, validation branch).
+- **One TC covers several AC/EC** only when they share the same flow and assertions.
+- **Several TCs cover one AC/EC** when its scenarios differ (e.g. role, data state, validation branch).
 
 ---
 

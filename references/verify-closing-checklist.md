@@ -7,10 +7,10 @@ Apply [qa-evidence-gates.md](qa-evidence-gates.md) before any pass/post/done cla
 ## All workflows
 
 - [ ] User-facing messages follow the user's language ([user-communication.md](user-communication.md))
-- [ ] No success claim without tool output **and** destination re-read where applicable ([qa-evidence-gates.md](qa-evidence-gates.md))
+- [ ] No success claim without tool output **and** destination re-read for every external write — post, create, upload, sheet or page update ([qa-evidence-gates.md](qa-evidence-gates.md))
 - [ ] Approval gates were not skipped
 - [ ] Artifact index posted
-- [ ] One-line next-workflow suggestion offered (or “none” stated)
+- [ ] One-line next-workflow offer made (or “none” stated)
 - [ ] `Verdict:` block posted
 
 ## TC FE / TC API prep

@@ -159,7 +159,7 @@ From API spec + Swagger:
 
 Writing rules: [references/api-tc-guidelines.md](references/api-tc-guidelines.md).
 
-Optional: if user gave a Jira story key in the same session, map cases to AC only when they asked — default is **API coverage from spec**, not story AC.
+Story AC mapping: only when the user gave a Jira story key in the same session and asked for it, map cases to AC — default is **API coverage from spec**, not story AC.
 
 ### Row ordering within each module
 
@@ -267,7 +267,7 @@ Tell the user the **workspace-relative paths** to download.
 2. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. "approved, post to {URL}"); a bare "ok", "approved" or "go" is not a post instruction — show the preview and stop.
 3. **Publish — ADF-direct (do NOT try MCP first for TC tables).** Full JS patterns: [jira-fast-publish.md](../../../references/jira-fast-publish.md).
    - Navigate to the Jira issue page.
-   - Pattern A: set `window.__adfBody` (and `window.__csv1Data` if uploading CSV).
+   - Pattern A: set `window.__adfBody` and one `window.__files` entry per file this run generated (an `.xlsx` as base64 with `encoding: 'base64'`).
    - File generated this run (attach it): Pattern B (upload + comment). No file: Pattern D.
    - Pattern C: read `window.__fastPublish` → check `status: 'ok'` **and** a `commentId`. A non-ok status — or `ok` with no `commentId` — is a failed post: follow that file's Error recovery table first, and never tell the user "commented" on it.
 4. **Fallback — browser JS tool unavailable, or Pattern C still not `ok` after its Error recovery:**
@@ -357,7 +357,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 
 | Rule | Because |
 |------|---------|
-| MUST refuse without API spec + Swagger | No authoritative coverage |
+| MUST refuse without API spec + Swagger (Swagger counts as both only when the user says the spec lives there) | No authoritative coverage |
 | MUST order rows: success (2xx) first within each module | Reviewers verify happy path before error paths |
 | MUST NOT invent endpoints not in spec/Swagger | False coverage |
 | MUST NOT guess credentials when the spec or Swagger URL returns 401/403 or a login page — ask for an authenticated export or session | Guessed credentials can lock the account and are a security risk |

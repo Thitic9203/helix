@@ -49,9 +49,9 @@ Skipped questions: {list fields you will not re-ask}
 ## When no guide is found
 
 1. Say no workspace guide was found for this workflow.
-2. Use the workflow’s `references/project-config-template.md` (or Phase A intake) — **one question at a time**.
+2. Ask by the workflow's own intake rule: retest-bug and tc-fe-prep — its `references/project-config-template.md`, **one question at a time**; testing-ticket — Phase A with `references/workspace-guide-template.md`, and create-bug — Phase A (no template): every missing field in **one grouped message**.
 3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` in the user’s repo
-   (create the file if needed) — no second "save this?" question; the answer is the consent
+   (create the file when it does not exist) — no second "save this?" question; the answer is the consent
    ([round-time-contract.md §2](round-time-contract.md#2-no-mid-run-waits)). Never write production
    passwords or other secrets into the guide — store only where the credential lives (env var name,
    vault entry).

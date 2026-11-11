@@ -137,8 +137,8 @@ Load OpenAPI/Swagger from config URL.
 | Check | Result |
 |-------|--------|
 | Code matches Swagger | Continue |
-| Code mismatch | FAILED |
-| Code OK, message mismatch vs error docs | FAILED |
+| Code mismatch | Not PASSED — PWMI / FAILED per the [verdict rule](WORKFLOW.md#verdict-rule) |
+| Code OK, message mismatch vs error docs | Not PASSED — PWMI / FAILED per the [verdict rule](WORKFLOW.md#verdict-rule) |
 | Swagger + docs silent | BLOCKED |
 
 Swagger is source of truth — not stale ticket text alone.
@@ -230,7 +230,7 @@ re-capture and re-run all 7.
 - Max ~3 bullets per case in the comment.
 - **In-cell embedding (mandatory):**
   - **MP4** → attach, then link it in the `Evidence` cell as a wiki attachment link `[▶ {KEY}_TC_{nn}.mp4|^{KEY}_TC_{nn}.mp4]` — **with the role suffix when the case has one** (`[▶ {KEY}_TC_{nn}_{ROLE}.mp4|^{KEY}_TC_{nn}_{ROLE}.mp4]`); the link text and the attachment name must both be the name the file was uploaded under, or gate layer 7 fails on a link that resolves to nothing. (An MP4 cannot render as an inline picture in a wiki cell — a working attachment link that plays/downloads from Jira is the requirement.)
-  - **screenshot** (text-verification rows) → reference as `!filename.png!` with **no `|width=…` parameter**. Inside a wiki table cell the `|` in `!img|width=N!` collides with the cell delimiter and splits the row, so resize the image **before** upload (~600–640 px wide) and embed it bare. It MUST render as a picture inside the cell — never filename-only text.
+  - **screenshot** (text-verification rows) → reference as `!filename.png!` with **no `|width=…` parameter**. Inside a wiki table cell the `|` in `!img|width=N!` collides with the cell delimiter and splits the row, so resize a copy of the verified ≥ 1920 px original **before** upload (~600–640 px wide) and embed it bare; the original stays with the run. It MUST render as a picture inside the cell — never filename-only text.
 
 **Upload + embed flow:**
 1. Save the MP4 (and any text-verification screenshot, resized to ~600–640 px wide — macOS `sips -Z 640 in.png --out out.png`, ImageMagick `magick in.png -resize 640x out.png`, or `ffmpeg -i in.png -vf scale=640:-1 out.png`) to a scratch dir outside the repo.

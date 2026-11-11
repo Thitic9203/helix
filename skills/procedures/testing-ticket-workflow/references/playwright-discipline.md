@@ -37,7 +37,7 @@ Log which tier was used when falling back, so drift is visible over runs.
 If the workspace has Playwright E2E:
 
 - Prefer existing `playwright.*.config.ts` and fixtures.
-- Reuse saved `storageState` only when the user confirms that path is valid for this env.
+- Reuse the saved `storageState` after the session-endpoint probe returns the expected user id (WORKFLOW Phase D *Login reuse*).
 - Do not duplicate `installCFBypassProxy` or similar if the base fixture already installs it.
 
 ## Session credentials

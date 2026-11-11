@@ -23,7 +23,7 @@ workspace under test), or asked once and saved there.
 | GitHub CLI `gh` | `gh --version && gh auth status` | cli.github.com, then `gh auth login` |
 | Playwright (in the project under test only) | `npx playwright --version` then `npx playwright test --list` | `npm i -D @playwright/test && npx playwright install chromium` inside that project; never install into the skill repo |
 | TypeScript / ESLint (e2e repo fixes only) | `npx tsc -v && npx eslint -v` | the e2e repo's own `npm ci` |
-| `rtk` (optional output filter) | `command -v rtk` | optional; when absent run the bare command |
+| `rtk` (output filter, not required) | `command -v rtk` | not required; when absent run the bare command |
 | macOS-only tools (`sips`, `osascript`, `scutil`) | `command -v sips` (or the tool named) | macOS only. On other systems use the stated alternative (ImageMagick for `sips`; the REST/MCP path instead of JXA; the VPN client's own status command instead of `scutil`) or mark the step BLOCKED |
 
 ## In-repo guard tools (run only when the workspace carries them)
@@ -60,4 +60,4 @@ workspace under test), or asked once and saved there.
 | Figma (Dev Mode MCP or browser view) | open the design node and read one frame | enable Dev Mode MCP, or view the file in a browser session; when neither opens, design comparison is "not verified" |
 | Browser automation MCP (Chrome extension or equivalent) | list tabs and get a result | install and connect the extension; else BLOCKED for steps that need a real browser |
 | Qase (TC suite tree, FE prep import) | open the project's suite tree | ask the owner for access; export the CSV anyway |
-| Notify channel webhook / bot — tc-review: its project's TC-review channel on every run (owner decision 20/Oct); every other workflow: only on an explicit share request | the webhook or bot id is in the secrets folder; the channel comes from the project guide (`references/{PROJECT}-guide.md` § TC review notify) | ask the owner; never invent a channel, thread or id |
+| Notify channel webhook / bot — tc-review: its project's TC-review channel on every run (owner decision 20/Oct); testing-ticket: every round when the project guide configures a QA notify channel (results-update G8); retest-bug: every retest at its Step 9 notify; every other workflow: only on an explicit share request | the webhook or bot id is in the secrets folder; the channel comes from the project guide (`references/{PROJECT}-guide.md` § TC review notify) | ask the owner; never invent a channel, thread or id |

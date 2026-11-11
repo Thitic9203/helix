@@ -55,7 +55,7 @@ source is not re-read in full, a changed or missing one is re-read
 ## Blocked / next
 
 - {what remains}
-- Suggested next: {/command or skill name}
+- Recommended next: {/command or skill name}
 
 ## Resume prompt
 

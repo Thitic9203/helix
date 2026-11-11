@@ -68,7 +68,7 @@ them verbatim:
    - the ticket the **test case was derived from**.
    A related ticket can (a) **supersede** the expected value you are holding — a later ticket changed the
    intended behavior and the app now follows the newer one, or (b) **clarify** an AC/EC that reads
-   ambiguously on this ticket alone. Either way, the app may be correct and the test-case expected stale.
+   ambiguously on this ticket alone. Either way, the app can be correct and the test-case expected stale.
 3. **The design / spec the ticket points to** — Figma / PRD / AC document. Read the real frame, not a
    transliteration of it.
 
@@ -129,12 +129,12 @@ The recommendation is exactly one of:
 - **(B) Re-test** — a test-side cause was fixed, or the fixture/steps/entry-point need correcting;
   re-run and re-observe before any verdict.
 - **(C) Confirm the defect** — not offered when the expected was superseded (only A or B then). Also not offered while a newer source that may supersede the expected is unresolved (an `unclear` AC/EC check with a competing newer source): C is offered only when the AC/EC check is confirmed authoritative. The expected is authoritative, the app genuinely differs, cause is on
-  the product side. You may proceed to the verdict / bug, but still state the finding so the user sees
+  the product side. Proceed to the verdict / bug, and still state the finding so the user sees
   the reasoning, and file it with its full write-up (repro matrix + expected-verbatim + labelled root
   cause + resolution options).
 
 For A and B, **wait for the user's decision** — the whole point is that adjusting a spec or re-testing
-is the user's call, not QA's. For a clearly-confirmed C you may continue, but never silently: the flag
+is the user's call, not QA's. For a clearly-confirmed C, continue — never silently: the flag
 still goes to chat. **Exception — attended retest / testing-ticket / smoke rounds:** do not wait
 mid-run; see "Attended rounds" below.
 
@@ -174,7 +174,7 @@ The verdict for that case is not posted before the user answers in the decisions
 | Rule | Because |
 |------|---------|
 | MUST treat every non-PASS as a hypothesis and re-verify the **expected** side against an authoritative source before recording a verdict, filing a bug, or sending a notify | The expected side is the one that turns a real defect into a phantom one (PM-006) |
-| MUST read the AC/EC of **related / linked tickets** (parent story, linked issues, sibling tickets on the same surface, the TC's source), not only the ticket under test | A later ticket can supersede or clarify the expected value; the app may be following the newer behavior |
+| MUST read the AC/EC of **related / linked tickets** (parent story, linked issues, sibling tickets on the same surface, the TC's source), not only the ticket under test | A later ticket can supersede or clarify the expected value; the app can be following the newer behavior |
 | MUST read the expected value **character-exact from the source**, on both what it says and what it does not | A paraphrase or recollection is how the wrong expected gets tested against |
 | MUST NOT treat a transliteration, an English feature/button name, prose/verb usage, or your own assumption as "the spec" | `Bookmark` ≠ label "บุ๊กมาร์ก"; the design said "บันทึก" (PM-006, phantom bug) |
 | MUST treat a hedge in the expected value ("confirm with PO/Figma", "น่าจะ", "TBD") as an **unverified spec** → a question, not a defect | An unconfirmed expected is not a contract to fail the app against |
