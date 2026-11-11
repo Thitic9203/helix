@@ -64,7 +64,7 @@ Read each file below at the point written next to it, not up front. If that step
 - [figma-design-comparison.md](../../references/figma-design-comparison.md) — read before judging any UI or visual result against the design.
 - [long-workflow-todos.md](../../references/long-workflow-todos.md) — read when the workflow has many steps; keep the todo list.
 - [portable-content.md](../../references/portable-content.md) — read before writing any repo, path, ticket number or project value into the skill output; nothing project-specific is hardcoded.
-- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read when a QA follow-up could be suggested, at any point in the run (including session close).
+- [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read whenever a QA follow-up is a candidate, at any point in the run (including session close).
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim.
 - [round-time-contract.md](../../references/round-time-contract.md) — read when a round starts and before reporting times.
 - [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read before invoking or switching skills.

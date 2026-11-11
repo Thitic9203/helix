@@ -61,7 +61,13 @@ lease, and re-dispatches that unit **once** on a fresh lease. A second failure �
 unit with no reported result becomes a **BLOCKED** row (`lane did not return` + the lane's log path)
 and goes through E2 like any other BLOCKED case. A lane's cases are never dropped, never inferred from
 another lane, and never PASSED without the lane's own result line. A lane that returns `SESSION-DEAD`
-follows Phase D *Fresh login* instead.
+mid-run is never waited on: the main thread posts the Phase D *Fresh login* relink/mint blocks for that
+account without waiting, records that account's remaining cases as **BLOCKED** ("session not
+restored"), keeps the other lanes running, and queues the re-run for the end decisions popup
+([round-time-contract.md §2](../../../references/round-time-contract.md)). If the user runs the blocks
+and the probe is OK while other lanes are still running, the parent re-dispatches per
+[parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3, and the re-run's result lines
+supersede those BLOCKED rows.
 
 Drive every scenario through its **real surface** — a UI scenario through the UI (Playwright clicks the
 button / submits the form), following the case's steps completely. The API is for test-data /
@@ -70,7 +76,8 @@ API. See [test-through-real-steps.md](../../../references/test-through-real-step
 
 **Cover every enumerated AC/EC id (coverage gate layers 3–5).** Exercise each `AC*/EC*` id on its
 real surface — never infer one from a sibling, never assume it covered because the happy path passed.
-An id you cannot reach is an **explicit BLOCKED row** with the reason, never left off the table. Record
+An id you cannot reach is an **explicit BLOCKED row** with the reason — a coverage gap, never a product
+FAILED — and never left off the table. Record
 each id's result as its **own row** (layer 4 — row, never a remark); a case is **PASSED only when every
 id it covers met its expected** (layer 5), and an id observed to differ makes that a FAILED/PWMI/BLOCKED
 row for that point — never a PASS with the exception noted below the table.
@@ -100,7 +107,8 @@ Run this **as each scenario executes**, not while writing Phase F.
 5. **Report anything wrong you see, even where no AC asked for it** — as its own row where it belongs
    to the contract, otherwise as a noted observation with evidence
    ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §2).
-6. **A difference is not yet a defect** → E3. A screen this ticket intentionally changed is **design
+6. **A difference is not yet a defect** → E3. Behaviour no spec states is a question, never a verdict
+   ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §8). A screen this ticket intentionally changed is **design
    out of date** (report it, name the design owner, ask for the node update in this ticket), and an AC
    revised mid-test to match the build is an **accepted limitation** the verdict line must spell out
    (§5–§6 of the same reference).
@@ -135,6 +143,11 @@ source for those steps; do not paraphrase them here.
 
 What is specific to testing a ticket:
 
+- **Start by invoking a real debugging skill** — **`superpowers:systematic-debugging`** first, its
+  Phases 1–3 only (QA diagnoses; QA does not patch product code). No cause without a captured artifact
+  and a `Confirmed` / `Suspected` / `Unknown — not investigated` label.
+- **The reference governs every cause sentence in this workflow** — every sentence that states or
+  implies a cause, wherever it ends up (chat, Jira comment, sheet cell, notify).
 - **Run it before moving to the next scenario** — the browser, the session and the fixture state are
   open now and cannot be reconstructed in Phase F.
 - **Skip Phase 4 of the debugging skill** for product code; repairing our own test, selector, fixture
@@ -156,6 +169,9 @@ steps.
 
 What is specific to testing a ticket:
 
+- **A non-PASS is a hypothesis, not a verdict** until this gate ran — a stale or superseded expected,
+  a transliteration mistaken for a label, or an unconfirmed-spec hedge makes a phantom defect out of a
+  correct app.
 - **The contract is this ticket's Expected/AC/EC and the test case's own source**, read char-exact and
   cross-checked against the parent story, every linked issue, and sibling tickets on the same surface.
 - **Apply the gate's default and keep running — no mid-run wait**
@@ -165,7 +181,7 @@ What is specific to testing a ticket:
   evidence (every source read, precedent applied, missing data created, decision logged); BLOCKED only
   for its layer-17 causes with the layer-18 record. Test-side cause → fix and re-run; confirmed defect →
   record as normal. Only what no layer can resolve is queued. Queue `expected (+source) · observed · AC/EC finding · recommendation (A adjust the TC ·
-  B re-test · C confirm defect)` for the end decisions popup; a **B re-test** answer starts a new round
+  B re-test · C confirm defect — C only while the expected is not superseded)` for the end decisions popup; a **B re-test** answer starts a new round
   ([§1](../../../references/round-time-contract.md)).
 - **Never rewrite the ticket's expected text** to match the app on your own.
 

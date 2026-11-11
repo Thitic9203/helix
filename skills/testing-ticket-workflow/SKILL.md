@@ -22,9 +22,9 @@ When invoked:
 1. Announce once: `Using **testing-ticket-workflow** to test the ticket with Playwright.`
 2. **Settle and strategize first** — before any other tool call (the *Dependencies* check below runs right after this step, before Phase A), follow [settle-and-strategize.md](../../references/settle-and-strategize.md): invoke **`engineering:testing-strategy`** to plan the approach, no guessing an expected/spec, no blind retry loops. If that skill is not in the session's available-skills list, write the strategy inline (scope, order, done-when, risks) and say in chat that you did so ([dependencies.md](../../references/dependencies.md)).
 3. **Design (Figma) comparison on every UI scenario** — [figma-design-comparison.md](../../references/figma-design-comparison.md); rule stated once at WORKFLOW Phase B step 4 and E0.
-4. **Test deeply** — follow [customer-escape-prevention.md](../../references/customer-escape-prevention.md); runs at WORKFLOW Phase B step 5, E0 and QA closing *Depth gates*.
+4. **Test deeply** — follow [customer-escape-prevention.md](../../references/customer-escape-prevention.md); stated once at WORKFLOW Phase B step 5, Phase D *Session preflight*, E0 and F *Design + depth reconciliation*.
 5. **Parallel lanes by default, one leased account per lane** — [parallel-test-lanes.md](../../references/parallel-test-lanes.md); lane plan at WORKFLOW Phase B step 7, dispatch and lane failure in Phase E.
-6. **Login by command, never a login window or a password** — when an account must log in or its session is dead, give the user ready-to-run commands as one combined `bash` block per step that loops over the accounts (each isolated, prints OK / FAILED with a log path): relink every needed account, then setup/mint only the FAILED ones; the user runs them, then probe the session and report. Never ask for, collect or fill a password. Full steps: WORKFLOW Phase D *Fresh login* ([parallel-test-lanes.md](../../references/parallel-test-lanes.md) §3).
+6. **Login by command, never a login window or a password** — stated once at WORKFLOW Phase D *Fresh login* ([parallel-test-lanes.md](../../references/parallel-test-lanes.md) §3).
 7. **Result quality gate, all 20 layers on every case before any verdict** — [result-quality-gate.md](../../references/result-quality-gate.md); mechanical layers by checker, judgement layers by hand, gate time counted in the round line (execute-and-summarize *Result quality gate*).
 8. **No-wait decision gate, all 20 layers before any BLOCKED / "needs decision" / held post** — [no-wait-decision-gate.md](../../references/no-wait-decision-gate.md); runs at E3 (execute-and-summarize); never park a case or a finished post waiting for someone.
 9. 🔴 GATE: confirm before the first Playwright run — stated once at WORKFLOW Phase C (bot-run branch included).
@@ -39,10 +39,7 @@ The must-read files for this workflow, linked directly from here (references alr
 ### Always (at the start of every run)
 
 - [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
-- [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone).
-- [helix-session-constraints.md](../../references/helix-session-constraints.md) — read once at session start.
-- [user-communication.md](../../references/user-communication.md) — read before any message to the user.
-- [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — on the first response, to locate the workspace project guide for this workflow.
+- [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone); it links the session constraints and the user-communication rules, so those are not listed again here.
 
 ### On trigger
 
@@ -51,6 +48,9 @@ Grouped by the phase that reaches the trigger; each line names its exact trigger
 #### Intake and plan (Phases A–C)
 
 - [session-intake.md](../procedures/testing-ticket-workflow/references/session-intake.md) — at Phase A — the six intake fields and the confirmation gate.
+- [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — read at Phase A to locate the workspace project guide for this workflow.
+- [helix-session-constraints.md](../../references/helix-session-constraints.md) — read at the first reply, when the preamble says to recite the session constraints.
+- [user-communication.md](../../references/user-communication.md) — before the first message to the user (language and tone).
 - [intake-one-pager.md](../../references/intake-one-pager.md) — at intake, to show the one-page list of inputs the run needs.
 - [parallel-prep.md](../../references/parallel-prep.md) — at Phase B, when the Jira fetch and Confluence/Swagger reads are independent.
 - [test-execution-plan-template.md](../../references/test-execution-plan-template.md) — when writing the test execution plan shown before the run.

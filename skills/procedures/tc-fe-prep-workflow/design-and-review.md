@@ -45,9 +45,9 @@ This workspace writes **all** FE test case content in Thai. There is no English-
 - **Term priority (stop at the first rule that answers):**
   1. **The project TC glossary** re-fetched at Step 2.6 — if the English term has a row with a non-empty Thai cell, use that Thai term **verbatim**. The glossary outranks every table in this file.
   2. **The fallback table below** — only for terms the glossary has no row for.
-  3. **Ask the user** — anything else. Never coin a term. The one deferral: an English UI label the ticket writes verbatim, with no glossary or fallback row, is kept as written during design and asked at Step 4.5 (Step 2.6.3 row "No row for the term" (a)).
+  3. **Ask the user** — anything else. Never coin a term. Two deferrals: an English UI label the ticket writes verbatim, with no glossary or fallback row, is kept as written during design and asked at Step 4.5 (Step 2.6.3 row "No row for the term" (a)); and a term the ticket itself writes in Thai while the glossary gives no Thai word for it is reused unchanged and asked at Step 4.5 (Step 2.6.3 ticket-Thai row).
 - Where the glossary and this file disagree, **the glossary wins**. Do not "reconcile" them or prefer the wording you remember.
-- Terms whose glossary row exists but has an **empty** Thai cell are a Step 2.6 blocking question, not a free choice. Where a former default exists (e.g. `Dropdown` → `รายการแบบเลื่อนลง`), offer it as a **suggestion** in that question — never as the answer.
+- Terms whose glossary row exists but has an **empty** Thai cell are a Step 2.6 blocking question, not a free choice, unless the ticket itself writes the term in Thai (then it is a Step 4.5 question row, as above). Where a former default exists (e.g. `Dropdown` → `รายการแบบเลื่อนลง`), offer it in that question as a **proposal** for the user to confirm — never as the answer.
 - **Fallback table — only for terms absent from the glossary:**
 
   | English | ใช้คำไทย |
@@ -77,7 +77,7 @@ This workspace writes **all** FE test case content in Thai. There is no English-
   - Feature/module names **as displayed in the system UI** — if the UI shows a label in English, refer to it by that label
   - Error codes and field keys (e.g. `{PROJECT}_ERR_401`, `user_id`)
 
-  **Collision rule:** when a term is *both* in the glossary *and* may be rendered in English by the UI (e.g. glossary says `Dashboard → แผงควบคุม` but the screen reads "Dashboard", or the ticket writes the label in English and no Figma/screenshot shows which word the screen uses), **ask the user which to use**. Do not silently apply the UI-label exception to escape a glossary term. The question is not a pre-design stop: design uses the glossary Thai term, and the term is asked as a question row at the Step 4.5 gate (Step 2.6.3 row "Glossary term the UI may show in English"), which stops and waits before any deliverable is written.
+  **Collision rule:** when a term is *both* in the glossary *and* the ticket or a design shows it in English (e.g. glossary says `Dashboard → แผงควบคุม` but the screen reads "Dashboard", or the ticket writes the label in English and no Figma/screenshot shows which word the screen uses), **ask the user which to use**. Do not silently apply the UI-label exception to escape a glossary term. The question is not a pre-design stop: design uses the glossary Thai term, and the term is asked as a question row at the Step 4.5 gate (Step 2.6.3 row "Glossary term the ticket or a design shows in English"), which stops and waits before any deliverable is written.
 - Numbered items in Test Steps and Expected Result must still use numerals (`1.`, `2.`, `3.`).
 
 ### 3c — TC ID rules (fixed — no user input)
@@ -174,7 +174,7 @@ The Qase import CSV uses a **different** column set (AC/EC, Title, Preconditions
 1. Log in with the required role.
 2. Navigate to the feature area.
 3. Open the correct tab or filter.
-4. Ensure required data state exists. When the data may be missing, add "if missing, create via …" and reference the source story by key only.
+4. Ensure required data state exists. When the data is not guaranteed to exist, add "if missing, create via …" and reference the source story by key only.
 5. Identify the target entity used across TCs.
 
 Add a **Precondition column note** above the table explaining that the column means: *after shared prep, before Test Steps*.
@@ -240,7 +240,7 @@ conflicts with Key Feature/Business Rules/PRD/Figma, values referenced from anot
 confirmed, mis-threaded comments, or any point the reviewer cannot verify from the ticket itself —
 MUST NOT be resolved by guessing or by silently picking one interpretation.
 
-For every such case, do ALL of the following — no case may be skipped:
+For every such case, do ALL of the following — skip no case:
 
 1. Set that case's **Test Status = `BLOCKED`** (per-row, not the whole ticket unless every case is
    affected). Where it is written: the tracking sheet via Step 6.5 (`Sheet_Tab_{ISSUE_KEY}.json`);
@@ -326,9 +326,9 @@ These terms appear in the test cases. Thai follows the glossary first, then ร�
 ```
 
 **Rules:**
-- List **every** term where a Thai-vs-English choice was made — both the ones translated to Thai and the ones deliberately kept in English.
+- List **every** term where a Thai-vs-English choice was made — both the ones translated to Thai and the ones deliberately kept in English. Values fixed by the import format (Qase Type and Status values such as `Unit Test`, `System Test`, `Done`) are column values, not terms: leave them out of this table.
 - The **ที่มา** column is mandatory on every row: `glossary` (row in the Step 2.6 CSV), `fallback` (Step 3b table, no glossary row), or `user` (answered a Step 2.6 question, or a question row at this gate). A row with no provenance means the term was invented — remove it and ask.
-- **Question rows** — every term carried from Step 2.6.3 (a): put `? — ticket เขียนว่า "{label}"` in ใช้ในเทสเคสเป็น and `user` in ที่มา, and ask in the same message which word to use (keep the English label, or a Thai word the user gives). Every collision term carried from Step 2.6.3 is also a question row: put `? — glossary "{Thai term}" / UI "{English label}"` and `user`, state the evidence for the English label (ticket wording, or the Figma frame/screenshot), and ask which to use. Do not proceed until every question row has the user's answer; apply it to every cell before Step 5.
+- **Question rows** — every term carried from Step 2.6.3 (a), and every term the ticket itself writes in Thai (Step 2.6.3 ticket-Thai row): put `? — ticket เขียนว่า "{label}"` in ใช้ในเทสเคสเป็น and `user` in ที่มา, and ask in the same message which word to use (keep the ticket's word, or a Thai word the user gives). Every collision term carried from Step 2.6.3 is also a question row: put `? — glossary "{Thai term}" / UI "{English label}"` and `user`, state the evidence for the English label (ticket wording, or the Figma frame/screenshot), and ask which to use. Do not proceed until every question row has the user's answer; apply it to every cell before Step 5.
 - Where the glossary offered comma-separated variants (e.g. `แถบ, แท็บ`), propose one and mark the row `glossary` — the user confirms the pick here.
 - For each kept-English term, state the reason (no official Thai term / UI label is English / acronym or standard like API, URL, OTP).
 - **Wait for the user's response.** If the user asks to change any term, apply it and re-post the changed rows.

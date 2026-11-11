@@ -40,7 +40,7 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 *Swagger:* {link}
 *Design ref:* {figma node link}   (UI retest — or "none, asked {who} {YYYY-MM-DD}"; no " — " or " · " in the value)
 *Role:* {role(s) the cases were run as}
-*Date:* {YYYY-MM-DD}
+*Date:* {YYYY-MM-DD}   (the date the cases ran; dry run or offline round = the session's current date — never a placeholder)
 *Build:*
 * {build / tag the fix landed in}
 * {second point, when the value has more than one}
@@ -143,7 +143,7 @@ one fact about the round, not a per-row fact, so it belongs on the header's `Des
 nowhere else: the node URL when one exists, or the Step 2d reason when none does. A column repeating
 "no node" down every row tells the reader nothing and was removed on user instruction 2026-08-25 after
 it shipped that way. When different cases genuinely use different nodes, name them on the `Design ref:`
-line (`TC_03 → {url} · TC_07 → {url}`) rather than reinstating a column.
+line (`TC_03 → {url} · TC_07 → {url}`) rather than reinstating a column. Some screens with a node and others with none → same form for both: `TC_01, TC_02 → {url} · TC_03 ({screen}) → none, asked {who} {YYYY-MM-DD}`.
 
 **Put any design-node URL on the `Design ref:` line as a bare URL.** That line is not a table row, so
 nothing is at stake there and a bare URL is the shorter, more readable form.

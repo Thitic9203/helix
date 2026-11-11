@@ -188,8 +188,7 @@ What is specific to retest:
   Result or the task's Acceptance Criteria was superseded by a later ticket, comment or design (quote the superseding source char-exact),
   the end menu offers only **A adjust the expected/TC · B re-test** — never **C confirm defect**, because
   there is no confirmed spec left for the defect to differ from.
-  Same while supersession is **unresolved**: if a newer ticket, comment or design that may supersede the expected cannot yet be
-  confirmed or ruled out, the menu is still A · B only — never **C confirm defect** while a newer ticket, comment or design that may supersede the expected is still unresolved; C is offered only when the AC/EC check is confirmed authoritative.
+  Same while supersession is **unresolved** (a newer ticket, comment or design that may supersede the expected is not yet confirmed or ruled out): A · B only — **C confirm defect** is offered only once the AC/EC check is confirmed authoritative.
 - **Never edit the ticket's expected-result field** to match the app on your own — QA reports the
   conflict and names the owner.
 
