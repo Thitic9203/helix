@@ -53,3 +53,8 @@ Shared skills are edited in ols-qa and synced to helix (`chore(sync): pull share
 - An eval round on the new `main` with the after-10 exam: per skill, expected items, `darwin_total` and P0/P1 are not worse than after-10.
 - All CI checks in R7 pass.
 - The new version is released on helix and synced to ols-qa.
+
+## Measurement decisions (owner popup, 11/Nov/2026)
+
+- The two session-start skills (`caveman`, `context-mode:context-mode`) are **not** counted in the 50% target; their token cost is measured and reported on a separate line.
+- A second measure is added so rewording cannot game `graph.py`: per skill, median tool calls and output bytes from the eval run files (line-1 timing header) must not rise against after-10.
