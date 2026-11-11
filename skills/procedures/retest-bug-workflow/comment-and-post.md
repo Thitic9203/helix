@@ -60,7 +60,7 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 ||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||
 |1|ER1|• TC_01 {what it verifies} ({role}) \\ • TC_04 {what it verifies} ({role})|{item quoted from the ticket}|• {observed point} \\ • {observed point}|[▶ tc1.mp4|^tc1.mp4] !tc1.png!|✅/❌/⛔|
 
-*Expected-result coverage:* {met} / {total} items met[ · {k} PWMI][ · {k} failed][ · {k} blocked]      (a Task reads *Acceptance-criteria coverage:*)
+*Expected-result coverage:* {met} / {total} items met[ · {k} PWMI][ · {k} failed][ · {k} blocked]      (Task / Story: the label MUST read *Acceptance-criteria coverage:*)
 *Case coverage:* {run} / {total} cases run — {passed} passed / {failed} failed[ / {pwmi} PWMI] / {blocked} blocked
 
 *Out of scope this round:* {ids} — not covered by the scoped cases, not verified   (scoped rounds only)
@@ -92,7 +92,7 @@ re-checks, design lookup and comment drafting. Copy it into `run.json` as
 refuses a body whose line above the marker is not it (`run-time-line-missing`). Exit 2 = it could not
 measure (a lane directory is missing, or no evidence files) — fix the directory list; never type a
 number instead. When the workspace has no such tool, measure by the same method by hand (list every
-evidence file's modification time across all lanes, split at gaps over 120 s, sum the bursts) and say in
+evidence file's modification time across all lanes, split at gaps over 120 s, sum the bursts — never the first-to-last span) and say in
 the chat report that it was measured by hand.
 
 **All-BLOCKED round (owner, 2026-10-14):** when every case and every result is BLOCKED, nothing ran and
@@ -346,7 +346,7 @@ At step 6d, follow [round-time-contract.md](../../../references/round-time-contr
 4. **One approval popup for the whole bundle**, listing every concrete action by name: the comment
    (target ticket + endpoint, e.g. `/rest/api/2/issue/{KEY}/comment` for v2) · each transition (ticket, from → to, Step 8a) · each assign (default: back to the fixing dev — ticket +
    person, Step 8c) · each linked story to unblock (Step 8d) · each notify (channel + resolved
-   recipient, Step 9) · each external result update (destination + rows).
+   recipient by name, Step 9) · each external result update (destination + rows).
 5. **Execute** — post (Step 7), then the 7d post-publish re-read, then transition, assign, unblock,
    notify and update results under that same approval. **No second approval.**
 

@@ -227,7 +227,7 @@ Confluence:  {url or none}
 Swagger:     {url or none}
 Design ref:  {figma node link(s) per screen — or "none for {screen}: asked {who}"}
 Build:       {build / commit id under test}
-Widths:      {each in-scope width = its own scenario row; overflow (rect.right / scrollWidth > innerWidth) and overlap measured, not eyeballed} — out of scope: {widths not delivered this round}
+Widths:      {every scenario incl. split sub-ids × every in-scope width = its own row, no width dropped; overflow (rect.right / scrollWidth > innerWidth) and overlap measured, not eyeballed} — out of scope: {widths not delivered this round}
 Login smoke: {role → OK / FAILED} for the in-scope roles
 
 Test plan ({N} scenarios):

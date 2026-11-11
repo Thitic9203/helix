@@ -46,7 +46,7 @@ If any item fails — including when evidence **cannot** be embedded (e.g. no Ji
 
 ### 8a. Transition
 
-Read transition names from the workspace `*-retest-guide.md` (see [project-config-template.md](references/project-config-template.md)). If missing, ask once for the **PASSED** and **FAILED** transition names in the 6d decisions popup (before approval) and save them to the guide immediately ([round-time-contract.md §2](../../../references/round-time-contract.md)); never ask after the bundle was approved.
+Read transition names from the workspace `*-retest-guide.md` (see [project-config-template.md](references/project-config-template.md)). If missing, ask once for the transition name of this round's verdict (PASSED / FAILED / PWMI / BLOCKED) in the 6d decisions popup (before approval) and save them to the guide immediately ([round-time-contract.md §2](../../../references/round-time-contract.md)); never ask after the bundle was approved.
 
 NEVER hardcode transition names in the skill — Jira workflows differ per project.
 
@@ -58,6 +58,8 @@ Use `getTransitionsForJiraIssue` and match the names from config or the user.
 |---------|--------------|-----------------|
 | PASSED | `{PASSED_TARGET_STATUS}` | `{PASSED_TRANSITION}` |
 | FAILED | `{FAILED_TARGET_STATUS}` | `{FAILED_TRANSITION}` |
+| PWMI | `{PWMI_TARGET_STATUS}` | `{PWMI_TRANSITION}` |
+| BLOCKED | `{BLOCKED_TARGET_STATUS}` | `{BLOCKED_TRANSITION}` |
 
 The only sources for these values are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
 
@@ -154,7 +156,7 @@ After the transition, if the project defines a **QA notify channel** (Discord/Sl
 **Who invoked the retest never changes this.** The notify is part of closing a retest, not a favour to the person who asked for one. It is sent the same way whether the workflow was started by the repo owner, by another QA, by a teammate in the channel, by a slash command, or by an unattended bot/trigger — and whether or not that person mentioned a notification. The **only** condition is the one above: the project configures a channel. A retest whose comment is posted and whose ticket is transitioned but whose notify was skipped is **not closed**.
 
 - Load channel, format, recipient, and any helper from the workspace `*-retest-guide.md` / project guide. **Never hardcode webhook URLs, tokens, machine paths, or user IDs in this skill** ([portable-content.md](../../../references/portable-content.md)) — they live in project config or local agent memory.
-- Message = the single **retest verdict** (PASSED ✅ / FAILED ❌), a short bullet of what was checked, a link to the Jira retest comment, and an @mention of the recipient.
+- Message = the single **retest verdict** (PASSED ✅ / FAILED ❌ / BLOCKED ⛔ / PWMI ⚠️ — same as the comment's summary line), a short bullet of what was checked, a link to the Jira retest comment, and an @mention of the recipient.
 - **Recipient resolution (mandatory):** read the recipient from the ticket field the project guide names (e.g. a "QA Owner" custom field) — fetch that field's value from the bug itself for **every** notify; do not reuse a name from an earlier ticket, and do not default to the Reporter. The label printed next to the mention MUST match the field the value came from (label "QA Owner" ⇒ value from the QA Owner field). Resolve it before the 6d approval popup; if the field is empty or the guide names no field, queue the recipient question in the 6d decisions popup — never ask after approval.
 - This is a **result FYI**, not a "please review" request (the retest is already closed) — do not reuse the full-test-run "QA Review Requested / pending review" wording.
 - If the project provides a notify helper, **use it** (it gets @mention + headers right) instead of hand-assembling the payload.

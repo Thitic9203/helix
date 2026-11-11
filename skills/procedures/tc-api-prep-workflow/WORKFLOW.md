@@ -68,6 +68,7 @@ Load the spec:
 
 - Fetch the URL. When it returns 401/403 or a login page, ask the user for an authenticated export or session — never guess credentials.
 - Parse paths, methods, parameters, request bodies, response schemas, security schemes.
+- Spec requires auth but Swagger has no `security` (operation or global) → say so in the sources summary and ask how the 401/403 rows are sourced (Phase D gap rule).
 - Note base URL / servers from `servers` or user override.
 
 If load fails → stop and report; ask for export file or VPN.

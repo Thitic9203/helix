@@ -1,9 +1,9 @@
 ---
 name: catch-ai-workflow
 description: |-
-  Audit finished work (own output, doc, artifact, feature) by tracing each claim to its source; split confirmed defects from questions; fix each with source + prevention.
-  Use when the user says CatchAI, /catch-ai, claimed mistakes, "check yourself", audit a deliverable, ตรวจงานตัวเองอีกรอบ; before reporting pass/defect/done; or when a result rests on a guess (น่าจะ).
-  Do NOT use for bug retest, new TC tables, ticket Playwright runs, or filing bugs.
+  Audit finished work (output, doc, artifact, feature) by tracing claims to source; split confirmed defects from questions; fix each with source + prevention.
+  Use when the user says CatchAI, /catch-ai, claimed errors, "check yourself", audit a deliverable, ตรวจงานตัวเองอีกรอบ; before reporting pass/defect/done; or a result rests on a guess (น่าจะ).
+  Do NOT use for bug retest, TC drafting, TC review (tc-review), ticket Playwright runs, or filing bugs.
 metadata:
   proactive_triggers:
     - /catch-ai
@@ -240,7 +240,7 @@ Open each file below at the step that names it, never all up front.
 - At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (9 steps — keep the todo list).
 - Before any message to the user: [user-communication.md](../../references/user-communication.md); before asking or stopping on a missing input: [skill-rules-style.md](../../references/skill-rules-style.md); before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
 - Step 7 and Hedged conclusions rule 3, before naming a cause for any failure: [root-cause-investigation.md](../../references/root-cause-investigation.md).
-- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core). At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC or pre-delivery coverage.
+- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and, for every audit, the [pre-delivery 7-layer gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester). At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
 - QA closing: [qa-closing-shared.md](../../references/qa-closing-shared.md); at session end [session-closing.md](../../references/session-closing.md).
 
 **Read only when the audit target needs it.** This workflow never posts, files or runs anything on its own; read only the group(s) matching the step-1 target:
