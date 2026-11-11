@@ -2,8 +2,8 @@
 name: helix
 description: |-
   Helix QA menu — routes to the right QA workflow (TC FE/API prep, retest bug, testing ticket, create bug, catch-ai, TC review, TC change format, review result, test data prep).
-  Use when the user says Helix, /helix or QA menu, asks which workflow fits, or wants QA help without naming one ("ช่วยดูงาน QA นี้ให้หน่อย").
-  Do NOT use when a specific workflow is named — run that workflow instead.
+  Use when the user says Helix, /helix or QA menu without naming a workflow, asks which workflow fits, or wants QA help without naming one ("ช่วยดูงาน QA นี้ให้หน่อย").
+  Do NOT use when a workflow is named, even as "Helix → <workflow>" — run that workflow.
 metadata:
   proactive_triggers:
     - Helix

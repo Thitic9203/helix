@@ -9,7 +9,7 @@
 ## Jira
 
 Which body markup each create path takes, and which gate runs on it, is one table in
-[WORKFLOW.md § Phase D — Jira](../WORKFLOW.md#jira). The format is locked once, at intake A2, for the session; Phase C only shows it.
+[phase-d-create.md § Jira](../phase-d-create.md#jira). The format is locked once, at intake A2, for the session; Phase C only shows it.
 
 ## Jira MCP → JXA fallback
 

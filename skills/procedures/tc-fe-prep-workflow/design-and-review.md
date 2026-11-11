@@ -276,8 +276,10 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
    decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability. For
    a thorough/"2 rounds"/"superpowers" request, run ≥2 independent reviewers per round.
    **Working-draft file for reviewers (owner, 2026-10-14):** write the draft reviewers read as a
-   file **outside the repo** (the session scratchpad or a temp directory) — never inside the
-   repository or the deliverable folder. It is review input only: not a deliverable, never attached,
+   file **outside the repo** (the session scratchpad or a temp directory); when the run fixes an
+   output folder, write a `*-review-draft.md` next to the output instead; if no writable path exists,
+   paste the draft into the reviewer prompt. Reviewers always run — never fall back to self-review
+   because of where the file can go. It is review input only: not a deliverable, never attached,
    never committed. This is the one exception to the Step 4.5 no-file rule.
 2. **Reviewer output is binary per round:** `CLEAN` (zero actionable defects) or `HAS-COMMENTS` (a
    numbered defect list). Nitpicks and cosmetic polish are not defects — only genuine defects against the

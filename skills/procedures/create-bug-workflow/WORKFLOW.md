@@ -112,6 +112,8 @@ verbatim). One rule settles the two values, in this order:
    Priority that differs from the matrix cell: show that matrix row (and the cell) and ask the reporter
    to choose. A reporter-given Priority is never silently replaced by your own pick. Do not swap in another Severity or Priority yourself and do not draft the
    bug until they answer.
+   Several plausible cells in the reporter's Severity row is **not** a STOP: cite the closest cell, draft the bug, and carry the
+   choice to Phase C as a **Likely** open question (phase-e-falsification.md).
 
 Steps to reproduce come only from the user's input and evidence. A step that seems missing is a
 follow-up question here, never a line you add to the draft.
@@ -184,7 +186,7 @@ At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of i
 
 ## QA closing (mandatory before "done") [low freedom]
 
-At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of it before you move on. Mandatory before done, whether or not anything was filed.
+Covered by Phase F above (phase-f-close.md). Mandatory before done, whether or not anything was filed.
 
 ---
 

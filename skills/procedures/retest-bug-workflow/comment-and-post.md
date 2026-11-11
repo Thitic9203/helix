@@ -156,7 +156,7 @@ is the image width parameter (`!img|width=N!`, PM-004) — that one is still for
 
 The **`Evidence` column** sits between `Actual Result` and `Status`, for PASSED and FAILED rows alike.
 
-<a id="evidence-per-row"></a>**Evidence per row (one rule; the [Step 8·0 gate] (run at step 8)(closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
+<a id="evidence-per-row"></a>**Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) (run at step 8) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
 
 For an API bug the header row is therefore `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Status*||` — a cURL block does not fit in a cell.
 
@@ -344,7 +344,7 @@ At step 6d, follow [round-time-contract.md](../../../references/round-time-contr
 3. **Apply the answers** — re-render the draft and re-run the Step 6·0 guard (and the §6 check). A
    scope correction or **B re-test** starts a new round.
 4. **One approval popup for the whole bundle**, listing every concrete action by name: the comment
-   (target ticket + endpoint) · each transition (ticket, from → to, Step 8a) · each assign (ticket +
+   (target ticket + endpoint, e.g. `/rest/api/2/issue/{KEY}/comment` for v2) · each transition (ticket, from → to, Step 8a) · each assign (default: back to the fixing dev — ticket +
    person, Step 8c) · each linked story to unblock (Step 8d) · each notify (channel + resolved
    recipient, Step 9) · each external result update (destination + rows).
 5. **Execute** — post (Step 7), then the 7d post-publish re-read, then transition, assign, unblock,

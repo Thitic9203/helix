@@ -1,9 +1,9 @@
 ---
 name: testing-ticket-workflow
-description: |
-  Test one Jira ticket with Playwright after intake — show the intake summary and plan, wait for the user's confirmation, then run; compare every screen against the design (Figma), summarize results in chat, then optionally update an external results destination.
-  Use when the user picks Testing ticket from Helix, says /testing-ticket, or asks to test, verify or QA a single Jira story/ticket on an environment — even without saying testing ticket ("เทส ticket นี้ให้หน่อย").
-  Do NOT use for opening bug tickets (create-bug-workflow), retest-after-fix on a bug (retest-bug-workflow), or drafting manual TC tables (tc-fe-prep / tc-api-prep). Does not run full-app regression.
+description: |-
+  Test one Jira ticket with Playwright: intake summary + plan, wait for confirmation, run, compare with Figma, report in chat, optionally update a results destination.
+  Use when the user says /testing-ticket or asked to test/verify/QA one story/ticket on an environment ("เทส ticket นี้ให้หน่อย").
+  Do NOT use for filing bugs (create-bug), retest after a fix (retest-bug), manual TC tables (tc-fe-prep / tc-api-prep), or full regression.
 ---
 
 # Testing ticket workflow
@@ -227,10 +227,11 @@ Confluence:  {url or none}
 Swagger:     {url or none}
 Design ref:  {figma node link(s) per screen — or "none for {screen}: asked {who}"}
 Build:       {build / commit id under test}
-Widths:      {in scope} — out of scope: {widths not delivered this round}
+Widths:      {each in-scope width = its own scenario row; overflow (rect.right / scrollWidth > innerWidth) and overlap measured, not eyeballed} — out of scope: {widths not delivered this round}
 Login smoke: {role → OK / FAILED} for the in-scope roles
 
 Test plan ({N} scenarios):
+  (one row per AC/EC sub-id — AC3a/3b/3c never share a row)
   1. ...
 Out of scope: ...
 
@@ -238,7 +239,7 @@ Execution:   parallel — {N} lanes   (or: serial — reason: {§4 predicate})
 Lanes:       L1 · {account} ({role}) · scenarios {ids} · data prefix QA-L1
              L2 · {account} ({role}) · scenarios {ids} (#n after L1 #m) · data prefix QA-L2
              ...
-Barrier:     {scenario ids run alone after lanes — or none}
+Barrier:     {scenario ids run alone after lanes — or "none"; Lanes and Barrier lines are always printed}
 Starting state: {state each lane begins in, checked before its first scenario}
 
 Execution plan: see filled template (preflight, evidence, pass criteria). Its Execution lanes rows (L1/L2, QA-L1/QA-L2) and Starting state line are copied from test-execution-plan-template.md, always present.
