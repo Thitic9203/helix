@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Link shippable Helix skills into common agent skill directories.
 #
-# Global (default): symlinks under ~/.claude/skills, ~/.cursor/skills, etc.
+# Global (default): symlinks under ~/.cursor/skills, ~/.codex/skills, etc.
+# Claude Code loads Helix from the plugin helix@helix-dev only, so ~/.claude/skills gets no links and
+# old Helix links there are removed (Spec: docs/sdd/single-claude-install R1, R3-R5).
 # Project (optional): set HELIX_LINK_WORKSPACE=/path/to/repo to also link under
 #   .github/skills, .agents/skills, .windsurf/skills, .cline/skills, .gemini/skills
 
@@ -76,12 +78,28 @@ link_into() {
     -print0)
 }
 
+# remove_old_claude_links: unlink only Helix skill links under ~/.claude/skills (R3, R4)
+remove_old_claude_links() {
+  local dir="$HOME/.claude/skills" entry removed=0
+  [ -d "$dir" ] || return 0
+  for entry in "$dir"/*; do
+    [ -L "$entry" ] || continue
+    if helix_is_skill_link "$entry" "$(basename "$entry")" 0 "$REPO" "$REPO_P"; then
+      rm -f -- "$entry"
+      removed=$((removed + 1))
+    fi
+  done
+  if [ "$removed" -gt 0 ]; then   # R5: one line, only when something was removed
+    echo "removed $removed old Helix skill link(s) from $dir — Claude Code now loads Helix from the plugin only"
+  fi
+}
+
 echo "=== Helix link-skills (repo: $REPO) ==="
 echo ""
+remove_old_claude_links
 
 # --- Global user skill directories (Agent Skills interoperable paths) ---
 GLOBAL_DESTS=(
-  "$HOME/.claude/skills|claude"
   "$HOME/.cursor/skills|cursor"
   "$HOME/.codex/skills|codex"
   "$HOME/.copilot/skills|copilot"

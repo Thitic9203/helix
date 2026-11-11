@@ -30,7 +30,7 @@ Full agent list: [supported-agents.md](https://github.com/Thitic9203/helix/blob/
 
 | Agent | Global folder after install | Start Helix |
 |-------|-----------------------------|-------------|
-| Claude Code | `~/.claude/skills/` + plugin **`helix@helix-dev`** | `/helix` or `/tc-fe-prep`, … |
+| Claude Code | plugin **`helix@helix-dev`** only (old `~/.claude/skills/` Helix links removed on install/update) | `/helix` or `/tc-fe-prep`, … |
 | Cursor | `~/.cursor/skills/` | `@helix` or skill **helix** |
 | Codex | `~/.codex/skills/` | skill **helix** |
 | GitHub Copilot | `~/.copilot/skills/` | skill **helix** in chat |
