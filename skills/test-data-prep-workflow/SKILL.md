@@ -1,9 +1,9 @@
 ---
 name: test-data-prep-workflow
-description: |
-  Create, fix, or verify OLS test data — media, courses, learning paths, covers, videos, PDFs, accounts, logins — for QA runs or training content. Follows ols-data-prep.md as the single source of truth and passes every quality gate before the data is used.
-  Use when the user says /test-data-prep, or asks to prepare / build / seed / fix OLS content or covers.
-  Do NOT use for running tests on a ticket (testing-ticket-workflow), retesting a bug (retest-bug-workflow), or drafting test-case tables (tc-fe-prep / tc-api-prep).
+description: |-
+  Create, fix, or verify OLS test data — media, courses, learning paths, covers, videos, PDFs, accounts — per ols-data-prep.md, passing every quality gate first.
+  Use when the user says /test-data-prep or asked to prepare / build / seed / fix OLS content or covers.
+  Do NOT use for ticket testing (testing-ticket-workflow), bug retest (retest-bug-workflow), or TC tables (tc-fe-prep / tc-api-prep).
 metadata:
   proactive_triggers:
     - /test-data-prep

@@ -1,9 +1,9 @@
 ---
 name: catch-ai-workflow
 description: |-
-  Audit work that is already finished — the agent's own prior output, a document or report, a test artifact, or a feature under test — by tracing every claim to the source that governs it, separating confirmed defects from open questions, and closing each defect with a sourced fix and a prevention layer.
-  Use when the user says CatchAI, /catch-ai, claims mistakes exist in something already delivered, asks for a second review of the agent's own work, says "check yourself" or "find your own mistakes", QA or audit a deliverable, or says ตรวจงานตัวเองอีกรอบ. Also use before reporting a check passed, a defect exists, or work is complete, and when a result was concluded on a guess (น่าจะ / อาจจะ / probably) instead of evidence.
-  Do NOT use for retesting a Jira bug after a dev fix (retest-bug-workflow), for drafting new TC tables (tc-fe-prep-workflow / tc-api-prep-workflow), for a ticket's Playwright run (testing-ticket-workflow), or for filing a confirmed defect (create-bug-workflow).
+  Audit finished work (own output, doc, artifact, feature) by tracing each claim to its source; split confirmed defects from questions; fix each with source + prevention.
+  Use when the user says CatchAI, /catch-ai, claimed mistakes, "check yourself", audit a deliverable, ตรวจงานตัวเองอีกรอบ; before reporting pass/defect/done; or when a result rests on a guess (น่าจะ).
+  Do NOT use for bug retest, new TC tables, ticket Playwright runs, or filing bugs.
 metadata:
   proactive_triggers:
     - /catch-ai

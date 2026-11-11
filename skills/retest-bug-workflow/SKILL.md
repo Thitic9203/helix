@@ -1,9 +1,9 @@
 ---
 name: retest-bug-workflow
-description: |
-  Retest a Jira bug or task after a dev fix — read ticket, build the retest case list, compare every screen against the design (Figma), test API or UI, compare Swagger, draft evidence, post the comment with its case list (with approval), transition and assign back to dev.
-  Use when the user says retest bug, retest task, verify fix, check if an issue is fixed, /retest-bug, or Retest bug from Helix — or when a ticket is Ready to Retest or the user asks whether a fix works, even without the word retest ("dev says it's done, check it", "แก้แล้วยัง").
-  Do NOT use for writing new FE/API test case tables (tc-fe-prep / tc-api-prep), full ticket Playwright runs (testing-ticket-workflow), or opening new bugs (create-bug-workflow).
+description: |-
+  Retest a Jira bug/task after a dev fix — case list, compare with Figma, test API/UI and Swagger, post evidence comment (with approval), transition back to dev.
+  Use when the user says retest bug, verify fix, /retest-bug, Ready to Retest, or "does the fix work" ("dev says it's done, check it", "แก้แล้วยัง").
+  Do NOT use for new TC tables (tc-fe-prep / tc-api-prep), full ticket runs (testing-ticket), or new bugs (create-bug).
 metadata:
   proactive_triggers:
     - /retest-bug

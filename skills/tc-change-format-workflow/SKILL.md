@@ -1,9 +1,9 @@
 ---
 name: tc-change-format-workflow
-description: |
-  Copy each ticket's test cases from a TC tab in a Google Sheet into a new Google Sheet made from the project's release TC template, placed directly in the release folder the user picks — one tab or several tabs in one request. Only mapped template columns are filled; the template's look (coloured dropdowns, borders, header) is kept, empty rows and columns are removed, rows and columns are sized so no line wraps, and owners become people tags.
-  Use when the user sends one or more TC sheet links (each with a tab) and asks to change the TC format, move the TC into the release template, or create the release TC file for a card, or says /tc-change-format, เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template.
-  Do NOT use for writing new test cases (tc-fe-prep-workflow / tc-api-prep-workflow), reviewing test cases (tc-review-workflow), or recording test results (testing-ticket-workflow).
+description: |-
+  Copy each ticket's TCs from a Google Sheet tab into a new sheet from the release TC template in the chosen release folder; keep template styling, fill mapped columns only, owners as people tags.
+  Use when given TC sheet links and asked to change TC format / move to the release template, or /tc-change-format, เปลี่ยนฟอร์แมต TC, ย้าย TC ลง template.
+  Do NOT use for writing, reviewing or recording TCs.
 metadata:
   proactive_triggers:
     - /tc-change-format
@@ -208,6 +208,7 @@ Retyping non-ASCII text risks changing it. Copy inside Google Sheets instead. In
 
 Report as numbers: `rows N/N`, `cells X/Y`, `tags X/N`, `borders X/Y` — and say what each was measured from.
 Borders and wrapping are what people **see**; API values are not proof of that. Ask the user to open the file and confirm before calling the job done.
+See also: [qa-evidence-gates.md — Gate function](../../references/qa-evidence-gates.md#gate-function) for the evidence-before-claim rule behind these numbers and the "done" claim.
 
 ### 11. Report
 

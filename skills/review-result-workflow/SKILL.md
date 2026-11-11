@@ -1,9 +1,9 @@
 ---
 name: review-result-workflow
-description: |
-  Review already-recorded test results and their evidence clips — build one contact sheet per clip, judge every case against the ten review criteria, record PASSED / FAILED / AWAITING RE-REVIEW, drive a live board, then group the fixes cheapest-first and re-queue what was re-recorded.
-  Use when the user says review result, review the clips, check the evidence, audit the recorded runs, verify the result sheet, /review-result, or Review result from Helix. Works for any recorded set — unit, system, integration, or another suite.
-  Do NOT use for running the tests in the first place (testing-ticket-workflow), retesting one ticket after a dev fix (retest-bug-workflow), writing new TC tables (tc-fe-prep / tc-api-prep), or opening bugs (create-bug-workflow).
+description: |-
+  Review recorded test results and evidence clips: a contact sheet per clip, judge each case on ten criteria, record PASSED / FAILED / AWAITING RE-REVIEW, group fixes cheapest-first.
+  Use when the user says review result, review the clips, check the evidence, audit recorded runs, verify the result sheet, or /review-result — any suite.
+  Do NOT use for first runs (testing-ticket), retest (retest-bug), new TC tables (tc-fe-prep / tc-api-prep), or bugs (create-bug).
 metadata:
   proactive_triggers:
     - /review-result

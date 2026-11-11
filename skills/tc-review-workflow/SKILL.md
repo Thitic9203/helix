@@ -1,9 +1,9 @@
 ---
 name: tc-review-workflow
-description: |
-  Review an existing test case document (any sheet/CSV/markdown) against the acceptance criteria (AC), edge cases (EC) and business rules on its governing ticket. Build a traceability matrix, judge coverage and row quality, and report Good vs Need Improve, each anchored to a quoted source. Always notify the finished review to the ticket project's own TC-review channel, asking only which thread.
-  Use when the user asks to review test cases or a TC sheet, check TC quality or coverage before execution, audit someone else's test case document, compare TCs against AC/EC, or wants feedback on a TC document without executing it (e.g. "รีวิวเทสเคส"). Also /tc-review. Also when a TC sheet and ticket are pasted with "is this OK/complete?".
-  Do NOT use for drafting new test cases (tc-fe-prep-workflow / tc-api-prep-workflow), executing a ticket (testing-ticket-workflow), reviewing recorded evidence clips (review-result-workflow), or retesting a fix (retest-bug-workflow).
+description: |-
+  Review an existing TC document (sheet/CSV/markdown) against its ticket's AC/EC and rules: traceability matrix, Good vs Need Improve with quoted sources, notify the TC-review channel.
+  Use when asked to review TCs or a TC sheet, check coverage/quality, audit someone's TCs, /tc-review, "รีวิวเทสเคส", or a pasted sheet + "is this OK?".
+  Do NOT use for drafting TCs (tc-fe-prep / tc-api-prep), executing (testing-ticket), evidence clips (review-result), or retest.
 metadata:
   proactive_triggers:
     - /tc-review

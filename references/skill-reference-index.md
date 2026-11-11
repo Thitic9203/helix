@@ -63,9 +63,9 @@ One line per reference: link — when to open it. **Do not read this file at sta
 
 ## Evidence and verdicts
 - [qa-evidence-gates.md](qa-evidence-gates.md) — before any pass/post/done claim.
-- `references/qa-evidence-capture.md` — capturing screenshots/MP4 evidence and its 7-layer check.
-- `references/qa-evidence-rerecord.md` — evidence failed a check and must be re-recorded.
-- `references/qa-evidence-coverage.md` — checking every case has its evidence.
+- [qa-evidence-capture.md](qa-evidence-capture.md) — capturing screenshots/MP4 evidence and its 7-layer check.
+- [qa-evidence-rerecord.md](qa-evidence-rerecord.md) — evidence failed a check and must be re-recorded.
+- [qa-evidence-coverage.md](qa-evidence-coverage.md) — checking every case has its evidence.
 - [result-quality-gate.md](result-quality-gate.md) — between execution and any verdict leaving the round.
 - [non-pass-challenge-gate.md](non-pass-challenge-gate.md) — about to record a non-PASS.
 - [no-wait-decision-gate.md](no-wait-decision-gate.md) — non-PASS because of an open question.
