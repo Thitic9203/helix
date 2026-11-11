@@ -325,9 +325,9 @@ resolve as BLOCKED rows with reasons — never halt the queue, never post over a
 
 ### 6d. End of round — decisions popup, then one approval bundle (mandatory, fixed order)
 
-🔴 **GATE — STOP:** nothing is posted, transitioned or notified until item 4's approval is in (or the round is delegated, below).
+🔴 **GATE — STOP:** nothing is posted, transitioned or notified until item 4's approval is in (or that action is delegated by name, below).
 
-**Delegated rounds:** when the owner has delegated the round ("don't ask", "don't wait", "handle it"), the decisions popup carries only what the [no-wait decision gate](../../../references/no-wait-decision-gate.md) could not resolve, and the approval wait is skipped (layer 19) — every format, syntax and readback gate below still runs. Opening new bugs still needs a live yes.
+**Delegated actions:** the approval wait is skipped only for an outward action — post, transition, or notify — that the owner explicitly delegated by name, in this session, for this round (for example "post and transition this round without asking me"). General cues ("handle it", "don't ask", "don't wait") never skip a write approval; the [no-wait decision gate](../../../references/no-wait-decision-gate.md) layer 19 states the same rule. For a delegated action, the decisions popup carries only what the no-wait decision gate could not resolve; print the item 4 bundle list in chat before executing it, and every format, syntax and readback gate below still runs. An action not named still waits for item 4. Opening new bugs still needs a live yes.
 
 Follow [round-time-contract.md](../../../references/round-time-contract.md) §3 in this order:
 

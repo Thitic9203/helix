@@ -175,6 +175,10 @@ After approval (and Suite confirmed), write the files below inside the user's pr
 
 Both CSV files (`Draft_Jira` + `Import_Qase`) are always produced together and both are uploaded to Jira (Step 7). Follow [csv-export-rules.md](../../../references/csv-export-rules.md) for cell cleaning (convert `<br>`, strip tags, preserve Thai) — applies to all CSV files. Never silently produce only one when both are required.
 
+**🔴 GATE — STOP: xlsx requested, `openpyxl` missing.** Before writing an xlsx file, run `python3 -c "import openpyxl"` ([dependencies.md](../../../references/dependencies.md)). When it fails, tell the user that `openpyxl` is not installed so the xlsx pair cannot be written, offer the CSV pair instead, and show `python3 -m pip install --user openpyxl` only as a suggestion the user runs — never install it yourself. Write nothing until the user chooses: CSV → write the CSV pair; installed → re-run the import check, then write the xlsx pair. Never silently produce CSV when xlsx was requested.
+
+**🔴 GATE — STOP: a workspace write fails.** When any file write in this step fails (permission denied, disk full, missing path, any error), stop: report the exact error text and the path that failed, and list which files were and were not written. Remove the file whose write failed — never leave a half-written file. Offer the approved draft as an in-chat copy (markdown table plus CSV text) the user can save. Step 7 never starts with a partial file set: continue only on the user's choice — retry after the cause is fixed, or take the in-chat copy and stop before Step 7.
+
 ### Qase import CSV column mapping (`Import_Qase_{ISSUE_KEY}.csv`)
 
 All columns must be populated — derive values for any column that has no direct source in the Jira draft:

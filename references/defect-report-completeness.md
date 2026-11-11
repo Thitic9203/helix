@@ -43,6 +43,12 @@ exercised before drafting (`retest-bug-workflow/execute-and-evidence.md` § 4g),
 expected-result line verbatim and whose `Actual Result` cell names the exact deviation. The §2 rules and
 the §5 checks apply to those lines and rows unchanged.
 
+**Create-bug draft format.** The Helix default draft (`create-bug-workflow/references/bug-draft-template.md`)
+carries one block per question: What happens / What should happen (Q1, Q3), Repro matrix (Q2), Why failed
+(Q4), Resolution options with a Decided by owner per row (Q5). A new bug has no delivered fix, so its
+`Fix status` line answers the §5 "originally reported symptom" check. Every row of this contract applies to
+that draft unchanged.
+
 ---
 
 ## 2. Repro matrix — REQUIRED for every non-PASSED item

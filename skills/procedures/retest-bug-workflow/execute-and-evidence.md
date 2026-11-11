@@ -99,7 +99,7 @@ step. See [test-through-real-steps.md](../../../references/test-through-real-ste
 
 ### 4d. Design comparison + depth sweep (mandatory for every UI case, PASSED ones included)
 
-Run this **as each case is executed**, not while drafting.
+<a id="design-comparison"></a>Run this **as each case is executed**, not while drafting.
 
 **Dedupe, never thin** ([round-time-contract.md](../../../references/round-time-contract.md) §7): one
 compare per **screen × width** per round — cases landing on the same screen share one fresh app capture
@@ -110,7 +110,8 @@ compare itself stays full — all five points below.
 1. **Compare the captured screen against its design node** on all five points —
    elements present · text char-exact · order/position · the states the node defines · no overflow and
    no overlap ([figma-design-comparison.md](../../../references/figma-design-comparison.md) §3). Record
-   the node link on the header's `Design ref:` line.
+   the node link actually opened on the header's `Design ref:` line per the
+   [`Design ref:` line rule](comment-and-post.md#design-ref-line) (the per-case mapping stays in the Step 2c plan).
 2. **Measure, do not eyeball, the layout checks** — overflow is `rect.right > window.innerWidth` or
    `document.documentElement.scrollWidth > window.innerWidth`; overlap is two text rectangles
    intersecting by more than ~3 px. Do this at **every in-scope width**, both sides of any breakpoint

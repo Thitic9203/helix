@@ -1,8 +1,17 @@
 # Bug draft template (Helix default)
 
 Use when the user selects **Helix default** format. Every block below is required by the MUST rows of
-[defect-report-completeness.md](../../../../references/defect-report-completeness.md); Priority and
+[defect-report-completeness.md](../../../../references/defect-report-completeness.md) (§1 five questions, §2 repro matrix, §4 resolution options, §5 dev-question gate); Priority and
 Severity come only from the [Bug Priority & Severity Matrix](../../../../references/bug-priority-matrix.md).
+
+## Contents
+
+- [Draft layout](#draft-layout)
+- [Block rules](#block-rules)
+- [Title rules](#title-rules)
+- [Field formatting](#field-formatting)
+
+## Draft layout
 
 ```text
 ━━━ Bug #{n} ━━━
@@ -21,6 +30,8 @@ What should happen:
 > "{the expected-result line from its source, copied character for character}"
 - Source: {design frame / AC id / PRD section / PO decision} — {link}
 
+Why failed: "{the expected-result line, copied character for character}" → {the exact deviation, one observable fact}
+
 User impact:
 {who is affected}
 
@@ -36,12 +47,21 @@ Steps to reproduce (only steps from the reporter's input or evidence):
 2. ...
 3. ...
 
+Resolution options (QA picks neither):
+| Option | Decided by | What happens |
+|---|---|---|
+| The current behavior is what the design intends | spec owner ({PO / reporter}) | update the expected-result text to match; close with no code change |
+| The quoted expected result stands | dev ({assignee}) | change `{exact surface / route}` to `{concrete target behavior}`; leave `{the parts that already pass}` untouched |
+
+Fix status: new report — no fix delivered yet
+
 Code reference (if known):
 - File: path:line
 - Root cause: ...
 
 Environment:
 - URL:
+- Role / account: {role tag — never a password}
 - Browser / viewport:
 - Date: YYYY-MM-DD
 
@@ -51,7 +71,7 @@ Evidence:
 ━━━━━━━━━━━━━━
 ```
 
-Block rules:
+## Block rules
 
 - **Severity** — the value the reporter gave at intake, unchanged; it is also the title bracket. Never
   replace a reporter-given severity with your own reading. If none was given, or the matrix has no cell
@@ -66,13 +86,21 @@ Block rules:
   Quote the source line verbatim and link it. A paraphrase, a feature name or a
   translation is not an expected side; with no quotable source the candidate is a question, not a bug
   (WORKFLOW Refusal-first).
+- **Why failed** — the expected-result line quoted verbatim (the same line as in What should happen) and
+  the exact deviation from it, as one observable fact. No quotable line → the candidate is a question, not
+  a bug (WORKFLOW Refusal-first).
+- **Resolution options** — both rows, each with a named owner in Decided by; name the exact surface to
+  change and the parts that must not change. Never pick an option yourself and never edit the ticket's
+  expected-result field (contract §4).
+- **Fix status** — a new report has no delivered fix; the line says so, which answers the §5 question
+  "is the thing I fixed still broken?" for a new bug.
 - **Repro matrix** — one row for **every** entry point that could reach the defect. Mark a path you
   did not try `not tested`; never claim the defect occurs via a path with no evidence row.
 - **Steps to reproduce** — copy the steps from the reporter's input or evidence only. Never add, merge
   or "complete" a step yourself; a step that seems missing is a question to the reporter (ask in the A3
   follow-up), never an invented line.
 
-Title rules:
+## Title rules
 
 - Lead with the Severity bracket (the reporter's intake value) for Jira/GitHub scanability — never a
   priority you derived.
@@ -82,7 +110,9 @@ Title rules:
 - Keep it concise **but** complete: enough to know the flow + symptom; drop details that already live in
   dedicated fields (they only duplicate).
 
-Field formatting (match the target tracker's own convention when it has one):
+## Field formatting
+
+Match the target tracker's own convention when it has one.
 
 - Write **What happens** (actual) as **bullet points — one fact per line**, not a single run-on
   paragraph. Reviewers scan bullets; they skip walls of prose. The source quote inside What should happen stays verbatim.

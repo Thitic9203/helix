@@ -262,50 +262,50 @@ named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<threa
   destination first. Found → use it and record it in that project's config. Not found → ask once for that
   project's channel and thread, then record the answer so it is never asked again.
 - **User declines the send, or will not name a thread →** do not send — nothing goes out without the
-  thread answer and the item-2 preview. Tell the user plainly that the send is part of this workflow
+  thread answer and the item-5 preview. Tell the user plainly that the send is part of this workflow
   (every run notifies the project's channel — an owner decision) and that the review is therefore not
   complete. Record `notify not sent — user declined` in the QA closing checklist and in the final report,
   then stop. Never skip the step silently, and never report the run as done-and-notified.
 
-Then (run order 1 → 8 → 5 → 7 → 2 → 3; items 4 and 6 only when correcting a sent message):
+Then, in this order (items 1–6 every send; items 7 and 8 only when correcting a sent message):
 
 1. **Identity for a mention:** take the exact id (Discord user id, Jira account id, etc.) from the project
    config § *TC review notify* — never ask the user for it. Only when the config has none for the person to
    mention, ask for the exact id rather than guessing one from a display name — a wrong id either pings nobody or pings the wrong person. The same
    holds for a channel or thread id: never invent one; it comes from config or from the user's answer.
-2. 🔴 **GATE — before the external send:** show in chat the destination (channel + thread), the final text
-   exactly as it will be sent (after any item-5 tightening) and its character count. The thread answer
+2. Use the wording conventions already established for that surface in this workspace (e.g. a fixed term
+   for "ticket" in the destination's language) — check the workspace's own rules before sending; do not
+   invent new wording.
+3. **Fit the platform's message limit before sending** (Discord: 2,000 characters). Count the characters.
+   If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
+   Still over after tightening → stop, show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
+4. A thread is reached through a webhook plus `thread_id`. Without `thread_id` the message lands in the
+   parent channel. Use the webhook the user gave for that thread, and keep it in local secrets, never in
+   the repo. **Webhook file for the chosen thread missing** from the secrets folder → ask the user for it
+   once, save it to that secrets folder under the per-thread file name above, and never write it into the
+   repo or repeat it in chat; then continue from item 5.
+5. 🔴 **GATE — before the external send:** show in chat the destination (channel + thread), the final text
+   exactly as it will be sent (after any item-3 tightening) and its character count. The thread answer
    counts as the go-ahead only once that preview is visible; if the text changed after the user saw the
    review, this preview is what they approve.
-3. **Send, then read the response back** before telling the user it is done: confirm the destination
+6. **Send, then read the response back** before telling the user it is done: confirm the destination
    (channel/thread id) matches what they asked for, and that a requested mention actually resolved.
    **Send returns non-2xx or times out** → do not retry blindly: report the status code and response
    body, keep the review in chat, and ask the user how to proceed (a 429 states the `retry_after` value
    it returned).
-4. **Wrong destination → delete and resend** — a message cannot be moved between channels/threads by
+7. **Wrong destination → delete and resend** — a message cannot be moved between channels/threads by
    editing it. **Wrong content, correct destination → edit in place** — never delete and repost just to
    fix wording.
-5. **Fit the platform's message limit before sending** (Discord: 2,000 characters). Count the characters.
-   If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
-   Still over after tightening → stop, show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
-6. **Revising a review that is already posted** (new suggestions, a scope cut): edit the existing
+8. **Revising a review that is already posted** (new suggestions, a scope cut): edit the existing
    message in place, e.g. a Discord webhook `PATCH …/messages/{id}`, adding `thread_id` when the message is
-   in a thread. The edited text must still fit the item 5 limit. Do not post a second copy. Read back the edited message and check the id, the destination,
+   in a thread. The edited text must still fit the item 3 limit. Do not post a second copy. Read back the edited message and check the id, the destination,
    the mentions and the content.
    **Edit or delete returns non-2xx or times out** → do not retry blindly and do not post a second copy
    silently: report the status code and response body to the user and keep the review in chat. A `404`
    (message already deleted) → ask the user before posting a fresh copy; a `401`/`403` (webhook rotated
-   or revoked) → ask for the current webhook for that thread (item 7), then retry the same edit.
-7. A thread is reached through a webhook plus `thread_id`. Without `thread_id` the message lands in the
-   parent channel. Use the webhook the user gave for that thread, and keep it in local secrets, never in
-   the repo. **Webhook file for the chosen thread missing** from the secrets folder → ask the user for it
-   once, save it to that secrets folder under the per-thread file name above, and never write it into the
-   repo or repeat it in chat; then continue from item 2.
-8. Use the wording conventions already established for that surface in this workspace (e.g. a fixed term
-   for "ticket" in the destination's language) — check the workspace's own rules before sending; do not
-   invent new wording.
+   or revoked) → ask for the current webhook for that thread (item 4), then retry the same edit.
 
-**Go back:** If the item-3 read-back shows the wrong destination, delete and resend (item 4); wrong content or an unresolved mention → edit in place (item 4 second rule; method and its failure branch in item 6) and read back again. The send is not done before a clean read-back.
+**Go back:** If the item-6 read-back shows the wrong destination, delete and resend (item 7); wrong content or an unresolved mention → edit in place (item 7 second rule; method and its failure branch in item 8) and read back again. The send is not done before a clean read-back.
 
 ---
 
@@ -321,7 +321,7 @@ Then (run order 1 → 8 → 5 → 7 → 2 → 3; items 4 and 6 only when correct
 - [ ] If sent externally: destination and mentions verified from the read-back response, not assumed.
 - [ ] If the user declined the send: `notify not sent — user declined` is written here and in the final report.
 
-**Go back:** A matrix item unchecked returns to Step 2; an unanchored finding or a missing "→ Suggest:" line returns to Step 4; a design-source claim not opened returns to Step 1 item 3; an unverified send returns to Step 5 item 2.
+**Go back:** A matrix item unchecked returns to Step 2; an unanchored finding or a missing "→ Suggest:" line returns to Step 4; a design-source claim not opened returns to Step 1 item 3; an unverified send returns to Step 5 item 5.
 
 See also [qa-evidence-gates.md](../../references/qa-evidence-gates.md).
 
