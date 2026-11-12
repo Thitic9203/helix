@@ -36,12 +36,10 @@ metadata:
 - [Must-read files](#must-read-files)
 - [Dependencies](#dependencies)
 
-Audit finished work the way a senior QA engineer does: every claim traced to the source that governs it, every defect reproducible, every gap named, nothing invented.
-
 ## Progress checklist
 
-Copy this block into your response when the run starts and tick each line as it completes. A
-failed gate sends you back to the step its **Go back:** line names — untick from there.
+Copy this block when the run starts; tick each line as it completes. A failed gate's **Go back:**
+line names the step to untick from.
 
 ```text
 Catch AI progress:
@@ -56,7 +54,7 @@ Catch AI progress:
 - [ ] Procedure 7 — Find the root cause of each defect (open root-cause-investigation.md)
 - [ ] Procedure 8 — Propose the fix and the prevention
 - [ ] Procedure 9 — Report and give the verdict (open qa-evidence-gates.md core first)
-- [ ] Result quality gate — result-quality-gate.md (mandatory before an audited verdict is confirmed; N/A only when no test verdict is in scope — say so in the report)
+- [ ] Result quality gate — result-quality-gate.md (N/A only when no test verdict is in scope — say so in the report)
 - [ ] QA closing (mandatory before "done") — qa-closing-shared.md, then session-closing.md
 ```
 
@@ -72,7 +70,9 @@ NO FINDING WITHOUT A VERIFIED EXPECTED SIDE
 
 Before reporting anything as wrong, name the source that defines what it should be, and quote it. No source, no finding — it becomes a Question instead.
 
-**Every recommendation carries its source.** Open the document, quote the part that says it, record version and date (an external document; a workspace or skill file is cited by path and heading, never by commit — [reference.md § Citation rules](reference.md#citation-rules)). Naming a standard from memory, guessing a URL, or inventing a flag, rule, or API you did not read is fabrication. When nothing governs the point, label the advice **Judgment** and state the trade-off.
+**Every recommendation carries its source.** Open the document, quote the part that says it,
+record version and date ([reference.md § Citation rules](reference.md#citation-rules)). Naming a standard from memory,
+guessing a URL, or inventing a flag, rule, or API you did not read is fabrication. When nothing governs the point, label the advice **Judgment** and state the trade-off.
 
 **The count is whatever survives verification.** If the user says there are three mistakes and one survives, report one. If none survive, report `No issue found.` Matching a claimed count is fabrication, not thoroughness.
 
@@ -109,13 +109,13 @@ that specific hand-off or edit in chat.
 ## Hedged conclusions — dig to the deepest layer [low freedom]
 
 A result reached by guessing and then closed quietly is the defect this skill exists to catch. A
-**hedge** is any word the rule-1 pattern matches — the same family [root-cause-investigation.md § 4](../../references/root-cause-investigation.md) bans.
+**hedge** is any word the rule-1 pattern matches — every term [root-cause-investigation.md § 4](../../references/root-cause-investigation.md#hedges) bans, plus a few more.
 A **conclusion** is a line that settles something: a cause, a verdict, a status, "fixed", "done",
 "not a bug", "no issue", a number.
 
 1. **Hunt them.** In step 2, list every conclusion in the audited work that rests on a hedge with no
-   artifact proving it (`grep -nE 'น่าจะ|อาจจะ|คงจะ|คาดว่า|เข้าใจว่า|ดูเหมือน|เป็นไปได้ว่า|probably|likely|maybe|might|seems|appears|should be|must be|I think'`
-   on the audited text is the floor, not the whole hunt — read every conclusion line too).
+   artifact proving it (`grep -nE 'น่าจะ|อาจจะ|คงจะ|คาดว่า|เข้าใจว่า|ดูเหมือน|เป็นไปได้ว่า'` and `grep -niwE 'probably|likely|maybe|might|seems|appears|should be|must be|I think|cache issue|environment issue|flaky|intermittent|race condition|it works on my side'`
+   on the audited text are the floor, not the whole hunt — read every conclusion line too).
 2. **Classify.** Each one is **Defect (hedged conclusion)** — the conclusion was stated without being
    checked. Never checked-clean, and never a Question that lets the audit end: the hedge is the defect,
    whether or not the guess later turns out right.
@@ -129,7 +129,7 @@ A **conclusion** is a line that settles something: a cause, a verdict, a status,
    `Unknown — not investigated`, the exact check that would settle it, and who or what is needed. The
    verdict for that item cannot be PASSED or `No issue found`.
 5. **Your own report.** No hedge in any conclusion line of the catch-ai report — Verdict, Root cause,
-   Correction, Remediation, Checked-clean. Verbatim quotes of the audited work are exempt. A hedge you
+   Correction, Remediation, Checked-clean. Exempt: verbatim quotes of the audited work, and a term with its § 4 label + artifact (`FAILED (intermittent, 1 of 2) per run log`). A hedge you
    are about to write means the check is not done: go back to step 4 of the Procedure and run it.
 
 **Go back:** A hedged conclusion found in the audited work, or in your own draft report, returns that
@@ -179,13 +179,13 @@ item to Procedure step 4 — Inspect the actual side directly — and then step 
 
 **Go back:** Any red flag returns you to Procedure step 1 — Fix the scope, and the audit runs again from there.
 
-**Exit for a count that really matches (first red flag only).** The first red flag sends you back once, not forever. After one full re-run from step 1, if every Defect still has a quoted source and no other red flag fires, report the count as it stands — even when it equals the user's number — and add this line to the report: `Count equals the claim; re-verified once from step 1.` When only the sum of tallies matched and the Defect tally did not, write instead `Defects: N, not the {claimed} claimed; only the sum with unsourced claims equals it; re-verified once from step 1.` A second match after that re-run is not a reason to re-run again, and never a reason to reclassify a row.
+**Exit for a count that really matches (first red flag only).** The first red flag sends you back once, not forever. After one full re-run from step 1, if every Defect still has a quoted source and no other red flag fires, report the count as it stands — even when it equals the user's number — and add this line to the report: `Count equals the claim; re-verified once from step 1.` When only the sum of tallies matched and the Defect tally did not, write instead `Defects: N, not the {claimed} claimed; only the sum with unsourced claims equals it; re-verified once from step 1.` A second match is no reason to re-run again or to reclassify a row.
 
 ## Result quality gate (mandatory before an audited verdict is confirmed) [low freedom]
 
 Run [result-quality-gate.md](../../references/result-quality-gate.md) — all 20 layers, every case, PASSED
 ones included — **before this audit confirms or rejects any test verdict in the audited work**. Write one final result line per case (older lines marked
-`superseded`), run the mechanical layers with `node tools/result-gate/check.js …` (its step 2) when `tools/result-gate/check.js` exists, walk the
+`superseded`), run the mechanical layers with `node tools/result-gate/check.js …` (its step 2) when it exists, walk the
 judgement layers, and paste the checker's last output line (or the counted hand check) into the
 round's record. No `tools/result-gate/` in the workspace → walk all 20 layers by hand, count them,
 and say in the record that the check was by hand ([dependencies.md](../../references/dependencies.md),
@@ -195,10 +195,10 @@ is a claim — the main thread re-runs the gate itself (layer 20).
 
 **Two answers per case, never merged.** The classification (Procedure step 5) answers "does the audited work match its source?"; the gate answers "is this verdict cleared to send now?". A gate hold never rewrites the classification, and the classification never skips the gate:
 
-- **Flaky case** (the run log shows a different result between identical runs — [Quick reference](#quick-reference)): the verdict the source supports is FAILED, labelled intermittent with its counts (layer 16), and an earlier PASSED for that case is a Defect in the audited work. Write that verdict in the correction and in the case line as `FAILED (intermittent, {failed_attempts} of {attempts})` — never "not confirmable", never BLOCKED alone. The gate runs on that FAILED line like on any other; a red layer adds its hold beside the verdict, named: `TC-n — FAILED (intermittent, 1 of 2) per run log · BLOCKED for sending: layer 17, no accepted clip`. It never becomes PASSED.
-- **Claim matches its source, evidence not in the audit input** (the audited work says PASSED and the run log line says PASS): the claim is checked-clean — report it as checked, no issue found in the audited work, and count it as Clean. Evidence the audit input does not include is not proof that none exists: list `evidence not provided for TC-n` once under coverage gaps as a Question, not as a Defect — unless the audited work itself states evidence it does not have. The gate's red layer (for example layer 9) still holds that case BLOCKED for sending, with its reason, in the gate record.
+- **Flaky case** (the run log shows a different result between identical runs — [Quick reference](#quick-reference)): the verdict the source supports is FAILED (layer 16), and an earlier PASSED for that case is a Defect in the audited work. Write that verdict in the correction and in the case line as `FAILED (intermittent, {failed_attempts} of {attempts})` — never "not confirmable", never BLOCKED alone. The gate runs on that FAILED line like on any other; a red layer adds its hold beside the verdict, named: `TC-n — FAILED (intermittent, 1 of 2) per run log · BLOCKED for sending: layer 17, no accepted clip`. It never becomes PASSED.
+- **Claim matches its source, evidence not in the audit input** (the audited work says PASSED and the run log line says PASS): the claim is checked-clean: count it as Clean. Evidence the audit input does not include is not proof that none exists: list `evidence not provided for TC-n` once under coverage gaps as a Question, not as a Defect — unless the audited work itself states evidence it does not have. The gate's red layer (for example layer 9) still holds that case BLOCKED for sending, with its reason, in the gate record. Same for a layer whose evidence the audited run never recorded.
 
-**No test verdict in scope** (the audited work contains no PASSED / PWMI / FAILED / BLOCKED result for any case — for example a release note or a document) → mark this gate `N/A — no test verdict in scope` in the report, with that reason, and tick it. If even one case verdict is in scope, the gate runs in full for every case.
+**No test verdict in scope** (no PASSED / PWMI / FAILED / BLOCKED result for any case, e.g. a release note or a document) → mark this gate `N/A — no test verdict in scope` in the report and tick it. If even one case verdict is in scope, the gate runs in full for every case.
 
 **Go back:** A red layer returns that case to Procedure step 4 — Inspect the actual side directly; if it still cannot be confirmed, the case is BLOCKED with the reason.
 
@@ -212,8 +212,8 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + this work
 - [ ] Every fix carries a source that was opened in this session, or is labelled Judgment.
 - [ ] Every defect carries a prevention layer.
 - [ ] Coverage gaps listed separately from defects.
-- [ ] [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 1–5 done (run its `grep -nE` on the draft — hits outside verbatim quotes = not done).
-- [ ] Verdict stated: PASSED / PWMI / FAILED / BLOCKED / No issue found, per [reference.md § Verdict](reference.md#verdict).
+- [ ] [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 1–5 done (both rule-1 greps on the draft — a hit rule 5 does not exempt = not done).
+- [ ] Verdict stated: PASSED / PWMI / FAILED / BLOCKED / No issue found, per [reference.md § Verdict](reference.md#verdict). The session-closing § 5 block labels its line `Session verdict:`.
 
 **Go back:** An unchecked item returns to its Procedure step — scope → 1; defect fields → 4–5; Question vs defect → 5; hedged conclusion → 4 then 7; fix source or prevention → 8; coverage gaps → 6; verdict → 9.
 
@@ -239,16 +239,23 @@ Open each file below at the step that names it, never all up front.
 - At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (the progress checklist is the todo list).
 - Before any message to the user: [user-communication.md](../../references/user-communication.md); before asking or stopping on a missing input: [skill-rules-style.md](../../references/skill-rules-style.md); before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
 - Step 7 and Hedged conclusions rule 3, before naming a cause for any failure: [root-cause-investigation.md](../../references/root-cause-investigation.md).
-- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core), then the pre-delivery 7-layer gate, green for every audit, none skipped. Layer 5 for any audit (it files no bug): verdict per [reference.md § Verdict](reference.md#verdict); each product-bug defect states its matrix Priority and is offered as a `create-bug-workflow` hand-off at the CHECKPOINT; an audited PWMI / FAILED case without its linked bug of that Priority is a Defect in the audited work; no remark contradicts its status. Test case in scope: the [gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester) as written, layer 5 as above. No test case in scope (a document), the gate is: 1 = recount the step-2 inventory from source now; 2 = every item has a classification row; 3 = open every audited file and cited source; 4 = each report claim names its row, no hedge (Hedged conclusions rule 5); 6 = nothing only in prose, exclusions in the `Scope:` line; 7 = re-read the report as artifacts only, as a second QA hunting the cut, and answer layers 1–6 by pointer (red → layer 1); state any unfinished part and why; the count line is the handover. At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
+- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core), then the pre-delivery 7-layer gate, green for every audit, none skipped:
+  - Layer 5 for any audit (it files no bug): verdict per [reference.md § Verdict](reference.md#verdict); each product-bug defect states its matrix Priority and is offered as a `create-bug-workflow` hand-off at the CHECKPOINT; an audited PWMI / FAILED case without its linked bug of that Priority is a Defect in the audited work; no remark contradicts its status.
+  - Test case in scope: the [gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester) as written, layer 5 as above. Its capture tools missing → the [dependencies.md](../../references/dependencies.md) out-of-repo fallback.
+  - No test case in scope (a document): 1 = recount the step-2 inventory from source now; 2 = every item has a classification row; 3 = open every audited file and cited source;
+4 = each report claim names its row, no hedge (rule 5); 6 = nothing only in prose, exclusions in the `Scope:` line; 7 = re-read the report as artifacts only, as a second QA hunting the cut, and answer layers 1–6 by pointer (red → layer 1);
+state any unfinished part and why; the count line is the handover.
+  - At steps 4–5, read a topic part only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) for a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) for a test run's AC/EC coverage.
 - QA closing: [qa-closing-shared.md](../../references/qa-closing-shared.md); at session end [session-closing.md](../../references/session-closing.md).
 
 **Read only when the audit target needs it.** Read the group(s) matching the step-1 target:
 
-*Defect or non-pass verdict in scope:* read [bug-priority-matrix.md](../../references/bug-priority-matrix.md) before any priority or PWMI / FAILED verdict · [defect-report-completeness.md](../../references/defect-report-completeness.md) before writing up any defect or non-pass · [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) before recording any non-PASSED result · [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
+*Defect or non-pass verdict in scope:* read [bug-priority-matrix.md](../../references/bug-priority-matrix.md) before any priority or PWMI / FAILED verdict · [defect-report-completeness.md](../../references/defect-report-completeness.md) before writing up any defect or non-pass (its § 2 repro matrix and § 4 resolution options go under that defect) · [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) before recording any non-PASSED result · [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
 
 *UI screen or design in scope:* read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging a screen or visual result against the design.
 
-*Test run in scope (re-executed or its results audited):* read [customer-escape-prevention.md](../../references/customer-escape-prevention.md) when re-executing a run or judging whether its gates would have stopped a shipped defect · [playwright-preflight.md](../../references/playwright-preflight.md) only when re-executing a Playwright run · [resilient-selectors.md](../../references/resilient-selectors.md) only when Playwright selectors are under review · [test-through-real-steps.md](../../references/test-through-real-steps.md) when judging whether the action was tested through its real steps · [round-time-contract.md](../../references/round-time-contract.md) when the work reports round times · [verify-closing-checklist.md](../../references/verify-closing-checklist.md) when the target is a verify or retest close-out.
+*Test run in scope (re-executed or its results audited):* read [customer-escape-prevention.md](../../references/customer-escape-prevention.md) when re-executing a run or judging whether its gates would have stopped a shipped defect · [playwright-preflight.md](../../references/playwright-preflight.md) only when re-executing a Playwright run · [resilient-selectors.md](../../references/resilient-selectors.md) only when Playwright selectors are under review · [test-through-real-steps.md](../../references/test-through-real-steps.md) when judging whether the action was tested through its real steps
+· [round-time-contract.md](../../references/round-time-contract.md) when the work reports round times · [verify-closing-checklist.md](../../references/verify-closing-checklist.md) when the target is a verify or retest close-out.
 
 *Jira artifact in scope (already-posted comment or table):* read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) when the target is a posted Jira comment · [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) when that comment has a table with multi-line cells.
 
@@ -259,5 +266,5 @@ Open each file below at the step that names it, never all up front.
 Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
 
 - Node.js — only when the workspace has `tools/result-gate/check.js` (else the gate is walked by hand)
-- in-repo guard tools (`tools/result-gate`)
+- in-repo guard tools (`tools/result-gate`); QA capture and verify tools — only when a test case is in scope
 - `superpowers:systematic-debugging`

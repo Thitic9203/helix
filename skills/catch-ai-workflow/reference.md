@@ -1,6 +1,6 @@
 # CatchAI Reference
 
-Audit dimensions, evidence standard, severity and verdict definitions, coverage matrix, and the report template. Load when running an audit; the discipline rules live in SKILL.md.
+Definitions and templates for an audit; the discipline rules live in SKILL.md.
 
 ## Contents
 
@@ -74,7 +74,7 @@ An **unsourced claim** is its own class when the deliverable declares where its 
 
 | Verdict | When |
 |---|---|
-| PASSED | Every checked item matched its governing source, and no coverage gap is Blocker or Major |
+| PASSED | Every checked item matched its governing source, and no coverage gap is Blocker or Major (a gap ranks as its item would if defective) |
 | PWMI (PASSED WITH MINOR ISSUE) | At least one defect confirmed and none reaches FAILED: every product bug's matrix row is Lowest / Low / Medium ([bug-priority-matrix.md](../../references/bug-priority-matrix.md) § PWMI), and every other finding is Minor |
 | FAILED | A product bug whose matrix row is High / Highest; a Blocker or Major finding where no matrix row applies; or a result that changes between identical runs |
 | BLOCKED | The expected side could not be confirmed for a material part of the scope (defined below) |
@@ -199,4 +199,4 @@ Scope: <what was audited> · Out of scope: <what was not>
 
 When nothing survives verification, the report still states it explicitly: `No issue found.` followed by what was checked and against which source.
 
-A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. The rules themselves live only in SKILL.md § Hedged conclusions.
+A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. Rules: SKILL.md § Hedged conclusions.

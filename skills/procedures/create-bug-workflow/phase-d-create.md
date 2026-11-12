@@ -37,7 +37,7 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
    same path. Never drop or blank the field to make the create pass, and never treat this as an MCP
    failure that switches path.
 4. **A create call fails with a non-field error** — MCP, JXA or REST: unreachable, auth/401, 5xx, tool or script error, timeout → the create may still have gone through, so **search before any retry or path switch**:
-   - Search for the approved summary with no status filter (`searchJiraIssuesUsingJql`, or the REST search on the locked path).
+   - Search for the approved summary with no status filter: `project = <KEY> AND summary ~ "\"<approved title>\"" ORDER BY created DESC` (`searchJiraIssuesUsingJql` or REST on the locked path); a match is a summary equal to the approved title.
    - **Found one** → it is this run's issue: record its key, do **not** create it again, and continue at Phase F. **Found two or more** → show the keys and ask which is this run's issue; create nothing.
    - **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create blind.
    - **Found none after an MCP failure** → pick the first path that applies, and say which one you used:

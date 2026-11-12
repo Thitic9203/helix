@@ -23,8 +23,8 @@ the exact sentence that preceded a recorded escape below.
 
 1. Write one result line per case (JSONL, fields in § Result line). A resumed or re-run lane does
    not append a second final line — it marks the old one `"superseded": true`.
-2. Run the mechanical layers. If the workspace carries the checker (`tools/result-gate/check.js` in
-   the ols-qa repository), run it and paste its last line:
+2. Run the mechanical layers. If the workspace carries the checker (`tools/result-gate/check.js`), run
+   it and paste its last line:
 
    ```bash
    node tools/result-gate/check.js --results <round>/results.jsonl \
@@ -58,23 +58,23 @@ the exact sentence that preceded a recorded escape below.
 | `requirement_source`, `requirement_quote` | FAILED: where the confirmed expected result lives, and its exact words — layer 17 |
 | `code_refs[]`, `ticket_refs[]` | BLOCKED / FAILED: `path:line` read at the default branch, and ticket keys (`KEY#comment-id`) read — layer 14 |
 | `attempts`, `failed_attempts`, `intermittent` | FAILED: how often it was observed |
-| `role`, `env`, `skill`, `ts` | Who, where, with which workflow, when |
+| `role`, `env`, `skill`, `fix_ref`, `ts` | Who, where, which workflow (+ the fix a Story retest re-verifies), when |
 | `superseded` | `true` on an older line kept for history |
 
 ## The 20 layers
 
 Kind: **M** = mechanical (the checker or a counted hand check decides) · **J** = judgement (the
-agent decides, and must write what it compared). Citations are post-mortem report numbers in this
-repository's `docs/post-mortem/` index, or incidents from the 2026-10-10/11 round (described
-generically).
+agent decides, and must write what it compared). Citations: `docs/post-mortem/` report numbers, or
+2026-10-10/11 incidents (described generically).
 
 ### A. Right test, right place
 
-**1. Right workflow for the ticket type — M.** Stops: a Story run without the repository's
-testing workflow, so none of its gates ran (#0174). Check: Story → `testing-ticket-workflow`, Bug →
-`retest-bug-workflow` per [skill-routing.md](skill-routing.md); other types record the skill used,
-no invented mapping. Runs: checker `SKILL_MISMATCH` / `SKILL_MISSING` with `--types`. Proof: checker
-line, or the type and skill per key listed.
+**1. Right workflow for the ticket type — M.** Stops: a Story run without the testing workflow,
+so none of its gates ran (#0174). Check: Bug → `retest-bug-workflow`, Story →
+`testing-ticket-workflow` ([skill-routing.md](skill-routing.md)), or `retest-bug-workflow` if its
+`fix_ref` names the fix re-verified; other types record the skill, no invented mapping.
+Runs: checker `SKILL_MISMATCH` / `SKILL_MISSING` with `--types`. Proof: checker line, or type +
+skill per key.
 
 **2. Right environment — M.** Stops: results produced on the wrong environment staying in the
 round's files (2026-10-11 round); a tool whose default pointed at a forbidden environment (#0009).

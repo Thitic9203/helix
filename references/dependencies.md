@@ -1,7 +1,7 @@
 # Dependencies — what each skill needs, how to check it, how to get it
 
 Each skill's `## Dependencies` names the rows it uses. Run the **Check** for each
-named row before step 1. A failed check is a stop: install it, use the stated fallback, or report the
+named row before step 1, or at the later point that section names. A failed check is a stop: install it, use the stated fallback, or report the
 step as BLOCKED with the missing dependency named. Never skip the step silently, never guess a path.
 
 Paths are never machine paths. A local root (secrets folder, a clone, the QA tools folder) is a
@@ -14,7 +14,7 @@ workspace under test), or asked once and saved there.
 |------------|-------|--------------------|
 | Node.js 18 or newer (CI uses 20) | `node -v` | Node.js LTS from nodejs.org, or a version manager (`nvm install 20`) |
 | Python 3 | `python3 --version` | OS package manager or python.org |
-| `openpyxl` (xlsx export only) | `python3 -c "import openpyxl"` | `python3 -m pip install --user openpyxl`; without it, warn the user and ask before falling back to CSV |
+| `openpyxl` (xlsx export only) | `python3 -c "import openpyxl"` | Never install it yourself: show `python3 -m pip install --user openpyxl` for the user to run; ask before falling back to CSV |
 | `pypdf` (PDF summary check) | `python3 -c "import pypdf"` | `python3 -m pip install --user pypdf` |
 | `requests` (Python scripts that call APIs) | `python3 -c "import requests"` | `python3 -m pip install --user requests` |
 | ffmpeg / ffprobe (clips) | `ffmpeg -version && ffprobe -version` | OS package manager (`brew`, `apt`, `winget`) |
