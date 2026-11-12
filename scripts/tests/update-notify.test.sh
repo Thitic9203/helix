@@ -56,6 +56,11 @@ valid_json "$out" && ok "R5: hook output is one valid JSON object" || fail "R5: 
 ctx <<<"$out" | grep -q "Helix v1.0.1 is available (installed v1.0.0). Update: $UPD" \
   && ok "R5: notice names both versions and the update command" || fail "R5: notice text: $(ctx <<<"$out" | grep available)"
 
+# --- R15: notice tells the agent to ask first, run the update command only on yes ---------------------
+ctx <<<"$out" | grep -qiE 'ask the user' && ctx <<<"$out" | grep -qiE 'only (after|if|when) the user (answers|says|confirms) yes' \
+  && ok "R15: notice tells the agent to ask the user and update only on yes" || fail "R15: notice has no ask-then-update instruction: $(ctx <<<"$out" | grep -A1 'update available')"
+ctx <<<"$out" | grep -q "$UPD" && ok "R15: notice carries the update command to run on yes" || fail "R15: no update command in notice"
+
 # --- T7: the check writes the freshness stamp --------------------------------------------------------
 st="$W/state/.last-auto-update-check"
 if [ -f "$st" ]; then

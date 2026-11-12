@@ -118,6 +118,16 @@ follow-up); the team notice (SPEC R5).
   Source: today `:111-122` (old code runs the new release's scripts); `hooks/session-start:10-12`
   (the hook comes from the plugin root, which the cache symlink points at the clone, `:103-109`).
 
+- **R15** — (owner 12/Nov/2026) When the notice (R5) is in the hook output, it must also tell the
+  agent to ask the user once whether to update to the newer release, and to run the update command
+  (R6) only after the user answers yes; on no or no answer it must run nothing. The hook itself still
+  runs nothing new (R1, R2, R7): the update is the user-started command of R6, run by the agent on
+  the user's yes ("Roles: Update command").
+  Source: owner request 12/Nov/2026 "ถามว่าจะอัปเดตเวอร์ชันใหม่ แล้วถ้าผู้ใช้ตอบว่า ใช่ ก็ติดตั้งอัปเดตให้เลย";
+  keeps SPEC R2 "run only from an update command the user starts"; `hooks/session-start:22-24`.
+  Done when: hook output contains the ask-then-run instruction and the update command; hook still
+  changes nothing (T1 snapshot test).
+
 ## Edge cases
 
 - Clone ahead of the newest release (dev checkout) → no notice (R5, "equal or lower"; today `:158-161`).
