@@ -41,4 +41,3 @@ Issue: https://github.com/example-org/checkout-ui/issues/88
 - Phase B3 falsification: the reporter's second item (the “Order summary” heading on the payment step) matched the
   design frame char-exact — labelled **Dropped** and reported in chat with the frame link, never drafted.
 - A candidate left at Needs Review is still drafted and shown labelled "Needs Review — not filed" with its open question; it is not counted in Bug count and `confirm` does not create it.
-- NEVER call create APIs before Phase C confirm.

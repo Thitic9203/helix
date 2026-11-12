@@ -38,8 +38,6 @@ metadata:
 
 Audit finished work the way a senior QA engineer does: every claim traced to the source that governs it, every defect reproducible, every gap named, nothing invented.
 
-**Core principle: a defect is "actual differs from a *confirmed* expected".** Actual differing from what you assumed, translated, or inferred is not a defect — it is a question.
-
 ## Progress checklist
 
 Copy this block into your response when the run starts and tick each line as it completes. A
@@ -72,9 +70,9 @@ Follow [shared-preamble.md](../../references/shared-preamble.md) and [shared-mus
 NO FINDING WITHOUT A VERIFIED EXPECTED SIDE
 ```
 
-Before reporting anything as wrong, name the source that defines what it should be, and quote it. No source, no finding — it becomes a Question instead. This is the same rule the QA workflows enforce: a screen differing from what you *think* the design says is not a defect until the design itself is read.
+Before reporting anything as wrong, name the source that defines what it should be, and quote it. No source, no finding — it becomes a Question instead.
 
-**Every recommendation carries its source.** Open the document, quote the part that says it, record version and date (an external document; a workspace or skill file is cited by path and heading, never by commit — [reference.md § Citation rules](reference.md#citation-rules)). Naming a standard from memory, guessing a URL, or inventing a flag, rule, or API you did not read is fabrication — the defect this workflow exists to catch. When nothing governs the point, label the advice **Judgment** and state the trade-off.
+**Every recommendation carries its source.** Open the document, quote the part that says it, record version and date (an external document; a workspace or skill file is cited by path and heading, never by commit — [reference.md § Citation rules](reference.md#citation-rules)). Naming a standard from memory, guessing a URL, or inventing a flag, rule, or API you did not read is fabrication. When nothing governs the point, label the advice **Judgment** and state the trade-off.
 
 **The count is whatever survives verification.** If the user says there are three mistakes and one survives, report one. If none survive, report `No issue found.` Matching a claimed count is fabrication, not thoroughness.
 
@@ -111,9 +109,7 @@ that specific hand-off or edit in chat.
 ## Hedged conclusions — dig to the deepest layer [low freedom]
 
 A result reached by guessing and then closed quietly is the defect this skill exists to catch. A
-**hedge** is any of: `น่าจะ` · `อาจจะ` · `คงจะ` · `คาดว่า` · `เข้าใจว่า` · `ดูเหมือน` · `เป็นไปได้ว่า` ·
-`probably` · `likely` · `maybe` · `might` · `seems` · `appears` · `should be` · `must be` · `I think`
-— the same family [root-cause-investigation.md § 4](../../references/root-cause-investigation.md) bans.
+**hedge** is any word the rule-1 pattern matches — the same family [root-cause-investigation.md § 4](../../references/root-cause-investigation.md) bans.
 A **conclusion** is a line that settles something: a cause, a verdict, a status, "fixed", "done",
 "not a bug", "no issue", a number.
 
@@ -243,10 +239,10 @@ Open each file below at the step that names it, never all up front.
 - At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (the progress checklist is the todo list).
 - Before any message to the user: [user-communication.md](../../references/user-communication.md); before asking or stopping on a missing input: [skill-rules-style.md](../../references/skill-rules-style.md); before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
 - Step 7 and Hedged conclusions rule 3, before naming a cause for any failure: [root-cause-investigation.md](../../references/root-cause-investigation.md).
-- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and, for every audit, the [pre-delivery 7-layer gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester). No test case in scope (a document): layer 1 = recount the step-2 inventory from source now; 2 = every item has a classification row; 3 = open every audited file and cited source; 4–7 as written; none skipped. At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
+- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core), then the pre-delivery 7-layer gate, green for every audit, none skipped. Layer 5 for any audit (it files no bug): verdict per [reference.md § Verdict](reference.md#verdict); each product-bug defect states its matrix Priority and is offered as a `create-bug-workflow` hand-off at the CHECKPOINT; an audited PWMI / FAILED case without its linked bug of that Priority is a Defect in the audited work; no remark contradicts its status. Test case in scope: the [gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester) as written, layer 5 as above. No test case in scope (a document), the gate is: 1 = recount the step-2 inventory from source now; 2 = every item has a classification row; 3 = open every audited file and cited source; 4 = each report claim names its row, no hedge (Hedged conclusions rule 5); 6 = nothing only in prose, exclusions in the `Scope:` line; 7 = re-read the report as artifacts only, as a second QA hunting the cut, and answer layers 1–6 by pointer (red → layer 1); state any unfinished part and why; the count line is the handover. At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
 - QA closing: [qa-closing-shared.md](../../references/qa-closing-shared.md); at session end [session-closing.md](../../references/session-closing.md).
 
-**Read only when the audit target needs it.** This workflow never posts, files or runs anything on its own; read only the group(s) matching the step-1 target:
+**Read only when the audit target needs it.** Read the group(s) matching the step-1 target:
 
 *Defect or non-pass verdict in scope:* read [bug-priority-matrix.md](../../references/bug-priority-matrix.md) before any priority or PWMI / FAILED verdict · [defect-report-completeness.md](../../references/defect-report-completeness.md) before writing up any defect or non-pass · [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) before recording any non-PASSED result · [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
 
@@ -262,6 +258,6 @@ Open each file below at the step that names it, never all up front.
 
 Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
 
-- Node.js — only when the workspace has `tools/result-gate/check.js`; otherwise the by-hand walk (Result quality gate) needs none
+- Node.js — only when the workspace has `tools/result-gate/check.js` (else the gate is walked by hand)
 - in-repo guard tools (`tools/result-gate`)
 - `superpowers:systematic-debugging`

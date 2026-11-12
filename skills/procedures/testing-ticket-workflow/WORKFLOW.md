@@ -53,17 +53,19 @@ after results are published — so it sits last in the checklist.
 
 **Run order before Phase C** (one list, so nothing runs out of order):
 
-1. Settle and strategize (*Discipline* below) — before any other tool call; then the SKILL.md *Dependencies* check, before Phase A.
-2. First reply: recite the core constraints, locate the workspace guide, show the intake one-pager (*Core constraints*).
-3. Phase A — intake; 🔴 GATE: wait for the required fields.
-4. Phase B — load context and build the scenarios; the scenarios decide which roles are in scope.
-5. Login smoke gate for those roles only (*Refusal-first*); 🛑 stop on a failing role.
-6. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation.
-7. Phase D — preflight (re-uses the smoke result; checks each lane's session right before its first scenario).
+1. Session start — the context skills in [session-start-context.md](../../../references/session-start-context.md).
+2. Settle and strategize (*Discipline* below) — before any other tool call after step 1.
+3. The SKILL.md *Dependencies* check.
+4. First reply: recite the core constraints, locate the workspace guide, show the intake one-pager (*Core constraints*).
+5. Phase A — intake; 🔴 GATE: wait for the required fields.
+6. Phase B — load context and build the scenarios; the scenarios decide which roles are in scope.
+7. Login smoke gate for those roles only (*Refusal-first*); 🛑 stop on a failing role.
+8. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation.
+9. Phase D — preflight (re-uses the smoke result; checks each lane's session right before its first scenario).
 
 ## Discipline
 
-**Settle and strategize FIRST** — before intake or any tool call, follow
+**Settle and strategize** at *Run order* step 2 — follow
 [settle-and-strategize.md](../../../references/settle-and-strategize.md): invoke
 **`engineering:testing-strategy`** to plan the approach, then hold to the discipline it names —
 no guessing an expected/spec, and no blind retry loops (a repeat failure = stop and diagnose).
@@ -174,7 +176,7 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
    Before writing the plan, extract **every** Acceptance Criteria and Expected Condition / Expected Result line **char-exact** and give each a stable id (`AC1…`, `EC1…`). Then build the numbered **test plan** so **every id maps to ≥1 scenario** — record the coverage matrix (`AC/EC id → scenario #`). A compound AC ("does A **and** B") splits into one scenario per clause; an id with no
    scenario is a coverage gap → add it, never drop it. (in-scope, out-of-scope, API vs UI.)
 4. **Design reference gate (mandatory — every UI scenario).** At Phase B step 4, follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4.
-   - **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` / `get_design_context`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in a Figma URL uses `-`, the MCP `nodeId` uses `:` (`?node-id=1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **"Want to view this file in Dev Mode?"** modal with **"Not now"** — NEVER "Request access". A View+Comment account is enough.
+   - **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide), record the links in the plan, and open each one by [figma-design-comparison.md §2](../../../references/figma-design-comparison.md#2-opening-the-design-both-paths-in-order) (Dev Mode MCP first, then the browser fallback).
    - **4b No node.** Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A screen with no design node → report it back to the person or channel that assigned this run** (ticket · screen · where you looked · what you need: the node link, a written visual contract, or an explicit "function only"). Keep testing everything that does not depend on the design; the visual points stay **BLOCKED** with a remark naming who was asked. Never assume a label, order, or layout. Unattended/bot mode: same request to the triggering channel with the project's @mention, visual points BLOCKED + remark, run continues.
    - **4c Output.** The node link(s) per screen go on the plan's `Design ref` line.
 5. **Scope the depth in the plan** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)): name the **surface(s)** in scope and pull in the surface's existing cases — not only this ticket's AC lines (§1) · list the **screen widths in scope** (one row per scenario x width in the plan — lists, redirects, toasts included; never drop a width as width-independent) and state which are explicitly out of scope (§4) · list the **states** each screen must be seen in (empty · loading ·
@@ -191,8 +193,11 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
      independent scenarios first; its dependent ones start after the earlier lane returns
      (Phase E *Fan out*). Two roles share one lane only when a **single** scenario needs both at the
      same moment, or when the pool has no second account (§3).
-   - **Guest / logged-out scenario:** needs no account, so it never adds a lane — it runs inside an
-     existing lane in a fresh logged-out browser context. Lane count stays min(units, leasable accounts).
+   - **Guest / logged-out scenario:** its own unit — §2's one-screen grouping covers one account's
+     widths and states, not a logged-out context. It leases no account: count it in `units`, then run it
+     in the lane with the shortest expected duration, in a fresh logged-out browser context. Lane count
+     stays min(units, leasable accounts) — one learner screen chain + one guest scenario with two
+     learner accounts = 2 lanes (guest unit in L2).
 
 ---
 
@@ -393,11 +398,8 @@ Shared rules, opened only when the run writes or posts: [shared-must-never.md](.
 | MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |
 | MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |
 | MUST NOT file / list a defect whose expected turned out wrong, superseded, or unclear — that is a test-case adjustment or a BLOCKED question, never a defect; unattended bots resolve it as BLOCKED + remark, never a phantom bug and never a halt | Filing the app against an unverified expected is exactly how a phantom bug ships (post-mortem PM-006 — bug filed on an unopened spec) |
-| MUST complete the 8-boundary sweep and write `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |
-| MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label into every destination the sentence is copied to | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |
-| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from another scenario/role/record | Hedged guessing is still guessing, and it ships as QA's finding |
+| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |
 | MUST classify a test-side cause (selector drift, stale auth, missing fixture, VPN) as a test defect — fix our side and re-run — and MUST NOT file a real product bug as "flaky" | Both directions of the mix-up destroy the run's credibility |
-| MUST NOT patch product code while investigating — QA hands off the isolated boundary + evidence | Fixing the product is the dev's call, not QA's |
 | MUST NOT rewrite a ticket's acceptance/expected text to match observed behavior | The spec owner decides; QA reports the conflict and names them |
 | MUST pass the F4 reader gate before Phase G | The gate exists so answers land in the write-up, not in a round-trip that ends in an edited record |
 | MUST re-verify before answering any question that arrives after publishing, then fold the answer into the published record in place (Phase H) | Answering from memory publishes wrong claims |

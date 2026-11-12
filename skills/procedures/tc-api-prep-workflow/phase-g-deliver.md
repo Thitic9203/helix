@@ -1,6 +1,6 @@
 # TC API prep — Phase G
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase G as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase G as its WORKFLOW.md section names. Every rule here is a full gate of the workflow.
 
 ## Phase G — Deliver (after approval only) [low freedom]
 
@@ -28,7 +28,8 @@ Tell the user the **workspace-relative paths** to download.
 1. **Build ADF** from the approved Phase F table (only on this branch):
    - Convert every `<br>` in table cells → `{"type": "hardBreak"}` ADF node (rules: [jira-linebreak-conversion.md](../../../references/jira-linebreak-conversion.md)).
    - Build the complete ADF document; **bold every header cell**.
-   - If a CSV/Excel file was generated in this run (delivery **both**, or a file produced while delivering A), put the `__ATT1_ID__` placeholder in the ADF footer for the attachment link; no file → no placeholder.
+   - **> 50 rows:** offer a CSV/xlsx attachment + summary instead of the inline table; if accepted, write it by G1 steps 2–4 first.
+   - If a CSV/Excel file was generated in this run (delivery **both**, or the accepted > 50-row offer), put the `__ATT1_ID__` placeholder in the ADF footer for the attachment link; no file → no placeholder.
 2. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. "approved, post to {URL}"); a bare "ok", "approved" or "go" is not a post instruction — show the preview and stop.
 3. **Publish — ADF-direct (do NOT try MCP first for TC tables).** Full JS patterns: [jira-fast-publish.md](../../../references/jira-fast-publish.md).
    - Navigate to the Jira issue page.
@@ -48,8 +49,8 @@ first, then show in chat exactly what changes (new table appended, or which exis
 replaced — never unrelated sections, per [delivery-options.md](references/delivery-options.md)
 § Confluence). 🔴 **STOP — show the Confluence change preview** and publish only after the user
 explicitly approves that preview (same skip rule as the Jira preview in G2 step 2), with the Atlassian
-MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: deliver the G1 file instead,
-report the exact error, and do not say "commented".
+MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: write the G1 default CSV (`references/{SCOPE}_API_TC.csv`)
+and tell the user its path, report the exact error, and do not say "commented".
 
 ### G-verify — Post-publish review (mandatory)
 

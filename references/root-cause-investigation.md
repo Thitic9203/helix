@@ -122,10 +122,11 @@ Every cause statement carries exactly one label. This is the whole point of the 
 **Never** publish a `Suspected` cause with `Confirmed` wording. Never drop the label when the text is
 copied into a Jira comment, sheet cell, or notify message — the label travels with the sentence.
 
+<a id="hedges"></a>
 ### Banned unless a label + artifact is attached
 
-`น่าจะ` · `คาดว่า` · `เข้าใจว่า` · `probably` · `likely` · `seems to` · `appears to be caused by` ·
-`must be` · `just a cache issue` · `environment issue` · `flaky` · `intermittent` · `race condition`
+`น่าจะ` · `คาดว่า` · `เข้าใจว่า` · `probably` · `likely` · `seems` · `appears to be caused by` ·
+`must be` · `cache issue` · `environment issue` · `flaky` · `intermittent` · `race condition`
 · `it works on my side`.
 
 Each of these is a cause claim wearing a hedge. Either it has an artifact and a label, or it is not
@@ -190,7 +191,7 @@ cause does not change anything" — the cause is what the reader acts on.
 | MUST label every cause `Confirmed` / `Suspected` / `Unknown — not investigated`, and carry the label into every place the sentence is copied | `Suspected` read as `Confirmed` sends a developer to the wrong layer |
 | MUST name the exact check that would confirm a `Suspected` cause, and why it was not run | Otherwise the reader cannot finish the investigation either |
 | MUST keep falsified hypotheses in the record with their artifacts | The next reader needs what was already ruled out |
-| MUST NOT use a hedge word (`probably`, `น่าจะ`, `flaky`, `cache issue`, …) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |
+| MUST NOT use a hedge word from the [§4 banned list](#hedges) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |
 | MUST NOT infer a cause from a different record, role, run, entry point, or from a pre-state-change view | Learned repeatedly: the transferred observation is the artifact, not the product's behaviour |
 | MUST NOT restate the symptom as the cause | It reads as an answer and stops anyone else from investigating |
 | MUST NOT patch product code — QA diagnoses and hands off the isolated boundary + evidence | Fixing the product is dev's decision, not QA's |

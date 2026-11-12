@@ -68,8 +68,8 @@ A failure blocks the approval popup until it is fixed. The post-publish re-read 
 
 ## 7. Figma compare: keep it full, dedupe
 
-- **One compare per screen × width per round.** Cases that land on the same screen share one fresh app capture and one design read.
-- **Cache the design-side export** (node screenshot and metadata), keyed by the Figma file's `lastModified`. Re-fetch only when it changes. The app-side capture is always fresh.
+- **One compare per screen × width per round.** Cases on the same screen at the same width share one fresh app capture and one design read. Each case still records the node link; the compare keeps all five points.
+- **Cache the design-side export** (node screenshot and metadata), keyed by the Figma file's `lastModified`. Re-fetch only when it changes. The app-side capture is always fresh, never reused from an earlier round or run.
 
 ## 8. MP4: record during execution
 

@@ -1,13 +1,13 @@
 # Create bug — Phase F
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F; every rule here is a full gate.
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
 After Phase D create calls:
 
 1. List each issue with **URL or key** from tool output (not guessed).
-2. **Fix-verify round 1:** Open or fetch each link — confirm title/summary and body match approved draft.
+2. **Fix-verify round 1:** Fetch each link (`gh issue view <url> --json title,body,labels`; Jira `getJiraIssue`) — confirm title/summary and body match approved draft.
 3. **🔴 GATE — mismatch** (wrong project, truncated body, wrong priority/severity): show the user the
    draft-vs-destination difference and the proposed fix (edit in place, or recreate), and **wait for
    approval**. Then fix via the edit API, or recreate — when recreating, also close or link the wrong

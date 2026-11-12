@@ -1,6 +1,6 @@
 # Retest bug — comment and post (Steps 6–7)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read before drafting the comment.
+Part of [WORKFLOW.md](WORKFLOW.md). Read before drafting the comment.
 
 ## Contents
 
@@ -148,13 +148,9 @@ line (`TC_03 → {url} · TC_07 → {url}`) rather than reinstating a column. So
 **Put any design-node URL on the `Design ref:` line as a bare URL.** That line is not a table row, so
 nothing is at stake there and a bare URL is the shorter, more readable form.
 
-🟢 **A labelled link inside a table cell is safe — measured, not assumed.** This file used to claim the
-`|` in `[label|url]` splits the row it lands in. It does not: a real retest comment (2026-09-05)
-carries `[▶ file.mp4|^file.mp4]` in an Evidence cell, and its rendered row has all **five** `<td>`
-elements, with the MP4 resolving to a real attachment link. The construct that genuinely breaks a row
-is the image width parameter (`!img|width=N!`, PM-004) — that one is still forbidden.
-
-The **`Evidence` column** sits between `Actual Result` and `Status`, for PASSED and FAILED rows alike.
+🟢 **A labelled link `[▶ file.mp4|^file.mp4]` in a table cell is safe** — measured on a real retest
+comment (2026-09-05): the row kept every `<td>` and the MP4 resolved. What breaks a row is the image
+width parameter (`!img|width=N!`, PM-004) — still forbidden.
 
 <a id="evidence-per-row"></a>**Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) (run at step 8) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
 
@@ -285,7 +281,7 @@ cause and check each one —
 Any box unchecked → delete the sentence or go back to Step 4h and earn it. Do not soften it into a
 hedge.
 
-**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's own field names (**Expected Result** / **Actual Result**) so a reader lines the comment up against the ticket without translating, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.
+**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.
 
 Show the full draft in chat; the user's approval is the single Step 6d approval popup — no separate
 wait here.
@@ -294,17 +290,20 @@ wait here.
 
 ### 6c. Independent reviewer pass (mandatory before the first post)
 
-6b is the author re-reading their own draft, and
-[qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the real bar itself: *a second
-QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
+6b is the author's own re-read; [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the bar: *a second QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
 
+0. **Before the first dispatch**, re-run the coverage and case-list reconciliation (Step 6) on the final draft
+   and confirm every evidence reference names a file captured this round — mechanical gaps cost reviewer rounds.
 1. **Dispatch a reviewer subagent in the background** (Agent/Task tool) with **only**: the ticket key, the
    **file path** of the rendered body, and the **paths** of the evidence files — never paste the body or evidence text into the prompt; the reviewer opens each path itself and reads it in full. Not the session, not the reasoning, not what you meant. While
    it runs, build the Step 6d bundle in parallel; the reviewer must return **CLEAN before the approval
    popup** ([round-time-contract.md](../../../references/round-time-contract.md) §3 step 1).
+   **Host that cannot start subagents:** print that prompt for the user to run in a fresh agent session
+   or give a second QA, and queue its verdict in the 6d decisions popup; approval still waits for CLEAN.
+   Your own re-read is 6b, never 6c.
 2. **It answers the four adversarial questions** from the pre-delivery gate, each **by pointing at a
-   row or a file** — the least-certain row, the shortest clip, the hardest-to-read value, and what
-   was not tested and where the deliverable says so.
+   row or a file** — the least-certain row, the shortest clip, the hardest-to-read value, and what was not
+   tested and where the deliverable says so — and returns **every** finding in one pass (every row, reference, count), not the first few.
 3. **Binary verdict per round:** `CLEAN` or `HAS-COMMENTS` with a numbered list. Nitpicks are not
    defects; only gaps against the ticket and the evidence count.
 4. **Report the round to the user** as it finishes, then fix every finding, save the fixed body to the same path, and dispatch a **fresh**
@@ -318,10 +317,11 @@ QA — or another agent given the ticket, the deliverable and nothing else*. Mak
 5. **Verify the reviewer's claims yourself before acting on them** — a subagent's report is not
    evidence, it is a lead.
 
-**Go back:** If a round returns `HAS-COMMENTS`, fix every finding and return to 6c item 1 with a fresh reviewer. The Step 6d approval popup waits for `CLEAN` (or, for a non-converging finding, for the user's answer to it).
+**Go back:** `HAS-COMMENTS` → item 4, then 6c item 1 with a fresh reviewer; the 6d approval popup waits for `CLEAN` (or the user's answer to a non-converging finding).
 
 **Unattended / bot mode:** run one reviewer round, fold its findings in, and record any it could not
-resolve as BLOCKED rows with reasons — never halt the queue, never post over an unanswered finding.
+resolve as BLOCKED rows with reasons — never halt the queue, never post over an
+unanswered finding. No subagents: post nothing; hold the ticket with the reason.
 
 ### 6d. End of round — decisions popup, then one approval bundle (mandatory, fixed order)
 
@@ -331,14 +331,12 @@ resolve as BLOCKED rows with reasons — never halt the queue, never post over a
 
 At step 6d, follow [round-time-contract.md](../../../references/round-time-contract.md) §3 in this order:
 
-1. **Reviewer and bundle in parallel** — the 6c reviewer runs in the background while you build the
-   bundle: run the cross-ticket conflict check (QA closing) and queue its result, then run the
-   **render + media check** on the **final** body (§6) — render the body locally in the format locked
-   at Step 3 (v2 wiki or ADF) and confirm tables, line breaks and formatting; resolve every referenced
-   image or clip (the attachment exists, its id or filename matches the reference). A render or media
-   failure blocks the approval popup until fixed. The reviewer must return CLEAN before item 4.
+1. **Bundle while the 6c reviewer runs** — run the cross-ticket conflict check (QA closing) and queue its
+   result, then the **render + media check** on the **final** body (§6): render it in the format locked
+   at Step 3 and confirm tables, line breaks and formatting; resolve every referenced image or clip
+   (attachment exists, id or filename matches). A failure blocks the approval popup until fixed.
 2. **Decisions popup — only when something is queued.** One choice-question call (`AskUserQuestion` in Claude Code), batched 4 questions at a
-   time: the scope plan (Step 2b/2c, and the round-N scope), each queued non-PASS (A/B/C, Step 4i),
+   time: the scope plan (Step 2b/2c, and the round-N scope), each queued non-PASS (A/B/C, Step 4i; a superseded expected quotes its source char-exact),
    each missing design (Step 2d), and each cross-ticket conflict (*Investigate further* / *Close out
    now*). Nothing queued → skip this item; the round then has a single human touch.
 3. **Apply the answers** — re-render the draft and re-run the Step 6·0 guard (and the §6 check). A

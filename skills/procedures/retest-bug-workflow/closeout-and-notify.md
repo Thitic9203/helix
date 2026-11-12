@@ -1,6 +1,6 @@
 # Retest bug — close out and notify (Steps 8–10)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read right after the comment is posted.
+Part of [WORKFLOW.md](WORKFLOW.md). Read right after the comment is posted.
 
 ## Contents
 
@@ -48,9 +48,9 @@ If any item fails — including when evidence **cannot** be embedded (e.g. no Ji
 
 Read transition names from the workspace `*-retest-guide.md` (see [project-config-template.md](references/project-config-template.md)). If missing, ask once for the transition name of this round's verdict (PASSED / FAILED / PWMI / BLOCKED) in the 6d decisions popup (before approval) and save them to the guide immediately ([round-time-contract.md §2](../../../references/round-time-contract.md)); never ask after the bundle was approved.
 
-NEVER hardcode transition names in the skill — Jira workflows differ per project.
-
 Use `getTransitionsForJiraIssue` and match the names from config or the user.
+
+**Not offered, or refused** (name not offered from the current status, or the transition or 8c assign errors): never pick another transition or repeat the call unchanged ([settle-and-strategize.md](../../../references/settle-and-strategize.md) §4); read status and assignee back. The comment stays; 8d runs only on a read-back Done; Step 9 still sends the verdict; 8e lists each action not done with its error and the offered transitions and asks once — another transition runs only on that live yes. The round stays open until then.
 
 **Shape of the config (placeholders only — never use these as names):**
 
@@ -61,19 +61,17 @@ Use `getTransitionsForJiraIssue` and match the names from config or the user.
 | PWMI | `{PWMI_TARGET_STATUS}` | `{PWMI_TRANSITION}` |
 | BLOCKED | `{BLOCKED_TARGET_STATUS}` | `{BLOCKED_TRANSITION}` |
 
-The only sources for these values are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
+Never hardcode these names: the only sources are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
 
 ### 8b. Find developer (project-overridable)
 
 From changelog: last move into the project's **active development** status (often named "In Progress" — use the name from config if different) → that author's `accountId`.
 
-**Some projects never change assignee** — check the project guide before running this step.
-
 ### 8c. Assign (project-overridable)
 
-`editJiraIssue` → assignee = that developer (PASSED and FAILED).
+`editJiraIssue` → assignee = that developer (PASSED and FAILED). Refused → the 8a **Not offered, or refused** rule.
 
-**Skip if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
+**Skip 8b–8c if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
 
 ### 8d. Unblock linked stories (run once the bug reaches Done)
 
@@ -101,14 +99,6 @@ when **nothing else** still blocks it.
 7. Never change the story's assignee or QA Owner while doing this.
 
 **Bug not in Done → skip this step entirely.** A story stays blocked while the bug is unfixed.
-
-| Situation | Action |
-|-----------|--------|
-| Bug Done, story parked in blocked status, no other blocker outside Done | transition story → ready-for-QA status |
-| Bug Done, story still blocked by something not Done | leave; report the blocker keys + statuses |
-| Bug Done, story already in QA or still in development | leave; never move it backwards |
-| Bug Done, no blocks link on the bug | nothing to do |
-| Bug not in Done (FAILED / BLOCKED verdict) | skip |
 
 ### 8e. Tell the user
 
@@ -174,8 +164,6 @@ Run this checklist on the **dry-run output** before every real send — no excep
 6. Only after all 5 pass → send. The dry-run text and resolved recipient are already listed in the 6d approval popup; any doubt found here → stop and report it, never send a message the user did not see in that bundle.
 
 **Go back:** If any of checks 1–5 fails, stop (item 6) — fix the dry-run and run this gate again from check 1 before any send.
-
-Skip if the project has no notify channel configured.
 
 ### Correcting a posted notification
 
