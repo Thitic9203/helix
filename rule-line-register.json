@@ -251,6 +251,114 @@
         "9. 🔴 GATE: confirm before the first Playwright run — WORKFLOW Phase C (bot-run branch included)."
       ],
       "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT use a hedge word (`probably`, `น่าจะ`, `flaky`, `cache issue`, …) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |",
+      "replaced_by": [
+        "| MUST NOT use a hedge word from the [§4 banned list](#hedges) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, or infer one from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |",
+      "replaced_by": [
+        "| MUST NOT give as a cause a [banned hedge](root-cause-investigation.md#hedges), the symptom itself, or one inferred from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "Read only when the routed workflow reaches that step (the router never opens these; each stays one hop from here only because the shared rules above MUST-link it — skill-lint must-read-depth):",
+      "replaced_by": [
+        "**Not opened by the router** — the routed workflow reads each at the step named; listed only because the shared rules above MUST-link them (skill-lint must-read-depth):"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.",
+      "replaced_by": [
+        "Checklist, Refusal-first, Phases A–B and MUST / NEVER live here; each later phase has its own file, opened at its checklist line."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "**Gates:** MUST NOT create issues until Phase C confirm. MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.",
+      "replaced_by": [
+        "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
+        "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]",
+        "**Gates:** MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "If pre-flight fails (auth, repo missing), report and stop — MUST NOT create issues silently.",
+      "replaced_by": [
+        "**🔴 STOP — pre-flight fails** (auth, repo missing) → report it; MUST NOT create issues silently."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of it before you move on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.",
+      "replaced_by": [
+        "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line before moving on. Read shared-must-never.md (linked in MUST / NEVER) before the first write."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create on another path blind.",
+      "replaced_by": [
+        "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create blind."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- NEVER call create APIs before Phase C confirm.",
+      "replaced_by": [
+        "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
+        "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "NEVER hardcode transition names in the skill — Jira workflows differ per project.",
+      "replaced_by": [
+        "| MUST take transition names/ids, notify-helper flags, app URL shapes and UI-automation quirks from the workspace's project guide — never from a value written in this skill | Workflows, tooling and UI differ per project; a value hardcoded here transitions the wrong ticket somewhere else (portable-content.md) |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's own field names (**Expected Result** / **Actual Result**) so a reader lines the comment up against the ticket without translating, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
+      "replaced_by": [
+        "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.",
+      "replaced_by": [
+        "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "MUST NOT post the full TC table until **Ready for draft: YES**.",
+      "replaced_by": [
+        "🔴 **STOP —** MUST NOT post the full TC table until **Ready for draft: YES**."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: deliver the G1 file instead,",
+      "replaced_by": [
+        "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: write the G1 default CSV (`references/{SCOPE}_API_TC.csv`)"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** — raw `<br>` renders as literal text on Jira. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)",
+      "replaced_by": [
+        "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (ADF `hardBreak`, G2 step 1) — never copy the chat draft directly. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
     }
   ]
 }
