@@ -8,8 +8,6 @@ name: tc-api-prep-workflow
 
 Prepare **API manual test cases** from an **API spec** and **Swagger/OpenAPI**, show a draft in chat for approval, then either **post a comment** at a user-provided link or **write CSV/Excel** in the workspace for download.
 
-**Portable:** Any agent with this skill. **Project-agnostic:** No hardcoded services or ticket IDs.
-
 ## Contents
 
 This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–C) and MUST / NEVER. Phases D–G and QA closing live in their own files next to this one; open each when its checklist line is reached, not before.
@@ -22,14 +20,14 @@ failed gate sends you back to the step its **Go back:** line names — untick fr
 ```text
 TC API prep progress:
 - [ ] Refusal-first (precondition gate)
-- [ ] Phase A — API sources (mandatory)
-- [ ] Phase B — Test case table format (mandatory)
-- [ ] Phase C — Where to deliver (mandatory)
-- [ ] Phase D — Scope and design — open phase-d-scope-design.md
-- [ ] Phase E — Coverage & quality review (mandatory; 1–2 rounds) — open phase-e-review.md
-- [ ] Phase F — Draft in chat (approval gate) — open phase-f-draft.md
-- [ ] Phase G — Deliver (after approval only) — open phase-g-deliver.md
-- [ ] QA closing (mandatory before "done") — in phase-g-deliver.md
+- [ ] Phase A — API sources
+- [ ] Phase B — Table format
+- [ ] Phase C — Delivery + its dependency checks
+- [ ] Phase D — Scope and design
+- [ ] Phase E — Coverage review (1–2 rounds)
+- [ ] Phase F — Draft (approval gate)
+- [ ] Phase G — Deliver (after approval)
+- [ ] QA closing (before "done")
 ```
 
 ## Discipline
@@ -69,7 +67,7 @@ Load the spec:
 - Spec requires auth but Swagger has no `security` (operation or global) → say so in the sources summary and ask how the 401/403 rows are sourced (Phase D gap rule).
 - Note base URL / servers from `servers` or user override.
 
-If load fails → stop and report; ask for an export file or VPN — never invent endpoints.
+If load fails → stop and report; ask for an export file or VPN. Loads but does not parse as OpenAPI → stop, report the parser error and location, ask for a valid export. Never invent endpoints.
 
 Count the Swagger operations in scope (one operation = one method + path pair). If the count is **more than 15**, or the user asks for a whole service, follow [tc-api-chunked-scope.md](../../../references/tc-api-chunked-scope.md) before Phase D — 🔴 STOP until the user agrees the chunk list.
 
@@ -86,7 +84,7 @@ Read [references/default-columns.md](references/default-columns.md) and pick the
 | User's messages so far | Phase B action |
 |------------------------|----------------|
 | Already said they want the default columns (e.g. "default columns", "no extra columns", "the default set is fine") | State the default columns in **one line** (`Columns: default — Test Case ID, Module / Feature, …`) and record them — **do not ask the question below again**; the user has already answered it. |
-| Already fix the delivery (Phase C answer, e.g. "as CSV", "comment on {link}") but say nothing about columns | State the default columns in **one line** instead of the summary table, and still ask the question below — a delivery answer does not answer the column question. Phase C then skips only the delivery fields already fixed. |
+| Already fixed the delivery (Phase C answer, e.g. "as CSV", "comment on {link}") but say nothing about columns | State the default columns in **one line** instead of the summary table, and still ask the question below — a delivery answer does not answer the column question. Phase C then skips only the delivery fields already fixed. |
 | Ask for custom, extra or different columns | Show the default column summary table, apply the user's changes, and ask the question below. |
 | Silent on delivery | Show the default column summary table (summary only — do not duplicate the full definitions here) and ask the question below. |
 | Anything else (e.g. delivery only partly fixed — "comment" with no link) | Same as *Silent on delivery*: show the summary table and ask the question below. |
@@ -124,6 +122,8 @@ Link is neither a Jira issue nor a Confluence page → 🔴 **STOP**: say it is 
 Skip the question for any field the user's messages already fixed (the link for A; format and folder for B — folder defaults to `references/`), and state the recorded choice in one line instead.
 
 🔴 **STOP — wait for an answer** to every field still missing before designing and drafting (Phases D–F).
+
+Delivery recorded → before Phase D, check each SKILL.md § Dependencies row it uses; a failed check is a stop.
 
 ---
 

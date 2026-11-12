@@ -17,12 +17,12 @@ metadata:
 
 **Thin entry for agent skill discovery.** Full procedure: [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md).
 
-**Session start (do this first):** follow [session-start-context.md](../../references/session-start-context.md) before anything else.
+**Start order:** one list — WORKFLOW *Run order before Phase C*; its step 1 is [session-start-context.md](../../references/session-start-context.md).
 
 When invoked:
 
 1. Announce once: `Using **testing-ticket-workflow** to test the ticket with Playwright.`
-2. **Settle and strategize first** — before any other tool call (the *Dependencies* check below runs right after this step, before Phase A), follow [settle-and-strategize.md](../../references/settle-and-strategize.md): invoke **`engineering:testing-strategy`** to plan the approach, no guessing an expected/spec, no blind retry loops. If that skill is not in the session's available-skills list, write the strategy inline (scope, order, done-when, risks) and say in chat that you did so ([dependencies.md](../../references/dependencies.md)).
+2. **Settle and strategize** — *Run order* step 2, before any other tool call after the session-start skills. Follow [settle-and-strategize.md](../../references/settle-and-strategize.md) and invoke **`engineering:testing-strategy`** to plan the approach, no guessing an expected/spec, no blind retry loops. If that skill is not in the session's available-skills list, write the strategy inline (scope, order, done-when, risks) and say in chat that you did so ([dependencies.md](../../references/dependencies.md)).
 3. **Design (Figma) comparison on every UI scenario** — [figma-design-comparison.md](../../references/figma-design-comparison.md); runs at WORKFLOW Phase B step 4 and E0.
 4. **Test deeply** — open at Phase B step 5 [customer-escape-prevention.md](../../references/customer-escape-prevention.md); runs at WORKFLOW Phase B step 5, Phase D *Session preflight*, E0 and F *Design + depth reconciliation*.
 5. **Parallel lanes by default, one leased account per lane** — [parallel-test-lanes.md](../../references/parallel-test-lanes.md); lane plan at WORKFLOW Phase B step 7, dispatch and lane failure in Phase E.
@@ -113,7 +113,7 @@ All close-out gates are in WORKFLOW.md and [verify-closing-checklist.md](../../r
 
 ## Dependencies
 
-Run the check for each of these after step 2 (strategy) and before Phase A — one order: strategize, then this check, then intake; check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+Run the check for each of these at WORKFLOW *Run order* step 3; check commands and install hints are in [dependencies.md](../../references/dependencies.md):
 
 - Playwright (in the project under test)
 - Node.js + in-repo guard tools (`tools/lane-lease-check`, `tools/adoption-check`)
