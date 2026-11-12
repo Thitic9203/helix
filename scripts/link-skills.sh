@@ -78,20 +78,32 @@ link_into() {
     -print0)
 }
 
-# remove_old_claude_links: unlink only Helix skill links under ~/.claude/skills (R3, R4)
+# plugin_ready: helix@helix-dev is confirmed installed in Claude Code (R9)
+plugin_ready() {
+  command -v claude >/dev/null 2>&1 && claude plugin list 2>/dev/null | grep -qF "helix@helix-dev"
+}
+
+# remove_old_claude_links: unlink only Helix skill links under ~/.claude/skills (R3, R4),
+# and only when the plugin is confirmed installed, so Claude Code never ends up with no Helix (R9)
 remove_old_claude_links() {
-  local dir="$HOME/.claude/skills" entry removed=0
+  local dir="$HOME/.claude/skills" entry removed=0 old=()
   [ -d "$dir" ] || return 0
   for entry in "$dir"/*; do
     [ -L "$entry" ] || continue
     if helix_is_skill_link "$entry" "$(basename "$entry")" 0 "$REPO" "$REPO_P"; then
-      rm -f -- "$entry"
-      removed=$((removed + 1))
+      old+=("$entry")
     fi
   done
-  if [ "$removed" -gt 0 ]; then   # R5: one line, only when something was removed
-    echo "removed $removed old Helix skill link(s) from $dir — Claude Code now loads Helix from the plugin only"
+  [ "${#old[@]}" -gt 0 ] || return 0
+  if ! plugin_ready; then   # R9: one line, nothing removed
+    echo "kept ${#old[@]} old Helix skill link(s) in $dir — plugin helix@helix-dev not confirmed; run claude-plugin-sync.sh, then link-skills.sh again"
+    return 0
   fi
+  for entry in "${old[@]}"; do
+    rm -f -- "$entry"
+    removed=$((removed + 1))
+  done
+  echo "removed $removed old Helix skill link(s) from $dir — Claude Code now loads Helix from the plugin only"   # R5
 }
 
 echo "=== Helix link-skills (repo: $REPO) ==="

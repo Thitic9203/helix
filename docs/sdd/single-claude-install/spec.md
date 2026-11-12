@@ -15,9 +15,11 @@ Evidence: helix-quality wayfinder token-diet FINDINGS 2026-11-11, cause 4 — ev
 - **R6** Install and update reach R3 with no extra step: both already run `link-skills.sh` (install.sh step 3, helix-auto-update.sh, post-merge hook).
 - **R7** `helix-doctor.sh` must not expect `~/.claude/skills` links, and must warn (with the fix command) when old Helix links are still there.
 - **R8** README and wiki install sections must say Claude Code uses the plugin only.
+- **R9** (reviewer finding on PR 23) When `helix@helix-dev` is not confirmed installed (`claude` not on PATH, or `claude plugin list` does not show it), `link-skills.sh` must not remove any `~/.claude/skills` link; it prints exactly one line saying how many Helix links were kept and how to finish (`claude-plugin-sync.sh`, then `link-skills.sh`). Install and update run link-skills before plugin sync, so on a first run the links go on the next run, once the plugin is there.
 
 ## Done when
 - A test shows `~/.claude/skills` gets 0 Helix links after link-skills (fails on old code with N links).
 - A test shows old Helix links are removed, foreign entries kept, one notice line.
+- A test shows that with the plugin not confirmed, 0 links are removed and one "kept" line is printed (fails on code that removes unconditionally).
 - Doctor test shows no "Claude Code: all … linked" expectation and a WARN for leftovers.
 - `bash scripts/tests/run.sh` and the three ci-check scripts pass.

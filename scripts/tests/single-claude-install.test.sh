@@ -9,12 +9,23 @@ N="$(helix_linked_skills "$R" | wc -l | tr -d ' ')"
 S="$(helix_linked_skills "$R" | head -1)"
 count_links() { find "$1" -maxdepth 1 -type l | wc -l | tr -d ' '; }
 
+# claude stub: `plugin list` shows helix@helix-dev only while $B/plugin exists
+printf '%s\n' '#!/bin/sh' '[ "$1 $2" = "plugin list" ] && [ -f "$STUB_DIR/plugin" ] && echo "helix@helix-dev"; exit 0' >"$B/claude"; chmod +x "$B/claude"
+export STUB_DIR="$B"; PATH="$B:$PATH"
+
 # R1, R2: fresh run links Cursor but not Claude
 HOME="$H" bash "$R/scripts/link-skills.sh" >"$H/out" 2>&1
 c="$(count_links "$H/.claude/skills")"
 [ "$c" = 0 ] && ok "R1 no Helix links in ~/.claude/skills (plugin only)" || fail "R1 ~/.claude/skills has $c links — skills listed twice in Claude Code"
 [ "$(count_links "$H/.cursor/skills")" = "$N" ] && ok "R2 ~/.cursor/skills still gets all $N links" || fail "R2 cursor links changed"
 grep -q "removed .* old Helix" "$H/out" && fail "R5 notice printed with nothing to remove" || ok "R5 no notice when nothing removed"
+
+# R9: plugin not confirmed -> nothing removed, one 'kept' line
+for s_ in $(helix_linked_skills "$R"); do ln -sfn "$R/skills/$s_" "$H/.claude/skills/$s_"; done
+out="$(HOME="$H" bash "$R/scripts/link-skills.sh" 2>&1)"
+[ "$(count_links "$H/.claude/skills")" = "$N" ] && ok "R9 plugin missing: all $N links kept" || fail "R9 removed links without the plugin: $(count_links "$H/.claude/skills") left of $N"
+[ "$(echo "$out" | grep -c "kept $N old Helix")" = 1 ] && ok "R9 one kept line" || fail "R9 kept line wrong: $(echo "$out" | grep 'old Helix')"
+touch "$B/plugin"
 
 # R3, R4, R5: an existing user with old links plus their own entries
 for s in $(helix_linked_skills "$R"); do ln -sfn "$R/skills/$s" "$H/.claude/skills/$s"; done
