@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.189** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.190** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04, fixed in v1.5.167):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) and update to v1.5.167 or later.
 
@@ -58,7 +58,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 This downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes. If a download fails or the hash does not match, nothing is installed and nothing is written under your home folder (the two files land in the current folder only).
 
 ```bash
-HELIX_TAG=v1.5.189
+HELIX_TAG=v1.5.190
 base="https://github.com/Thitic9203/helix/releases/download/$HELIX_TAG"
 curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && [ "$(wc -l < install.sh.sha256)" -eq 1 ] \
