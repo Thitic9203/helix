@@ -71,7 +71,7 @@ NO FINDING WITHOUT A QUOTED SOURCE ON BOTH SIDES
 Every finding compares two things that were actually opened this session: the TC document's own text, and
 the ticket's own AC/EC/business-rules text (or a design source such as Figma/PRD, only after it was
 actually opened). "The TC looks incomplete" from a general sense of quality, without the ticket's own
-wording quoted next to it, is not a finding — read the ticket, then judge. A design-source claim (exact
+wording quoted next to it, is not a finding. A design-source claim (exact
 copy text, exact UI state) with no source actually opened this session is not a finding either — say
 "not verified — could not open {source}" instead of guessing.
 
@@ -169,7 +169,7 @@ by someone else, so the question is whether it can be trusted, not whether it is
 | **The setup names a method without giving it** ("there is a way to make the request fail", "prepare enough data"). | Two testers will set it up two different ways. |
 
 Do not flag test-case style choices that do not affect whether the case can be trusted (naming
-convention, column order, priority labels) unless the user asks for a style review specifically. This
+convention, column order, priority labels) unless the user asks for a style review. This
 overrides tc-quality-standards.md here: ignore its Priority attribute and its review-gate
 "Priorities assigned" line unless the user asks for a style review.
 
@@ -216,8 +216,7 @@ The delivered review is the Step 2 matrix, then two short lists, each bullet anc
   → Suggest: {how to fix it}
 ```
 
-**Every Need Improve bullet carries a "→ Suggest:" line** that says how to fix it. A problem with no fix
-leaves the TC author guessing. Each suggestion must come from a source, never an invented value:
+**Every Need Improve bullet carries a "→ Suggest:" line** that says how to fix it. Each suggestion must come from a source, never an invented value:
 
 - **Computed from the row's own data:** when the Test Data already holds the inputs, work out the value
   and give it (e.g. the expected order with each computed score). Show the numbers so the author can
@@ -229,17 +228,18 @@ leaves the TC author guessing. Each suggestion must come from a source, never an
 
 One finding per bullet, at most two lines plus its Suggest line. The Suggest line says what to change, not a rewritten row. If the user asks to
 narrow scope (e.g. "drop everything about
-X"), regenerate the list from Steps 2–3 with that category removed — do not hand-edit prose reactively,
-since the same category will resurface differently worded next time otherwise.
+X"), regenerate the list from Steps 2–3 with that category removed — never hand-edit prose reactively.
 
-**Language:** match the ticket's / TC document's own language by default. Mixed = the ticket's AC/EC and the TC
-document are written in different languages → 🔴 **STOP —** ask the user once which language to write the review in.
+**Language:** match the ticket's / TC document's own language by default, judged by the AC/EC and TC cell text. Mixed =
+the two differ → 🔴 **STOP —** in one message ask which language to write the review in and the Step 5 destination
+question (thread, or channel + thread when config has none). That answer is not the go-ahead: send only on the
+user's OK after the item-5 preview.
 Helix menus, intake questions and the thread question follow the user's language per
 [user-communication.md](../../references/user-communication.md); only the review content itself follows the
 destination document's language.
 
-Post the review in chat before the Step 5 send — an external message cannot be unsent the way a chat
-message can. The Step 5 thread question is the go-ahead; do not add a separate "send it?" question.
+Post the review in chat before the Step 5 send. Unless asked with the language question, the Step 5 thread question
+is the go-ahead; do not add a separate "send it?" question.
 
 ---
 
@@ -252,8 +252,8 @@ config: the workspace project guide `references/{PROJECT}-guide.md` § *TC revie
 placeholder, thread rule, mention rule). The real ids and the webhook live in the local secrets folder
 named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<thread>`), never in the repo.
 
-- **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already
-  in config, so asking again is a repeat question (#0059). 🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or
+- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it; #0059).
+  🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or
   recorded in the config as options. The answer is the go-ahead to send. Where the workspace carries
   `tools/ask-guard` (workspace-optional, see [dependencies.md](../../references/dependencies.md)), it
   blocks the channel question for such projects (state `fixed-destination`); without it, apply the same
@@ -263,7 +263,7 @@ named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<threa
   project's channel and thread, then record the answer so it is never asked again.
 - **User declines the send, or will not name a thread →** do not send — nothing goes out without the
   thread answer and the item-5 preview. Tell the user plainly that the send is part of this workflow
-  (every run notifies the project's channel — an owner decision) and that the review is therefore not
+  (an owner decision) and that the review is therefore not
   complete. Record `notify not sent — user declined` in the QA closing checklist and in the final report,
   then stop. Never skip the step silently, and never report the run as done-and-notified.
 
@@ -279,7 +279,7 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
    If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
    Still over after tightening → 🔴 **STOP —** show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
 4. A thread is reached through a webhook plus `thread_id`. Without `thread_id` the message lands in the
-   parent channel. Use the webhook the user gave for that thread, and keep it in local secrets, never in
+   parent channel. On Discord also pass `wait=true`, or the send returns 204 with no body for item 6 to read. Use the webhook the user gave for that thread, and keep it in local secrets, never in
    the repo. **Webhook file for the chosen thread missing** from the secrets folder → ask the user for it
    once, save it to that secrets folder under the per-thread file name above, and never write it into the
    repo or repeat it in chat; then continue from item 5.
@@ -293,7 +293,8 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
    body, keep the review in chat, and ask the user how to proceed (a 429 states the `retry_after` value
    it returned).
 7. **Wrong destination → delete and resend** — a message cannot be moved between channels/threads by
-   editing it. **Wrong content, correct destination → edit in place** — never delete and repost just to
+   editing it. 🔴 **GATE —** first show both destinations and the item-5 preview; delete and resend
+   only on the user's go-ahead. **Wrong content, correct destination → edit in place** — never delete and repost just to
    fix wording.
 8. **Revising a review that is already posted** (new suggestions, a scope cut): edit the existing
    message in place, e.g. a Discord webhook `PATCH …/messages/{id}`, adding `thread_id` when the message is
@@ -317,10 +318,11 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
 - [ ] Every Need Improve bullet has a "→ Suggest:" line. Any value in it was computed from the row or
       quoted from the AC/EC, or the line says who confirms it. No suggestion contains a made-up value.
 - [ ] Any design-source (Figma/PRD) claim states plainly whether it was actually opened this session.
+- [ ] Every "confirm with dev/PO" question carries its Step 3b sources or `code not checked — no clone`.
 - [ ] If sent externally: destination and mentions verified from the read-back response, not assumed.
 - [ ] If the user declined the send: `notify not sent — user declined` is written here and in the final report.
 
-**Go back:** A matrix item unchecked returns to Step 2; an unanchored finding or a missing "→ Suggest:" line returns to Step 4; a design-source claim not opened returns to Step 1 item 3; an unverified send returns to Step 5 item 5.
+**Go back:** A matrix item unchecked returns to Step 2; an unanchored finding or a missing "→ Suggest:" line returns to Step 4; a design-source claim not opened returns to Step 1 item 3; an unswept question returns to Step 3b; an unverified send returns to Step 5 item 5.
 
 ---
 
@@ -354,13 +356,11 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 
 Open each file below at the step that names it, never all up front.
 
-- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) when the run has many steps (keep the todo list).
+- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) when the run has many steps.
 - Before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
 - At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (to the matrix: only coverage layers 1, 2, 4, 6, 7 and pre-delivery 1, 4, 6, 7 apply — no test run, evidence or verdict here; no Out-of-scope block names a struck-through AC/EC or non-conflicting rule — Step 2 wins); at session end [session-closing.md](../../references/session-closing.md).
 
 ### Only if triggered (exact condition on each line)
-
-This workflow never posts to Jira or records a verdict on its own. Load these only when the condition holds.
 
 - Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
 - Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging any UI or visual result against the design (Step 1 item 3).
@@ -374,7 +374,7 @@ This workflow never posts to Jira or records a verdict on its own. Load these on
 
 ### Execution-only files (this workflow never triggers them)
 
-This workflow reviews a document; it never runs tests, sets a bug priority, records a verdict or opens a bug (§ Out of scope). The shared files above link onward to execution-only references — [bug-priority-matrix.md](../../references/bug-priority-matrix.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [defect-report-completeness.md](../../references/defect-report-completeness.md), [playwright-preflight.md](../../references/playwright-preflight.md), [resilient-selectors.md](../../references/resilient-selectors.md), [test-through-real-steps.md](../../references/test-through-real-steps.md), [verify-closing-checklist.md](../../references/verify-closing-checklist.md) — which a TC review must not load.
+This workflow never runs tests, sets a bug priority, records a verdict or opens a bug. The shared files above link onward to execution-only references — [bug-priority-matrix.md](../../references/bug-priority-matrix.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [defect-report-completeness.md](../../references/defect-report-completeness.md), [playwright-preflight.md](../../references/playwright-preflight.md), [resilient-selectors.md](../../references/resilient-selectors.md), [test-through-real-steps.md](../../references/test-through-real-steps.md), [verify-closing-checklist.md](../../references/verify-closing-checklist.md) — which a TC review must not load.
 
 ## Dependencies
 
@@ -383,7 +383,6 @@ Run the check for each of these before step 1 — check commands and install hin
 - Atlassian MCP
 - Figma (only when a design cross-check is asked)
 - clone of the product repo (`{MONOREPO}`) for the source sweep
-- `tools/result-gate` is not run here: it checks result lines (`results.jsonl`), and this workflow
-  writes none — Step 3b applies layer 14 of result-quality-gate.md by hand
+- `tools/result-gate` is not run here (it checks `results.jsonl`, which this workflow never writes; Step 3b applies layer 14 by hand)
 - the ticket project's TC-review notify channel + its webhook (project config / local secrets)
 - `superpowers:systematic-debugging`

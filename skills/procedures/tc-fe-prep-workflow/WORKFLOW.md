@@ -159,7 +159,7 @@ Do NOT post the TC table as markdown in chat. Instead:
 
 ## Step 6 — Save artifacts in the user's workspace [medium freedom]
 
-**Suite gate (do before writing the CSV):** The Qase CSV needs a **Suite** value per row. Inspect the project's existing Qase suite tree first (Qase project code: the project guide) (Qase web UI → Test cases → suite sidebar, or ask the user to paste the current suite list — there is no Qase MCP) and reuse a fitting suite; only propose a new suite (with user approval) when none fits. Never assign a suite blind, never create a duplicate. Full rules: [qase-import-format.md](references/qase-import-format.md) — Suite rules. In the same pass, check the project's **Type** and **Status** option lists (Qase UI → project settings, or the import wizard preview, or ask the user to paste them) contain `Unit Test` / `Integration Test` / `System Test` and `Done` in Status; if any is missing, stop and tell the user before writing the CSV ([qase-import-format.md](references/qase-import-format.md) — Field option values). If the suite list (or the Type/Status option lists) cannot be read and the user cannot paste it → stop before writing any CSV, keep the approved draft, and tell the user the Qase export is **Not exported** and what is needed to finish it.
+**Suite gate (do before writing the CSV):** The Qase CSV needs a **Suite** value per row. Inspect the project's existing Qase suite tree first (Qase project code: the project guide) (Qase web UI → Test cases → suite sidebar, or ask the user to paste the current suite list — there is no Qase MCP) and reuse a fitting suite; only propose a new suite (with user approval) when none fits. Never assign a suite blind, never create a duplicate. Full rules: [qase-import-format.md](references/qase-import-format.md) — Suite rules. In the same pass, check the project's **Type** and **Status** option lists (Qase UI → project settings, or the import wizard preview, or ask the user to paste them) contain `Unit Test` / `Integration Test` / `System Test` and `Done` in Status; if any is missing, stop and tell the user before writing the CSV ([qase-import-format.md](references/qase-import-format.md) — Field option values). If the suite list (or the Type/Status option lists) cannot be read and the user cannot paste it → stop before writing any CSV (this gate wins over any dependency fallback), keep the approved draft, and tell the user the Qase export is **Not exported** and what is needed to finish it.
 
 After approval (and Suite confirmed), write the files below inside the user's project (paths relative to workspace root) — each row's Condition decides whether it is written: always the `.md` and the two CSVs (or their xlsx pair when the user asked for Excel), plus one typed CSV per Type that has TCs (0–3):
 
@@ -169,9 +169,9 @@ After approval (and Suite confirmed), write the files below inside the user's pr
 | `references/Draft_Jira_{ISSUE_KEY}.csv` | always (unless xlsx requested) | **Jira-format CSV** — same 10 columns as the approved Step 5 HTML draft; use as source-of-truth for the comment table |
 | `references/Import_Qase_{ISSUE_KEY}.csv` | always (unless xlsx requested) | **Qase import CSV** — schema per [qase-import-format.md](references/qase-import-format.md) |
 | `references/Draft_Jira_{ISSUE_KEY}.xlsx` / `references/Import_Qase_{ISSUE_KEY}.xlsx` | user explicitly requested Excel/xlsx | Excel versions of both files above |
-| `references/Unit_Test_{ISSUE_KEY}.csv` | only if Type = `Unit Test` TCs exist | **Typed content CSV** — 13 English columns; TCs filtered to Type = `Unit Test`, content mapped to Unit Test template columns (Step 6 mapping); Function/Sub Function groupings from ticket title + Services Impacted |
-| `references/Integration_Test_{ISSUE_KEY}.csv` | only if Type = `Integration Test` TCs exist | **Typed content CSV** — 9 Thai columns; TCs filtered to Type = `Integration Test`, content mapped to Integration Test template columns (Step 6 mapping); no summary footer |
-| `references/System_Test_{ISSUE_KEY}.csv` | only if Type = `System Test` TCs exist | **Typed content CSV** — 9 Thai columns; TCs filtered to Type = `System Test`, content mapped to System Test template columns (Step 6 mapping); no summary footer |
+| `references/Unit_Test_{ISSUE_KEY}.csv` | only if Type = `Unit Test` TCs exist | **Typed content CSV** — 13 English columns; Type = `Unit Test` rows, Step 6 mapping; Function/Sub Function groupings from ticket title + Services Impacted |
+| `references/Integration_Test_{ISSUE_KEY}.csv` | only if Type = `Integration Test` TCs exist | **Typed content CSV** — 9 Thai columns; Type = `Integration Test` rows, Step 6 mapping; no summary footer |
+| `references/System_Test_{ISSUE_KEY}.csv` | only if Type = `System Test` TCs exist | **Typed content CSV** — 9 Thai columns; Type = `System Test` rows, Step 6 mapping; no summary footer |
 
 Both CSV files (`Draft_Jira` + `Import_Qase`) are always produced together and both are uploaded to Jira (Step 7). At Step 6, apply [csv-export-rules.md](../../../references/csv-export-rules.md) for cell cleaning (convert `<br>`, strip tags, preserve Thai) — applies to all CSV files. Never silently produce only one when both are required.
 
@@ -201,7 +201,7 @@ All columns must be populated — derive values for any column that has no direc
 
 Generate typed CSVs after `Draft_Jira` and `Import_Qase`. Full column/row specs and Python snippets: [csv-template-types.md](../../../references/csv-template-types.md).
 
-**Filter TCs by Type:** Each typed CSV contains only the TCs whose `Type` column matches that file's type. TCs with a different Type are excluded.
+**Filter TCs by Type:** each typed CSV holds only the TCs whose `Type` is that file's type.
 
 **Column mapping — Jira draft → Unit Test (`Unit_Test_{ISSUE_KEY}.csv`):**
 
@@ -216,10 +216,10 @@ Generate typed CSVs after `Draft_Jira` and `Import_Qase`. Full column/row specs 
 | Test Data | Test Data | Direct copy |
 | Expected Result | Expected Result | Direct copy |
 | Comment | Acceptance Criteria | Extract AC/EC label(s) (e.g. `AC_02`, `EC_05`) — traceability reference |
-| Actual Result | *(execution result)* | Leave blank — tester fills after running the test |
-| Test status | *(execution result)* | Leave blank — tester fills after running the test |
-| Test Date | *(execution result)* | Leave blank — tester fills after running the test |
-| Test By | *(execution result)* | Leave blank — tester fills after running the test |
+| Actual Result | *(execution result)* | Blank — tester fills after the run |
+| Test status | *(execution result)* | Blank — tester fills after the run |
+| Test Date | *(execution result)* | Blank — tester fills after the run |
+| Test By | *(execution result)* | Blank — tester fills after the run |
 
 Build 13-column English header with columns in this order: `No., Sub Function, Test Scenario, Test Description, Pre-condition, Test Step, Test Data, Expected Result, Actual Result, Test status, Test Date, Test By, Comment`. Insert one `Function :` row (col 1 only, cols 2–13 blank) using the ticket title/feature name, then for each distinct Services Impacted value insert a `Sub Function :` header row, then the numbered data rows for that group. No summary footer.
 
@@ -235,9 +235,9 @@ If no Unit Test TCs exist: **skip this file**. A skip-note will appear in the Ji
 | ขั้นตอนการทดสอบ | Test Steps | Direct copy |
 | ผลการทดสอบที่คาดหวัง | Expected Result | Direct copy |
 | หมายเหตุ | Precondition + Test Data | Derive: `เงื่อนไขเบื้องต้น: {Precondition text} / ข้อมูลทดสอบ: {Test Data text}` — preserves values that have no own column in this template; omit a segment if that source is blank |
-| ผลการทดสอบ | *(execution result)* | Leave blank — tester fills after running the test |
-| วันที่ทดสอบ | *(execution result)* | Leave blank — tester fills after running the test |
-| ผู้ทดสอบ | *(execution result)* | Leave blank — tester fills after running the test |
+| ผลการทดสอบ | *(execution result)* | Blank — tester fills after the run |
+| วันที่ทดสอบ | *(execution result)* | Blank — tester fills after the run |
+| ผู้ทดสอบ | *(execution result)* | Blank — tester fills after the run |
 
 Build 9-column Thai header in this order: `ลำดับ, โมดูล, รายการทดสอบ, ขั้นตอนการทดสอบ, ผลการทดสอบที่คาดหวัง, ผลการทดสอบ, วันที่ทดสอบ, ผู้ทดสอบ, หมายเหตุ`; write sequential numbered rows from the filtered TC set. **No summary footer** — end after the last data row. Encoding: UTF-8 BOM (`utf-8-sig`).
 
@@ -317,7 +317,7 @@ ADF is already built from Step 6 — proceed directly to fast publish. Full JS p
    ⚠️ Disclaimer: ข้อมูลนี้เป็นเพียง Draft Version ที่ได้จากการใช้ Skill เท่านั้น (TC ครบตาม AC & EC) เนื้อหาทั้งหมดจำเป็นต้องได้รับการรีวิวและอัปเดตโดยทีม QA ก่อนนำไปใส่ในไฟล์เอกสารส่งมอบ และทำการนำ TC ไป Import เข้าสู่ Qase.io
    ```
 
-**Pre-publish re-check (MANDATORY before every post or re-post):**
+**Pre-publish re-check (MANDATORY before every POST or PUT):**
 
 Verify ALL of the following are present in the ADF body before calling the Jira comment API. If any item is missing → add it → then publish.
 
@@ -326,10 +326,10 @@ Verify ALL of the following are present in the ADF body before calling the Jira 
 | 1 | TC table — ALL rows present, count matches approved draft | After the intro line and shared prep block |
 | 2 | Attachments heading + one link per uploaded file (Draft_Jira, Import_Qase + typed CSVs) | After table |
 | 3 | Skip-note line for every Type that has zero TCs: `ไม่มี TC ประเภท [Type] สำหรับ ticket นี้` | After attachment links |
-| 4 | **Remark block** (content item 6, only when it applies) — `Remark — Type coverage:` + missing-Figma line (if Figma absent from ticket) + missing-PRD line (if PRD absent from ticket) + blocked-case lines (if any) | After attachment links / skip-notes |
+| 4 | **Remark block** — content item 6, only when it applies (Type-coverage, missing-Figma / missing-PRD, blocked-case lines) | After attachment links / skip-notes |
 | 5 | **Disclaimer** — exact Thai text — **last line, nothing after it** | Very last node |
 
-Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (when content item 6 applies). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.
+Even when only TC text changes, rebuild the full ADF with all 5 elements, in table order (Remark right before the Disclaimer when it applies).
 
 **Go back:** If any row of this re-check is missing, add it to the ADF and run the re-check again from row 1 before calling the comment API.
 
@@ -359,9 +359,7 @@ Run the **full review checklist** from [jira-comment-post-review.md](../../../re
 - [ ] **Both** `Draft_Jira_{ISSUE_KEY}.csv` and `Import_Qase_{ISSUE_KEY}.csv` attached to the same issue (not just in workspace) and **both** footer links work.
 - [ ] Comment is on the **story**, not a sub-task.
 
-If any check fails → fix and re-post → re-verify on Jira UI (max 3 rounds). After 3 failed rounds → report the failing checks verbatim and stop; do not claim success.
-
-**Go back:** If a post-publish check fails, fix and return to *Publish method* item 1 to re-post, then run this checklist again — max 3 rounds. Step 7.5 waits.
+**Go back:** if any check fails → fix per [jira-comment-post-review.md § Fix procedure](../../../references/jira-comment-post-review.md#fix-procedure-when-any-check-fails): PUT the full corrected ADF to the same comment id (`commentId` from Pattern C), never POST a new comment; a missing CSV is uploaded, then only that comment's footer link is fixed. Re-verify on Jira UI — max 3 rounds; after 3 failed rounds report the failing checks verbatim and stop, no success claim. Step 7.5 waits.
 
 **MUST NOT tell user "commented" or "done" until all checks pass.** See [jira-comment-post-review.md](../../../references/jira-comment-post-review.md) for fix procedures and reporting templates.
 
