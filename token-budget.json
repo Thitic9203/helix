@@ -37,12 +37,12 @@
    "routed": 24078
   },
   "tc-review-workflow": {
-   "direct": 8010,
-   "routed": 14759
+   "direct": 8106,
+   "routed": 14855
   },
   "test-data-prep-workflow": {
-   "direct": 6449,
-   "routed": 13997
+   "direct": 7095,
+   "routed": 14643
   },
   "testing-ticket-workflow": {
    "direct": 16409,
