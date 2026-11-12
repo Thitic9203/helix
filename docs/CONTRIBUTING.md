@@ -98,6 +98,30 @@ git config core.hooksPath scripts/hooks
 
 The installer sets this automatically.
 
+## Token budget guard (session tokens may not rise)
+
+Spec: [docs/sdd/token-budget-guard](sdd/token-budget-guard/spec.md). [`token-budget.json`](../token-budget.json) holds the per-skill mandatory-read tokens (direct and via the helix router) and the always-on description bytes, measured by `scripts/token-measure.py` on the latest release. A skill change may lower these numbers or keep them, never raise them. The check runs on its own at every layer: pre-commit (staged tree), pre-push (pushed head, so a `--no-verify` commit still stops), the PR jobs `token-budget` (with a before → after table in the job summary) and `token-budget-raise`, and the `publish` job, which re-measures the exact commit before it tags. Removing a MUST / NEVER / 🔴 / STOP / GATE line also fails unless the identical line still exists elsewhere (`scripts/check-rule-lines.sh`). Each release attaches `token-report.json`, and the update command refuses a release whose report is missing or not `pass`. After each release the budget ratchets down automatically. Every measurement error counts as a fail.
+
+Run it yourself: `bash scripts/ci-token-budget.sh pr origin/main`.
+
+**Raising the budget** (for example, a new skill): open a PR titled `[token-budget-raise] <why>` that updates `token-budget.json` (`python3 scripts/token-measure.py budget --root . --tag <tag> --commit <sha> --out token-budget.json`) and quotes the owner's approval in the body as a `> ...` line. CODEOWNERS assigns the file to the owner.
+
+**Required checks on `main` (R6, owner applies once).** This ruleset lets the GitHub Actions app (integration 15368) bypass it, so the `publish` job can still push its version-bump and budget-ratchet commits:
+
+```bash
+gh api -X POST repos/Thitic9203/helix/rulesets --input - <<'EOF'
+{"name": "main: token budget + PR checks", "target": "branch", "enforcement": "active",
+ "conditions": {"ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}},
+ "bypass_actors": [{"actor_id": 15368, "actor_type": "Integration", "bypass_mode": "always"}],
+ "rules": [{"type": "required_status_checks", "parameters": {"strict_required_status_checks_policy": false,
+   "required_status_checks": [{"context": "pr-check", "integration_id": 15368},
+                              {"context": "token-budget", "integration_id": 15368},
+                              {"context": "token-budget-raise", "integration_id": 15368}]}}]}
+EOF
+```
+
+Verify it with `gh api repos/Thitic9203/helix/rules/branches/main`, which should list the three contexts.
+
 ## Adding a skill
 
 1. Copy [docs/new-skill-template.md](new-skill-template.md) → `skills/<name>/SKILL.md`
