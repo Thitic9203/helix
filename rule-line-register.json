@@ -1,0 +1,256 @@
+{
+  "entries": [
+    {
+      "removed": "Each excuse below is already answered by the rule named after it — stop and apply that rule: \"they said three, so three\" / \"one finding looks lazy\" (Iron Law: the count is what survives) · \"the file timestamp proves it\" (step 3: a proxy governs nothing) · \"nothing backs it, so it is false\" (Quick reference: unsourced claim or Question) · \"I know this API\" / \"the URL is probably right\" (Iron Law: open and quote the source) · \"fix it where it showed up\" (step 7: owning layer) · \"the title should also change\" (MUST NOT rewrite) · \"it passed the second time\" (flaky is FAILED) · \"probably the cache\" / \"`Suspected` is allowed\" / \"the guess was right\" (Hedged conclusions rules 2–4).",
+      "replaced_by": [
+        "## Rationalizations — STOP"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST verify the expected side against its governing source before reporting a defect |",
+      "replaced_by": [
+        "| MUST verify the expected side against its governing source before reporting a defect | A guess dressed as spec wastes a retest |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST report the count that survives verification, never the count claimed |",
+      "replaced_by": [
+        "| MUST report the count that survives verification, never the count claimed | Matching a claimed number is fabrication |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST open every source cited in a recommendation |",
+      "replaced_by": [
+        "| MUST open every source cited in a recommendation | A remembered citation is an invented one |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST attach a prevention layer to every defect |",
+      "replaced_by": [
+        "| MUST attach a prevention layer to every defect | Without it the finding comes back |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed |",
+      "replaced_by": [
+        "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run |",
+      "replaced_by": [
+        "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes |",
+      "replaced_by": [
+        "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes | An audit must not change what it audits |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT file a Jira bug from this workflow |",
+      "replaced_by": [
+        "| MUST NOT file a Jira bug from this workflow | Filing belongs to `create-bug-workflow` |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) |",
+      "replaced_by": [
+        "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) | An unasked edit changes delivered work |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| NEVER replace a Severity the reporter gave with your own reading — a value the matrix cannot place is a question to the reporter (Phase A3, item 3), not a correction | The reporter's severity is the title bracket; a guessed one misroutes triage |",
+      "replaced_by": [
+        "| NEVER replace a reporter-given Severity or Priority with your own pick (Phase A3 item 3) | A guessed value misroutes triage |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST use only the bug-priority-matrix vocabulary for Priority and Severity and cite the cell (Severity value from the reporter, Priority from the cell; a reporter value the cell does not match is asked, never replaced — Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |",
+      "replaced_by": [
+        "| MUST use only the bug-priority-matrix vocabulary and cite the cell (Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST enumerate **every** Expected-Result item + bug-detail bullet char-exact at Step 2, map each `ER*` id 1:1 to a verdict-table row, and reconcile `enumerated ids == rowed-and-statused rows` (`{n}/{total}` coverage, `{n}=={total}`) before Step 6 / 8·0 (7-layer coverage gate in [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md)) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |",
+      "replaced_by": [
+        "| MUST enumerate every Expected-Result item + bug-detail bullet at Step 2 and reconcile ids == rows before Step 6 / 8·0 — rule stated once at [coverage gate](#coverage-gate) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST record **every** expected-result/detail result as its own verdict-table row — NEVER park an untested/failing item in a remark, a note under the table, or chat while the verdict reads PASSED | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |",
+      "replaced_by": [
+        "| MUST record every expected-result/detail result as its own row, never in a remark, note or chat — rule stated once at [coverage gate](#coverage-gate) | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status (coverage gate fail-closed) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |",
+      "replaced_by": [
+        "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status — rule stated once at [coverage gate](#coverage-gate) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike), starting by invoking `superpowers:systematic-debugging` (Phases 1–3) and naming it in the comment | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |",
+      "replaced_by": [
+        "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike) and name the debugging skill in the comment — rule stated once at [root cause](#root-cause) | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the Step 4i challenge gate for EVERY non-PASSED item — re-verify the expected side char-exact against an authoritative source **including related/linked tickets' AC/EC**, then surface expected-vs-observed + the AC/EC finding + a recommendation (adjust expected/TC / re-test / confirm defect — the last only while the bug's ER or the task's AC is not superseded) to the user in chat before drafting the comment ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |",
+      "replaced_by": [
+        "| MUST run the Step 4i challenge gate for EVERY non-PASSED item and surface it in chat before drafting — rule stated once at [challenge gate](#challenge-gate) (confirm defect only while the bug's ER or the task's AC is not superseded) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A may then continue without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder.",
+      "replaced_by": [
+        "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A then continues without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder."
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough. Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A",
+      "replaced_by": [
+        "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, stated once at Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |",
+      "replaced_by": [
+        "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST pass the 7-layer AC/EC coverage gate — stated once at Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |",
+      "replaced_by": [
+        "| MUST pass the 7-layer AC/EC coverage gate — Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST pass the Phase C confirm gate before the first Playwright run — rule stated once at Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |",
+      "replaced_by": [
+        "| MUST pass the Phase C confirm gate before the first Playwright run — Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST drive each scenario through its real surface — stated once at Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |",
+      "replaced_by": [
+        "| MUST drive each scenario through its real surface — Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate, stated once in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |",
+      "replaced_by": [
+        "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate in [qa-evidence-capture.md](../../../references/qa-evidence-capture.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — stated once at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |",
+      "replaced_by": [
+        "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — stated once at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |",
+      "replaced_by": [
+        "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST compare every UI scenario against its design node — rule stated once at Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |",
+      "replaced_by": [
+        "| MUST compare every UI scenario against its design node — Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST cover the whole **surface** the ticket touched — its existing cases, states, and in-scope widths — not only the ticket's own AC lines | A component passed on one screen while the defect sat on another screen reusing it |",
+      "replaced_by": [
+        "| MUST cover the whole **surface** a ticket touched (its existing cases), not only the ticket's own AC lines | A card passed while the bug sat on the detail page that reused it |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) and MUST NOT accept `complete` / `correct` / `properly` / `ครบถ้วน` / `ถูกต้อง` alone as an expected | \"Shows A, B, C\" passes a wrecked screen — that screen produced five customer bugs |",
+      "replaced_by": [
+        "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) | \"Shows A, B, C\" passes a wrecked screen |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST state an expected's **verification method** (endpoint + permission) when the UI does not display the value; no method ⇒ the scenario is BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |",
+      "replaced_by": [
+        "| MUST state the verification method (endpoint + permission) for any expected the UI does not display, at the time the case is written; no method ⇒ BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST confirm the standing realistic fixture exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | One course with one media item can never overflow, wrap, or scroll |",
+      "replaced_by": [
+        "| MUST verify the standing realistic fixture set exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | A one-item fixture cannot overflow, wrap, or scroll |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST bind results to a build/commit id and re-run any surface changed after the run before results are handed over | 122/122 passed against a build the customer never saw |",
+      "replaced_by": [
+        "| MUST bind results to a build/commit id and re-run any surface changed after the run before delivering | 122/122 passed against a build the customer never saw |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST preflight the authenticated session (see the user in the session response) and confirm a toggle's starting state before pressing it | A dead session reported \"no defects\" for a whole set; a two-way button measured the opposite direction |",
+      "replaced_by": [
+        "| MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported \"no defects\" for an entire set |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty tracking field was read as \"never tested\" and became a wrong number-one root cause |",
+      "replaced_by": [
+        "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as \"never tested\" and became a wrong number-one root cause |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the cross-ticket conflict check before calling the session done — stated once at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |",
+      "replaced_by": [
+        "| MUST run the cross-ticket conflict check before calling the session done — at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "9. 🔴 GATE: confirm before the first Playwright run — stated once at WORKFLOW Phase C (bot-run branch included).",
+      "replaced_by": [
+        "9. 🔴 GATE: confirm before the first Playwright run — WORKFLOW Phase C (bot-run branch included)."
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    }
+  ]
+}
