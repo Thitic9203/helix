@@ -4,7 +4,7 @@
 
 | # | Layer | Where | Rule |
 |---|-------|-------|------|
-| 1 | Budget file, the single baseline | `token-budget.json` | R1 |
+| 1 | Budget file, the single baseline; its history may rise only through `[token-budget-raise]` commits | `token-budget.json` + `scripts/check-budget-baseline.sh` | R1 |
 | 2 | Measurement with a known-answer self-test | `scripts/token-measure.py` (ported from ols-qa-evidence `graph_v2.py`) | R2 |
 | 3 | Pre-commit refuses an increase | `scripts/hooks/pre-commit` | R3 |
 | 4 | Pre-push re-checks, catching `--no-verify` | `scripts/hooks/pre-push` | R4 |
@@ -19,7 +19,7 @@ Each layer checks on its own, so one layer being skipped never lets a release th
 
 ## Files
 
-`token-budget.json` (new), `scripts/token-measure.py` (new), `scripts/check-rule-lines.sh` (new), `scripts/hooks/pre-commit`, `scripts/hooks/pre-push`, `.github/workflows/version.yml`, `.github/CODEOWNERS` (new), `scripts/helix-auto-update.sh`, `scripts/tests/token-budget-*.test.sh` (new), `docs/CONTRIBUTING.md` (one paragraph).
+`token-budget.json` (new), `scripts/token-measure.py` (new), `scripts/check-budget-baseline.sh` (new, R1 provenance), `scripts/check-rule-lines.sh` (new), `scripts/hooks/pre-commit`, `scripts/hooks/pre-push`, `.github/workflows/version.yml`, `.github/CODEOWNERS` (new), `scripts/helix-auto-update.sh`, `scripts/tests/token-budget-*.test.sh` (new), `docs/CONTRIBUTING.md` (one paragraph).
 
 Helix CLAUDE.md says CI workflows, `helix-auto-update.sh` and hooks config need the owner's approval. They are asked together in the plan approval.
 
@@ -37,3 +37,14 @@ Python 3 standard library and bash only (free, rule 3). The CI time increase is 
 - A false fail that blocks a needed security fix. The R9 raise path with an owner quote covers it.
 - The hooks add about 1 s per commit when skill files change.
 - If the auto-update check is too strict, existing users stay on the old version. That is the intended failure mode: failing closed is safe.
+
+## R1 provenance (12/Nov/2026)
+
+The first R1 test compared the budget with a fresh measurement of its named release. An approved R9 raise
+(helix#38) can never pass that, because a raise is above the measurement by design. Weighed:
+
+- Equality only when the last change to the file is the ratchet commit: passes any later raise without
+  checking how it got there. Rejected.
+- Record the raised commit in the budget file: needs a new field written by hand in every raise PR. Rejected.
+- Chosen: the release's own copy (first commit naming the tag + commit) must equal the measurement, and each
+  later commit may raise only with `[token-budget-raise]` in its message. History is the record; no new field.
