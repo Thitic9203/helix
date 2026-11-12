@@ -1,9 +1,9 @@
 ---
 name: catch-ai-workflow
 description: |-
-  Audit finished work (output, doc, artifact, feature) by tracing claims to source; split confirmed defects from questions; fix each with source + prevention.
+  Audit finished work (doc, artifact, feature) by tracing claims to source; split confirmed defects from questions; fix each with source + prevention.
   Use when the user says CatchAI, /catch-ai, claimed errors, "check yourself", audit a deliverable, ตรวจงานตัวเองอีกรอบ; before reporting pass/defect/done; or a result rests on a guess (น่าจะ).
-  Do NOT use for bug retest, TC drafting, TC review (tc-review), ticket Playwright runs, or filing bugs.
+  Do NOT use for retest-bug, tc-fe-prep, tc-api-prep, tc-review, testing-ticket or create-bug work.
 metadata:
   proactive_triggers:
     - /catch-ai
@@ -74,7 +74,7 @@ NO FINDING WITHOUT A VERIFIED EXPECTED SIDE
 
 Before reporting anything as wrong, name the source that defines what it should be, and quote it. No source, no finding — it becomes a Question instead. This is the same rule the QA workflows enforce: a screen differing from what you *think* the design says is not a defect until the design itself is read.
 
-**Every recommendation carries its source.** Open the document, quote the part that says it, record version and date. Naming a standard from memory, guessing a URL, or inventing a flag, rule, or API you did not read is fabrication — the defect this workflow exists to catch. When nothing governs the point, label the advice **Judgment** and state the trade-off.
+**Every recommendation carries its source.** Open the document, quote the part that says it, record version and date (an external document; a workspace or skill file is cited by path and heading, never by commit — [reference.md § Citation rules](reference.md#citation-rules)). Naming a standard from memory, guessing a URL, or inventing a flag, rule, or API you did not read is fabrication — the defect this workflow exists to catch. When nothing governs the point, label the advice **Judgment** and state the trade-off.
 
 **The count is whatever survives verification.** If the user says there are three mistakes and one survives, report one. If none survive, report `No issue found.` Matching a claimed count is fabrication, not thoroughness.
 
@@ -95,7 +95,7 @@ part of this workflow (see [MUST / NEVER](#must--never)); Priority comes from th
 3. **Name the governing source for each** — spec, Figma frame, acceptance criterion, OpenAPI path, DB schema, ticket, or data file. A proxy that merely correlates (a file timestamp, a similar page, your own earlier message) governs nothing. Output: the source next to each inventory item.
 4. **Inspect the actual side directly** — read the file, run the command, call the endpoint, open the screen. Capture verbatim. Read-only inspection only, in this step and in every later check (step 7, [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rule 3): a command or call that writes, sends, deletes or changes state (POST/PUT/DELETE, a migration, a post, a create) → 🔴 ask the owner first and wait; without that yes the item is a Question. Output: the verbatim actual next to each item.
 5. **Compare character-exact** and classify each item.
-   - a. Classes: Defect / Defect (unsourced claim) / Defect (hedged conclusion) / Question / checked-clean. A conclusion the audited work closed on a hedge is a Defect (hedged conclusion), never checked-clean — see [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom); it counts in the Defect tally.
+   - a. Classes: Defect / Defect (unsourced claim) / Defect (hedged conclusion) / Question / checked-clean. Defect (hedged conclusion): see [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom); it counts in the Defect tally.
    - b. Output: a classification table (item · expected + source · actual · class), then a count line that tallies each class on its own — `Defects (actual ≠ sourced expected): N · Unsourced claims: N · Questions: N · Clean: N`.
    - c. 🔴 An unsourced claim keeps its severity and its cite-or-remove correction, but is never added to the Defect count, and no row is reclassified to reach the number the user claimed ([The Iron Law](#the-iron-law) — the count is whatever survives verification).
    - d. When any tally, or their sum, equals the claimed number, apply the first [red flag](#red-flags--start-over) before reporting — once; its exit rule says when the matching count stands.
@@ -107,9 +107,6 @@ part of this workflow (see [MUST / NEVER](#must--never)); Priority comes from th
 **🔴 CHECKPOINT after step 9:** present the report and stop. Hand a confirmed defect to
 `create-bug-workflow`, or apply any Correction to the audited work, only after the owner approves
 that specific hand-off or edit in chat.
-
-Audit dimensions, evidence standard, severity, verdict, prevention layers, the standard-source
-registry, and the report template: [reference.md](reference.md).
 
 ## Hedged conclusions — dig to the deepest layer [low freedom]
 
@@ -150,7 +147,7 @@ item to Procedure step 4 — Inspect the actual side directly — and then step 
 | Expected side cannot be confirmed | **Question** — never a defect |
 | Actual side cannot be observed | **Question** — say what access is missing |
 | Claim has no governing source, in a deliverable that declares its sources | **Defect (unsourced claim)** — cite it or remove it, never assert the true value |
-| Conclusion closed on a hedge (น่าจะ / อาจจะ / probably …) with no artifact | **Defect (hedged conclusion)** — dig to the deepest layer until Confirmed, or keep it open as a Question naming the missing check |
+| Conclusion closed on a hedge (น่าจะ / อาจจะ / probably …) with no artifact | **Defect (hedged conclusion)** — [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–4 |
 | Matches its source | **Checked, no issue found** |
 | Nothing covers it at any level | **Coverage gap** — reported separately from defects |
 | An item a wrong aggregate claim covers ('all N PASSED') but nothing tested | The aggregate claim is **one Defect**; the untested item is a **Coverage gap** only, never a second Defect |
@@ -161,14 +158,23 @@ item to Procedure step 4 — Inspect the actual side directly — and then step 
 
 ## Rationalizations — STOP
 
-Each excuse below is already answered by the rule named after it — stop and apply that rule: "they said three, so three" / "one finding looks lazy" (Iron Law: the count is what survives) · "the file timestamp proves it" (step 3: a proxy governs nothing) · "nothing backs it, so it is false" (Quick reference: unsourced claim or Question) · "I know this API" / "the URL is probably right" (Iron Law: open and quote the source) · "fix it where it showed up" (step 7: owning layer) · "the title should also change" (MUST NOT rewrite) · "it passed the second time" (flaky is FAILED) · "probably the cache" / "`Suspected` is allowed" / "the guess was right" (Hedged conclusions rules 2–4).
+| Excuse | Answer |
+|---|---|
+| "They said three, so three" / "one finding looks lazy" | Iron Law: the count is what survives |
+| "The file timestamp proves it" | Step 3: a proxy governs nothing |
+| "Nothing backs it, so it is false" | Quick reference: unsourced claim or Question |
+| "I know this API" / "the URL is probably right" | Iron Law: open and quote the source |
+| "Fix it where it showed up" | Step 7: the owning layer |
+| "The title should also change" | MUST NOT rewrite beyond the corrections |
+| "It passed the second time" | Flaky is FAILED |
+| "Probably the cache" / "`Suspected` is allowed" / "the guess was right" | Hedged conclusions rules 2–4 |
 
 ## Red flags — start over
 
 - Your finding count equals the number the user claimed.
 - A finding whose Expected line has no source, or cites your own prior output.
 - "should be", "seems", "probably", or "looks wrong" in an Expected line.
-- A hedge (น่าจะ, อาจจะ, probably, likely …) in any conclusion line of your report, or a `Suspected` root cause closing a defect while its confirming check was runnable.
+- Your report breaks [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rule 5, or a `Suspected` cause closes a defect while its check was runnable.
 - A defect written for something you could not actually observe.
 - A cited document you did not open in this session, or a URL with no version and no date.
 - A recommended flag, rule, option, or API you did not read in its own documentation.
@@ -183,7 +189,7 @@ Each excuse below is already answered by the rule named after it — stop and ap
 
 Run [result-quality-gate.md](../../references/result-quality-gate.md) — all 20 layers, every case, PASSED
 ones included — **before this audit confirms or rejects any test verdict in the audited work**. Write one final result line per case (older lines marked
-`superseded`), run the mechanical layers with the workspace's checker when it has one (`test -f tools/result-gate/check.js` → run the `node tools/result-gate/check.js …` command in [result-quality-gate.md](../../references/result-quality-gate.md) step 2), walk the
+`superseded`), run the mechanical layers with `node tools/result-gate/check.js …` (its step 2) when `tools/result-gate/check.js` exists, walk the
 judgement layers, and paste the checker's last output line (or the counted hand check) into the
 round's record. No `tools/result-gate/` in the workspace → walk all 20 layers by hand, count them,
 and say in the record that the check was by hand ([dependencies.md](../../references/dependencies.md),
@@ -210,37 +216,34 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + this work
 - [ ] Every fix carries a source that was opened in this session, or is labelled Judgment.
 - [ ] Every defect carries a prevention layer.
 - [ ] Coverage gaps listed separately from defects.
-- [ ] Every hedged conclusion in the audited work is a Defect (hedged conclusion), dug to `Confirmed` or held open as a Question naming the missing check; the report's own conclusion lines carry no hedge (run the [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) `grep -nE` on the draft — hits outside verbatim quotes = not done).
+- [ ] [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 1–5 done (run its `grep -nE` on the draft — hits outside verbatim quotes = not done).
 - [ ] Verdict stated: PASSED / PWMI / FAILED / BLOCKED / No issue found, per [reference.md § Verdict](reference.md#verdict).
 
 **Go back:** An unchecked item returns to its Procedure step — scope → 1; defect fields → 4–5; Question vs defect → 5; hedged conclusion → 4 then 7; fix source or prevention → 8; coverage gaps → 6; verdict → 9.
 
 ## MUST / NEVER
 
-| Rule |
-|------|
-| MUST verify the expected side against its governing source before reporting a defect |
-| MUST report the count that survives verification, never the count claimed |
-| MUST open every source cited in a recommendation |
-| MUST attach a prevention layer to every defect |
-| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed |
-| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run |
-| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes |
-| MUST NOT file a Jira bug from this workflow |
-| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) |
+| Rule | Because |
+|------|---------|
+| MUST verify the expected side against its governing source before reporting a defect | A guess dressed as spec wastes a retest |
+| MUST report the count that survives verification, never the count claimed | Matching a claimed number is fabrication |
+| MUST open every source cited in a recommendation | A remembered citation is an invented one |
+| MUST attach a prevention layer to every defect | Without it the finding comes back |
+| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |
+| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes | An audit must not change what it audits |
+| MUST NOT file a Jira bug from this workflow | Filing belongs to `create-bug-workflow` |
+| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) | An unasked edit changes delivered work |
 
 ## Must-read files
-
-See also (optional lookup, not a must-read): [skill-reference-index.md](../../references/skill-reference-index.md) lists every shared reference.
 
 Open each file below at the step that names it, never all up front.
 
 **Read for every audit:**
 
-- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (9 steps — keep the todo list).
+- At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) (the progress checklist is the todo list).
 - Before any message to the user: [user-communication.md](../../references/user-communication.md); before asking or stopping on a missing input: [skill-rules-style.md](../../references/skill-rules-style.md); before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
 - Step 7 and Hedged conclusions rule 3, before naming a cause for any failure: [root-cause-investigation.md](../../references/root-cause-investigation.md).
-- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and, for every audit, the [pre-delivery 7-layer gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester). At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
+- Step 9, before the verdict or any completion claim: [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and, for every audit, the [pre-delivery 7-layer gate](../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester). No test case in scope (a document): layer 1 = recount the step-2 inventory from source now; 2 = every item has a classification row; 3 = open every audited file and cited source; 4–7 as written; none skipped. At steps 4–5, read its topic parts only when the audit judges that evidence: [qa-evidence-capture.md](../../references/qa-evidence-capture.md) when the audited evidence is a recording or screenshots; [qa-evidence-rerecord.md](../../references/qa-evidence-rerecord.md) when the audited work re-recorded delivered evidence; [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) when it judges a test run's AC/EC coverage.
 - QA closing: [qa-closing-shared.md](../../references/qa-closing-shared.md); at session end [session-closing.md](../../references/session-closing.md).
 
 **Read only when the audit target needs it.** This workflow never posts, files or runs anything on its own; read only the group(s) matching the step-1 target:

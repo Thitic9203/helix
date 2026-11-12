@@ -270,7 +270,7 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
 1. **Dispatch reviewer(s).** Give each reviewer the ticket's **verbatim AC/EC + seed** and the current
    TC draft **as a file path, not pasted text** (owner G3, 2026-11-11: write the draft to the working-draft
    file below and give each reviewer its path plus the ticket's AC/EC + seed; the reviewer reads the file
-   itself — the check list and the ≥2-reviewer rule are unchanged), and instruct them to judge **only** against the ticket content (no requirements of their
+   itself — the check list and the reviewer count are unchanged: one reviewer by default, ≥2 per round only on the thorough request below), and instruct them to judge **only** against the ticket content (no requirements of their
    own). Each must check: every AC/EC covered; **nothing fabricated** (no invented role, service,
    surface, count, severity, or EC the ticket never states); scope honored (per the user's Step 2a/2.5
    decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability. For
@@ -313,7 +313,7 @@ reviewers were unavailable, and keep the same binary verdict and exit rule (step
 
 Because content is Thai by default but some terms stay in English (Step 3b), the user MUST see and approve the term choices **before** any content is written to the real TC file.
 
-After the Step 4 review passes and before showing the full draft (Step 5), post the term table in chat:
+🔴 GATE — STOP: after the Step 4 review passes and before showing the full draft (Step 5), post the term table in chat:
 
 ```
 **Thai ↔ English terms used in this TC set**

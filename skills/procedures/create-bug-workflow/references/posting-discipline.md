@@ -32,5 +32,5 @@ session). Otherwise follow the next branch there — REST with credentials, or h
 
 - Fetch or open each issue URL.
 - Compare title **and** body (and Priority/Severity) to the approved draft — the full check and its
-  mismatch gate are [WORKFLOW Phase F](../WORKFLOW.md#phase-f--fix-verify-and-close-mandatory-low-freedom).
+  mismatch gate are [phase-f-close.md](../phase-f-close.md).
 - Report failures explicitly.

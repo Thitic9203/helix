@@ -36,12 +36,12 @@ Save as `references/{project-name}-retest-guide.md` in the **user's workspace**.
 
 ### Session restore commands (login by command)
 
-Claude never opens a login window. It shows each command to the user as its own `bash` block, and the user presses Run.
+Claude never opens a login window. Record the command names here; the combined `bash` blocks built from them are in [execute-and-evidence.md §4b](../execute-and-evidence.md#4b-login).
 
-| Step | Template |
-|------|----------|
-| Relink (no password; every needed account, one combined block) | `cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" \|\| echo "$a FAILED (log: /tmp/relink-$a.log)"; done` |
-| Setup/mint (only accounts whose relink FAILED, one combined block) | `cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" \|\| echo "$a FAILED (log: /tmp/mint-$a.log)"; done` |
+| Item | Value |
+|------|-------|
+| Relink command (no password) | `<relink-command>` |
+| Setup/mint command (only accounts whose relink FAILED) | `<mint-command>` |
 | Probe (Claude runs it) | `<session endpoint>` returns the account's user id |
 
 ## API architecture
@@ -63,7 +63,7 @@ Short note: which portal calls which gateway, auth headers, etc.
 
 1. Response code must match Swagger.
 2. Message vs error docs if Swagger is silent.
-3. Both match → PASSED; code mismatch → FAILED; ambiguous → BLOCKED.
+3. Both match → PASSED; code or message mismatch → not PASSED (PWMI / FAILED per the [verdict rule](../WORKFLOW.md#verdict-rule)); Swagger and error docs both silent → BLOCKED.
 
 ## Jira transitions (required — project-specific)
 

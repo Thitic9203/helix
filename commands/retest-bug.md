@@ -10,4 +10,4 @@ Pass arguments after `/retest-bug` as the Jira issue key or URL — a Bug, or a 
 
 Every UI retest compares the screen against its Figma node; if a screen has no design reference, report that back to whoever asked for the retest and leave its visual points BLOCKED. The posted comment always carries the **test-case list**.
 
-Follow [references/user-communication.md](../references/user-communication.md). Draft the Jira comment before posting; get user approval unless they waive it.
+Follow [references/user-communication.md](../references/user-communication.md). Draft the Jira comment before posting and get the Step 6d approval; a general cue ("don't ask") never waives it — only an outward action the owner delegated by name (comment-and-post.md, *Delegated actions*).

@@ -41,7 +41,7 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 - [ ] **All TC rows present** — count rows on Jira UI, must match approved draft row count
 - [ ] **Shared data preparation section** visible above table (when the approved draft has one)
 - [ ] **Precondition note** visible (when the approved draft has one)
-- [ ] **Table header row** visible with all column names — every column has an explicit, **all-English** header; row-number column reads `No.` (a bare `#` renders as a **blank** header cell in Jira)
+- [ ] **Table header row** visible with all column names — every column has an explicit, **all-English** header; row-number column reads `No.` (tc-fe-prep slim table: `ID`; a bare `#` renders as a **blank** header cell in Jira)
 - [ ] **Footer** visible (CSV/Excel reference line, attachment link)
 
 ### 2. Content accuracy
@@ -70,7 +70,7 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 ### 5. Attachment (when CSV/Excel was generated)
 
 - [ ] **CSV or Excel file attached** to the same Jira issue (not just in workspace)
-- [ ] **Attachment filename** matches convention (`{ISSUE_KEY}_FE_TC.csv` or similar)
+- [ ] **Attachment filename** matches convention (tc-fe-prep: `Draft_Jira_{KEY}.csv`, `Import_Qase_{KEY}.csv` + typed CSVs; tc-api-prep: `{SCOPE}_API_TC.csv`/`.xlsx`)
 - [ ] **Attachment opens correctly** — row count matches table, Thai characters intact
 - [ ] **Footer link** in comment points to the actual attachment (not a broken/missing link)
 

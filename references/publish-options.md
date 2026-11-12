@@ -72,7 +72,7 @@ Full rules: [jira-linebreak-conversion.md](jira-linebreak-conversion.md).
 2. Set CSV data + ADF on `window.*` vars (Pattern A).
 3. Run single JS: upload CSVs + post ADF comment in one call (Pattern B).
 4. Read `window.__fastPublish` for status (Pattern C).
-5. Append footer paragraph with attachment links using captured `att1Id`/`att2Id`.
+5. Pattern B fills each `__ATT{n}_ID__` before posting.
 
 **Do not** inline CSV content as JS string literals — use `window.*` pre-set pattern always.
 
@@ -83,7 +83,7 @@ Full rules: [jira-linebreak-conversion.md](jira-linebreak-conversion.md).
 **Use when:** No Jira API or browser automation.
 
 Deliver to user:
-- Full markdown in chat.
+- Full markdown in chat (tc-fe-prep: `.adf.json` + `.preview.md` paths, never the TC table).
 - CSV file in workspace `references/`.
 - Short instructions: attach CSV, paste markdown, verify row count.
 

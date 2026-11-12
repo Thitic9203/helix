@@ -1,6 +1,6 @@
 # Workspace guide discovery (every workflow)
 
-Run **once** at the start of a workflow (after reciting session constraints, before detailed intake). Search the **user’s open workspace** — never the Helix install repo.
+Run **once** at the start of a workflow (after reciting session constraints, before detailed intake). Search the **user’s open workspace**.
 
 ## Works best with
 
@@ -50,8 +50,8 @@ Skipped questions: {list fields you will not re-ask}
 
 1. Say no workspace guide was found for this workflow.
 2. Ask by the workflow's own intake rule: retest-bug and tc-fe-prep — its `references/project-config-template.md`, **one question at a time**; testing-ticket — Phase A with `references/workspace-guide-template.md`, and create-bug — Phase A (no template): every missing field in **one grouped message**.
-3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` in the user’s repo
-   (create the file when it does not exist) — no second "save this?" question; the answer is the consent
+3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` (retest-bug: `{PROJECT}-retest-guide.md`) in the
+   user’s repo (create it if missing) — no second "save this?" question; the answer is the consent
    ([round-time-contract.md §2](round-time-contract.md#2-no-mid-run-waits)). Never write production
    passwords or other secrets into the guide — store only where the credential lives (env var name,
    vault entry).

@@ -20,7 +20,7 @@ Draft TC FE as below
 
 | **Acceptance Criteria** | **Services Impacted** | **Test Case ID** | **Test Title** | **Precondition** | **Test Data** | **Test Steps** | **Expected Result** | **Priority** | **Type** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AC_01: {AC_SUMMARY} | - {SERVICE} | TC_{Feature}_01 | {TITLE} | 1. ทำ shared prep (ข้อ 1–5) ครบแล้ว<br>2. {EXTRA_PRE} | 1. {DATA} | 1. {STEP}<br>2. {STEP} | 1. {EXPECTED}<br>2. {EXPECTED} | High | System Test |
+| AC_01: {AC_SUMMARY} | {SERVICE} | 1 | {TITLE} | 1. ทำ shared prep (ข้อ 1–5) ครบแล้ว<br>2. {EXTRA_PRE} | 1. {DATA} | 1. {STEP}<br>2. {STEP} | 1. {EXPECTED}<br>2. {EXPECTED} | High | System Test |
 
 **Remark — Type coverage:**
 - No *Integration Test* cases for this ticket.
@@ -30,11 +30,11 @@ Draft TC FE as below
 Allowed Type values: `System Test` | `Unit Test` | `Integration Test`. List only absent types in the Remark.
 
 > Up to 5 CSV files are produced from this table and uploaded to Jira:
-> - `Draft_Jira_{ISSUE_KEY}.csv` — same 10-column schema as this table (Jira comment format)
+> - `Draft_Jira_{ISSUE_KEY}.csv` — the same columns as this table (Jira comment format)
 > - `Import_Qase_{ISSUE_KEY}.csv` — Qase schema (AC/EC, Title, Preconditions, Priority, Type, Status=`Done`, Suite, Steps, Tags) — see [qase-import-format.md](qase-import-format.md)
-> - `Unit_Test_{ISSUE_KEY}.csv` — 10-column, filtered to Unit Test rows only *(generated only if Unit Test TCs exist)*
-> - `Integration_Test_{ISSUE_KEY}.csv` — 10-column, filtered to Integration Test rows only *(generated only if Integration Test TCs exist)*
-> - `System_Test_{ISSUE_KEY}.csv` — 10-column, filtered to System Test rows only *(generated only if System Test TCs exist)*
+> - `Unit_Test_{ISSUE_KEY}.csv` — 13 English columns ([csv-template-types.md](../../../../references/csv-template-types.md)), filtered to Unit Test rows only *(generated only if Unit Test TCs exist)*
+> - `Integration_Test_{ISSUE_KEY}.csv` — 9 Thai columns ([csv-template-types.md](../../../../references/csv-template-types.md)), filtered to Integration Test rows only *(generated only if Integration Test TCs exist)*
+> - `System_Test_{ISSUE_KEY}.csv` — 9 Thai columns ([csv-template-types.md](../../../../references/csv-template-types.md)), filtered to System Test rows only *(generated only if System Test TCs exist)*
 >
 > All generated files are uploaded to Jira and linked in the comment footer (📎 **Attachments:**).
 >
@@ -59,5 +59,5 @@ Allowed Type values: `System Test` | `Unit Test` | `Integration Test`. List only
 **Depends on prior case:**
 
 ```text
-1. ทำ shared prep (ข้อ 1–5) ครบแล้ว<br>2. ทำขั้นตอนถึง TC_{Feature}_07 ครบแล้ว; {MODAL} เปิดอยู่
+1. ทำ shared prep (ข้อ 1–5) ครบแล้ว<br>2. ทำขั้นตอนถึง TC 7 ครบแล้ว; {MODAL} เปิดอยู่
 ```

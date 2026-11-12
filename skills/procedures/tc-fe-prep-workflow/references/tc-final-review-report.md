@@ -97,7 +97,7 @@ Build a traceability table for the report (see output template).
 
 ## User-facing report (mandatory before "done")
 
-Post this report in chat **immediately before** Step 8 session closing. Use **direct tone** — no polite particles or filler closings.
+Post this report in chat **immediately before** Step 8 session closing.
 
 Do **not** say TC prep is complete until this report is posted with overall **PASS** (or **PASS with non-blocking improvements**).
 
@@ -180,7 +180,7 @@ Compared final TC against story **{ISSUE_KEY}** ({summary short}).
 - **FAIL** overall → fix and re-run; do not proceed to Step 8.
 - **PASS** with non-blocking improvements → proceed to Step 8; list improvements without blocking.
 - Keep prose concise; tables carry the evidence.
-- Language: follow [user-communication.md](../../../../references/user-communication.md) for chat (English default). Match ticket language for quoted UI strings and error messages.
+- Language: follow [user-communication.md](../../../../references/user-communication.md) for chat. Match ticket language for quoted UI strings and error messages.
 
 ---
 

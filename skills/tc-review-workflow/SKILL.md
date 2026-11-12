@@ -107,9 +107,11 @@ a cloud id, never fall back to a browser login to read it.
    missing fields, tabs that do not load) → tell the user the exact error or what is missing, do not build
    the matrix from partial AC/EC or a partial TC document, hand the failure to
    `superpowers:systematic-debugging`, and resume Step 1 only once the full text loads.
-3. If a design source (Figma, PRD) is linked and the user wants it cross-checked, open it this session.
+3. Cross-check a design source (Figma, PRD) only when the user asks (a link alone is not a request); open it this session.
    If it cannot be opened (no session, no access, view-only with no rendered content), record that
    plainly — it becomes a "not verified" note next to any related finding, never a silent skip.
+
+Output: TC source id, quoted AC/EC list, any `not verified` note.
 
 ---
 
@@ -172,6 +174,8 @@ convention, column order, priority labels) unless the user asks for a style revi
 overrides tc-quality-standards.md here: ignore its Priority attribute and its review-gate
 "Priorities assigned" line unless the user asks for a style review.
 
+Output: per flagged row, signal + quoted cell → Step 4 Need Improve.
+
 ---
 
 ## Step 3b — Source sweep before "ask the PO / reporter" (mandatory) [low freedom]
@@ -230,7 +234,7 @@ X"), regenerate the list from Steps 2–3 with that category removed — do not 
 since the same category will resurface differently worded next time otherwise.
 
 **Language:** match the ticket's / TC document's own language by default. Mixed = the ticket's AC/EC and the TC
-document are written in different languages → ask the user once which language to write the review in.
+document are written in different languages → 🔴 **STOP —** ask the user once which language to write the review in.
 Helix menus, intake questions and the thread question follow the user's language per
 [user-communication.md](../../references/user-communication.md); only the review content itself follows the
 destination document's language.
@@ -250,7 +254,7 @@ placeholder, thread rule, mention rule). The real ids and the webhook live in th
 named there (one webhook file per thread, e.g. `discord_webhook_tc_review_<thread>`), never in the repo.
 
 - **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already
-  in config, so asking again is a repeat question (#0059). Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or
+  in config, so asking again is a repeat question (#0059). 🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or
   recorded in the config as options. The answer is the go-ahead to send. Where the workspace carries
   `tools/ask-guard` (workspace-optional, see [dependencies.md](../../references/dependencies.md)), it
   blocks the channel question for such projects (state `fixed-destination`); without it, apply the same
@@ -270,12 +274,11 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
    config § *TC review notify* — never ask the user for it. Only when the config has none for the person to
    mention, ask for the exact id rather than guessing one from a display name — a wrong id either pings nobody or pings the wrong person. The same
    holds for a channel or thread id: never invent one; it comes from config or from the user's answer.
-2. Use the wording conventions already established for that surface in this workspace (e.g. a fixed term
-   for "ticket" in the destination's language) — check the workspace's own rules before sending; do not
-   invent new wording.
+2. Use the wording conventions in the project guide § *TC review notify* (above), e.g. a fixed term for
+   "ticket". None there → keep the wording of the review shown in chat; never invent new terms.
 3. **Fit the platform's message limit before sending** (Discord: 2,000 characters). Count the characters.
    If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
-   Still over after tightening → stop, show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
+   Still over after tightening → 🔴 **STOP —** show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
 4. A thread is reached through a webhook plus `thread_id`. Without `thread_id` the message lands in the
    parent channel. Use the webhook the user gave for that thread, and keep it in local secrets, never in
    the repo. **Webhook file for the chosen thread missing** from the secrets folder → ask the user for it
@@ -351,18 +354,15 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | NEVER count or mention a struck-through AC/EC |
 | NEVER report a business rule or comment that does not conflict with an AC/EC |
 | MUST give every Need Improve item a sourced "→ Suggest:" fix, and NEVER invent a value for it |
-| MUST run Step 5 exactly as written — it is the single source for the notify rules |
 | MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat |
 
 ## Must-read files
-
-See also (optional lookup, not a must-read): [skill-reference-index.md](../../references/skill-reference-index.md) lists every shared reference.
 
 Open each file below at the step that names it, never all up front.
 
 - At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) when the run has many steps (keep the todo list).
 - Before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
-- At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (AC/EC coverage and pre-delivery gates, applied to the review before it is handed over; capture and re-record parts never apply — this workflow records no evidence); at session end [session-closing.md](../../references/session-closing.md).
+- At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (to the matrix: only coverage layers 1, 2, 4, 6, 7 and pre-delivery 1, 4, 6, 7 apply — no test run, evidence or verdict here; no Out-of-scope block names a struck-through AC/EC or non-conflicting rule — Step 2 wins); at session end [session-closing.md](../../references/session-closing.md).
 
 ### Only if triggered (exact condition on each line)
 

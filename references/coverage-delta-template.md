@@ -8,9 +8,9 @@ Post this block in chat **immediately after** the coverage review block and **be
 ━━━ Coverage delta (FE) ━━━
 | AC/EC | Status | TC ID(s) | Action taken |
 |-------|--------|----------|--------------|
-| AC_01 | OK     | TC_x_01  | —            |
-| EC_02 | GAP    | —        | Added TC_x_05 |
-| —     | ORPHAN | TC_x_99  | Removed (no AC/EC) |
+| AC_01 | OK     | 1        | —            |
+| EC_02 | GAP    | —        | Added 5      |
+| —     | ORPHAN | 99       | Removed (no AC/EC) |
 
 Summary: {n} gaps closed · {n} orphans removed · {n} scope trims
 ━━━━━━━━━━━━━━━━━━━━━━━━━━

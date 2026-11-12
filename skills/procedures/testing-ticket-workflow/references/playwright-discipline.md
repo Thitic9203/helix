@@ -42,5 +42,5 @@ If the workspace has Playwright E2E:
 
 ## Session credentials
 
-- Start each context from the account's saved login file. Login by command, never a login window or a password — stated once at [WORKFLOW.md](../WORKFLOW.md) Phase D *Fresh login*.
+- Start each context from the account's saved login file. Login by command, never a login window or a password — [WORKFLOW.md](../WORKFLOW.md) Phase D *Fresh login*.
 - Do not commit credentials to spec files or guides.

@@ -1,12 +1,13 @@
 # Jira Fast Publish
 
-Single-JS publish patterns for Jira comment + CSV upload. Reduces publish from 8–12 tool calls to 3.
+Single-JS publish patterns for Jira comment + CSV upload.
 
 **Use with:** a browser-JS tool that runs in the page context of the logged-in Jira tab, so `fetch()` carries the
 Jira session — for example `Control_Chrome__execute_javascript`. A tool that runs in an isolated extension sandbox
 does not qualify (`Claude_in_Chrome__javascript_tool` cannot access Jira pages). No qualifying tool in the session →
 post the same body through the Jira REST API with curl (`POST /rest/api/3/issue/{KEY}/attachments` with
 `X-Atlassian-Token: no-check`, then `POST /rest/api/3/issue/{KEY}/comment`) and verify the same way.
+tc-fe-prep never curls: WORKFLOW Step 7 failure branch.
 
 ---
 
@@ -145,7 +146,7 @@ Runs after Pattern A. Uploads every file in `window.__files` in order, replaces 
 })();
 ```
 
-**Filenames (tc-fe-prep upload order):** `Draft_Jira_{ISSUE_KEY}.csv`, `Import_Qase_{ISSUE_KEY}.csv`, then each generated typed CSV in order `Unit_Test`, `Integration_Test`, `System_Test` — at most 5 files. tc-api-prep uploads one CSV.
+**Filenames (tc-fe-prep upload order):** `Draft_Jira_{ISSUE_KEY}.csv`, `Import_Qase_{ISSUE_KEY}.csv`, then each generated typed CSV in order `Unit_Test`, `Integration_Test`, `System_Test` — at most 5 files. tc-api-prep uploads each generated file (`{SCOPE}_API_TC.csv` / `.xlsx`).
 
 **ADF placeholders:** Build the full ADF JSON before this call with exactly one literal `__ATT{n}_ID__` per uploaded file (n = its position in `window.__files`, 1-based). Pattern B refuses to post when a placeholder is left unfilled.
 
