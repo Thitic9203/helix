@@ -8,6 +8,7 @@ Split from [qa-evidence-gates.md](qa-evidence-gates.md) (core gate function, cla
 - [Capture scope — every role, every step, every target the ticket names](#capture-scope--every-role-every-step-every-target-the-ticket-names)
   - [Capture red flags — STOP, this recording is not evidence yet](#capture-red-flags--stop-this-recording-is-not-evidence-yet)
   - [Still spec — the screenshots carry most of the verdicts, so they get a floor too](#still-spec--the-screenshots-carry-most-of-the-verdicts-so-they-get-a-floor-too)
+  - [Narrow-width rows](#narrow-width-rows)
 - [MP4 evidence — 7-layer quality + correctness defense gate (mandatory, fail-closed)](#mp4-evidence--7-layer-quality--correctness-defense-gate-mandatory-fail-closed)
   - [Capture spec — the pipeline layers 1 / 1b / 1c are measured against](#capture-spec--the-pipeline-layers-1--1b--1c-are-measured-against)
 
@@ -101,13 +102,17 @@ The rules are the same shape as the clip's, and the same instrument idea: measur
 
 | | Rule |
 |---|---|
-| **Size** | A full-viewport still is **≥ 1920 px wide**. At `deviceScaleFactor` 2 a 1920×1080 viewport produces a **3840×2160** file, so anything under 1920 was not captured at the gate's resolution — and a small still cannot be sharpened afterwards. A still embedded in a Jira comment cell is a **resized copy** (~600–640 px wide, `retest-bug-workflow/comment-and-post.md` § Step 7c) of a verified ≥ 1920 px original; the original is the evidence of record — it is the file `verify_shot.py` measures and it is kept with the run. |
+| **Size** | A full-viewport still is **≥ 1920 px wide** (a row run narrower: [*Narrow-width rows*](#narrow-width-rows)). At `deviceScaleFactor` 2 a 1920×1080 viewport produces a **3840×2160** file, so anything under 1920 was not captured at the gate's resolution — and a small still cannot be sharpened afterwards. A still embedded in a Jira comment cell is a **resized copy** (~600–640 px wide, `retest-bug-workflow/comment-and-post.md` § Step 7c) of a verified ≥ 1920 px original; the original is the evidence of record — it is the file `verify_shot.py` measures and it is kept with the run. |
 | **Crop** | A deliberate zoom crop of one element is legitimately smaller. Name it `…-ER_<n>_zoom.png` (or `_crop`), which is what waives the width floor — an unnamed small still is a failure, not a crop. |
 | **Not blank** | Luma must actually vary. A white/black frame is the classic still taken before the page painted: it passes an existence check and proves nothing. |
 | **No QA overlay** | The injected URL bar belongs in the **video only** — hide it for the still and put it back **inside** the recorder's hold, so the clip neither ends bar-less nor jolts. |
 | **Shows the ER** | Human work: that it is the right screen, and that the value under verification is in frame and readable. |
 
 Measured by **`capture/verify_shot.py`** (same toolkit as the recorder): `python3 capture/verify_shot.py <file.png>…` — size, blankness and format; it says plainly that the rest is yours.
+
+### Narrow-width rows
+
+A row the plan runs under 1920 px wide (a tablet or mobile width) keeps its own width — never a 1920 px capture claimed for it. Its stills use `deviceScaleFactor` 2 at that width, so each is **≥ 2 × the row width** (the desktop floor's density), with the width in the name (`…-ER_<n>_w375.png`). Its clip cannot pass layer 1 while the recorder refuses any viewport under 1920×1080 (*Capture spec*), so the row is **BLOCKED** under [no-wait-decision-gate.md](no-wait-decision-gate.md) layer 17 with the layer-18 record — never PASSED or FAILED on stills ([result-quality-gate.md](result-quality-gate.md) layer 10).
 
 ## MP4 evidence — 7-layer quality + correctness defense gate (mandatory, fail-closed)
 
@@ -117,7 +122,7 @@ The run that executes the case can be the recording — no separate capture pass
 
 | # | Layer | Passes only when |
 |:--:|---|---|
-| **1** | **Max quality** | Recorded to the **capture spec below** — viewport ≥ 1920×1080, `deviceScaleFactor` 2, H.264 **CRF 18 preset slow**, `yuv420p` limited-range, `+faststart`, **no downscale that blurs text**. On-screen labels legible at 100%. |
+| **1** | **Max quality** | Recorded to the **capture spec below** — viewport ≥ 1920×1080 ([*Narrow-width rows*](#narrow-width-rows)), `deviceScaleFactor` 2, H.264 **CRF 18 preset slow**, `yuv420p` limited-range, `+faststart`, **no downscale that blurs text**. On-screen labels legible at 100%. |
 | **1b** | **Steady picture** | No frozen frame inside a moving stretch, and no visible flicker / pumping / stutter / blink when watched at 100%. **≤ 5% of moving frames are allowed to be repeats** of their predecessor, excluding the still-holds the manifest **declares** — and those can cover **at most 25% of the clip**: past that the exclusion has eaten the rule, and the honest verdict is *a clip this static cannot judder, but nothing was proven either*. Measured by the verifier named below, never from memory. |
 | **1c** | **Provenance** | The clip came from the capture pipeline below at the rate it claims — a run manifest exists, names the pipeline `cdp-screencast->x264`, and matches the delivered file (name · resolution · fps). **What cannot be checked has not passed** (ตรวจไม่ได้ = ไม่ผ่าน): no manifest = layer red, not a waiver. A cut made by `freeze_cut.py` carries its own manifest with an `edit` record that verify re-proves against the original ([exception below](#mp4-evidence--7-layer-quality--correctness-defense-gate-mandatory-fail-closed)); a cut beside a copied original manifest is red. |
 | **2** | **Whole flow, no skip** | Drives **every** Test Step from the start, on the **real surface** (UI → clicks, not an API shortcut) — no jump-cut, no starting mid-flow, no fast-forward past a step. |

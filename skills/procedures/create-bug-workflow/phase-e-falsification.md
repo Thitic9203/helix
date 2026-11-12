@@ -38,7 +38,7 @@ Then give each candidate one label, written on its draft summary line:
 
 Two observations that contradict each other (one shows the defect, one does not) → never re-run it
 yourself: ask the reporter for one clean re-run of that surface, or hand it to testing-ticket-workflow;
-the candidate stays **Needs Review** until the answer comes.
+the candidate stays **Needs Review** until the answer comes. Same for re-runs that non-pass-challenge-gate.md §3 and defect-report-completeness.md §3a/§3b ask for.
 
 **Go back:** If the disproof attempt finds the item already settled in another ticket, return to Phase B2 — Board-conflict re-check for that candidate. When the user answers a Needs Review question, return to the top of this phase for that candidate. Confirmed and Likely candidates move to Phase C.
 

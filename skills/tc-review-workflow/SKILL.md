@@ -238,8 +238,8 @@ Helix menus, intake questions and the thread question follow the user's language
 [user-communication.md](../../references/user-communication.md); only the review content itself follows the
 destination document's language.
 
-Post the review in chat before the Step 5 send. Unless asked with the language question, the Step 5 thread question
-is the go-ahead; do not add a separate "send it?" question.
+Post the review in chat before the Step 5 send. Unless asked with the language question or the item-5 text differs,
+the Step 5 thread answer is the go-ahead; do not add a separate "send it?" question.
 
 ---
 
@@ -285,8 +285,8 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
    repo or repeat it in chat; then continue from item 5.
 5. 🔴 **GATE — before the external send:** show in chat the destination (channel + thread), the final text
    exactly as it will be sent (after any item-3 tightening) and its character count. The thread answer
-   counts as the go-ahead only once that preview is visible; if the text changed after the user saw the
-   review, this preview is what they approve.
+   counts as the go-ahead only once that preview is visible and matches the chat review. Text changed
+   (item 2/3) → 🔴 **STOP —** send only on the user's OK to this preview.
 6. **Send, then read the response back** before telling the user it is done: confirm the destination
    (channel/thread id) matches what they asked for, and that a requested mention actually resolved.
    **Send returns non-2xx or times out** → do not retry blindly: report the status code and response
@@ -345,6 +345,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Ski
 | MUST read the ticket's own AC/EC/business-rules text this session before writing any finding |
 | MUST anchor every finding to a TC/AC id or a quoted source |
 | NEVER claim a design-source (Figma/PRD) match without having opened that source this session |
+| NEVER mark a row **Good**, or pass the document, when its Expected Result is interpreted or borrowed from another ticket, a similar feature or memory: each expected needs a quote from THIS ticket (AC/EC, design node, PRD section, or a PO/dev comment with author and date). List the rest under Need Improve as "unverified expected" and give the document the verdict **Unverified** |
 | MUST distinguish a spec-level gap (missing from the ticket's own AC list) from a TC-authoring defect |
 | NEVER count or mention a struck-through AC/EC |
 | NEVER report a business rule or comment that does not conflict with an AC/EC |
@@ -362,13 +363,13 @@ Open each file below at the step that names it, never all up front.
 
 ### Only if triggered (exact condition on each line)
 
-- Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
+- Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step.
 - Read [figma-design-comparison.md](../../references/figma-design-comparison.md) before judging any UI or visual result against the design (Step 1 item 3).
 - Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
 - Read [root-cause-investigation.md](../../references/root-cause-investigation.md) before naming a cause for any failure.
 - Read [round-time-contract.md](../../references/round-time-contract.md) when a round starts and before reporting times.
 - Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) when proposing a QA follow-up workflow.
-- Read [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) only when the ticket's own spec looks contradictory or its expected side is unconfirmed (§ Skill composition).
+- Read [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) only when the ticket's own spec looks contradictory or its expected side is unconfirmed.
 - Read [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) only when the user asks for the review to be posted to a Jira ticket as well, before building that table.
 - Read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) only after such a user-requested Jira post, before saying done.
 

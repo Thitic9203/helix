@@ -31,7 +31,7 @@ One line per reference: link — when to open it. **Do not read this file at sta
 - [agent-entry.md](agent-entry.md) — starting Helix on a given agent host.
 - [codex-tools.md](codex-tools.md) — running on Codex (tool mapping).
 - [copilot-tools.md](copilot-tools.md) — running on Copilot (tool mapping).
-- [dependencies.md](dependencies.md) — a skill's Dependencies check before step 1.
+- [dependencies.md](dependencies.md) — a skill's Dependencies check (before step 1, or where the skill says).
 - [user-communication.md](user-communication.md) — choosing chat language and tone.
 - [settle-and-strategize.md](settle-and-strategize.md) — before the first test action (no guessing, no blind loops).
 

@@ -1,6 +1,6 @@
 # Create bug workflow
 
-File **one or more bug reports** on the tracker the user names (Jira, GitHub Issues, etc.). Ported from the former full-test **Phase 6** — **self-contained in Helix**; do not invoke `full-test-plugin`.
+File **one or more bug reports** on the tracker the user names (Jira, GitHub Issues, etc.). Self-contained in Helix; do not invoke `full-test-plugin`.
 
 ## Contents
 
@@ -8,8 +8,7 @@ Checklist, Refusal-first, Phases A–B and MUST / NEVER live here; each later ph
 
 ## Progress checklist
 
-Copy this block into your response when the run starts and tick each line as it completes. A
-failed gate sends you back to the step its **Go back:** line names — untick from there.
+Copy this block when the run starts; tick each line as it completes. A failed gate sends you back to the step its **Go back:** line names — untick from there.
 
 ```text
 Create bug progress:
@@ -30,8 +29,8 @@ Follow [shared-preamble.md](../../../references/shared-preamble.md).
 
 **Gates:** MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.
 
-**No evidence for a candidate** → ask for it in the A3 follow-up. If none can be supplied, do not
-draft that candidate; report it to the user as **BLOCKED (no evidence)** and continue with the rest.
+**No evidence for a candidate** → ask for it in the A3 follow-up. None supplied → do not draft it;
+report it as **BLOCKED (no evidence)** and continue with the rest.
 
 ## Refusal-first (precondition gate)
 
@@ -45,8 +44,7 @@ prose/verb usage, and read **char-exact** on both sides for any wording claim. I
 a hedge ("please confirm with design/PO", "should be…", "probably", "ตามสเปก" unchecked), the spec is
 unconfirmed → it is a **question, not a bug**: do not draft or file it, and do not send it to Phase B3.
 Report it in chat as a question, **BLOCKED: spec unconfirmed**, that names the hedge and the authoritative
-source needed (design frame, PRD, AC or PO). (Root cause this prevents: a phantom label bug filed against a transliterated word never in the
-design — the real spec matched the app all along.)
+source needed (design frame, PRD, AC or PO). (Prevents phantom label bugs on words the design never had.)
 
 **MUST re-check the tracker/board for a prior ticket that already settled this behavior BEFORE filing** —
 the full rule, its search steps and its outcomes are in
@@ -58,7 +56,7 @@ On first response after constraints, follow [workspace-guide-discovery.md](../..
 
 ## Phase A — Intake (one message, three parts) [medium freedom]
 
-Ask in **one** grouped message (fill in only what the user has not already provided):
+Ask in **one** message (only what the user has not given):
 
 ### A1 — Where to open bugs (required)
 
@@ -66,7 +64,7 @@ Ask in **one** grouped message (fill in only what the user has not already provi
 > - Jira: project URL, board URL, or project key + issue type (e.g. Bug)
 > - GitHub: repo URL (`https://github.com/owner/repo`) or `owner/repo`
 
-Support **one target per run** unless the user explicitly asks for both Jira and GitHub (then treat as two targets with separate confirms).
+**One target per run** unless the user asks for both Jira and GitHub (then two targets, separate confirms).
 
 ### A2 — Bug format (required)
 
@@ -104,10 +102,7 @@ verbatim). One rule settles the two values, in this order:
    Several plausible cells in the reporter's Severity row is **not** a STOP: cite the closest cell, draft the bug, and carry the
    choice to Phase C as a **Likely** open question (phase-e-falsification.md).
 
-Steps to reproduce come only from the user's input and evidence. A step that seems missing is a
-follow-up question here, never a line you add to the draft.
-
-If the user references findings from a **prior testing-ticket** run in the same chat, reuse that evidence; do not invent details.
+Findings from a **prior testing-ticket** run in this chat: reuse that evidence; do not invent details.
 
 **🔴 STOP — Wait** until A1–A3 are sufficient to draft. Ask follow-ups only for gaps.
 
@@ -145,7 +140,7 @@ If the user references findings from a **prior testing-ticket** run in the same 
 
 ## 🔴 GATE: Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) [low freedom]
 
-At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow every line before moving on. Hard gate: nothing is drafted, confirmed or filed until every candidate has its board-check result.
+At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow every line. Hard gate: nothing is drafted, confirmed or filed until every candidate has its board-check result.
 
 ---
 
@@ -157,7 +152,7 @@ At Phase B3, open [phase-e-falsification.md](phase-e-falsification.md) and follo
 
 ## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]
 
-At Phase C, open [phase-c-confirm.md](phase-c-confirm.md) and follow every line before moving on. Hard gate: no create call before the user replies confirm.
+At Phase C, open [phase-c-confirm.md](phase-c-confirm.md) and follow every line. Hard gate: no create call before the user replies confirm.
 
 ---
 
@@ -169,7 +164,7 @@ At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line be
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
-At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line before moving on. Mandatory: no done claim before every created URL is verified.
+At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line. Mandatory: no done claim before every created URL is verified.
 
 ---
 

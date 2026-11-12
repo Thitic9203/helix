@@ -357,7 +357,8 @@ When a round ends, follow [round-time-contract.md §3](../../../references/round
 3. **Apply the answers** — re-render the draft and re-run the guard.
 4. 🔴 GATE: **Approval popup** — nothing is written outside the run until it is answered; one approval for the whole bundle, naming every concrete action: the comment
    (target ticket + endpoint), each external result update (destination + rows), and any notify
-   (channel + resolved recipient).
+   (channel + resolved recipient). An action the owner delegated by name skips only the wait; its bundle list is still
+   printed in chat and step 5's gates still run ([layer 19](../../../references/no-wait-decision-gate.md)).
 5. **Execute** — Phase G4–G7 with no second approval.
 
 No queued decisions → step 2 is skipped and the round has a single human touch.

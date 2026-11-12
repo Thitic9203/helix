@@ -2,10 +2,11 @@
 
 When any Helix skill starts, before step 1:
 
-1. Invoke the skill `caveman:caveman` with args `lite`, then the skill `context-mode:context-mode`.
-2. Check each one is in this session's skill list. If one is missing, ask the user **once** whether to install it, with this reason:
-   - **context-mode** — keeps large tool output (logs, test results, pages) in a sandbox and returns only the answer, so the context window fills slower and long QA runs stay accurate.
-   - **caveman lite** — removes filler words from replies: shorter chats and fewer output tokens, while full grammar and politeness stay.
+1. Invoke the skill `caveman:caveman` (args `lite`), then `context-mode:context-mode`.
+2. Check both are in this session's skill list. If one is missing, ask the user **once** whether to install it, with this reason:
+   - **context-mode** — keeps large tool output in a sandbox, returning only the answer, so context fills slower and long runs stay accurate.
+   - **caveman lite** — cuts filler words: shorter replies, fewer output tokens, same grammar and politeness.
    Both are free plugins. NEVER install without a clear yes.
-3. On no (or no answer): continue the workflow and filter large output by hand (`grep`, `head`, `jq`) before it enters context. Do not ask again this session.
-4. Hosts without a skill tool (Codex, Copilot, Cursor): skip this file with one line, e.g. "Context skills not available on this host — filtering output by hand."
+3. Ask it first and alone: that reply asks nothing else, and the skill's first question (menu, route, intake) waits for the user's next message. A reply that does not answer it counts as no.
+4. On no: continue and filter large output by hand (`grep`, `head`, `jq`) before reading it. Do not ask again this session.
+5. Hosts without a skill tool (Codex, Copilot, Cursor): skip this file; say so in one line.
