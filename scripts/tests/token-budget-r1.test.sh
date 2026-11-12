@@ -10,7 +10,13 @@ if [ -f "$B" ]; then
   commit="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["commit"])' "$B")"
   [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ "$commit" =~ ^[0-9a-f]{40}$ ]] && ok "R1: budget names its release tag ($tag) and full commit" || fail "R1: tag '$tag' commit '$commit'"
   if git -C "$REPO_ROOT" rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
-    [ "$(git -C "$REPO_ROOT" rev-list -n1 "$tag")" = "$commit" ] && ok "R1: $tag points at the budget commit" || fail "R1: $tag is $(git -C "$REPO_ROOT" rev-list -n1 "$tag"), budget says $commit"
+    # The publish ratchet measures $commit, then tags a child commit that changes only token-budget.json
+    # (version.yml "Ratchet token budget down"), so the tag may sit one ratchet commit above $commit.
+    tc="$(git -C "$REPO_ROOT" rev-list -n1 "$tag")"
+    if [ "$tc" = "$commit" ]; then ok "R1: $tag points at the budget commit"
+    elif [ "$(git -C "$REPO_ROOT" rev-parse "$tc^" 2>/dev/null)" = "$commit" ] && [ "$(git -C "$REPO_ROOT" diff --name-only "$commit" "$tc")" = "token-budget.json" ]; then
+      ok "R1: $tag is the ratchet commit on top of the budget commit (only token-budget.json changed)"
+    else fail "R1: $tag is $tc, budget says $commit, and $tc is not a token-budget.json-only child of it"; fi
   fi
   mkdir -p "$W/rel"; git -C "$REPO_ROOT" archive "$commit" | tar -x -C "$W/rel"
   python3 "$TM" budget --root "$W/rel" --tag "$tag" --commit "$commit" --out "$W/regen.json" --selftest-repo "$REPO_ROOT" >/dev/null 2>&1
