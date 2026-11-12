@@ -251,6 +251,77 @@
         "9. 🔴 GATE: confirm before the first Playwright run — WORKFLOW Phase C (bot-run branch included)."
       ],
       "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (when content item 6 applies). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.",
+      "replaced_by": [
+        "| MUST append disclaimer as last line of comment after all attachment links — exact text, no translation | Required quality gate for all TC FE deliverables |",
+        "| **MUST NOT drop any required comment element when regenerating or re-posting** — every rebuild MUST include: (1) table with all TC rows, (2) Attachments heading + all file links, (3) Remark block when Figma/PRD absent or any Type has zero TCs, (4) Disclaimer as last line. Run pre-publish re-check table before every post. Fixing TC text ≠ permission to omit the rest. | Partial rebuild silently loses mandatory elements — user must not discover missing content by inspection |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa 14a65db3 (tc-fe-prep)"
+    },
+    {
+      "removed": "3. Phase A — intake; 🔴 GATE: wait for the required fields.",
+      "replaced_by": [
+        "5. Phase A — intake; 🔴 GATE: wait for the required fields."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "6. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation.",
+      "replaced_by": [
+        "8. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "- **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` / `get_design_context`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in a Figma URL uses `-`, the MCP `nodeId` uses `:` (`?node-id=1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough.",
+      "replaced_by": [
+        "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST complete the 8-boundary sweep and write `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label into every destination the sentence is copied to | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from another scenario/role/record | Hedged guessing is still guessing, and it ships as QA's finding |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "document are written in different languages → 🔴 **STOP —** ask the user once which language to write the review in.",
+      "replaced_by": [
+        "the two differ → 🔴 **STOP —** in one message ask which language to write the review in and the Step 5 destination"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
+    },
+    {
+      "removed": "- **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already",
+      "replaced_by": [
+        "- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it; #0059)."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
+    },
+    {
+      "removed": "in config, so asking again is a repeat question (#0059). 🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or",
+      "replaced_by": [
+        "🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
     }
   ]
 }
