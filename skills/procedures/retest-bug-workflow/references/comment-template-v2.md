@@ -37,7 +37,7 @@ node tools/retest-guard/retest_guard.js --manifest run.json --out body.txt --evi
 4. `*Test Step (from ticket):*` and `*Expected Result (from ticket, verbatim):*`.
 5. ONE table: `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||`
    — one physical line per row; multi-point cells use ` \\ `, never a newline or `* `.
-6. `*Expected-result coverage:*` then `*Case coverage:*` — after the table.
+6. `*Expected-result coverage:*` (Task/Story: `*Acceptance-criteria coverage:*`) then `*Case coverage:*` — after the table.
 7. `*Test run time:*` — the measured value from `tools/run-time/measure.js`.
 8. One blank line, then the usage marker `_retestskillmarker · …_` as the last line.
 

@@ -46,7 +46,6 @@ Run these steps on every cell value **before** writing to any file:
    output: Run suite at <SUITE_PATH>
            then check
    ```
-   `<SUITE_PATH>` is kept; `<br>` is removed (turned into a line break by step 1); `<b>`/`</b>` and `**` are removed.
 3. Strip `**` markdown bold markers (replace `**` with empty string).
 4. **Do NOT alter, escape, or transliterate any Thai or non-ASCII characters** — preserve them exactly.
 
@@ -117,10 +116,8 @@ Use this path when format detection resolves to `.xlsx`.
 ### In-agent xlsx export
 
 1. Apply **Cell text cleaning** (see above) to every cell — `<br>` variants → `\n`, strip HTML tags, strip `**`.
-2. Ensure `openpyxl` is available — if not, install it first:
-   ```bash
-   pip install openpyxl
-   ```
+2. Check `openpyxl` per [dependencies.md](dependencies.md). Missing → never install it yourself; the calling
+   workflow's gate decides (tc-fe-prep: WORKFLOW Step 6 🔴 GATE).
 3. Generate and run a Python script inline — include the cleaning function:
 
 ```python
@@ -198,7 +195,7 @@ Generate one typed CSV per Type that has TCs (Unit / Integration / System), afte
 ### Upload + comment link
 
 After generating the typed CSV:
-1. Upload via browser JS (Control Chrome fetch — see CLAUDE.md workaround) while on the Jira issue page
+1. Upload via [jira-fast-publish.md](jira-fast-publish.md) Pattern A→B→C while on the Jira issue page
 2. Retrieve `attachment_id` from the response JSON
 3. Append link after the `Import_Qase` footer line:
    ```

@@ -225,3 +225,5 @@ forbids guessing a spec forbids guessing an absence.
 | MUST turn unspecified behaviour into a written question + BLOCKED, never a PASSED and never a defect | 7 escapes had no requirement; 2 filed bugs had no supporting spec (PM-006) |
 | MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported "no defects" for an entire set |
 | MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as "never tested" and became a wrong number-one root cause |
+| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |
+| MUST report anything wrong observed during a run even when no AC asked for it | "Badges render correctly" was written while the badge-overflow defect was on screen |

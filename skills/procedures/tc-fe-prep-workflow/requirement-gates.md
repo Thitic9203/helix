@@ -46,7 +46,7 @@ Do NOT post tables in chat — all detail goes into the HTML page (Step 2.5d).
 
 ### 2a.3 — User decision gate (when issues found)
 
-After the HTML report is opened in Chrome (Step 2.5d), if Step 2a found issues, ask in chat:
+🔴 GATE — STOP: after the HTML report is opened in Chrome (Step 2.5d), if Step 2a found issues, ask in chat:
 
 > พบ AC/EC ที่ซ้ำ/ซ้ำซ้อน/ขัดแย้งกัน (ดูรายละเอียดใน Chrome) — ต้องการให้จัดการอย่างไรครับ?
 >
@@ -84,7 +84,7 @@ If either is missing, ask the user once:
 >
 > ถ้า story นี้ไม่มีทั้งสองอย่าง ตอบว่า "ไม่มี PRD / ไม่มี Figma" ได้เลยครับ ผมจะใช้เนื้อหาใน ticket อย่างเดียว
 
-**Wait for the user's response.** At this stop post the request above plus one line that names the Step 2a conflicting AC/EC pairs (ids only, no table) and any reference ticket the prompt mentions that was not provided; the Step 2a.3 decision prompt is not posted in this turn; it is asked after the Step 2.5d report is opened. If the user confirms that a source does not exist (or provides no link after being asked):
+🔴 GATE — STOP: **Wait for the user's response.** At this stop post the request above plus one line that names the Step 2a conflicting AC/EC pairs (ids only, no table) and any reference ticket the prompt mentions that was not provided, and, when the glossary sheet cannot be reached (offline, no network, or no glossary row in the project guide), one line saying the glossary could not be re-fetched live and that Step 2.6 will ask for the current CSV or approval to use the fallback — a pasted or cached copy is never reported as re-checked; the Step 2a.3 decision prompt is not posted in this turn; it is asked after the Step 2.5d report is opened. If the user confirms that a source does not exist (or provides no link after being asked):
 
 - **Record which links are absent** (Figma / PRD / both) for the HTML report and the Remark block (design-and-review Step 3d / Step 5).
 - Continue to Step 2.5b with available sources only.
@@ -168,7 +168,7 @@ Rules: [tc-glossary.md](../../../references/tc-glossary.md). Sheet URL, tab, and
 
 Fetch the published tab as CSV using the `gid` from the project guide, overwriting the local mirror `{GLOSSARY_CSV}` — the local CSV path recorded in the project guide § TC glossary (see [tc-glossary.md](../../../references/tc-glossary.md)). Never hand-edit the CSV.
 
-**If the project guide has no glossary row (URL / tab / `gid`), or the fetch fails (non-200, empty body, header-only CSV, no network):** stop, report the exact error or the missing guide value, and ask the user to either supply the current CSV or approve running on the Step 3b fallback table only — in which case every term the TCs use that has no fallback row is asked at 2.6.3. Never reuse an earlier cached CSV as if it were re-fetched, and never report the gate as re-checked.
+**If the project guide has no glossary row (URL / tab / `gid`), or the fetch fails (non-200, empty body, header-only CSV, no network):** 🔴 GATE — STOP: report the exact error or the missing guide value, and ask the user to either supply the current CSV or approve running on the Step 3b fallback table only — in which case every term the TCs use that has no fallback row is asked at 2.6.3. Never reuse an earlier cached CSV as if it were re-fetched, and never report the gate as re-checked.
 
 **If `curl` fails TLS verification (exit 60):** the machine has an intercepting proxy (corporate AV). Export its CA from the OS trust store and pass `--cacert`. **Never** pass `-k` / `--insecure` — it disables verification against a proxy you have not identified.
 

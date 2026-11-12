@@ -119,6 +119,8 @@ bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
 | You run the update command | same script, no arguments (updates) |
 | `git pull` in `~/.helix/tc-fe-prep` | post-merge hook → sync plugin + symlinks |
 
+The update command installs a release only when its `token-report.json` asset says the session-token budget passed. If the report is missing, failing or cannot be fetched, the update prints one line saying why and leaves you on your current version.
+
 **What the update command does:**
 
 1. Fast-forward `~/.helix/tc-fe-prep` to the newest release tag (never unreleased `main`)

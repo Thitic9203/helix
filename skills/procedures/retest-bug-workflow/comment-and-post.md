@@ -93,7 +93,7 @@ refuses a body whose line above the marker is not it (`run-time-line-missing`). 
 measure (a lane directory is missing, or no evidence files) — fix the directory list; never type a
 number instead. When the workspace has no such tool, measure by the same method by hand (list every
 evidence file's modification time across all lanes, split at gaps over 120 s, sum the bursts — never the first-to-last span) and say in
-the chat report that it was measured by hand.
+the chat report that it was measured by hand — an exact figure, never "approximate" or "estimated".
 
 **All-BLOCKED round (owner, 2026-10-14):** when every case and every result is BLOCKED, nothing ran and
 there is nothing to measure. Put `testRunTime: {notMeasured: true, reason: "no-case-ran"}` in `run.json`;
@@ -168,12 +168,12 @@ Never mix the two in one body.
 
 **AC/EC coverage reconciliation before the draft is final (gate layer 6, fail-closed).** Reconcile the
 Step 2 enumerated `ER*` list against the verdict table: **`enumerated ids == rows carrying a status +
-evidence (or an explicit BLOCKED reason)`**, and `*Expected-result coverage:* {n} / {total}` shows
-`{n} == {total}`. Every expected-result/detail item is its **own row** — none parked only in a remark,
-a note under the table, or chat; no row is status-less; the verdict is **not PASSED** if any item was
-unverified or observed to differ — an **observed-to-differ** item is a PWMI or FAILED row per the [verdict rule](WORKFLOW.md#verdict-rule), an
-**unverified/unreached** item is a BLOCKED row (a coverage gap, not a product FAILED). Any shortfall ⇒
-the retest is **not complete** — add the row / verify the item / re-status the partial case before drafting further.
+evidence (or an explicit BLOCKED reason)`**, and `*Expected-result coverage:* {n} / {total}`
+(Task / Story: `*Acceptance-criteria coverage:*`) shows `{n} == {total}`.
+The full rule (own row per item, a differing item is PWMI/FAILED, an unverified one BLOCKED, never
+PASSED over a gap) is stated once at the [coverage gate](WORKFLOW.md#coverage-gate).
+Any shortfall ⇒ the retest is **not complete** — add the row / verify the item / re-status the
+partial case before drafting further.
 
 **Case-list reconciliation (same pass).** Every case in the Step 2c list appears in the `Case (Role)`
 cell of the row(s) it covers, with a status in `run.json`; every `ER*`/`AC*` row names at least one case; every UI

@@ -22,7 +22,7 @@
 ## Output snippet (comment header only — posted as ADF; shown here as text)
 
 ```text
-Draft TC FE as below
+Draft TC FE as below — ดูรายละเอียด Precondition / Steps / Expected ได้ในไฟล์แนบ
 
 Shared data preparation (all TCs):
 1. เข้าสู่ระบบด้วยบทบาท admin จาก project config

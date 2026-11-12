@@ -1,6 +1,6 @@
 # Manual test case quality standards (ISTQB + ISO/IEC/IEEE 29119-3)
 
-Practical checklist for TC FE/API prep review steps. Full framework explanation → [docs/tc-quality-full.md](../docs/tc-quality-full.md).
+Practical checklist for TC FE/API prep review steps. Full framework → [docs/tc-quality-full.md](../docs/tc-quality-full.md).
 
 ## Required attributes per test case
 
@@ -34,4 +34,4 @@ Before draft approval, check:
 - [ ] Preconditions make the case **executable** by another tester.
 - [ ] Priorities assigned; critical paths are not all Medium.
 
-If any **FIX** remains → revise and re-check (max 2 rounds).
+If any **FIX** remains → revise and re-check (max 2 rounds; tc-fe-prep Step 4: no cap).

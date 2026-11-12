@@ -5,3 +5,23 @@
 set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 "$ROOT/scripts/check-no-secrets.sh"
+
+# Token budget (docs/sdd/token-budget-guard R4): re-check every pushed head that touches the watched
+# paths, so an increase committed with --no-verify is refused here. Fails closed.
+ZERO=0000000000000000000000000000000000000000
+while read -r _lref lsha _rref rsha; do
+  [ -n "${lsha:-}" ] && [ "$lsha" != "$ZERO" ] || continue      # branch deletion: nothing to measure
+  if [ "$rsha" != "$ZERO" ] && git cat-file -e "$rsha^{commit}" 2>/dev/null; then
+    changed="$(git diff --name-only "$rsha" "$lsha")"
+  elif base="$(git merge-base "$lsha" origin/main 2>/dev/null)"; then
+    changed="$(git diff --name-only "$base" "$lsha")"
+  else
+    changed="skills/"                                            # unknown base: always measure
+  fi
+  if printf '%s\n' "$changed" | "$ROOT/scripts/token-budget-check.sh" watched; then
+    "$ROOT/scripts/token-budget-check.sh" ref "$lsha" || {
+      echo "pre-push: refused — $(git rev-parse --short "$lsha") would raise session tokens (see above)." >&2
+      exit 1
+    }
+  fi
+done

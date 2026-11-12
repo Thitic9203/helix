@@ -1,11 +1,3 @@
----
-name: create-bug-workflow
-description: |
-  Draft and file bug reports on Jira or GitHub after collecting the target link, format template and bug details — re-checks the board for an earlier decision, falsifies the defect, and confirms with the user before anything is created.
-  Use when the user chooses Create bug from Helix, invokes /create-bug, or wants a found defect recorded in a tracker — even without the word bug ("raise a ticket for this", "log this defect", "เปิดบั๊ก").
-  Do NOT use for Playwright test runs (testing-ticket-workflow), retest-after-fix (retest-bug-workflow), posting manual TC tables (tc-fe-prep / tc-api-prep), or updating test result sheets without filing bugs.
----
-
 # Create bug workflow
 
 File **one or more bug reports** on the tracker the user names (Jira, GitHub Issues, etc.). Ported from the former full-test **Phase 6** — **self-contained in Helix**; do not invoke `full-test-plugin`.
@@ -13,9 +5,6 @@ File **one or more bug reports** on the tracker the user names (Jira, GitHub Iss
 ## Contents
 
 This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.
-
-Sections appear in execution order: Phase E (falsification) runs after Phase B2 and before Phase C —
-its letter is kept from the original numbering, its place is not.
 
 ## Progress checklist
 
@@ -28,11 +17,11 @@ Create bug progress:
 - [ ] Phase A — Intake (one message, three parts)
 - [ ] Phase B — Parse target
 - [ ] Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) — open phase-b2-board-check.md
-- [ ] Phase E — Falsification (before create) — open phase-e-falsification.md
+- [ ] Phase B3 — Falsification (before create) — open phase-e-falsification.md
 - [ ] Phase C — Confirm before create (hard gate) — open phase-c-confirm.md
 - [ ] Phase D — Create issues — open phase-d-create.md
 - [ ] Phase F — Fix-verify and close (mandatory) — open phase-f-close.md
-- [ ] QA closing (mandatory before "done") — in phase-f-close.md
+- [ ] QA closing (mandatory before "done", filed or not) — in phase-f-close.md
 ```
 
 ## Discipline
@@ -54,7 +43,7 @@ drafting, the expected behavior/label/value MUST be confirmed against the **auth
 file / Figma, PRD, AC, or the PO) — never derived from a transliteration, an English feature name, or
 prose/verb usage, and read **char-exact** on both sides for any wording claim. If the expected side carries
 a hedge ("please confirm with design/PO", "should be…", "probably", "ตามสเปก" unchecked), the spec is
-unconfirmed → it is a **question, not a bug**: do not draft or file it, and do not send it to Phase E.
+unconfirmed → it is a **question, not a bug**: do not draft or file it, and do not send it to Phase B3.
 Report it in chat as a question, **BLOCKED: spec unconfirmed**, that names the hedge and the authoritative
 source needed (design frame, PRD, AC or PO). (Root cause this prevents: a phantom label bug filed against a transliterated word never in the
 design — the real spec matched the app all along.)
@@ -129,7 +118,7 @@ If the user references findings from a **prior testing-ticket** run in the same 
 | Target | Detect | Pre-flight |
 |--------|--------|------------|
 | **GitHub** | `github.com/owner/repo` | `gh auth status`; repo exists |
-| **Jira** | Domain + project key from URL | MCP `getVisibleJiraProjects` or ask user to confirm browser login |
+| **Jira** | Domain + project key from URL | MCP `getVisibleJiraProjects` lists the key; no MCP → open the project URL in the user's logged-in browser and read the key on the page |
 
 If pre-flight fails (auth, repo missing), report and stop — MUST NOT create issues silently.
 
@@ -160,9 +149,9 @@ At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow 
 
 ---
 
-## Phase E — Falsification (before create) [high freedom]
+## Phase B3 — Falsification (before create) [high freedom]
 
-At Phase E, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line of it before you move on. No candidate reaches Phase C until it survives falsification.
+At Phase B3, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line of it before you move on. No candidate reaches Phase C until it survives falsification.
 
 ---
 
@@ -181,12 +170,6 @@ At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
 At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of it before you move on. Mandatory: no done claim before every created URL is verified.
-
----
-
-## QA closing (mandatory before "done") [low freedom]
-
-Covered by Phase F above (phase-f-close.md). Mandatory before done, whether or not anything was filed.
 
 ---
 
@@ -212,9 +195,9 @@ Shared rules: at Phase D, before the first write, read [shared-must-never.md](..
 | NEVER file a bug whose expected side is a transliteration, a feature name or a hedged line ("should be…", "confirm with PO") | App vs an assumed spec is a question, not a bug (Refusal-first) |
 | NEVER file a second ticket for a defect already open on the board (Phase B2 duplicate) | Two tickets split the discussion and the retest |
 | NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |
-| NEVER replace a Severity the reporter gave with your own reading — a value the matrix cannot place is a question to the reporter (Phase A3, item 3), not a correction | The reporter's severity is the title bracket; a guessed one misroutes triage |
+| NEVER replace a reporter-given Severity or Priority with your own pick (Phase A3 item 3) | A guessed value misroutes triage |
 | NEVER drop a label or field to make a create succeed (Phase B pre-flight, Phase D field errors) | A silently missing Severity/Priority hides the bug from the views that filter on it |
 | MUST search the board (Phase B2) before filing; drop any bug already settled as intended in a prior/closed ticket and report it with the reference link | Re-filing a closed decision wastes a full retest round |
-| MUST use only the bug-priority-matrix vocabulary for Priority and Severity and cite the cell (Severity value from the reporter, Priority from the cell; a reporter value the cell does not match is asked, never replaced — Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |
+| MUST use only the bug-priority-matrix vocabulary and cite the cell (Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |
 | MUST verify each issue URL in Phase F | Silent partial failure |
 | MUST lock Jira v2/v3 per session when user specifies | Rewrite cost |

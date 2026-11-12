@@ -1,8 +1,8 @@
-# Create bug — Phase E
+# Create bug — Phase B3
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase E as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase B3 as its progress-checklist line names. Every rule here is a full gate of the workflow.
 
-## Phase E — Falsification (before create) [high freedom]
+## Phase B3 — Falsification (before create) [high freedom]
 
 Runs here — after Phase B2, before the Phase C confirm — for every candidate that cleared B2.
 

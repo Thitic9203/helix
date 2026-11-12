@@ -22,7 +22,7 @@ Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read in run order a
 ## Phase E — Execute tests (Playwright) [low freedom]
 
 Run the planned scenarios; record **PASSED** / **PWMI** / **FAILED** / **BLOCKED** (a scenario not run is BLOCKED with its reason) with evidence (screenshots, console, network).
-**Open every evidence file you cite, this round** — view each still, play each clip to its last frame — before it backs a verdict; a `verify.json`, a checker line or `file` output is not opening it ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *Pre-delivery completeness*).
+**Open every evidence file you cite, this round** — view each still, play each clip to its last frame — before it backs a verdict; a `verify.json`, a checker line or `file` output is not opening it ([qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester)).
 
 Phase E runs in this order; each step names its output:
 
