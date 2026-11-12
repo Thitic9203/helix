@@ -15,12 +15,12 @@ Prepare **frontend manual test cases** from a Jira **story** (acceptance criteri
 - [Step 0 — Obtain the story \[high freedom\]](#step-0--obtain-the-story-high-freedom)
 - [Step 1 — Load or create project config \[medium freedom\]](#step-1--load-or-create-project-config-medium-freedom)
 - [Step 2 — Extract requirements \[medium freedom\]](#step-2--extract-requirements-medium-freedom)
-- [Step 2a — AC/EC internal consistency check \[medium freedom\]](requirement-gates.md#step-2a--acec-internal-consistency-check-medium-freedom)
-- [Step 2.5 — Conflict check against PRD and Figma (pre-design gate) \[medium freedom\]](requirement-gates.md#step-25--conflict-check-against-prd-and-figma-pre-design-gate-medium-freedom)
-- [Step 2.6 — TC glossary re-check (mandatory gate) \[medium freedom\]](requirement-gates.md#step-26--tc-glossary-re-check-mandatory-gate-medium-freedom)
-- [Step 3 — Design test cases \[medium freedom\]](design-and-review.md#step-3--design-test-cases-medium-freedom)
-- [Step 4 — Coverage & quality review (mandatory; loop until zero comments, report EVERY round) \[medium freedom\]](design-and-review.md#step-4--coverage--quality-review-mandatory-loop-until-zero-comments-report-every-round-medium-freedom)
-- [Step 4.5 — Thai↔English term confirmation (mandatory gate) \[medium freedom\]](design-and-review.md#step-45--thaienglish-term-confirmation-mandatory-gate-medium-freedom)
+- [Step 2a — AC/EC internal consistency check \[medium freedom\]](requirement-gates.md#step-2a--acec-internal-consistency-check-medium-freedom) — opened at step 2a
+- [Step 2.5 — Conflict check against PRD and Figma (pre-design gate) \[medium freedom\]](requirement-gates.md#step-25--conflict-check-against-prd-and-figma-pre-design-gate-medium-freedom) — opened at step 2.5
+- [Step 2.6 — TC glossary re-check (mandatory gate) \[medium freedom\]](requirement-gates.md#step-26--tc-glossary-re-check-mandatory-gate-medium-freedom) — opened at step 2.6
+- [Step 3 — Design test cases \[medium freedom\]](design-and-review.md#step-3--design-test-cases-medium-freedom) — opened at step 3
+- [Step 4 — Coverage & quality review (mandatory; loop until zero comments, report EVERY round) \[medium freedom\]](design-and-review.md#step-4--coverage--quality-review-mandatory-loop-until-zero-comments-report-every-round-medium-freedom) — opened at step 4
+- [Step 4.5 — Thai↔English term confirmation (mandatory gate) \[medium freedom\]](design-and-review.md#step-45--thaienglish-term-confirmation-mandatory-gate-medium-freedom) — opened at step 4.5
 - [Step 5 — HTML draft in Chrome (approval gate) \[medium freedom\]](#step-5--html-draft-in-chrome-approval-gate-medium-freedom)
 - [Step 6 — Save artifacts in the user's workspace \[medium freedom\]](#step-6--save-artifacts-in-the-users-workspace-medium-freedom)
 - [Step 6.5 — Create the ticket's TC tab in the tracking sheet \[low freedom\]](#step-65--create-the-tickets-tc-tab-in-the-tracking-sheet-low-freedom)
@@ -44,19 +44,19 @@ TC FE prep progress:
 - [ ] Step 0 — Obtain the story
 - [ ] Step 1 — Load or create project config
 - [ ] Step 2 — Extract requirements
-- [ ] Step 2a — AC/EC internal consistency check
+- [ ] Step 2a — AC/EC internal consistency check — open `requirement-gates.md` now (Steps 2a–2.6)
 - [ ] Step 2.5 — Conflict check against PRD and Figma (pre-design gate)
 - [ ] Step 2.6 — TC glossary re-check (mandatory gate)
-- [ ] Step 3 — Design test cases
+- [ ] Step 3 — Design test cases — open `design-and-review.md` now (Steps 3–4.5)
 - [ ] Step 4 — Coverage & quality review (mandatory; loop until zero comments, report EVERY round)
 - [ ] Step 4.5 — Thai↔English term confirmation (mandatory gate)
 - [ ] Step 5 — HTML draft in Chrome (approval gate)
-- [ ] Step 6 — Save artifacts in the user's workspace
+- [ ] Step 6 — Save artifacts in the user's workspace — open `csv-export-rules.md`, `qase-import-format.md`, `csv-template-types.md`
 - [ ] Step 6.5 — Create the ticket's TC tab in the tracking sheet
-- [ ] Step 7 — Publish to Jira (story only)
-- [ ] Step 7.5 — Final TC review report (mandatory before "done")
-- [ ] QA closing (mandatory before "done")
-- [ ] Step 8 — Session closing
+- [ ] Step 7 — Publish to Jira (story only) — open `jira-formatting.md`, `jira-fast-publish.md`, then `jira-comment-post-review.md`
+- [ ] Step 7.5 — Final TC review report (mandatory before "done") — open `tc-final-review-report.md`
+- [ ] QA closing (mandatory before "done") — open `qa-closing-shared.md`, `verify-closing-checklist.md`
+- [ ] Step 8 — Session closing — open `session-closing.md`
 ```
 
 ## Discipline
@@ -124,13 +124,13 @@ From the Jira story, build a checklist:
 
 ## Steps 2a–2.6 — requirement gates
 
-Read and follow [requirement-gates.md](requirement-gates.md) before Step 3 — Step 2a (AC/EC consistency), Step 2.5 (PRD and Figma conflict check) and Step 2.6 (glossary re-check), end to end.
+At Step 2a, open [requirement-gates.md](requirement-gates.md) and complete it before Step 3 — Step 2a (AC/EC consistency), Step 2.5 (PRD and Figma conflict check) and Step 2.6 (glossary re-check), end to end.
 
 ---
 
 ## Steps 3–4.5 — design and review
 
-Read and follow [design-and-review.md](design-and-review.md) before Step 5 — Step 3 (design TCs), Step 4 (coverage and quality review loop) and Step 4.5 (Thai↔English term gate), end to end.
+At Step 3, open [design-and-review.md](design-and-review.md) and complete it before Step 5 — Step 3 (design TCs), Step 4 (coverage and quality review loop) and Step 4.5 (Thai↔English term gate), end to end.
 
 ---
 
@@ -173,7 +173,7 @@ After approval (and Suite confirmed), write the files below inside the user's pr
 | `references/Integration_Test_{ISSUE_KEY}.csv` | only if Type = `Integration Test` TCs exist | **Typed content CSV** — 9 Thai columns; TCs filtered to Type = `Integration Test`, content mapped to Integration Test template columns (Step 6 mapping); no summary footer |
 | `references/System_Test_{ISSUE_KEY}.csv` | only if Type = `System Test` TCs exist | **Typed content CSV** — 9 Thai columns; TCs filtered to Type = `System Test`, content mapped to System Test template columns (Step 6 mapping); no summary footer |
 
-Both CSV files (`Draft_Jira` + `Import_Qase`) are always produced together and both are uploaded to Jira (Step 7). Follow [csv-export-rules.md](../../../references/csv-export-rules.md) for cell cleaning (convert `<br>`, strip tags, preserve Thai) — applies to all CSV files. Never silently produce only one when both are required.
+Both CSV files (`Draft_Jira` + `Import_Qase`) are always produced together and both are uploaded to Jira (Step 7). At Step 6, apply [csv-export-rules.md](../../../references/csv-export-rules.md) for cell cleaning (convert `<br>`, strip tags, preserve Thai) — applies to all CSV files. Never silently produce only one when both are required.
 
 **🔴 GATE — STOP: xlsx requested, `openpyxl` missing.** Before writing an xlsx file, run `python3 -c "import openpyxl"` ([dependencies.md](../../../references/dependencies.md)). When it fails, tell the user that `openpyxl` is not installed so the xlsx pair cannot be written, offer the CSV pair instead, and show `python3 -m pip install --user openpyxl` only as a suggestion the user runs — never install it yourself. Write nothing until the user chooses: CSV → write the CSV pair; installed → re-run the import check, then write the xlsx pair. Never silently produce CSV when xlsx was requested.
 
@@ -311,7 +311,7 @@ ADF is already built from Step 6 — proceed directly to fast publish. Full JS p
    - `[Integration_Test_{ISSUE_KEY}.csv]({url})` — Integration Test template *(include only if file was generated)*
    - `[System_Test_{ISSUE_KEY}.csv]({url})` — System Test template *(include only if file was generated)*
 5. For each typed CSV type that was **skipped** (no TCs of that type), add one note line here (after all attachment links): `ไม่มี TC ประเภท [Unit Test / Integration Test / System Test] สำหรับ ticket นี้`
-6. **Remark block** — built exactly per [design-and-review.md § 3d](design-and-review.md#3d--type-column-always-present) (Type-coverage lines, missing-Figma / missing-PRD lines, blocked-case lines). Include it only when at least one of those lines applies (a Type is absent, a PRD or Figma link was missing, or a case is `BLOCKED` with no sheet row to carry it); otherwise omit it.
+6. **Remark block** — at step 7, built exactly per [design-and-review.md § 3d](design-and-review.md#3d--type-column-always-present) (Type-coverage lines, missing-Figma / missing-PRD lines, blocked-case lines). Include it only when at least one of those lines applies (a Type is absent, a PRD or Figma link was missing, or a case is `BLOCKED` with no sheet row to carry it); otherwise omit it.
 7. Disclaimer — **last line of the comment, after all attachment links** (exact text, do not translate or shorten):
    ```
    ⚠️ Disclaimer: ข้อมูลนี้เป็นเพียง Draft Version ที่ได้จากการใช้ Skill เท่านั้น (TC ครบตาม AC & EC) เนื้อหาทั้งหมดจำเป็นต้องได้รับการรีวิวและอัปเดตโดยทีม QA ก่อนนำไปใส่ในไฟล์เอกสารส่งมอบ และทำการนำ TC ไป Import เข้าสู่ Qase.io
@@ -371,7 +371,7 @@ If any check fails → fix and re-post → re-verify on Jira UI (max 3 rounds). 
 
 After Step 7 post-publish review **passes** (or after final approved draft when publish was skipped), run the **four-axis final review** on the TC set the user will keep.
 
-Follow [tc-final-review-report.md](references/tc-final-review-report.md):
+At Step 7.5, apply [tc-final-review-report.md](references/tc-final-review-report.md):
 
 1. Compare **published** Jira comment + attachment (or final approved draft + export) against the **story** AC, EC, description, and deferred-scope notes.
 2. Score all four dimensions: **AC/EC alignment**, **spelling**, **numbering order**, **content / scope**.
@@ -386,7 +386,7 @@ Follow [tc-final-review-report.md](references/tc-final-review-report.md):
 
 ## QA closing (mandatory before "done") [low freedom]
 
-Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific:
+At phase QA closing, apply [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific:
 
 - [ ] Step 2a AC/EC internal consistency check completed; results shown in pre-draft review HTML; user decision applied (if issues found).
 - [ ] Step 2.5 conflict check completed; results shown in pre-draft review HTML; no unresolved conflicts before Step 3.
@@ -422,7 +422,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 **Prerequisite:** Step 7.5 final review report posted with overall **PASS**.
 
-Follow [session-closing.md](../../../references/session-closing.md) — artifact index, one-line next workflow (e.g. `/testing-ticket` on same story), handoff file if long session, `Verdict:` block.
+At Step 8, apply [session-closing.md](../../../references/session-closing.md) — artifact index, one-line next workflow (e.g. `/testing-ticket` on same story), handoff file if long session, `Verdict:` block.
 
 Complete [verify-closing-checklist.md](../../../references/verify-closing-checklist.md) (TC FE section).
 

@@ -4,7 +4,7 @@ Apply at **end of every workflow** (success, partial, or blocked). Write it in t
 
 ## 1 — Unified verification
 
-Complete [verify-closing-checklist.md](verify-closing-checklist.md) for this workflow type before saying the session is complete.
+Complete [verify-closing-checklist.md](verify-closing-checklist.md) for this workflow type before saying the session is complete. **TC review** (document review, no test run) closes with its own Step 5 closing and skips verify-closing-checklist.md.
 
 ## 2 — Artifact index (mandatory)
 

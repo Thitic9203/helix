@@ -214,14 +214,11 @@ is a claim — the main thread re-runs the gate itself (layer 20).
 
 **Go back:** A red layer returns that case to the step that produced the failing input — Step 2 (manifest), Step 3 (contact sheet) or Step 5 (criteria). If it cannot be fixed, report the case as BLOCKED with the reason.
 
-**Source sweep before any BLOCKED, FAILED or "ask the PO / reporter" outcome** (layer 14 of
-[result-quality-gate.md](../../../references/result-quality-gate.md)): read the product code at the default
-branch with `path:line` including its inline comments and `git log -L` / blame on those lines, the
-main ticket's description and every comment, the surrounding tickets (parent / epic, linked,
-sibling stories on the same screen or API, and every ticket the commit messages name), the
-regression results, and the design node; if data is missing, try to create it first. Quote each
-source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot be done", "wrong"
-or "wait for someone" before this sweep is written down.
+**Source sweep before any BLOCKED, FAILED or "ask the PO / reporter" outcome:** run layer 14 of
+[result-quality-gate.md](../../../references/result-quality-gate.md) (code at the default branch, the main
+ticket and every comment, surrounding tickets, regression results, design node, missing data created first)
+and quote each source on the verdict line (`code_refs`, `ticket_refs`). Never conclude "cannot be done",
+"wrong" or "wait for someone" before this sweep is written down.
 
 ## Step 7 — Record the verdict [low freedom]
 
