@@ -58,6 +58,8 @@ block does not fit in a cell.
 **Expected-result coverage:** 1 / 1 items met
 **Case coverage:** 1 / 1 cases run — 0 passed / 1 failed / 0 blocked
 
+Originally reported symptom: still present.
+
 **Root cause:** the range check runs after the persistence call, so the driver raises before
 validation is reached — Confirmed (response body carries the driver's constraint name; the same
 payload against the sibling endpoint returns 400).
@@ -65,8 +67,6 @@ payload against the sibling endpoint returns 400).
 **Resolution options:** dev moves the range check ahead of persistence on `PUT /api/v1/schedules/:id`
 and leaves the equal-dates path alone, **or** the spec owner accepts 500 for this input and updates
 the expected result. Decided by: spec owner.
-
-Originally reported symptom: still present.
 
 **Test run time:** 6.4 min — includes evidence capture (screenshots); excludes re-checks, design lookup and comment drafting
 

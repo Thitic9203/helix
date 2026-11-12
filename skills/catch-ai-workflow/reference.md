@@ -128,7 +128,7 @@ A finding closed with only a documentation note must say so plainly: recurrence 
 
 1. **Open the source in this session.** A citation you did not read is fabrication.
 2. **Quote the sentence that carries the rule**, not a paraphrase of the page's title.
-3. **Record version and date** — "React 19.2 docs, accessed 2026-09-10". Behaviour changes between versions; an unversioned citation is not usable.
+3. **Record version and date** — "React 19.2 docs, accessed 2026-09-10". Behaviour changes between versions; an unversioned citation is not usable. This applies to external documents; a workspace or skill file is cited by path and heading (`path:line`), never by commit hash.
 4. **Prefer the source that governs the claim** over the one that merely mentions it: the language spec over a blog, the framework's own docs over a Stack Overflow answer, the project's own convention file over a general standard.
 5. **When nothing governs it, label it `Judgment`** and state the trade-off. Judgment is legitimate; judgment disguised as a standard is not.
 
@@ -189,7 +189,7 @@ Scope: <what was audited> · Out of scope: <what was not>
 ### For defect 1
 - Root cause: <owning layer>
 - Change: <concrete edit>
-- Sources: <title, section — URL (version, accessed date)> + quoted rule
+- Sources: <title, section — URL (version, accessed date)> or <path:line, heading> for a workspace file + quoted rule
 - Prevention: <layer> — <test, constraint, rule, or gate>
 - Verification: <command and expected output>
 
@@ -199,4 +199,4 @@ Scope: <what was audited> · Out of scope: <what was not>
 
 When nothing survives verification, the report still states it explicitly: `No issue found.` followed by what was checked and against which source.
 
-A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. Every conclusion line the report itself writes — Verdict, Root cause, Correction, Remediation, Checked — is hedge-free (SKILL.md § Hedged conclusions); an item that could not be dug to `Confirmed` sits under Questions with its label, the exact check, and what is needed.
+A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. The rules themselves live only in SKILL.md § Hedged conclusions.

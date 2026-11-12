@@ -20,7 +20,7 @@ Used in **Step 2a + Step 2.5** to render the AC/EC consistency check and PRD/Fig
 
 ## When to use
 
-Every time Step 2.5 completes (or Step 2a completes when Step 2.5 is skipped because no PRD/Figma exists). Generate one combined HTML report covering both checks.
+Every time Step 2.5 completes (PRD/Figma marked absent when missing). Generate one combined HTML report covering both checks.
 
 ## File path
 

@@ -26,7 +26,7 @@ For hand-off to a Playwright/CLI agent or PR reading. Offer **alongside** CSV/Ex
 
 - Format spec: [test-md-format.md](../../../../references/test-md-format.md) (single source of truth)
 - Same reviewed table feeds it; emit exactly the approved rows (no fabricated cases)
-- File: `{ISSUE_KEY}.test.md` in workspace
+- File: `references/{SCOPE}_API_TC.test.md` (same `{SCOPE}` as phase-g-deliver.md G1)
 
 ## Jira comment / chat draft
 

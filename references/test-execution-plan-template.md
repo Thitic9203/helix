@@ -5,7 +5,7 @@ Fill **before** running Playwright (Phase B/C in `testing-ticket-workflow`). Use
 ```markdown
 ## Test execution plan — {ISSUE-KEY}
 
-**Environment:** {pd3 | dev | other URL}
+**Environment:** {env name from guide | other URL}
 **Branch / build:** {if known}
 **Auth:** {storageState file | role | login steps}
 **Preflight:** [ ] [playwright-preflight.md](playwright-preflight.md) checklist done — YES/NO
@@ -26,11 +26,11 @@ List every Acceptance Criteria / Expected-Condition line from the ticket, one id
 | 1 | | | 1440 | | |
 | 2 | | | 390 | | |
 
-One row per scenario x width: a scenario in scope at 1440 and 390 is two rows, not "1440 · 390" in one cell. A scenario with no layout dependence (for example a pure API check) uses one row with Width = n/a.
+One row per scenario x width: a scenario in scope at 1440 and 390 is two rows, not "1440 · 390" in one cell. A scenario with no layout dependence — a check that renders no screen, such as a pure API call — uses one row with Width = n/a; any scenario that shows a screen (a list, a redirect target, a toast) gets one row per in-scope width, never dropped as "width-independent" or queued as a question.
 
 **Coverage check:** every AC/EC id above appears in the `AC/EC id(s)` column of ≥1 scenario. An id with no scenario = a gap → add the scenario (or move it to Out of scope with a reason). Do not confirm the plan until every enumerated id is covered or explicitly excluded. An id is not covered at a width it has no row for.
 
-**Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch in the summary and does not block the run.
+**Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch in the summary and does not block the run; the AC/EC ids that row covers still need a row with a verdict + evidence or an explicit BLOCKED reason — never PASSED — before Phase G (F4 reconciliation: "enumerated ids == rows carrying a verdict + evidence (or an explicit BLOCKED reason)").
 
 ### Execution lanes
 

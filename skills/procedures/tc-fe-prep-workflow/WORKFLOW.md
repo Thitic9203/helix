@@ -100,8 +100,8 @@ If workspace-guide-discovery already loaded a guide → use it and go to Step 2.
 
 Otherwise:
 
-1. Ask using [project-config-template.md](references/project-config-template.md) (one section at a time).
-2. Offer to save answers into `references/{PROJECT}-tc-fe-prep-guide.md` in the user’s repo.
+1. Ask using [project-config-template.md](references/project-config-template.md) (one question at a time).
+2. Save each answer immediately (workspace-guide-discovery step 3).
 
 Config MUST capture: Jira domain, default story vs sub-task policy, portal names, shared login role, CSV column headers (if non-default), export format preference (`csv` / `xlsx`; default `csv`), and publish method preference.
 

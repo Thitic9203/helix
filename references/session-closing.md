@@ -4,7 +4,7 @@ Apply at **end of every workflow** (success, partial, or blocked). Write it in t
 
 ## 1 — Unified verification
 
-Complete [verify-closing-checklist.md](verify-closing-checklist.md) for this workflow type before saying the session is complete. **TC review** (document review, no test run) closes with its own Step 5 closing and skips verify-closing-checklist.md.
+Complete [verify-closing-checklist.md](verify-closing-checklist.md) for this workflow type before saying the session is complete. **TC review** (document review, no test run) closes with its own § QA closing and skips verify-closing-checklist.md.
 
 ## 2 — Artifact index (mandatory)
 
@@ -26,7 +26,7 @@ List only what was actually created. Use workspace-relative paths.
 
 ## 3 — Next workflow (mandatory one line)
 
-Offer **exactly one** next step: the row below for the finished workflow ([skill-routing.md](skill-routing.md)); when no row matches, write `Next: none`. The user decides whether to start it.
+Offer **exactly one** next step: the row below for the finished workflow ([skill-routing.md](skill-routing.md)); when no row matches, write `Next: none`.
 
 | Finished | Next step (one line) |
 |----------|-------------------|
@@ -36,13 +36,13 @@ Offer **exactly one** next step: the row below for the finished workflow ([skill
 | Retest PASSED | “Close or notify PM — no Helix step required.” |
 | Retest FAILED | “**Create bug** or reassign per your process?” |
 | Create bug | “**Retest** after the fix is deployed?” |
+| Catch AI (defects) | “File with **/create-bug** after you approve?” |
 
 Do not auto-start the next workflow without user consent.
 
 ## 4 — Handoff file (every retest / testing round; long or interrupted sessions otherwise)
 
-**Retest and testing ticket (and smoke): write it at the close of every round** — not only long or
-blocked runs — with the per-round state and source fingerprints the next round compares against
+**Retest and testing ticket (and smoke): write it at the close of every round** with the per-round state and source fingerprints the next round compares against
 ([round-time-contract.md §10](round-time-contract.md#10-per-ticket-state-and-fingerprints)).
 
 Other workflows: write when **any** applies:

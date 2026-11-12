@@ -60,15 +60,15 @@ From config: base URL, portal, login URL for the env on the ticket.
 
 **Main thread only, login by command**
 ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3 *Dead session*). Pick lane accounts whose sessions are live first.
-Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>` and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
+Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>`, `<log-dir>` (any writable folder) and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
 
 1. **Relink.** One combined block over every needed account whose session is not live. This step uses no password:
    ```bash
-   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/relink-$a.log)"; done
+   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" > <log-dir>/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: <log-dir>/relink-$a.log)"; done
    ```
 2. **Setup/mint.** One combined block over only the accounts whose relink printed **FAILED**, never an account that printed OK. The user types any secret in their own terminal; if the block pauses, the mint command is waiting for that input:
    ```bash
-   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/mint-$a.log)"; done
+   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" > <log-dir>/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: <log-dir>/mint-$a.log)"; done
    ```
 3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
 
@@ -190,6 +190,7 @@ What is specific to retest:
   the end menu offers only **A adjust the expected/TC · B re-test** — never **C confirm defect**, because
   there is no confirmed spec left for the defect to differ from.
   Same while supersession is **unresolved** (a newer ticket, comment or design that may supersede the expected is not yet confirmed or ruled out): A · B only — **C confirm defect** is offered only once the AC/EC check is confirmed authoritative.
+  In both cases the menu has exactly two options, A and B — never a third of any kind; "the PO updates the AC" is option A with owner PO.
 - **Never edit the ticket's expected-result field** to match the app on your own — QA reports the
   conflict and names the owner.
 
@@ -255,7 +256,9 @@ It opens and measures every file rather than counting names, and with `--jira` i
 attachment from the ticket so "the link resolves" stops being a claim. Contracts (arguments, exit
 codes, manifest names) are pinned in
 `<workspace>/references/qa-capture-tooling.md`; a tool that cannot run is a
-**stop**, never a silent pass. A file the reconciler cannot find is a BLOCKED row with its reason,
+**stop**, never a silent pass. Without these tools, do the same by hand: open every file on the
+Step 2c plan (play each MP4, view each PNG) and say so with the round.
+A file the reconciler or the hand check cannot find or play is a BLOCKED row with its reason,
 never a row quietly dropped.
 
 **Go back:** If the reconciler exits non-zero or a planned file is missing, return to Step 5 — Evidence and capture it, or record the BLOCKED row with its reason. The Step 6 draft waits for a clean reconcile.

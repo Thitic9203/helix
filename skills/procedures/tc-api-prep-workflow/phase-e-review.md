@@ -16,7 +16,7 @@ Follow [spec-coverage-review.md](references/spec-coverage-review.md):
 
 ### E2 — International TC quality (ISTQB + ISO/IEC/IEEE 29119-3)
 
-Follow [tc-quality-standards.md](../../../references/tc-quality-standards.md) on every row.
+Follow [tc-quality-standards.md](../../../references/tc-quality-standards.md) on every row. API default set: Test Data is the step; Expected Result leads with the status code.
 
 Also verify writing rules in [api-tc-guidelines.md](references/api-tc-guidelines.md) (status codes, payloads, no secrets).
 

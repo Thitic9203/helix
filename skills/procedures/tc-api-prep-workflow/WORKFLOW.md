@@ -47,8 +47,6 @@ MUST refuse to start Phase D (design) until **both** are available:
 | API spec (link, file, or pasted scope) | Defines in-scope behavior |
 | Swagger/OpenAPI (URL or local path) | Source of truth for endpoints and schemas |
 
-If Phase A load fails after user input, stop and report — do not invent endpoints.
-
 On first response after constraints, follow [workspace-guide-discovery.md](../../../references/workspace-guide-discovery.md) for **TC API prep**, then show [intake-one-pager.md](../../../references/intake-one-pager.md) (TC API section).
 
 ---
@@ -71,7 +69,7 @@ Load the spec:
 - Spec requires auth but Swagger has no `security` (operation or global) → say so in the sources summary and ask how the 401/403 rows are sourced (Phase D gap rule).
 - Note base URL / servers from `servers` or user override.
 
-If load fails → stop and report; ask for export file or VPN.
+If load fails → stop and report; ask for an export file or VPN — never invent endpoints.
 
 Count the Swagger operations in scope (one operation = one method + path pair). If the count is **more than 15**, or the user asks for a whole service, follow [tc-api-chunked-scope.md](../../../references/tc-api-chunked-scope.md) before Phase D — 🔴 STOP until the user agrees the chunk list.
 
@@ -155,7 +153,7 @@ At Phase G, open [phase-g-deliver.md](phase-g-deliver.md) and follow every line 
 
 ## QA closing (mandatory before "done") [low freedom]
 
-At Phase G, open [phase-g-deliver.md](phase-g-deliver.md) and follow every line of it before you move on. Mandatory before done.
+The QA closing checklist is the last section of phase-g-deliver.md (opened at Phase G); finish it before reporting done.
 
 ---
 

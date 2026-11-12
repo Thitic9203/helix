@@ -29,9 +29,9 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 ### Jira
 
 1. Lock **v2 wiki** (FE/UI) vs **v3 ADF** (API) per user format — do not switch mid-session.
-2. Prefer Atlassian MCP `createJiraIssue`, with the field mapping shown in the Phase C `Fields:` line
-   (Priority → `priority`, Severity → the guide's field id, every required field filled).
-3. **Field-validation error** (HTTP 400 / an `errors` object naming a field — required, invalid option,
+2. Create with Atlassian MCP `createJiraIssue`, with the field mapping shown in the Phase C `Fields:` line
+   (Priority → `priority`, Severity → the guide's field id, every required field filled); another path only through item 4.
+3. **🔴 GATE — Field-validation error** (HTTP 400 / an `errors` object naming a field — required, invalid option,
    unknown custom field) → nothing was created. Show the error **verbatim**, name the field and the fix
    you propose (from the create metadata), and **wait for the user's approval** before retrying on the
    same path. Never drop or blank the field to make the create pass, and never treat this as an MCP
@@ -63,9 +63,11 @@ a pipe inside a table cell and splits the row. The attachments endpoint needs an
 upload the attachments to the returned key, then update the body to embed them bare, then re-fetch the
 issue and confirm every embed rendered (not a literal `!file.png!`). "Attach before embed" applies only
 to an issue that already has a key. If an upload fails (rejected type, size limit, permission, any
-non-2xx), show the error verbatim, do not post a body that embeds the missing file, and ask the user:
+non-2xx) → **🔴 GATE:** show the error verbatim, do not post a body that embeds the missing file, and ask the user:
 retry the upload, leave the image out (embed line removed from the draft, shown again for **confirm**),
 or attach it by hand. When the issue is created but the attach failed, also tell the user the issue key
 that now exists. Never continue on your own. When the workspace carries `tools/retest-guard/retest_rules.js`,
 run its scanner (rule `img-width-param`); when it does not, check every embed by hand for a bare
 `!file.png!` and say so.
+
+**Go back:** a field or upload error whose fix the user approves → retry that same step. The user files by hand → Phase F for each issue they link back. Any edit to a draft body → return to Phase C and show the confirm block again.
