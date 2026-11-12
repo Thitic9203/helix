@@ -13,7 +13,8 @@ for v in 1.0.0 1.0.1 1.0.2; do
   [ "$v" = 1.0.2 ] || git tag "v$v"          # 1.0.2 = on main, never released
 done
 git remote add origin "$W/origin.git"; git push -q origin main --tags
-run_au() { HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" bash "$AU" >/dev/null 2>&1; }
+# R10 (docs/sdd/token-budget-guard): every published release carries a pass token-report.json asset
+run_au() { pass_reports "$W/origin.git" "$W/assets"; HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_RELEASE_ASSETS="$W/assets" bash "$AU" >/dev/null 2>&1; }
 fresh_clone() { rm -rf "$W/clone"; git clone -q "$W/origin.git" "$W/clone"; git -C "$W/clone" reset -q --hard "$1"; }
 mkdir -p "$W/home"
 
@@ -41,7 +42,7 @@ fresh_clone v1.0.0; run_au
 [ ! -e "$W/state/last-update-error" ] && ok "the next clean run clears the notice" || fail "notice survived a clean run"
 
 fresh_clone v1.0.0
-HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_INTERVAL_SEC=0 bash "$AU" >/dev/null 2>&1
+HOME="$W/home" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_RELEASE_ASSETS="$W/assets" HELIX_FORCE_UPDATE=1 HELIX_AUTO_UPDATE_INTERVAL_SEC=0 bash "$AU" >/dev/null 2>&1
 [ "$(cat "$W/clone/VERSION")" = 1.0.1 ] && ok "a clone install updates (FORCE_UPDATE / INTERVAL_SEC are accepted and ignored)" || fail "update with legacy env left the clone at $(cat "$W/clone/VERSION")"
 
 fresh_clone v1.0.0

@@ -8,6 +8,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    # edited: re-run token-budget-raise when the PR title/body (the owner's quoted approval) changes
+    types: [opened, synchronize, reopened, edited]
 
 permissions:
   contents: write
@@ -67,6 +69,40 @@ jobs:
             echo "::warning::Skill/command files changed without VERSION in this PR. CI will auto-bump patch on merge to main."
           fi
 
+  # Token budget guard (docs/sdd/token-budget-guard R5 + R8): the PR head may not add session tokens
+  # over token-budget.json, and no MUST/NEVER/🔴/STOP/GATE line may be cut. Table in the job summary.
+  token-budget:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Token budget and rule lines vs base
+        run: |
+          set -o pipefail
+          git fetch origin "${{ github.base_ref }}"
+          bash scripts/ci-token-budget.sh pr "origin/${{ github.base_ref }}"
+
+  # R9: token-budget.json may only go up in a "[token-budget-raise] ..." PR whose body quotes the owner.
+  token-budget-raise:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Budget raise needs the title and a quoted owner approval
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -o pipefail
+          git fetch origin "${{ github.base_ref }}"
+          BASE_JSON="$RUNNER_TEMP/base-budget.json"
+          git show "origin/${{ github.base_ref }}:token-budget.json" > "$BASE_JSON" 2>/dev/null || BASE_JSON=""
+          bash scripts/check-budget-raise.sh "$BASE_JSON" token-budget.json
+
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -107,6 +143,36 @@ jobs:
           set -o pipefail
           ./scripts/sync-version.sh --check
 
+      # R7 + R8: re-measure the exact commit to be tagged; above budget or a cut rule line = no push,
+      # no tag, no release (every later step is skipped when this one fails).
+      - name: Token budget gate on the commit to be tagged
+        run: |
+          set -o pipefail
+          bash scripts/ci-token-budget.sh release "v${{ steps.bump.outputs.version }}" "$RUNNER_TEMP/token-report.json"
+
+      # R9: after a release the budget only ratchets down. Runs only when this push creates a release.
+      - name: Ratchet token budget down to this release
+        id: ratchet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -o pipefail
+          TAG="v${{ steps.bump.outputs.version }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "ratcheted=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          bash scripts/ci-token-budget.sh ratchet "$TAG"
+          if git diff --quiet -- token-budget.json; then
+            echo "ratcheted=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add token-budget.json
+          git commit -m "chore(ci): ratchet token budget down to ${TAG} [automated]"
+          echo "ratcheted=true" >> "$GITHUB_OUTPUT"
+          # the tag now goes on this commit: re-gate it so token-report.json names the exact tagged commit
+          bash scripts/ci-token-budget.sh release "$TAG" "$RUNNER_TEMP/token-report.json"
+
       - name: Check portable content in skills and commands
         run: |
           set -o pipefail
@@ -134,8 +200,8 @@ jobs:
           chmod +x scripts/helix-regression-check.sh
           ./scripts/helix-regression-check.sh
 
-      - name: Push version bump to main
-        if: steps.bump.outputs.bumped == 'true'
+      - name: Push version bump / budget ratchet to main
+        if: steps.bump.outputs.bumped == 'true' || steps.ratchet.outputs.ratcheted == 'true'
         run: |
           set -o pipefail
           git push origin HEAD:main
@@ -166,11 +232,18 @@ jobs:
             echo "Install (pinned to ${TAG}, SHA-256 checked before anything runs): follow [Install (one-time)](https://github.com/Thitic9203/helix#install-one-time) with HELIX_TAG=${TAG}."
             echo ""
             echo "Assets: https://github.com/Thitic9203/helix/releases/download/${TAG}/install.sh and https://github.com/Thitic9203/helix/releases/download/${TAG}/install.sh.sha256"
+            echo ""
+            echo "Token report (session-token budget, verdict pass): https://github.com/Thitic9203/helix/releases/download/${TAG}/token-report.json"
           } > "$NOTES_FILE"
           # install.sh + install.sh.sha256 of this commit; if this fails, no release is created
           DIST="$(mktemp -d)"
           bash scripts/release-install-assets.sh "$DIST" || { echo "::error::could not build the install assets"; exit 1; }
-          gh release create "$TAG" "$DIST/install.sh" "$DIST/install.sh.sha256" \
+          # R10: token-report.json must be a pass for exactly this commit and tag, or no release
+          REPORT="$RUNNER_TEMP/token-report.json"
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); sys.exit(0 if (d["verdict"],d["release_commit"],d["tag"])==("pass",sys.argv[2],sys.argv[3]) else 1)' \
+            "$REPORT" "$(git rev-parse HEAD)" "$TAG" || { echo "::error::token-report.json is not a pass for $TAG at HEAD"; exit 1; }
+          cp "$REPORT" "$DIST/token-report.json"
+          gh release create "$TAG" "$DIST/install.sh" "$DIST/install.sh.sha256" "$DIST/token-report.json" \
             --target "$(git rev-parse HEAD)" \
             --title "Helix ${V}" \
             --notes-file "$NOTES_FILE"
