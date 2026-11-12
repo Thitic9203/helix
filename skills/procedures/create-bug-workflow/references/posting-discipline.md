@@ -3,7 +3,7 @@
 ## GitHub
 
 - `gh issue create` — use HEREDOC for body; capture stdout for issue URL.
-- Labels: `bug`, `severity:<Severity>` (the draft's Severity: Low / Medium / High / Urgent), `module:<name>` when supported —
+- Labels: `bug`, `severity:<Severity>` (the draft's Severity: Low / Medium / High / Urgent) —
   only labels the [WORKFLOW Phase B tracker-fields pre-flight](../WORKFLOW.md#phase-b--parse-target-medium-freedom) found or the user approved.
 
 ## Jira

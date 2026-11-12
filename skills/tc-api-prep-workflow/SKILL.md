@@ -34,7 +34,7 @@ At the start of every run: [shared-preamble.md](../../references/shared-preamble
 API-specific notes on shared files (apply when the step opens them):
 
 - Open [tc-quality-standards.md](../../references/tc-quality-standards.md) at Phase E, on every TC row. API mapping: with no Test Steps column (the default set, [default-columns.md](../procedures/tc-api-prep-workflow/references/default-columns.md)), Test Data (method, path, headers, body) is the step and Expected Result leads with the status code.
-- Open [csv-export-rules.md](../../references/csv-export-rules.md) at Phase G1, when exporting. API mapping: its `{ISSUE_KEY}_FE_TC` file names become `references/{SCOPE}_API_TC.csv` / `.xlsx` (WORKFLOW G1).
+- Open [csv-export-rules.md](../../references/csv-export-rules.md) at Phase G1, when exporting. API mapping: its `{OUT}` is `references/{SCOPE}_API_TC` (`.csv` / `.xlsx`, WORKFLOW G1).
 - Open [swagger-diff-phase.md](../../references/swagger-diff-phase.md) when Swagger changed, a new API version shipped, or existing API TCs are being updated; open [tc-api-chunked-scope.md](../../references/tc-api-chunked-scope.md) when more than 15 Swagger operations are in scope or the user asks for a whole service.
 - [csv-template-types.md](../../references/csv-template-types.md) — TC FE only, never opened by this skill (an API export is one CSV); [test-md-format.md](../../references/test-md-format.md) — only when the user picks Test.md at Phase C.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — before any completion claim (Phase G-verify, QA closing).

@@ -8,7 +8,7 @@ Read and follow [the catch-ai workflow](../skills/catch-ai-workflow/SKILL.md) en
 
 Pass arguments after `/catch-ai` as the audit target — a file path, a document, a ticket key, a report, or "your last answer". If none is given, ask what to audit before reading anything.
 
-A defect is only "actual differs from a **confirmed** expected". Anything whose expected side cannot be sourced is a **Question**, never a bug — and the number of findings is whatever survives verification, never the number the requester claimed.
+A defect is only "actual differs from a **confirmed** expected". Anything whose expected side cannot be sourced is a **Question**, never a bug — and the count follows the skill's Iron Law, never the requester's number.
 
 Every recommended fix cites a document opened in this session, quoted, with version and date; anything else is labelled **Judgment**. Every defect closes with a prevention layer.
 

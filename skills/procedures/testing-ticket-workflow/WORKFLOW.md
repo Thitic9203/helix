@@ -29,8 +29,8 @@ Run **Playwright-based** testing for a **single ticket** after intake (the intak
 
 ## Progress checklist
 
-Copy this block into your response when the run starts and tick each line as it completes. A
-failed gate sends you back to the step its **Go back:** line names — untick from there.
+Copy this block when the run starts; tick each line as it completes. A failed gate's **Go back:**
+line names the step to untick from.
 
 ```text
 Testing ticket progress:
@@ -47,9 +47,6 @@ Testing ticket progress:
 - [ ] QA closing (mandatory before session end) — qa-closing-shared.md
 - [ ] Phase H — only if a question arrives after results were published (event-driven)
 ```
-
-Phase H is written before QA closing in this file but runs only when a question arrives, which is
-after results are published — so it sits last in the checklist.
 
 **Run order before Phase C** (one list, so nothing runs out of order):
 
@@ -84,7 +81,8 @@ case below is trimmed, batched away or skipped to stay under it; time over it is
   branch, is at **Phase C**.
 - 🔴 GATE (end of round): nothing is written outside the run (Jira comment, results destination, notify)
   until the **single end-of-round approval popup** ([§3](../../../references/round-time-contract.md)) —
-  because writes are costly to undo.
+  because writes are costly to undo. An action the owner delegated by name skips only the wait
+  ([no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 19).
 - Credentials are session-only.
 
 **Test through the real steps** — at Phase E *Real surface* ([execute-and-summarize.md](execute-and-summarize.md#phase-e--execute-tests-playwright-low-freedom); [test-through-real-steps.md](../../../references/test-through-real-steps.md)).
@@ -102,13 +100,13 @@ the fix is the write-up, not a chat reply.
 
 **Test deeply — the gates a shipped-defect review put in writing** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §1–§9), each run at: plan at **Phase B step 5** · session at **Phase D** *Session preflight* · checks at **E0** · reconciliation at **Phase F** (*Design + depth reconciliation*).
 
-**Long sessions:** keep a todo list whenever a trigger in [long-workflow-todos.md](../../../references/long-workflow-todos.md) *When to create todos* applies — this workflow has 3+ phases with user gates, so a full run always meets the first trigger.
+**Long sessions:** keep a todo list whenever a trigger in [long-workflow-todos.md](../../../references/long-workflow-todos.md) *When to create todos* applies — a full run always meets the first trigger.
 
 ## Refusal-first (precondition gate)
 
 MUST refuse to reach Phase B until every required intake field — **Ticket**, **URL**, **User** (or `guest`) and **VPN** — is answered (the Phase A gate) — because without them the test plan has no target, no login and no route to the app.
 
-**Pre-flight login smoke gate (mandatory — after Phase B has built the scenarios, before the Phase C plan is shown; *Run order* step 5).** Before running any scenario, verify that login **actually succeeds** for **only the role(s)/credential set(s) this run's scenarios will actually use** — not every role the project has. Read the run's scenarios to determine which roles are in scope; a
+**Pre-flight login smoke gate (mandatory — after Phase B has built the scenarios, before the Phase C plan is shown; *Run order* step 7).** Before running any scenario, verify that login **actually succeeds** for **only the role(s)/credential set(s) this run's scenarios will actually use** — not every role the project has. Read the run's scenarios to determine which roles are in scope; a
 single-role run logs in that one role, a multi-role run logs in each role it uses, nothing more. Reuse the saved login file per role first ([round-time-contract.md §5](../../../references/round-time-contract.md)); when the file is missing or fails the session check, restore it by ready-to-run command (*Fresh login* below), never by opening a login window, and confirm an authenticated
 signal (redirect to an authed area, a session/`me` endpoint, or a logged-in UI marker). Produce a pass/fail table for the in-scope roles.
 - **All in-scope roles pass →** proceed to Phase C; the pass/fail table is shown in the Phase C plan.

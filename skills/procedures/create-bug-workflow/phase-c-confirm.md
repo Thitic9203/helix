@@ -26,7 +26,7 @@ Reply **confirm** to create all listed bugs (a Likely item is approved as Likely
 
 Then post **full drafts** (one block per bug) per [bug-draft-template.md](references/bug-draft-template.md).
 
-Ask every open question (B2 comment scope, B3 reporter questions, A3 Priority choice) once, numbered, inside this block — on its Board check, Likely or Needs Review line; never repeat it in prose around the block.
+Ask every open question (B2 comment scope, B3 reporter questions, A3 Priority choice) once, numbered, inside this block — on its Board check, Likely or Needs Review line; never repeat it in prose around the block. Write its prose, questions, the B3 record and notes in the user's language ([user-communication.md](../../../references/user-communication.md)); keep field names, `Confirmed` / `Likely` / `Needs Review`, keys and **confirm** as written.
 
 **Do not call `gh issue create`, `createJiraIssue`, or browser create until the user confirms.**
 
