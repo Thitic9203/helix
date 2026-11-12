@@ -106,13 +106,22 @@ Run it yourself: `bash scripts/ci-token-budget.sh pr origin/main`.
 
 **Raising the budget** (for example, a new skill): open a PR titled `[token-budget-raise] <why>` that updates `token-budget.json` (`python3 scripts/token-measure.py budget --root . --tag <tag> --commit <sha> --out token-budget.json`) and quotes the owner's approval in the body as a `> ...` line. CODEOWNERS assigns the file to the owner.
 
-**Required checks on `main` (R6, owner applies once).** This ruleset lets the GitHub Actions app (integration 15368) bypass it, so the `publish` job can still push its version-bump and budget-ratchet commits:
+**Required checks on `main` (R6, owner applies once).** GitHub refuses the Actions app as a bypass actor on a personal repo, so the `publish` job pushes its version-bump and budget-ratchet commits (marked `[skip ci]`) with a write deploy key, and only deploy keys may bypass the ruleset. Set the key up first:
+
+```bash
+ssh-keygen -t ed25519 -N "" -C "helix publish" -f helix_deploy_key
+gh repo deploy-key add helix_deploy_key.pub --repo Thitic9203/helix --allow-write --title "helix publish (R6)"
+gh secret set HELIX_DEPLOY_KEY --repo Thitic9203/helix < helix_deploy_key
+rm helix_deploy_key helix_deploy_key.pub
+```
+
+Then create the ruleset:
 
 ```bash
 gh api -X POST repos/Thitic9203/helix/rulesets --input - <<'EOF'
 {"name": "main: token budget + PR checks", "target": "branch", "enforcement": "active",
  "conditions": {"ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}},
- "bypass_actors": [{"actor_id": 15368, "actor_type": "Integration", "bypass_mode": "always"}],
+ "bypass_actors": [{"actor_type": "DeployKey", "bypass_mode": "always"}],
  "rules": [{"type": "required_status_checks", "parameters": {"strict_required_status_checks_policy": false,
    "required_status_checks": [{"context": "pr-check", "integration_id": 15368},
                               {"context": "token-budget", "integration_id": 15368},

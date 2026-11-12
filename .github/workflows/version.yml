@@ -110,7 +110,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # R6: the main ruleset requires PR checks; only this deploy key may bypass it, so the
+          # bump/ratchet push below goes over SSH with it. GitHub refuses the Actions app as a
+          # bypass actor on a personal repo. Missing secret = checkout fails = no release (fail closed).
+          ssh-key: ${{ secrets.HELIX_DEPLOY_KEY }}
+
+      - name: Fail closed without the deploy key
+        env:
+          HAS_KEY: ${{ secrets.HELIX_DEPLOY_KEY != '' }}
+        run: |
+          [ "$HAS_KEY" = "true" ] || { echo "::error::secret HELIX_DEPLOY_KEY is missing (docs/CONTRIBUTING.md, R6)"; exit 1; }
 
       - name: Auto bump patch when required
         id: bump
@@ -131,7 +140,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add VERSION .claude-plugin/plugin.json .claude-plugin/marketplace.json README.md
-            git commit -m "chore(ci): bump version ${OLD} -> ${NEW} [automated]"
+            git commit -m "chore(ci): bump version ${OLD} -> ${NEW} [automated] [skip ci]"
             echo "bumped=true" >> "$GITHUB_OUTPUT"
           else
             echo "bumped=false" >> "$GITHUB_OUTPUT"
@@ -168,7 +177,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add token-budget.json
-          git commit -m "chore(ci): ratchet token budget down to ${TAG} [automated]"
+          git commit -m "chore(ci): ratchet token budget down to ${TAG} [automated] [skip ci]"
           echo "ratcheted=true" >> "$GITHUB_OUTPUT"
           # the tag now goes on this commit: re-gate it so token-report.json names the exact tagged commit
           bash scripts/ci-token-budget.sh release "$TAG" "$RUNNER_TEMP/token-report.json"
