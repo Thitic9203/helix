@@ -1,6 +1,6 @@
 # Dependencies — what each skill needs, how to check it, how to get it
 
-Every skill's `## Dependencies` section names the rows below that it uses. Run the **Check** for each
+Each skill's `## Dependencies` names the rows it uses. Run the **Check** for each
 named row before step 1. A failed check is a stop: install it, use the stated fallback, or report the
 step as BLOCKED with the missing dependency named. Never skip the step silently, never guess a path.
 
@@ -14,7 +14,7 @@ workspace under test), or asked once and saved there.
 |------------|-------|--------------------|
 | Node.js 18 or newer (CI uses 20) | `node -v` | Node.js LTS from nodejs.org, or a version manager (`nvm install 20`) |
 | Python 3 | `python3 --version` | OS package manager or python.org |
-| `openpyxl` (xlsx export only) | `python3 -c "import openpyxl"` | `python3 -m pip install --user openpyxl`; without it, warn the user and ask before falling back to CSV — never silently produce CSV when xlsx was requested |
+| `openpyxl` (xlsx export only) | `python3 -c "import openpyxl"` | `python3 -m pip install --user openpyxl`; without it, warn the user and ask before falling back to CSV |
 | `pypdf` (PDF summary check) | `python3 -c "import pypdf"` | `python3 -m pip install --user pypdf` |
 | `requests` (Python scripts that call APIs) | `python3 -c "import requests"` | `python3 -m pip install --user requests` |
 | ffmpeg / ffprobe (clips) | `ffmpeg -version && ffprobe -version` | OS package manager (`brew`, `apt`, `winget`) |
@@ -23,7 +23,7 @@ workspace under test), or asked once and saved there.
 | GitHub CLI `gh` | `gh --version && gh auth status` | cli.github.com, then `gh auth login` |
 | Playwright (in the project under test only) | `npx playwright --version` then `npx playwright test --list` | `npm i -D @playwright/test && npx playwright install chromium` inside that project; never install into the skill repo |
 | TypeScript / ESLint (e2e repo fixes only) | `npx tsc -v && npx eslint -v` | the e2e repo's own `npm ci` |
-| `rtk` (output filter, not required) | `command -v rtk` | not required; when absent run the bare command |
+| `rtk` (optional output filter) | `command -v rtk` | absent → run the bare command |
 | macOS-only tools (`sips`, `osascript`, `scutil`) | `command -v sips` (or the tool named) | macOS only. On other systems use the stated alternative (ImageMagick for `sips`; the REST/MCP path instead of JXA; the VPN client's own status command instead of `scutil`) or mark the step BLOCKED |
 
 ## In-repo guard tools (run only when the workspace carries them)
@@ -59,5 +59,5 @@ workspace under test), or asked once and saved there.
 | Jira REST credentials (ADF-direct publish, REST fallback) | `curl -s -o /dev/null -w '%{http_code}' -u "{JIRA_EMAIL}:{JIRA_TOKEN}" https://{JIRA_DOMAIN}/rest/api/3/myself` returns 200 | the user creates an API token in their Atlassian account; never reuse another person's token |
 | Figma (Dev Mode MCP or browser view) | open the design node and read one frame | enable Dev Mode MCP, or view the file in a browser session; when neither opens, design comparison is "not verified" |
 | Browser automation MCP (Chrome extension or equivalent) | list tabs and get a result | install and connect the extension; else BLOCKED for steps that need a real browser |
-| Qase (TC suite tree, FE prep import) | open the project's suite tree, or the user pastes it | ask the owner for access; still unreadable → tc-fe-prep Step 6 suite gate wins: no CSV, Qase export **Not exported** |
+| Qase (TC suite tree, FE prep import) | open the project's suite tree, or the user pastes it | ask the owner for access; still unreadable → tc-fe-prep Step 6 suite gate: no CSV, export **Not exported** |
 | Notify channel webhook / bot — tc-review: its project's TC-review channel on every run (owner decision 20/Oct); testing-ticket: every round when the project guide configures a QA notify channel (results-update G8); retest-bug: every retest at its Step 9 notify; every other workflow: only on an explicit share request | the webhook or bot id is in the secrets folder; the channel comes from the project guide (`references/{PROJECT}-guide.md` § TC review notify) | ask the owner; never invent a channel, thread or id |
