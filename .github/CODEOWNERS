@@ -5,4 +5,6 @@
 /scripts/token-budget-check.sh @Thitic9203
 /scripts/check-rule-lines.sh  @Thitic9203
 /scripts/check-budget-raise.sh @Thitic9203
+/scripts/check-rule-reword.sh @Thitic9203
+/rule-line-register.json      @Thitic9203
 /.github/                     @Thitic9203
