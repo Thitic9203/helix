@@ -1,12 +1,6 @@
----
-name: testing-ticket-workflow
-description: |-
-  Test one Jira ticket with Playwright: intake + plan, confirm, run, compare to Figma, report, optionally update a results destination.
-  Use when the user says /testing-ticket, asks to test/verify/QA one story/ticket on an env, "run Playwright on {KEY}"/"E2E this story" ("เทส ticket นี้ให้หน่อย").
-  Do NOT use for filing bugs (create-bug), retest after a fix (retest-bug), manual TC tables (tc-fe-prep/tc-api-prep), or full regression.
----
-
 # Testing ticket workflow
+
+> Not a skill entry — the skill name, description and triggers live only in [SKILL.md](../../testing-ticket-workflow/SKILL.md).
 
 Run **Playwright-based** testing for a **single ticket** after intake (the intake summary and plan are shown, and the run starts only after the user confirms them). **Self-contained in Helix** — do not invoke `full-test-plugin`.
 
