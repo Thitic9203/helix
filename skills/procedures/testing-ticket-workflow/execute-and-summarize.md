@@ -92,11 +92,7 @@ Run this **as each scenario executes**, not while writing Phase F.
 1. **Compare the screen against its design node** on all five points — elements present · text
    char-exact · order/position · the states the node defines · no overflow and no overlap
    ([figma-design-comparison.md](../../../references/figma-design-comparison.md) §3). Record the node
-   link opened on the report header's `Design ref:` line (F2 — no design-node column). **Dedupe, never shorten** ([round-time-contract.md §7](../../../references/round-time-contract.md)):
-   one compare per screen × width per round — cases on the same screen share one fresh app capture and
-   one design read; cache the design-side export (node screenshot + metadata) keyed by the Figma file's
-   `lastModified` and re-fetch only when it changes. The app-side capture is always fresh, and the
-   compare still covers all five points.
+   link opened on the report header's `Design ref:` line (F2 — no design-node column). **Dedupe, never shorten** — [round-time-contract.md §7](../../../references/round-time-contract.md#7-figma-compare-keep-it-full-dedupe).
 2. **Measure the layout checks, do not eyeball them** — overflow is `rect.right > window.innerWidth` or
    `document.documentElement.scrollWidth > window.innerWidth`; overlap is two text rectangles
    intersecting by more than ~3 px. Run them at **every in-scope width**, and on both sides of any
@@ -326,8 +322,8 @@ cause:
 - [ ] It cites a **captured artifact** from the E2 sweep (status code, response field, console error,
       bundle probe, fixture read-back) — not a recollection, not another scenario's behaviour.
 - [ ] It carries a label matching what was actually run — `Confirmed` only if the falsifying check ran.
-- [ ] It contains **no hedge standing in for a cause** (`probably`, `น่าจะ`, `seems`, `flaky`,
-      `cache issue`, `environment issue`, `race condition`).
+- [ ] It contains **no hedge standing in for a cause** — no word from the
+      [banned list](../../../references/root-cause-investigation.md#hedges).
 - [ ] It does not restate the symptom as the cause, and `not checked` boundaries are still visible.
 
 Any box unchecked → delete the sentence or return to E2 and earn it. Never soften it into a hedge.

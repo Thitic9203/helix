@@ -1,6 +1,6 @@
 # Retest bug — execute and evidence (Steps 4–5, result quality gate)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read in run order after Step 3.
+Part of [WORKFLOW.md](WORKFLOW.md). Read in run order after Step 3.
 
 ## Contents
 
@@ -35,7 +35,7 @@ accounts sharing one OTP inbox (§3), one subagent per lane, all in a single mes
 own cases with **only its leased account** and records the authenticated user id at login; barrier
 cases run alone after the lanes return. The parent then runs the §6 merge (isolation · coverage ·
 evidence) and does 4i on every non-PASS itself before Step 5. Lanes never post, transition, assign,
-or notify.
+or notify. A host that cannot start subagents runs the same lanes one after another (parallel-test-lanes §4).
 **Session lease per lane.** If the workspace provides a session-lease tool (see project guide), each
 lane acquires the lease on its account before loading the login file, renews it on long runs, and
 releases it in `finally` — the §5 lane prompt carries those lines (or `LEASE-HELD-BY-PARENT` when the
@@ -186,7 +186,7 @@ What is specific to retest:
   decisions popup ([round-time-contract.md](../../../references/round-time-contract.md) §2). Picking
   **B re-test** there starts a new round (§1).
 - **Superseded bug ER or task AC → no "confirm defect" option (owner, 2026-10-14).** When the bug's own Expected
-  Result or the task's Acceptance Criteria was superseded by a later ticket, comment or design (quote the superseding source char-exact),
+  Result or the task's Acceptance Criteria was superseded by a later ticket, comment or design — quote the superseding source char-exact (`{KEY} {role} {date}: "…"`, never paraphrased or translated) in the flag's AC/EC line, the row's Actual Result remark and the popup question —
   the end menu offers only **A adjust the expected/TC · B re-test** — never **C confirm defect**, because
   there is no confirmed spec left for the defect to differ from.
   Same while supersession is **unresolved** (a newer ticket, comment or design that may supersede the expected is not yet confirmed or ruled out): A · B only — **C confirm defect** is offered only once the AC/EC check is confirmed authoritative.
@@ -224,7 +224,7 @@ the lane run that executes the case **is** the recording — there is no separat
 run. The 7 layers below are unchanged: every clip still clears all 7, and a red layer still means
 re-capture and re-run all 7.
 
-- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never "same as the other role". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
+- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never "same as the other role". Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
 - **Text-verification case → screenshot AS WELL as the MP4.** When a case verifies exact wording / label / message / count / displayed values (anything judged char-exact against the bug's Expected Result), also embed a still screenshot inline so the exact text is legible in a frame — the row then carries **both** the MP4 link and the `!png!` image.
 - **Evidence per row:** one rule, kept in [comment-and-post.md](comment-and-post.md#evidence-per-row) — open it at step 5 when filing each row's evidence; the Step 8·0 gate there is authoritative.
 - **Destination = the Jira issue, in the comment.** Upload every file (MP4 + any screenshot) as an **issue attachment**, then reference it in the verdict table's `Evidence` cell (the column between `Actual Result` and `Status`). A retest never writes to Google Drive — that is the story/bot flow, not this one.

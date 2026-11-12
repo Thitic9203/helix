@@ -1,6 +1,6 @@
 # TC API prep — Phase E
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase E as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase E as its WORKFLOW.md section names. Every rule here is a full gate of the workflow.
 
 ## Phase E — Coverage & quality review (mandatory; 1–2 rounds) [medium freedom]
 
@@ -24,7 +24,7 @@ Also verify writing rules in [api-tc-guidelines.md](references/api-tc-guidelines
 
 Post the **API TC coverage review** block from spec-coverage-review.md: the endpoint matrix table (one row per in-scope operation) comes before **Ready for draft: YES**; a one-line "Endpoint coverage: complete" without the table is not the block.
 
-MUST NOT post the full TC table until **Ready for draft: YES**.
+🔴 **STOP —** MUST NOT post the full TC table until **Ready for draft: YES**.
 
 ### E3b — Coverage delta summary
 

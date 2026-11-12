@@ -4,7 +4,7 @@ File **one or more bug reports** on the tracker the user names (Jira, GitHub Iss
 
 ## Contents
 
-This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.
+Checklist, Refusal-first, Phases A–B and MUST / NEVER live here; each later phase has its own file, opened at its checklist line.
 
 ## Progress checklist
 
@@ -28,7 +28,7 @@ Create bug progress:
 
 Follow [shared-preamble.md](../../../references/shared-preamble.md).
 
-**Gates:** MUST NOT create issues until Phase C confirm. MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.
+**Gates:** MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.
 
 **No evidence for a candidate** → ask for it in the A3 follow-up. If none can be supplied, do not
 draft that candidate; report it to the user as **BLOCKED (no evidence)** and continue with the rest.
@@ -117,10 +117,10 @@ If the user references findings from a **prior testing-ticket** run in the same 
 
 | Target | Detect | Pre-flight |
 |--------|--------|------------|
-| **GitHub** | `github.com/owner/repo` | `gh auth status`; repo exists |
+| **GitHub** | `github.com/owner/repo` | `gh auth status`; `gh repo view <owner/repo> --json name` exits 0 |
 | **Jira** | Domain + project key from URL | MCP `getVisibleJiraProjects` lists the key; no MCP → open the project URL in the user's logged-in browser and read the key on the page |
 
-If pre-flight fails (auth, repo missing), report and stop — MUST NOT create issues silently.
+**🔴 STOP — pre-flight fails** (auth, repo missing) → report it; MUST NOT create issues silently.
 
 **Tracker fields pre-flight** (runs after the target is reachable, before Phase C):
 
@@ -145,31 +145,31 @@ If pre-flight fails (auth, repo missing), report and stop — MUST NOT create is
 
 ## 🔴 GATE: Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) [low freedom]
 
-At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow every line of it before you move on. Hard gate: nothing is drafted, confirmed or filed until every candidate has its board-check result.
+At Phase B2, open [phase-b2-board-check.md](phase-b2-board-check.md) and follow every line before moving on. Hard gate: nothing is drafted, confirmed or filed until every candidate has its board-check result.
 
 ---
 
 ## Phase B3 — Falsification (before create) [high freedom]
 
-At Phase B3, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line of it before you move on. No candidate reaches Phase C until it survives falsification.
+At Phase B3, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line before moving on. 🔴 GATE: no candidate reaches Phase C until it survives falsification.
 
 ---
 
 ## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]
 
-At Phase C, open [phase-c-confirm.md](phase-c-confirm.md) and follow every line of it before you move on. Hard gate: no create call before the user replies confirm.
+At Phase C, open [phase-c-confirm.md](phase-c-confirm.md) and follow every line before moving on. Hard gate: no create call before the user replies confirm.
 
 ---
 
 ## Phase D — Create issues [low freedom]
 
-At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of it before you move on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.
+At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line before moving on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.
 
 ---
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
-At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of it before you move on. Mandatory: no done claim before every created URL is verified.
+At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line before moving on. Mandatory: no done claim before every created URL is verified.
 
 ---
 
@@ -181,7 +181,7 @@ At Phase F, open [phase-f-close.md](phase-f-close.md) and follow every line of i
 
 ## References
 
-All shared references and the trigger that opens each: [skill-reference-index.md](../../../references/skill-reference-index.md). This skill's own files: [bug-draft-template.md](references/bug-draft-template.md) at Phase A2/C (default draft layout), [posting-discipline.md](references/posting-discipline.md) at Phase D (GitHub + Jira posting), [worked-example.md](references/worked-example.md) only when a format sample is needed.
+Shared, with triggers: [skill-reference-index.md](../../../references/skill-reference-index.md). Own: [bug-draft-template.md](references/bug-draft-template.md) (A2/C), [posting-discipline.md](references/posting-discipline.md) (D), [worked-example.md](references/worked-example.md) (format sample only).
 
 ---
 

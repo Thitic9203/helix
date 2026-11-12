@@ -1,6 +1,6 @@
 # TC API prep — Phase F
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F as its WORKFLOW.md section names. Every rule here is a full gate of the workflow.
 
 ## Phase F — Draft in chat (approval gate) [medium freedom]
 
@@ -13,9 +13,11 @@ Draft API test cases (not published yet)
 
 **Coverage:** {N} endpoints / {M} test cases
 
+**Out of scope:** {the Phase E out-of-scope list, or none}
+
 **Columns:** {final Phase B list} · **Priority rule:** {only when the spec states no criticality — see api-tc-guidelines § Priority}
 
-| Test Case ID | Module / Feature | ... |
+| **Test Case ID** | **Module / Feature** | ... |
 | --- | --- | --- |
 | ... one row per TC ... |
 ```

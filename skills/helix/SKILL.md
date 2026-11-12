@@ -15,15 +15,24 @@ metadata:
 
 # Helix router
 
-**First:** follow [session-start-context.md](../../references/session-start-context.md) before anything else.
+**Start, in this order:** (1) follow [session-start-context.md](../../references/session-start-context.md); (2) run the [Dependencies](#dependencies) check; (3) go to [Opening](#opening-always-unless-the-user-already-chose-a-mode).
 
 Show the menu and route to the correct workflow skill. The command [commands/helix.md](../../commands/helix.md) loads this skill; the rules live here only.
 
 ## Contents
 
-- [Opening](#opening-always-unless-the-user-already-chose-a-mode) · [Discipline](#discipline) · [Refusal-first](#refusal-first-precondition-gate)
+- [Dependencies](#dependencies) · [Opening](#opening-always-unless-the-user-already-chose-a-mode) · [Discipline](#discipline) · [Refusal-first](#refusal-first-precondition-gate)
 - [Proactive suggestion](#proactive-suggestion-suggest-only-opt-out) · [Routing](#routing) · [QA closing](#qa-closing-mandatory-before-done) · [MUST / NEVER](#must--never)
-- [Must-read files](#must-read-files) · [Dependencies](#dependencies)
+- [Must-read files](#must-read-files)
+
+## Dependencies
+
+Check these before routing — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+
+- Atlassian MCP (ticket lookup while routing) — optional; without it, ask the user to paste the ticket text (see Routing)
+- each routed skill lists its own dependencies in its `## Dependencies` section and re-checks them when it starts
+
+If a check fails, do not stop routing: name the failed dependency in one line, give its install hint or fallback from the dependencies.md row, and still show the menu (or route a named workflow). The routed skill re-checks its own dependencies and stops there if a missing one is required.
 
 ## Opening (always, unless the user already chose a mode)
 
@@ -116,7 +125,7 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Rou
 
 The router reads only what it needs to pick and hand off a workflow. Every gate a workflow runs (evidence, escape prevention, result quality, priority, defect write-up, Playwright, Jira posting, closing) is loaded by that workflow at the step that uses it — never by the router. See also [skill-reference-index.md](../../references/skill-reference-index.md) — optional lookup list of every shared reference; a step names the file to use.
 
-Read while routing (open each file at the step that names it):
+**Router reads** (open each at the step named):
 - Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
 - Read [helix-session-constraints.md](../../references/helix-session-constraints.md) once at session start.
 - Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) at Opening step 3, before showing the menu.
@@ -124,21 +133,13 @@ Read while routing (open each file at the step that names it):
 - Read [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) before invoking or switching skills.
 - Read [skill-routing.md](../../references/skill-routing.md) when choosing which skill handles a request.
 - Read [skill-rules-style.md](../../references/skill-rules-style.md) for refusal wording only; its multi-item Missing list never overrides the one-item rule in Opening.
-Read only when the routed workflow reaches that step (the router never opens these; each stays one hop from here only because the shared rules above MUST-link it — skill-lint must-read-depth):
-- Read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) only when the workflow reaches it: after posting a Jira comment, before saying done.
-- Read [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) only when the workflow reaches it: before posting a Jira table with multi-line cells.
-- Read [long-workflow-todos.md](../../references/long-workflow-todos.md) only when the workflow reaches it: when the workflow has many steps; keep the todo list.
-- Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) only when the workflow reaches it: when a test is flaky or a tool errors.
-- Read [qa-evidence-gates.md](../../references/qa-evidence-gates.md) only when the workflow reaches it: before any completion claim.
-- Read [root-cause-investigation.md](../../references/root-cause-investigation.md) only when the workflow reaches it: before naming a cause for any failure.
-- Read [round-time-contract.md](../../references/round-time-contract.md) only when the workflow reaches it: when a round starts and before reporting times.
-- Read [verify-closing-checklist.md](../../references/verify-closing-checklist.md) only when the workflow reaches it: before reporting a verify or retest done.
 
-## Dependencies
-
-Check these before routing — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
-
-- Atlassian MCP (ticket lookup while routing) — optional; without it, ask the user to paste the ticket text (see Routing)
-- each routed skill lists its own dependencies in its `## Dependencies` section and re-checks them when it starts
-
-If a check fails, do not stop routing: name the failed dependency in one line, give its install hint or fallback from the dependencies.md row, and still show the menu (or route a named workflow). The routed skill re-checks its own dependencies and stops there if a missing one is required.
+**Not opened by the router** — the routed workflow reads each at the step named; listed only because the shared rules above MUST-link them (skill-lint must-read-depth):
+- Read [jira-comment-post-review.md](../../references/jira-comment-post-review.md) after posting a Jira comment, before saying done.
+- Read [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md) before posting a Jira table with multi-line cells.
+- Read [long-workflow-todos.md](../../references/long-workflow-todos.md) when the workflow has many steps; keep the todo list.
+- Read [qa-debug-discipline.md](../../references/qa-debug-discipline.md) when a test is flaky or a tool errors.
+- Read [qa-evidence-gates.md](../../references/qa-evidence-gates.md) when the workflow reaches a completion claim.
+- Read [root-cause-investigation.md](../../references/root-cause-investigation.md) before naming a cause for any failure.
+- Read [round-time-contract.md](../../references/round-time-contract.md) when a round starts and before reporting times.
+- Read [verify-closing-checklist.md](../../references/verify-closing-checklist.md) before reporting a verify or retest done.

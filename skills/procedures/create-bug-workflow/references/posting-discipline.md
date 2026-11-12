@@ -16,10 +16,10 @@ Which body markup each create path takes, and which gate runs on it, is one tabl
 Used only when WORKFLOW Phase D's MCP-failure branch selects it (macOS with a logged-in browser
 session). Otherwise follow the next branch there — REST with credentials, or hand the drafts to the user.
 
-
 1. Build body; `JSON.stringify` then escape non-ASCII to `\uXXXX` for ASCII-only `.js` file.
 2. Dry-run decode before `osascript`.
 3. Real emoji `✅` `❌` — not literal `\\u274c` in posted content.
+4. In the logged-in Jira tab the script calls `fetch('/rest/api/2/issue', {method: 'POST', …})` (v3 lock: `/rest/api/3/issue`) and reads `key` from the response; a non-2xx or no response → phase-d-create item 4.
 
 ## Pre-post checklist
 

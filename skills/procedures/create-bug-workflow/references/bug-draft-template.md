@@ -57,7 +57,7 @@ Fix status: new report — no fix delivered yet
 
 Code reference (if known):
 - File: path:line
-- Root cause: ...
+- Root cause: {one sentence} — {Confirmed | Suspected | Unknown}
 
 Environment:
 - URL:
@@ -77,7 +77,8 @@ Evidence:
   bracket; Priority from the matrix cell; anything the matrix cannot place is asked). Cite the cheat-sheet row as
   the matrix's own *Verdict line format* does: line number plus the row text copied character for character, never the file name alone.
 - **What happens / What should happen** — keep both headings. The verbatim source quote and its link go
-  *inside* What should happen, under the expected bullets; they never replace the section.
+  *inside* What should happen, under the expected bullets; they never replace the section. Every link comes
+  from the input or tool output — a missing one is `{link pending from reporter}`, never built from a domain and a key.
   Quote the source line verbatim and link it. A paraphrase, a feature name or a
   translation is not an expected side; with no quotable source the candidate is a question, not a bug
   (WORKFLOW Refusal-first).

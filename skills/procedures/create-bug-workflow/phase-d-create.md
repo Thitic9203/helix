@@ -1,6 +1,6 @@
 # Create bug — Phase D
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase D as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase D; every rule here is a full gate.
 
 ## Phase D — Create issues [low freedom]
 
@@ -36,14 +36,15 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
    you propose (from the create metadata), and **wait for the user's approval** before retrying on the
    same path. Never drop or blank the field to make the create pass, and never treat this as an MCP
    failure that switches path.
-4. **MCP fails** (unreachable, auth, tool error, timeout — not a field error) → the create may still have gone through, so **check before you switch path**:
+4. **A create call fails with a non-field error** — MCP, JXA or REST: unreachable, auth/401, 5xx, tool or script error, timeout → the create may still have gone through, so **search before any retry or path switch**:
    - Search for the approved summary with no status filter (`searchJiraIssuesUsingJql`, or the REST search on the locked path).
    - **Found one** → it is this run's issue: record its key, do **not** create it again, and continue at Phase F. **Found two or more** → show the keys and ask which is this run's issue; create nothing.
-   - **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create on another path blind.
-   - **Found none** → pick the first path that applies, and say which one you used:
+   - **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create blind.
+   - **Found none after an MCP failure** → pick the first path that applies, and say which one you used:
      - macOS with a logged-in browser session → JXA + Chrome fallback per posting-discipline (ASCII-only script, dry-run before post);
      - otherwise, Jira REST credentials configured (see [dependencies.md](../../../references/dependencies.md)) → REST on the locked path;
      - otherwise → **STOP**: hand the approved drafts to the user to file manually, report the run as BLOCKED (no create path), and skip to Phase F only for anything the user files and links back.
+   - **Found none after a JXA or REST failure** → **🔴 GATE:** show the error verbatim and which bugs were and were not created; **retry nothing until the user approves** — never file twice.
 
 **Write the body in the markup of the path you post through**, from the first keystroke
 ([jira-wiki-vs-markdown.md](../../../references/jira-wiki-vs-markdown.md) § The rule). One table, one rule:

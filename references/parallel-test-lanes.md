@@ -143,6 +143,8 @@ Serial (one lane) is chosen only when the plan can name one of these:
 | **d. Plan has ≤ 2 scenarios** | Dispatch overhead exceeds the run |
 | **e. User asked for serial** | Explicit in chat ("one browser", "run it yourself") — state the lane plan and its time saving once in the confirm block, then follow the user's choice |
 
+**Host that cannot start subagents** is not a predicate: run the planned lanes one after another in the parent, each on its own leased account.
+
 A constraint on **part** of the plan limits **that part**, never the whole run:
 
 | Rationalization | Reality |
