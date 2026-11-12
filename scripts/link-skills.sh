@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Link shippable Helix skills into common agent skill directories.
 #
-# Global (default): symlinks under ~/.claude/skills, ~/.cursor/skills, etc.
+# Global (default): symlinks under ~/.cursor/skills, ~/.codex/skills, etc.
+# Claude Code loads Helix from the plugin helix@helix-dev only, so ~/.claude/skills gets no links and
+# old Helix links there are removed (Spec: docs/sdd/single-claude-install R1, R3-R5).
 # Project (optional): set HELIX_LINK_WORKSPACE=/path/to/repo to also link under
 #   .github/skills, .agents/skills, .windsurf/skills, .cline/skills, .gemini/skills
 
@@ -76,12 +78,40 @@ link_into() {
     -print0)
 }
 
+# plugin_ready: helix@helix-dev is confirmed installed in Claude Code (R9)
+plugin_ready() {
+  command -v claude >/dev/null 2>&1 && claude plugin list 2>/dev/null | grep -qF "helix@helix-dev"
+}
+
+# remove_old_claude_links: unlink only Helix skill links under ~/.claude/skills (R3, R4),
+# and only when the plugin is confirmed installed, so Claude Code never ends up with no Helix (R9)
+remove_old_claude_links() {
+  local dir="$HOME/.claude/skills" entry removed=0 old=()
+  [ -d "$dir" ] || return 0
+  for entry in "$dir"/*; do
+    [ -L "$entry" ] || continue
+    if helix_is_skill_link "$entry" "$(basename "$entry")" 0 "$REPO" "$REPO_P"; then
+      old+=("$entry")
+    fi
+  done
+  [ "${#old[@]}" -gt 0 ] || return 0
+  if ! plugin_ready; then   # R9: one line, nothing removed
+    echo "kept ${#old[@]} old Helix skill link(s) in $dir — plugin helix@helix-dev not confirmed; run claude-plugin-sync.sh, then link-skills.sh again"
+    return 0
+  fi
+  for entry in "${old[@]}"; do
+    rm -f -- "$entry"
+    removed=$((removed + 1))
+  done
+  echo "removed $removed old Helix skill link(s) from $dir — Claude Code now loads Helix from the plugin only"   # R5
+}
+
 echo "=== Helix link-skills (repo: $REPO) ==="
 echo ""
+remove_old_claude_links
 
 # --- Global user skill directories (Agent Skills interoperable paths) ---
 GLOBAL_DESTS=(
-  "$HOME/.claude/skills|claude"
   "$HOME/.cursor/skills|cursor"
   "$HOME/.codex/skills|codex"
   "$HOME/.copilot/skills|copilot"

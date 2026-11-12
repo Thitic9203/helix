@@ -34,7 +34,7 @@ Helix uses the open **[Agent Skills](https://agentskills.io)** format (`SKILL.md
 
 | Agent / IDE | Supported | Global skills folder (after install) |
 |-------------|-----------|--------------------------------------|
-| **Claude Code** | Yes | `~/.claude/skills/` + plugin cache |
+| **Claude Code** | Yes | plugin **`helix@helix-dev`** only (no `~/.claude/skills/` links) |
 | **Cursor** | Yes | `~/.cursor/skills/` |
 | **OpenAI Codex** | Yes | `~/.codex/skills/` |
 | **GitHub Copilot** (VS Code) | Yes | `~/.copilot/skills/` |
@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above except Claude Code (which loads them once, from the plugin — older Helix links in `~/.claude/skills` are removed with a one-line notice; your own folders and other links there are never touched) (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -186,7 +186,7 @@ Failures are recorded in `~/.helix/last-update-error` and shown once at the next
 
 - The session-start check needs **network**; offline → no notice, no error.
 - **Cursor / Copilot / Codex / …** — skills update via symlinks after pull; **Reload window** (Cursor) if the agent still shows old skill text.
-- **Claude Code** — after a plugin version jump, **start a new session** once if `/helix` or slash commands look stale (skills via `~/.claude/skills` are usually current sooner).
+- **Claude Code** — after a plugin version jump, **start a new session** once if `/helix` or slash commands look stale (Claude Code reads Helix only from the plugin).
 
 ### Claude Code plugin id
 

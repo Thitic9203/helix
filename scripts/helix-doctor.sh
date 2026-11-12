@@ -89,7 +89,6 @@ check_dest() {
 }
 
 GLOBAL_DESTS=(
-  "$HOME/.claude/skills|Claude Code"
   "$HOME/.cursor/skills|Cursor"
   "$HOME/.codex/skills|Codex"
   "$HOME/.copilot/skills|GitHub Copilot"
@@ -106,6 +105,18 @@ for entry in "${GLOBAL_DESTS[@]}"; do
   label="${entry##*|}"
   check_dest "$dest" "$label"
 done
+
+# Claude Code uses the plugin only; old Helix links here list every skill twice
+# (Spec: docs/sdd/single-claude-install R7).
+_old=0
+for _e in "$HOME/.claude/skills"/*; do
+  [ -L "$_e" ] && helix_is_skill_link "$_e" "$(basename "$_e")" 0 "$REPO" "$REPO_P" && _old=$((_old + 1))
+done
+if [ "$_old" -gt 0 ]; then
+  warn "Claude Code: $_old old Helix skill link(s) in $HOME/.claude/skills duplicate the plugin — run: bash $REPO/scripts/link-skills.sh"
+else
+  ok "Claude Code: no duplicate skill links (plugin only)"
+fi
 
 echo ""
 echo "--- Claude plugin cache ---"
