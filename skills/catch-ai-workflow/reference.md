@@ -68,7 +68,7 @@ Weight depth by risk: business-critical paths, error handling, boundaries, secur
 | Minor | Real but contained — cosmetic drift, wording, non-blocking inconsistency |
 | Question | Expected or actual side unconfirmed; needs the spec owner or missing access |
 
-An **unsourced claim** is its own class when the deliverable declares where its content comes from — the finding is "this line is traceable to nothing". It keeps its severity — Major when the claim is load-bearing and Minor when it is incidental — and is reported on its own tally ("Unsourced claims: N"); it is not added to the Defect count. Its correction is always "cite the source or remove the line". Never pair it with an asserted true value you could not observe; that value is a separate Question.
+An **unsourced claim** is its own class when the deliverable declares where its content comes from — the finding is "this line is traceable to nothing". It keeps its severity — Major when the claim is load-bearing and Minor when it is incidental (load-bearing = a reader acts on it: a figure, a support/compatibility list, a requirement; incidental = attribution or metadata such as owner or author) — and is reported on its own tally ("Unsourced claims: N"); it is not added to the Defect count. Its correction is always "cite the source or remove the line". Never pair it with an asserted true value you could not observe; that value is a separate Question.
 
 ## Verdict
 
@@ -88,7 +88,7 @@ the severity label disagree, the matrix wins and the label is corrected to match
 your own prior work (no matrix row applies), the severity decides: Blocker or Major → FAILED, Minor only → PWMI.
 
 **Material part of the scope** = any inventory item that, if it were defective, would be Blocker or
-Major (a primary flow, a load-bearing figure, a stated requirement). Unconfirmable items of Minor
+Major (a primary flow, a load-bearing figure, a support/compatibility statement, a stated requirement). Unconfirmable items of Minor
 impact only do not make the run BLOCKED — give the verdict for the rest and list each of them as a Question.
 
 ## Remediation and prevention

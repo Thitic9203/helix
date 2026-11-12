@@ -24,15 +24,15 @@ exactly what was covered without reading the chat.
 - [Step 2c — Build the retest case list (mandatory — bug and task alike) \[medium freedom\]](#step-2c--build-the-retest-case-list-mandatory--bug-and-task-alike-medium-freedom)
 - [Step 2d — Design reference gate (mandatory before any UI verdict) \[low freedom\]](#step-2d--design-reference-gate-mandatory-before-any-ui-verdict-low-freedom)
 - [Step 3 — Bug type and comment format (decide once) \[medium freedom\]](#step-3--bug-type-and-comment-format-decide-once-medium-freedom)
-- [Step 4 — Login and test \[low freedom\]](execute-and-evidence.md#step-4--login-and-test-low-freedom)
-- [Step 5 — Evidence \[medium freedom\]](execute-and-evidence.md#step-5--evidence-medium-freedom)
-- [Result quality gate (mandatory before the comment is drafted) \[low freedom\]](execute-and-evidence.md#result-quality-gate-mandatory-before-the-comment-is-drafted-low-freedom)
-- [Step 6 — Draft Jira comment \[medium freedom\]](comment-and-post.md#step-6--draft-jira-comment-medium-freedom)
-- [Step 7 — Post comment \[low freedom\]](comment-and-post.md#step-7--post-comment-low-freedom)
+- [Step 4 — Login and test \[low freedom\]](execute-and-evidence.md#step-4--login-and-test-low-freedom) — file opened at step 4
+- [Step 5 — Evidence \[medium freedom\]](execute-and-evidence.md#step-5--evidence-medium-freedom) — file opened at step 4
+- [Result quality gate (mandatory before the comment is drafted) \[low freedom\]](execute-and-evidence.md#result-quality-gate-mandatory-before-the-comment-is-drafted-low-freedom) — file opened at step 4
+- [Step 6 — Draft Jira comment \[medium freedom\]](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) — file opened at step 6
+- [Step 7 — Post comment \[low freedom\]](comment-and-post.md#step-7--post-comment-low-freedom) — file opened at step 6
 - [QA closing (mandatory before "done") \[low freedom\]](#qa-closing-mandatory-before-done-low-freedom)
-- [Step 8 — Close out (after successful post; no second approval unless user asked) \[low freedom\]](closeout-and-notify.md#step-8--close-out-after-successful-post-no-second-approval-unless-user-asked-low-freedom)
-- [Step 9 — QA result notify (if the project configures a channel) \[low freedom\]](closeout-and-notify.md#step-9--qa-result-notify-if-the-project-configures-a-channel-low-freedom)
-- [Step 10 — A question arrives after the comment was posted \[low freedom\]](closeout-and-notify.md#step-10--a-question-arrives-after-the-comment-was-posted-low-freedom)
+- [Step 8 — Close out (after successful post; no second approval unless user asked) \[low freedom\]](closeout-and-notify.md#step-8--close-out-after-successful-post-no-second-approval-unless-user-asked-low-freedom) — file opened at step 8
+- [Step 9 — QA result notify (if the project configures a channel) \[low freedom\]](closeout-and-notify.md#step-9--qa-result-notify-if-the-project-configures-a-channel-low-freedom) — file opened at step 8
+- [Step 10 — A question arrives after the comment was posted \[low freedom\]](closeout-and-notify.md#step-10--a-question-arrives-after-the-comment-was-posted-low-freedom) — file opened at step 8
 - [Skill composition](#skill-composition)
 - [Out of scope](#out-of-scope)
 - [MUST / NEVER](#must--never)
@@ -71,9 +71,9 @@ Retest bug progress:
 **`engineering:testing-strategy`** to plan the retest approach, then hold to the discipline it names —
 no guessing an expected/spec, and no blind retry loops (a repeat failure = stop and diagnose).
 
-Follow [shared-preamble.md](../../../references/shared-preamble.md).
+At the start, follow [shared-preamble.md](../../../references/shared-preamble.md).
 
-**Jira bodies** (after approval): neutral English — no "Retested by:", no honorifics. If reproduction is unclear or results conflict with dev claims, follow [qa-debug-discipline.md](../../../references/qa-debug-discipline.md) before posting PASSED/FAILED.
+**Jira bodies** (after approval): neutral English — no "Retested by:", no honorifics. Only when reproduction is unclear or results conflict with dev claims, follow [qa-debug-discipline.md](../../../references/qa-debug-discipline.md) before posting PASSED/FAILED.
 
 **Root cause is mandatory, never inferred.** Every item that is not a clean PASSED gets a full
 investigation per [root-cause-investigation.md](../../../references/root-cause-investigation.md) —
@@ -102,7 +102,7 @@ items is verified AND appears as its **own row** in the verdict table with its o
 It is **never** acceptable to post PASSED on partial coverage and mention the untested/failing item in
 a remark, a note under the table, or in chat — a point worth noticing is worth a **row**. Enforced by
 the **7-layer AC/EC & bug-detail coverage completeness gate** in
-[qa-evidence-gates.md](../../../references/qa-evidence-gates.md): layers 1–2 (enumerate every
+[qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md): layers 1–2 (enumerate every
 expected-result/detail item char-exact, map each id 1:1 to a table row) run at **Step 2**; layers 3–5
 (verify each on its real surface, row-never-a-remark, partial coverage ≠ PASSED) run at **Step 4**;
 layers 6–7 (reconcile `enumerated ids == rowed-and-statused rows`, fail-closed) run at **Step 6 / 8·0**
@@ -115,7 +115,7 @@ direct API call to perform the tested action. The API is allowed **only** to pre
 data / precondition (Step 4c). For an **API-layer** bug the API call in Step 4e *is* the real step,
 not a shortcut. Full rule: [test-through-real-steps.md](../../../references/test-through-real-steps.md).
 
-**Compare against the design (Figma) on every UI retest** — rule stated once at [Step 2d](#design-reference-gate) (does a reference exist; none → report back, visual points BLOCKED) and [Step 4d](execute-and-evidence.md#design-comparison) (the five-point comparison, design out of date, revised AC).
+**Compare against the design (Figma) on every UI retest** — rule stated once at [Step 2d](#design-reference-gate) (does a reference exist; none → report back, visual points BLOCKED) and, at step 4 (4d), [Step 4d](execute-and-evidence.md#design-comparison) (the five-point comparison, design out of date, revised AC).
 
 **Retest deeply — the gates a shipped-defect review put in writing.** Follow
 [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) throughout: cover
@@ -142,7 +142,7 @@ MUST refuse to start Step 2 until the user provides a **Jira issue key or browse
 
 MUST refuse to run tests without **reachable environment config** (workspace `*-retest-guide.md` or answers from [project-config-template.md](references/project-config-template.md)) — because URLs and credentials must not be hardcoded in the skill.
 
-On first response after constraints, follow [workspace-guide-discovery.md](../../../references/workspace-guide-discovery.md) for **Retest bug**, then show [intake-one-pager.md](../../../references/intake-one-pager.md) (Retest section).
+At step 0 (first response after constraints), follow [workspace-guide-discovery.md](../../../references/workspace-guide-discovery.md) for **Retest bug**, then show [intake-one-pager.md](../../../references/intake-one-pager.md) (Retest section).
 
 ---
 
@@ -254,7 +254,7 @@ severity/priority notion. Cheat-sheet (full matrix + hard rule at the link):
 
 ## Step 2b — Fix claim vs verification plan (mandatory) [medium freedom]
 
-Follow [retest-fix-intake.md](../../../references/retest-fix-intake.md). Post the retest plan block before executing tests.
+At step 2b, follow [retest-fix-intake.md](../../../references/retest-fix-intake.md). Post the retest plan block before executing tests.
 **Show the plan, then run** — print it and start execution without waiting for an approval; the plan
 rides again in the Step 6d decisions popup, where a correction starts a new round
 ([round-time-contract.md](../../../references/round-time-contract.md) §2).
@@ -304,7 +304,7 @@ The same list, with each case's outcome, goes into the `Case (Role)` cell of eve
 
 ## Step 2d — Design reference gate (mandatory before any UI verdict) [low freedom]
 
-<a id="design-reference-gate"></a>Follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4.
+<a id="design-reference-gate"></a>At step 2d, follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4.
 
 - **A design node exists and covers the screen** → record the link on the header's `Design ref:` line,
   and compare at Step 4d.
@@ -333,7 +333,7 @@ The same list, with each case's outcome, goes into the `Case (Role)` cell of eve
 | **API** | cURL + response below the table (no `Evidence` column) | v3 ADF | `/rest/api/3/.../comment` |
 | **FE / UI** | **MP4 link every row; + inline still on text-verification rows** | **v2 wiki markup** | `/rest/api/2/.../comment` |
 
-**Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
+**Evidence per row:** one rule, kept in [comment-and-post.md](comment-and-post.md#evidence-per-row) (opened at step 6); the Step 8·0 gate is authoritative.
 
 Set flag `COMMENT_FORMAT=v2` or `v3` here. **Do not change later** — rewriting between formats wastes time.
 
@@ -350,27 +350,27 @@ Set flag `COMMENT_FORMAT=v2` or `v3` here. **Do not change later** — rewriting
 
 ## Steps 4–5 and the result quality gate
 
-Read and follow [execute-and-evidence.md](execute-and-evidence.md) before Step 4 — Step 4 (login and test), Step 5 (evidence) and the result quality gate, end to end.
+At step 4, open and follow [execute-and-evidence.md](execute-and-evidence.md) — Step 4 (login and test), Step 5 (evidence) and the result quality gate, end to end.
 
 ---
 
 ## Steps 6–7 — comment and post
 
-Read and follow [comment-and-post.md](comment-and-post.md) before drafting the comment — Step 6 (draft, guard, approval) and Step 7 (post and syntax gate), end to end.
+At step 6, before drafting the comment, open and follow [comment-and-post.md](comment-and-post.md) — Step 6 (draft, guard, approval) and Step 7 (post and syntax gate), end to end.
 
 ---
 
 ## QA closing (mandatory before "done") [low freedom]
 
-Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) before the Step 6d approval popup** — a conflict found there can change the verdict, so its table is reported in chat and its *Investigate further* / *Close out now* question is **queued into the Step 6d decisions popup** rather than asked after posting ([round-time-contract.md](../../../references/round-time-contract.md) §2–§3); apply its unattended default (step 5) meanwhile. No post, Step 8 transition, or Step 9 notify goes out until that answer is in:
+At step 6d (before the approval popup) and again after step 9, follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) before the Step 6d approval popup** — a conflict found there can change the verdict, so its table is reported in chat and its *Investigate further* / *Close out now* question is **queued into the Step 6d decisions popup** rather than asked after posting ([round-time-contract.md](../../../references/round-time-contract.md) §2–§3); apply its unattended default (step 5) meanwhile. No post, Step 8 transition, or Step 9 notify goes out until that answer is in:
 
 - [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** (not ambiguous text).
 - [ ] **`node tools/retest-guard/retest_guard.js` exited 0** for this round — on the manifest before drafting (Step 6·0) and on the posted body before the transition (Step 8·0; skipped only when a fresh hash compare shows the posted body byte-identical to the guarded draft). Exit 2 (could not run) is not a pass, and the guard's clean result covers the mechanical rules only.
 - [ ] **Step 6c independent reviewer round returned CLEAN**, every round was reported to the user as it finished, and the reviewer's findings were verified rather than taken on trust.
 - [ ] **Scope is stated only when partial** — a full round prints no Scope line; a partial one prints `CASES: <ids>` with the verdict reading `PASSED (scoped: …)` and an `Out of scope this round:` line naming every item this round did not verify.
-- [ ] **AC/EC & bug-detail coverage gate (7-layer) PASSED — `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)`** ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *AC/EC & bug-detail coverage*): every Expected-Result item + bug-detail bullet was enumerated char-exact at Step 2, mapped 1:1 to a verdict-table row, verified on its real surface, and appears as its **own row** — none parked only in a remark/note/chat, no PASSED over partial coverage, a differing item is a PWMI/FAILED row ([verdict rule](#verdict-rule)) and an unverified one a BLOCKED row, never a footnote. Fail closed: any item unverified/unrowed/status-less ⇒ retest not complete.
+- [ ] **AC/EC & bug-detail coverage gate (7-layer) PASSED — `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)`** ([qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) § *AC/EC & bug-detail coverage*): every Expected-Result item + bug-detail bullet was enumerated char-exact at Step 2, mapped 1:1 to a verdict-table row, verified on its real surface, and appears as its **own row** — none parked only in a remark/note/chat, no PASSED over partial coverage, a differing item is a PWMI/FAILED row ([verdict rule](#verdict-rule)) and an unverified one a BLOCKED row, never a footnote. Fail closed: any item unverified/unrowed/status-less ⇒ retest not complete.
 - [ ] **Case list in the posted comment (bug and task alike)** — every Step 2c case appears in the `Case (Role)` cell of each row it covers, in the one table (no separate case table); `Case coverage: {n}/{total}` reconciles; the surface's existing cases were pulled in, not just the ticket's own lines ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §1).
-- [ ] **Design (Figma) comparison ran for every UI case** — gate stated once at [Step 2d](#design-reference-gate) and [Step 4d](execute-and-evidence.md#design-comparison).
+- [ ] **Design (Figma) comparison ran for every UI case** — checked at step 9 close-out; gate stated once at [Step 2d](#design-reference-gate) and [Step 4d](execute-and-evidence.md#design-comparison).
 - [ ] **Depth gates green** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)): values checked against their source (not just present) · every in-scope width run with overflow/overlap **measured** · fixture large enough to overflow/scroll · build id recorded · no `caveat/not verifiable/assumed` row carrying a passing status · anything wrong that was seen is reported even where no expected asked for it.
 - [ ] `Verdict:` is the round's real verdict — one of PASSED / FAILED / BLOCKED / PWMI per the [verdict rule](#verdict-rule) — with the issue link.
 - [ ] **Non-PASSED verdict:** Step 6a's two blocks present — **root cause** (Confirmed/Suspected/Unknown + backing artifacts) and **resolution options** (two options, each a named **role** owner, ending `Decided by: <role>`) — plus the one-line statement of whether the originally reported symptom is gone. (No separate repro-matrix / why-failed block — that content lives in the `Fixture` line and the verdict-table row + its `Evidence` MP4 / screenshot.)
@@ -383,7 +383,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 - [ ] Step 7d fix-verify completed.
 - [ ] **Cross-ticket conflict check ran before the Step 6d approval popup** ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)): the whole project searched with every layer's query + hit count recorded, candidates opened (fields + every comment), the table posted in chat with a clickable link per ticket, and the user answered *Investigate further* / *Close out now* in the Step 6d decisions popup before the post, any transition, or notify.
 - [ ] **Round report ends with the `Round time:` line** (Step 8e), measured from session timestamps ([round-time-contract.md](../../../references/round-time-contract.md) §1), and `<workspace>/references/helix-handoff-{KEY}.md` written for this round (§10).
-- [ ] **Step 8·0 format-completeness gate passed BEFORE any transition** — evidence per the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule: FE bug — MP4 link in every row (plays from Jira) + inline still on text-verification rows (renders as a picture); API bug — full cURL/response per row.
+- [ ] **Step 8·0 format-completeness gate passed BEFORE any transition** — checked at step 8; evidence per the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule: FE bug — MP4 link in every row (plays from Jira) + inline still on text-verification rows (renders as a picture); API bug — full cURL/response per row.
 - [ ] Bug landed in Done → **Step 8d** run: stories it blocked either moved to ready-for-QA or left with their remaining blockers reported.
 - [ ] Step 9 QA notify sent if the project configures a channel (retest verdict + Jira comment link + @mention) — **sent regardless of who invoked the retest** (owner, another QA, slash command, bot/trigger) and regardless of whether they asked for one.
 - [ ] [verify-closing-checklist.md](../../../references/verify-closing-checklist.md) (Retest section).
@@ -394,7 +394,7 @@ Follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-
 
 ## Steps 8–10 — close out, notify, follow-up questions
 
-Read and follow [closeout-and-notify.md](closeout-and-notify.md) after the post — Step 8 (close out), Step 9 (QA result notify) and Step 10 (a question after the post), end to end.
+At step 8, after the post, open and follow [closeout-and-notify.md](closeout-and-notify.md) — Step 8 (close out), Step 9 (QA result notify) and Step 10 (a question after the post), end to end.
 
 ---
 
@@ -432,15 +432,15 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST use exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** in the summary line — the round's real verdict; a round nobody could reach reads BLOCKED, never FAILED | Scanability for dev/QA; a coverage gap is not a defect (`SUMMARY_VERDICTS` in `retest_rules.js`) |
 | MUST keep a PASSED comment inside the Step 6 template fields only — no narrative padding, one-line evidence captions | A tight comment is scannable in seconds; prose bloat buries the verdict (locked from an owner-accepted format 2026-07-23) |
 | MUST give every table column an explicit English header; row-number column = `No.` | bare `#` renders as a blank header cell in Jira |
-| MUST head the single table exactly as the **Table headers** rule in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24) |
+| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24) |
 | MUST bold every table header cell (`\| **No.** \| **Test Case** \| …`) | Jira doesn't auto-bold markdown headers; non-bold looks unprofessional |
 | MUST compare actual text against the Expected Result field character by character — rule stated once at the [verdict rule](#verdict-rule) | Any text difference is **never PASSED**; one statement keeps the PWMI/FAILED mapping from drifting |
-| MUST pass the Step 8·0 format-completeness gate before ANY status transition — FE bug evidence follows the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule (MP4 link in every row's `Evidence` cell, plus an inline `!file.png!` still — pre-resized, no `\|width` — on text-verification rows), link and still render-verified; a text-only FE comment fails the gate | Transitioning on an evidence-incomplete comment silently hides the gap (learned on a past retest: FE bug moved to Done with a text-only comment) |
+| MUST pass the Step 8·0 format-completeness gate before ANY status transition — FE bug evidence follows (at step 6, checked at step 8) the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule (MP4 link in every row's `Evidence` cell, plus an inline `!file.png!` still — pre-resized, no `\|width` — on text-verification rows), link and still render-verified; a text-only FE comment fails the gate | Transitioning on an evidence-incomplete comment silently hides the gap (learned on a past retest: FE bug moved to Done with a text-only comment) |
 | MUST NOT offer the user a "skip the MP4 / stills / text-only" option for an FE bug — that evidence is mandatory; if upload is blocked, STOP and resolve, don't bypass | Offering to skip a mandatory step is how the gate got bypassed (same past retest) |
 | MUST verify the Jira UI after post (Step 7d) before Step 8, then run Step 8 unless the user stopped you | Truncation / wrong endpoint; workflow closure |
 | MUST run Step 8d as soon as the bug lands in Done — Done = fixed = the stories it blocked can be releasable | Otherwise blocked stories sit in the backlog after their blocker is already closed |
 | MUST check EVERY "is blocked by" link on a story before moving it in Step 8d, treat only **Done** as resolved, and move only stories parked in the blocked status | This bug is often not the story's only blocker; moving a still-blocked story sends untestable work back to QA, and touching a story already in QA/dev moves it backwards |
-| MUST create missing test data in the [4c order](execute-and-evidence.md#4c-test-data) — ask the user only after steps 1–3 fail | "No data" is not an excuse |
+| MUST create missing test data at step 4, in the [4c order](execute-and-evidence.md#4c-test-data) — ask the user only after steps 1–3 fail | "No data" is not an excuse |
 | MUST perform the action under test through its real surface (UI bug → through the UI, every Test Step); API only for test-data/precondition prep, and for an API-layer bug the API call is the real step | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action verifies the wrong layer and can pass while the screen is broken |
 | MUST lock v2/v3 at Step 3 (FE → v2) and MUST NOT change COMMENT_FORMAT after Step 3 | v2/v3 rewrite cost |
 | MUST include full cURL/response per API case | Evidence must stand alone |
@@ -450,12 +450,12 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST `--dry-run` Discord notify before real send | Catches format errors before they go live |
 | MUST fetch the notify recipient from the ticket's QA Owner field (per project guide) per ticket, and verify the @mention person = that field's value — NEVER the Reporter, never a name carried over from another ticket | Label said "QA Owner" but pinged the Reporter → 3 wrong pings, user correction 2026-07-15 |
 | MUST verdict from the bug's OWN expected results — rule stated once at the [verdict rule](#verdict-rule) (parent AC: the supplement line under it) | Bug details are the contract; a partial match is never PASSED (user rule 2026-07-15) — PWMI or FAILED per the [verdict rule](#verdict-rule) |
-| MUST enumerate **every** Expected-Result item + bug-detail bullet char-exact at Step 2, map each `ER*` id 1:1 to a verdict-table row, and reconcile `enumerated ids == rowed-and-statused rows` (`{n}/{total}` coverage, `{n}=={total}`) before Step 6 / 8·0 (7-layer coverage gate in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md)) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |
+| MUST enumerate **every** Expected-Result item + bug-detail bullet char-exact at Step 2, map each `ER*` id 1:1 to a verdict-table row, and reconcile `enumerated ids == rowed-and-statused rows` (`{n}/{total}` coverage, `{n}=={total}`) before Step 6 / 8·0 (7-layer coverage gate in [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md)) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |
 | MUST record **every** expected-result/detail result as its own verdict-table row — NEVER park an untested/failing item in a remark, a note under the table, or chat while the verdict reads PASSED | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |
 | MUST NOT post PASSED on partial coverage — rule stated once at the [verdict rule](#verdict-rule) | "Fixed except one point" hidden as a caveat is misread as a full pass; and calling a merely-unverified item FAILED contradicts "a coverage gap is not a defect" |
 | MUST NOT transition, notify, or report "done" while any enumerated item lacks a rowed status (coverage gate fail-closed) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |
 | MUST judge any Priority/Severity referenced in a retest comment ONLY from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md) — never invent a severity notion | Keeps bug-priority language consistent across QA workflows; no ad hoc severity claims in Jira comments |
-| MUST exercise **every** entry point to a failing surface separately (direct route **and** the in-app path a user takes) and capture each in its own row's `Evidence` cell (per the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule); name the entry point(s) actually exercised in the `Fixture` line, and never claim a path you did not run | A path with no captured evidence is a guess. A past retest: "happens via both entry points" was published from one run, the dev acted on it, and it had to be retracted in-ticket |
+| MUST exercise **every** entry point to a failing surface separately (direct route **and** the in-app path a user takes) and capture each in its own row's `Evidence` cell (at step 5, per the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule); name the entry point(s) actually exercised in the `Fixture` line, and never claim a path you did not run | A path with no captured evidence is a guess. A past retest: "happens via both entry points" was published from one run, the dev acted on it, and it had to be retracted in-ticket |
 | MUST NOT write a scope word (`always`, `any entry point`, `both ways`, `only when …`) that no exercised-and-captured `Evidence` row supports | The scope claim is the first thing a dev builds on |
 | MUST hard-reload every surface after a state-changing fixture step before observing or capturing it; report a stale-data window only as a separate timing note with the measured delay | An already-open view holds pre-change data — recording it publishes your test timing as product behavior (past retest: card looked clickable ~5s after unpublish) |
 | MUST resolve any disagreement between your own observations with one clean re-run before drafting, and record which was the artifact; unresolvable → BLOCKED, not FAILED | Resolving it in favour of the verdict you already reached is how the wrong repro path shipped |
@@ -475,9 +475,9 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST send the Step 9 notify on every retest a configured channel covers — whoever invoked the skill (owner, another QA, slash command, unattended bot), asked for it or not | The notify is how the QA owner learns the verdict; tying it to who started the run means retests run by anyone else close silently |
 | MUST run the Step 9 pre-notify review gate (5 checks on dry-run output) before EVERY send, including resends | Catches wrong recipient/link/counts before they go live (user rule 2026-07-15) |
 | MUST retest a **Task / Story** against its Acceptance Criteria (read where the AC actually lives, usually the description) with the same enumerate→row→reconcile discipline a Bug's Expected Result gets; a ticket stating no verifiable AC is BLOCKED + a question to the owner, never PASSED | A task retest with no written contract is an unverified pass; "nothing to check" is not a check |
-| MUST post the **case list** inside the retest comment's one table: No. · ER · Case (Role) · Expected Result · Actual Result · Evidence · Status — **never a separate case table, never a design-node column** (that ban applies only to this posted comment table, not to the Step 2c plan; [`Design ref:` line rule](comment-and-post.md#design-ref-line)) — for **both** bug and task retests, reconciled against the Step 2c list and the `ER*`/`AC*` ids | A result that never becomes a case row is never re-run; three customer escapes came through results that lived only as comment prose |
+| MUST post the **case list** inside the retest comment's one table: No. · ER · Case (Role) · Expected Result · Actual Result · Evidence · Status — **never a separate case table, never a design-node column** (that ban applies only to this posted comment table, not to the Step 2c plan; at step 6 — [`Design ref:` line rule](comment-and-post.md#design-ref-line)) — for **both** bug and task retests, reconciled against the Step 2c list and the `ER*`/`AC*` ids | A result that never becomes a case row is never re-run; three customer escapes came through results that lived only as comment prose |
 | MUST scope the retest to the **whole surface** the fix touched (its existing cases + the states and in-scope widths the design defines), not only the reported line | A component was retested on one screen while the defect sat on another screen reusing it — the customer found it |
-| MUST compare every UI case against its **design node** — rule stated once at [Step 4d](execute-and-evidence.md#design-comparison) | An all-present, mis-ordered screen passes a "shows A, B, C" expected; `figma` appeared zero times in the set that shipped the escapes |
+| MUST compare every UI case against its **design node** — rule applied at step 4, stated once at [Step 4d](execute-and-evidence.md#design-comparison) | An all-present, mis-ordered screen passes a "shows A, B, C" expected; `figma` appeared zero times in the set that shipped the escapes |
 | MUST report a missing design reference back and hold its visual points **BLOCKED** — rule stated once at [Step 2d](#design-reference-gate) | An assumed expected is not a spec; it produces both phantom bugs and false passes (PM-006) |
 | MUST report a screen this ticket intentionally changed as **design out of date** (name the design owner, ask for the node update in this ticket) instead of filing it as a defect | A relocated menu was reported missing when it existed in a submenu — a full round lost |
 | MUST spell out a mid-test AC revision in the verdict line (`PASSED against AC as revised {date}, differs from design in {…}`) and hand the difference to the known-limitation list | A silent PASSED on a revised AC shipped the review's only High-severity escape |

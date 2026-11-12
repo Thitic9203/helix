@@ -31,7 +31,7 @@ the gates that follow a case that did not pass. Nothing in 4d is deferred to dra
 
 **Parallel lanes (default).** Dispatch the planned lanes at once — after any parent pre-login for
 accounts sharing one OTP inbox (§3), one subagent per lane, all in a single message, each with the lane prompt from
-[parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §5. Each lane runs 4a–4h on its
+[parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §5 — pass each lane the **file paths** of its case list, the ticket's Expected Result/AC and any spec or design notes, never their pasted text; the lane opens and reads each path itself. Each lane runs 4a–4h on its
 own cases with **only its leased account** and records the authenticated user id at login; barrier
 cases run alone after the lanes return. The parent then runs the §6 merge (isolation · coverage ·
 evidence) and does 4i on every non-PASS itself before Step 5. Lanes never post, transition, assign,
@@ -111,7 +111,7 @@ compare itself stays full — all five points below.
    elements present · text char-exact · order/position · the states the node defines · no overflow and
    no overlap ([figma-design-comparison.md](../../../references/figma-design-comparison.md) §3). Record
    the node link actually opened on the header's `Design ref:` line per the
-   [`Design ref:` line rule](comment-and-post.md#design-ref-line) (the per-case mapping stays in the Step 2c plan).
+   at step 6, the [`Design ref:` line rule](comment-and-post.md#design-ref-line) (the per-case mapping stays in the Step 2c plan).
 2. **Measure, do not eyeball, the layout checks** — overflow is `rect.right > window.innerWidth` or
    `document.documentElement.scrollWidth > window.innerWidth`; overlap is two text rectangles
    intersecting by more than ~3 px. Do this at **every in-scope width**, both sides of any breakpoint
@@ -146,7 +146,7 @@ Swagger is source of truth — not stale ticket text alone.
 
 ### 4g. Entry-point coverage + settle + contradiction gate (mandatory for every non-PASSED item)
 
-Follow [defect-report-completeness.md](../../../references/defect-report-completeness.md) §2–§3. Three things happen **during the run**, not while drafting — you cannot reconstruct them later:
+At step 4g, follow [defect-report-completeness.md](../../../references/defect-report-completeness.md) §2–§3. Three things happen **during the run**, not while drafting — you cannot reconstruct them later:
 
 1. **Exercise every entry point, one at a time.** For a UI defect that means at minimum: the direct URL/route **and** the in-app path a real user takes to the same surface (list card, menu, CTA, deep link). Capture a separate screenshot per entry point (each becomes an `Evidence`-cell image), and name the exercised paths in the `Fixture` line; a path you did not exercise is **never inferred from another path** — don't claim it.
 2. **Settle after every state change.** After a fixture step that changes server state (publish / unpublish / approve / delete / role change), hard-reload each surface before observing it. A view that was already open holds pre-change data; recording it is reporting your own test timing as the product's behavior. A stale window worth reporting is a **separate timing note** with the measured delay — not a verdict row.
@@ -156,7 +156,7 @@ Follow [defect-report-completeness.md](../../../references/defect-report-complet
 
 ### 4h. Root-cause investigation (mandatory for every non-PASSED item — run it before Step 6)
 
-Follow [root-cause-investigation.md](../../../references/root-cause-investigation.md) end to end — the
+At step 4h, follow [root-cause-investigation.md](../../../references/root-cause-investigation.md) end to end — the
 debugging skill (§0), the 8-boundary evidence sweep (§1), compare against something that works (§2),
 one falsifiable hypothesis at a time (§3), and a confidence label (§4). The reference is the single
 source for those steps; do not paraphrase them here.
@@ -172,7 +172,7 @@ What is specific to retest:
 
 ### 4i. Challenge the non-PASS + surface it to the user (mandatory for every non-PASSED item — before Step 6)
 
-Follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
+At step 4i, follow [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) end to end, **before
 the draft exists** — name the discrepancy (§1), re-verify the expected side against an authoritative
 source including related tickets' AC/EC (§2, and its three outcomes), rule out a test-side cause (§3),
 then surface it (§4). The reference is the single source for those steps.
@@ -223,11 +223,11 @@ the lane run that executes the case **is** the recording — there is no separat
 run. The 7 layers below are unchanged: every clip still clears all 7, and a red layer still means
 re-capture and re-run all 7.
 
-- **Record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never "same as the other role". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-gates.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
+- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never "same as the other role". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — "scroll to menu XX" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.
 - **Text-verification case → screenshot AS WELL as the MP4.** When a case verifies exact wording / label / message / count / displayed values (anything judged char-exact against the bug's Expected Result), also embed a still screenshot inline so the exact text is legible in a frame — the row then carries **both** the MP4 link and the `!png!` image.
-- **Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
+- **Evidence per row:** one rule, kept in [comment-and-post.md](comment-and-post.md#evidence-per-row) — open it at step 5 when filing each row's evidence; the Step 8·0 gate there is authoritative.
 - **Destination = the Jira issue, in the comment.** Upload every file (MP4 + any screenshot) as an **issue attachment**, then reference it in the verdict table's `Evidence` cell (the column between `Actual Result` and `Status`). A retest never writes to Google Drive — that is the story/bot flow, not this one.
-- **Naming (reuse the story convention):** `{KEY}_TC_{nn}.mp4` for the clip, `TC_{nn}-ER_{n}.png` for a text still — **and when the case covers more than one role, every file for it carries the role**: `{KEY}_TC_{nn}_{ROLE}.mp4`, `TC_{nn}_{ROLE}-ER_{n}.png`. One rule, same as the [story gate](../../../references/qa-evidence-gates.md); the `Evidence` link must use the name the file was **actually attached** under.
+- **Naming (reuse the story convention):** `{KEY}_TC_{nn}.mp4` for the clip, `TC_{nn}-ER_{n}.png` for a text still — **and when the case covers more than one role, every file for it carries the role**: `{KEY}_TC_{nn}_{ROLE}.mp4`, `TC_{nn}_{ROLE}-ER_{n}.png`. One rule, same as the [story gate](../../../references/qa-evidence-capture.md); the `Evidence` link must use the name the file was **actually attached** under.
 - Max ~3 bullets per case in the comment.
 - **In-cell embedding (mandatory):**
   - **MP4** → attach, then link it in the `Evidence` cell as a wiki attachment link `[▶ {KEY}_TC_{nn}.mp4|^{KEY}_TC_{nn}.mp4]` — **with the role suffix when the case has one** (`[▶ {KEY}_TC_{nn}_{ROLE}.mp4|^{KEY}_TC_{nn}_{ROLE}.mp4]`); the link text and the attachment name must both be the name the file was uploaded under, or gate layer 7 fails on a link that resolves to nothing. (An MP4 cannot render as an inline picture in a wiki cell — a working attachment link that plays/downloads from Jira is the requirement.)

@@ -20,7 +20,7 @@ fi
 # Surface the last update failure (written by the update command, cleared by its next clean run).
 update_tip=""
 if [ -n "$_notice" ]; then
-  update_tip="\n\n---\n**Helix update available:** ${_notice}. Tell the user once, briefly; nothing was changed on this machine."
+  update_tip="\n\n---\n**Helix update available:** ${_notice}. Nothing was changed on this machine. Ask the user once, briefly, in their language, whether to update Helix now. Run the update command above only after the user answers yes; if they say no or do not answer, run nothing. After a successful update tell them to restart Claude Code once."
 fi
 _uerr="$HOME/.helix/last-update-error"
 if [ -s "$_uerr" ]; then

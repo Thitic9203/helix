@@ -1,9 +1,9 @@
 ---
 name: tc-fe-prep-workflow
-description: |
-  Prepare frontend manual test cases (Thai, ราชบัณฑิตยสภา) from a Jira story (AC/EC) with mandatory AC/EC coverage review and ISTQB/29119-3 quality check, show an HTML draft for approval, then post one comment on that story only with the Draft_Jira and Import_Qase (plus per-Type) CSV attachments, and close with a four-axis final TC review report (AC/EC alignment, spelling, numbering, scope).
-  Use when the user asks for FE test cases, manual TC from acceptance criteria or edge cases (even without saying FE), a TC comment on a Jira story, or TC FE Preparation from Helix (/tc-fe-prep) (e.g. "เขียนเทสเคส FE", "เตรียม TC FE").
-  Do NOT use for API-only Swagger test cases (tc-api-prep-workflow), Playwright execution (testing-ticket-workflow), retest-after-fix (retest-bug-workflow), or opening bug tickets (create-bug-workflow).
+description: |-
+  Write Thai FE manual test cases from a Jira story's AC/EC with coverage + ISTQB review, HTML draft for approval, then one story comment with CSVs and a final review report.
+  Use when asked for FE test cases, manual TC from AC/EC (even without "FE"), a TC comment on a story, /tc-fe-prep ("เขียนเทสเคส FE", "เตรียม TC FE").
+  Do NOT use for API/Swagger TCs (tc-api-prep), Playwright runs (testing-ticket), retest (retest-bug), or bugs (create-bug).
 metadata:
   proactive_triggers:
     - /tc-fe-prep
@@ -21,8 +21,9 @@ metadata:
 
 When invoked:
 
+0. First, before anything else, do the session-start step in [session-start-context.md](../../references/session-start-context.md).
 1. Announce once: `Using **tc-fe-prep-workflow** to prepare FE manual test cases.`
-2. Read and follow [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) **end-to-end** — every step, gate, and reference.
+2. Read [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) and work through its progress checklist in order. Open each phase or reference file at the step that names it, not up front; every gate and approval step in it stays binding.
 
 Claude Code shortcut: `/tc-fe-prep` → [commands/tc-fe-prep.md](../../commands/tc-fe-prep.md).
 
@@ -34,10 +35,10 @@ Every must-read file for this workflow, linked directly from here. References al
 
 Read these on every run — each one is used in every TC prep session.
 
-- [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) — always: the full procedure, read end to end.
+- [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) — always: the procedure; open each file at the step its progress checklist names.
 - [must-never.md](../procedures/tc-fe-prep-workflow/references/must-never.md) — read at the start of every run, before Step 0, and again before any write or post — the skill-specific MUST / NEVER table; every row binds drafting, review and publishing.
-- [requirement-gates.md](../procedures/tc-fe-prep-workflow/requirement-gates.md) — before Step 3 — read and follow Steps 2a, 2.5 and 2.6, end to end.
-- [design-and-review.md](../procedures/tc-fe-prep-workflow/design-and-review.md) — before Step 5 — read and follow Steps 3, 4 and 4.5, end to end.
+- [requirement-gates.md](../procedures/tc-fe-prep-workflow/requirement-gates.md) — at Step 2a, before Step 3 — Steps 2a, 2.5 and 2.6.
+- [design-and-review.md](../procedures/tc-fe-prep-workflow/design-and-review.md) — at Step 3, before Step 5 — Steps 3, 4 and 4.5.
 - [shared-preamble.md](../../references/shared-preamble.md) — at the start of every run, before the first reply (preamble, constraints, tone).
 - [tc-quality-standards.md](../../references/tc-quality-standards.md) — while writing every TC row.
 - [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — read on the first response, to locate the workspace project guide for this workflow.

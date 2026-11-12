@@ -25,6 +25,7 @@ Rules:
 - Swagger-only paths **not** in spec → default **out of scope** unless user explicitly includes them.
 - Spec-required behaviour **without** a matching Swagger path → flag **spec/Swagger gap** to user; do not invent URL.
 - Spec and Swagger **contradict** on the same operation (status code, field, type, enum, required flag) → list it under **Spec/Swagger gaps flagged** with both values quoted, then 🔴 **STOP** and ask the user which source wins. Do not write that row's Expected Result (or post **Ready for draft: YES**) until the user answers.
+- Not a contradiction: Swagger **omits** a status/field the spec states (e.g. spec 403, Swagger lists no 403) → use the spec value as a documented extension (row *Responses*), note it under gaps for confirmation, keep **Ready for draft: YES**. STOP only when both sources state different values.
 
 ---
 

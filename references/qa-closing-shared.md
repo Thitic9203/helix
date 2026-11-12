@@ -8,7 +8,7 @@ Follow [skill-rules-style.md — doubt and fix-verify](skill-rules-style.md#qa-c
 
 1. **Assume the first draft/output is wrong** — name which phase catches it.
 2. Complete **skill-specific** checkboxes (3–5 items in each SKILL.md).
-3. [verify-closing-checklist.md](verify-closing-checklist.md) — workflow-specific section.
+3. [verify-closing-checklist.md](verify-closing-checklist.md) — workflow-specific section (**TC review**: skip it; close per its own Step 5).
 4. [session-closing.md](session-closing.md) — artifact index, next workflow, handoff, `Verdict:`.
 
 ## Shared checklist
