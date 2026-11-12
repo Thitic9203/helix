@@ -102,6 +102,18 @@ jobs:
           BASE_JSON="$RUNNER_TEMP/base-budget.json"
           git show "origin/${{ github.base_ref }}:token-budget.json" > "$BASE_JSON" 2>/dev/null || BASE_JSON=""
           bash scripts/check-budget-raise.sh "$BASE_JSON" token-budget.json
+      # R8 register: a reworded rule line passes only when rule-line-register.json lists it, and new
+      # entries need a "[rule-reword] ..." PR whose body quotes the owner.
+      - name: Rule reword register needs the title and a quoted owner approval
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -o pipefail
+          BASE_REG="$RUNNER_TEMP/base-register.json"
+          git show "origin/${{ github.base_ref }}:rule-line-register.json" > "$BASE_REG" 2>/dev/null || BASE_REG=""
+          HEAD_REG=""; [ -f rule-line-register.json ] && HEAD_REG=rule-line-register.json
+          bash scripts/check-rule-reword.sh "$BASE_REG" "$HEAD_REG"
 
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
