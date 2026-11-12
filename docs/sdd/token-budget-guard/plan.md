@@ -11,7 +11,7 @@
 | 5 | PR CI job `token-budget` | `.github/workflows/version.yml` (new job) | R5 |
 | 6 | Required check on `main` | GitHub branch protection (owner approval) | R6 |
 | 7 | Release gate on the exact commit | `publish` job `needs` + re-measure | R7 |
-| 8 | Rule-line diff: no gate cut to save tokens | `scripts/check-rule-lines.sh` in layers 5 and 7 | R8 |
+| 8 | Rule-line diff: no gate cut to save tokens | `scripts/check-rule-lines.sh` in layers 5 and 7; reword register `rule-line-register.json` gated by `scripts/check-rule-reword.sh` | R8 |
 | 9 | Budget may only go up with the owner's approval | CI job + `CODEOWNERS` + auto-ratchet down after release | R9 |
 | 10 | User-side refusal of a failing release | `token-report.json` release asset + `scripts/helix-auto-update.sh` | R10 |
 
