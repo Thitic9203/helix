@@ -12,3 +12,4 @@
 | 8 | Rule-line diff | R8 | test: deleting a MUST line fails; moving it passes; a registered, owner-approved reword passes; a register entry whose replacement is missing or not a rule fails; new entries without a [rule-reword] title + quote fail | all behave as stated |
 | 9 | Raise-only-with-approval job, CODEOWNERS, ratchet-down write after release | R9 | test: a budget increase without the title or quote fails | fails; a raise PR with both passes |
 | 10 | `token-report.json` asset and auto-update refusal | R10 | update test: a release with verdict `fail` is installed | install stays on the old version with one line of reason |
+| 11 | R1 baseline provenance: `check-budget-baseline.sh`, R1 test uses it | R1, R9 | test: an R9 raise commit after the ratchet fails the old equality; a raise without `[token-budget-raise]`, an uncommitted raise and an edited release copy must fail | raise via R9 passes; the other three fail |
