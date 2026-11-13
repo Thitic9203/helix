@@ -4,17 +4,11 @@ description: |-
   Retest a Jira bug/task after a dev fix: case list, Figma, API/UI + Swagger, evidence comment (with approval), transition and assign back to dev.
   Use when the user says retest bug, verify fix, /retest-bug, Ready to Retest, or "does the fix work" ("dev says it's done, check it", "แก้แล้วยัง").
   Do NOT use for new TC tables (tc-fe-prep / tc-api-prep), ticket runs (testing-ticket), or new bugs (create-bug).
-metadata:
-  proactive_triggers:
-    - /retest-bug
-    - retest bug
-    - retest task
-    - verify fix
-    - retest
-    - check if bug is fixed
 ---
 
 # Retest Bug (discovery stub)
+
+Also triggers on: retest task; check if bug is fixed.
 
 **Thin entry for agent skill discovery.** Full procedure: [WORKFLOW.md](../procedures/retest-bug-workflow/WORKFLOW.md).
 

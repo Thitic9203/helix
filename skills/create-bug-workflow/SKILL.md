@@ -4,16 +4,11 @@ description: |-
   File bug reports on Jira or GitHub: collect target link, format and details, check the board for an earlier decision, falsify the defect, confirm with the user before creating.
   Use when the user picks Create bug from Helix, says /create-bug, or wants a found defect logged ("raise a ticket for this", "log this defect", "เปิดบั๊ก").
   Do NOT use for Playwright runs (testing-ticket), retest after a fix (retest-bug), TC tables (tc-fe-prep / tc-api-prep), or result-sheet updates.
-metadata:
-  proactive_triggers:
-    - /create-bug
-    - create bug
-    - file bug
-    - open bug
-    - log defect
 ---
 
 # Create Bug (discovery stub)
+
+Also triggers on: open bug; log defect.
 
 **Thin entry for agent skill discovery.** Full procedure: [WORKFLOW.md](../procedures/create-bug-workflow/WORKFLOW.md).
 

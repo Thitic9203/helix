@@ -20,6 +20,12 @@ printf -- '-----BEGIN RSA %s KEY-----\n' "PRIV""ATE" > references/zz-probe.md
 expect_exit 1 "secret guard blocks a private key header" -- bash scripts/check-no-secrets.sh references/zz-probe.md
 rm -f references/zz-probe.md
 expect_exit 0 "skill structure passes as shipped" -- bash scripts/ci-check-skill-structure.sh
+cp skills/helix/SKILL.md "$R/zz-helix.bak"
+python3 - skills/helix/SKILL.md <<'PY'
+import sys;p=sys.argv[1];s=open(p).read();open(p,'w').write(s.replace('\n---\n','\nmetadata:\n  proactive_triggers:\n    - x\n---\n',1))
+PY
+expect_exit 1 "skill structure fails when frontmatter has proactive_triggers" -- bash scripts/ci-check-skill-structure.sh
+cp "$R/zz-helix.bak" skills/helix/SKILL.md; rm -f "$R/zz-helix.bak"
 mkdir -p skills/zz-unregistered && printf -- '---\nname: zz-unregistered\ndescription: probe\n---\n' > skills/zz-unregistered/SKILL.md
 expect_exit 1 "skill structure fails on a skill missing from plugin.json" -- bash scripts/ci-check-skill-structure.sh
 finish
