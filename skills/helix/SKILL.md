@@ -2,7 +2,7 @@
 name: helix
 description: |-
   Helix QA assistant — routes to the right workflow (TC FE/API prep, retest bug, testing ticket, create bug, catch-ai, TC review, TC change format, review result, test data).
-  Use when the user says Helix, /helix, Helix menu, QA menu or "what can Helix do" with no workflow named, asks which fits, or wants QA help ("ช่วยดูงาน QA นี้ให้หน่อย").
+  Use when the user says Helix, /helix, Helix menu, QA menu or "what can Helix do", asks which fits, or wants QA help with none named ("ช่วยดูงาน QA นี้ให้หน่อย").
   Do NOT use when a workflow is named, even as "Helix → {workflow}" — run that workflow.
 metadata:
   proactive_triggers:
@@ -36,18 +36,18 @@ If a check fails, do not stop routing: name the failed dependency in one line, g
 
 ## Opening (always, unless the user already chose a mode)
 
-Respond in **the user's language** (see [user-communication.md](../../references/user-communication.md)) — menus, questions, and replies follow the language the user writes in; keep technical terms, file names, and ticket keys as written. Be concise.
+Respond in **the user's language** (see [user-communication.md](../../references/user-communication.md)) — menus, questions, and replies follow the language the user writes in; keep technical terms, file names, and ticket keys as written. Be concise: one question, the menu, or the announce line per reply.
 
 Decide what to show in this order — the first step that applies wins:
 
 1. **Named workflow.** If the user's message already names a workflow (Thai, informal, or mixed input included), map it via [intent-shortcuts.md](../../references/intent-shortcuts.md), extract any issue key or URL from the same message, skip the menu, and go to Routing.
-2. **Issue key with no mode** (`/helix {ISSUE_KEY}`). Infer the workflow only when the same message also contains a phrase from intent-shortcuts.md (e.g. `{ISSUE_KEY} API test cases from Swagger` → 2). A bare key or URL alone never picks a workflow: show the menu and ask which option applies to that key.
+2. **Issue key with no mode** (`/helix {ISSUE_KEY}`). Infer the workflow only when the same message also contains a phrase from intent-shortcuts.md (e.g. `{ISSUE_KEY} API test cases from Swagger` → 2). A bare key or URL alone never picks a workflow: show the menu and ask `Which workflow for {ISSUE_KEY}? Say a menu number or name.`
 3. **Proactive suggestion.** Otherwise apply [Proactive suggestion](#proactive-suggestion-suggest-only-opt-out); if it yields one suggestion, show that instead of the menu.
 4. **Menu.** Otherwise show the menu from [menu-text.md](../../references/menu-text.md) (Opening block, in the user's language as that file says).
 
-🔴 STOP — wait for the user's choice before starting a workflow.
+🔴 STOP — when a menu or suggestion was shown, wait for the user's choice before starting a workflow (a workflow named in step 1 is that choice).
 
-🔴 When the router itself must ask (which option, which of two matching workflows), ask exactly one question, and that question asks for one item. Leave every other missing item (URL, account, browser, design node) to the routed workflow's own intake, which asks one at a time — never fold a second item into the same question, and never a numbered list of asks from the router.
+🔴 When the router itself must ask (which option, which of two matching workflows), ask exactly one question, and that question asks for one item (the one-time install question of session-start-context.md comes first, alone, and is not this question). Leave every other missing item (URL, account, browser, design node) to the routed workflow's own intake, which asks one at a time — never fold a second item into the same question, and never a numbered list of asks from the router.
 
 ## Discipline
 
@@ -63,17 +63,17 @@ Refuse, say why in one line, and route instead when:
 |-----------------------|-----|
 | Post a Jira comment, transition a ticket, or create an issue directly from `/helix` | Refuse the action here; route to the workflow that owns it (create-bug, retest-bug, testing-ticket) via Routing — that workflow keeps its own approval gate. |
 | Run tests or Playwright directly from `/helix` | Refuse; route to testing-ticket or retest-bug via Routing. |
-| A request that is not QA work (no row in skill-routing.md or intent-shortcuts.md matches) | Say it is outside Helix's scope; show the menu once, then treat it as 13 (Other). |
+| A request that is not QA work (no row in skill-routing.md or intent-shortcuts.md matches) | Say it is outside Helix's scope; show the menu once and wait; a reply that picks nothing is 13 (Other). |
 
 ## Proactive suggestion (suggest-only, opt-out)
 
-Apply the trigger table in [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) to the session context (git branch, linked Jira ticket, defects mentioned in chat):
+Apply the trigger table in [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) to the session context (branch from `git branch --show-current`, last commit from `git log -1 --format=%s`, linked Jira ticket, defects mentioned in chat):
 
-- If `HELIX_PROACTIVE=0` is set, or no trigger row matches, make no suggestion — show the menu.
+- If `printenv HELIX_PROACTIVE` prints `0`, or no trigger row matches, make no suggestion — show the menu.
 - If one row matches, offer exactly **one** suggestion instead of the menu. When more than one row matches, apply that file's only tie-break — ticket type wins over branch; if rows still tie, the signal is ambiguous, so follow its last row and show the menu.
 - **Suggest only — never auto-run** a workflow: the user did not ask for it, so starting one is an unrequested side effect ([proactive-qa-triggers.md § Hard guardrails](../../references/proactive-qa-triggers.md#hard-guardrails)).
 - 🔴 STOP — one suggestion per turn, then wait for the user to pick (number/name) before loading anything.
-- No Jira MCP? Infer from branch + last commit and say so, so the user can correct.
+- No Jira MCP? Infer from branch + last commit and say so, so the user can correct. Not a git repo or no readable branch: skip the branch signal, use the rest, none left → menu.
 - Wording: use [proactive-qa-triggers.md § Suggestion wording](../../references/proactive-qa-triggers.md#suggestion-wording-one-line-then-wait) exactly — it is the only copy.
 
 ## Routing
@@ -93,6 +93,7 @@ When routing cannot proceed:
 | Reply is not 1–13, an option name, or an intent-shortcuts phrase | Re-show the menu once; if still unclear, treat it as 13 (Other). |
 | User ignores or declines a proactive suggestion (replies about something else, or says no) | Do not start that workflow. Show the menu once; do not repeat the same suggestion in this session. |
 | Row 8 or 10 chosen and its `skills/{name}/SKILL.md` is not in the loaded skill set | Say it is not shipped in helix, then offer only that row's named fallback. |
+| The routed workflow loads, then stops at its own first gate or dependency | Relay its one-line stop reason; do not re-route, retry, or imitate it from memory; show the menu once. |
 | The routed `SKILL.md` is missing or cannot be loaded | Say which file is missing, do not imitate the workflow from memory, and show the menu again. |
 | menu-text.md, skill-routing.md or helix-session-constraints.md cannot be read | Name the file; do not route or show a menu from memory; stop. If intent-shortcuts.md or proactive-qa-triggers.md cannot be read instead, name it, skip Opening step 1 or 3, and show the menu. |
 | One message names workflow A, then workflow B only if A's result calls for it (e.g. retest, then file a bug if still broken) | Route to A; record B as the handoff per [skill-routing.md § Handoffs](../../references/skill-routing.md#handoffs-after-a-workflow-ends); do not ask a clarifying question. Two workflows both matching one goal is a different case — ask one question per intent-shortcuts.md. |
@@ -108,6 +109,8 @@ Follow [qa-closing-shared.md](../../references/qa-closing-shared.md) + router-sp
 - [ ] Child workflow skill is loaded (not just described) — or, when no child was loaded (declined, fallback none, out of scope), the reply says 'not routed' and why.
 - [ ] No Jira post or issue create happened in this router skill.
 
+A turn that only routed closes with these three checks and `Next:`; the verify-closing-checklist, artifact index and `Verdict:` items of qa-closing-shared.md apply once a workflow ran.
+
 If routing only, hint the command from the Command column of [skill-routing.md § Primary menu](../../references/skill-routing.md#primary-menu) for the chosen row.
 
 ## MUST / NEVER
@@ -116,9 +119,9 @@ Shared rules: [shared-must-never.md](../../references/shared-must-never.md). Rou
 
 | Rule | Because |
 |------|---------|
-| MUST show the menu from references/menu-text.md in the user's language | Same numbers and option names at every entry point; user-communication.md |
+| MUST show the menu from references/menu-text.md in the user's language when Opening step 4 applies | Same numbers and option names at every entry point; user-communication.md |
 | MUST state the workflow it routes to before loading it | The user can correct a wrong route before any work starts |
-| MUST NOT start a workflow without user picking 1–13 or naming one | Avoid wrong scope |
+| MUST NOT start a workflow without user picking 1–13 or naming one, imitate one from memory, or fold several asks into one question | Avoid wrong scope |
 | MUST NOT post to Jira or create issues from this router | Side effects belong in child workflows |
 
 ## Must-read files
@@ -127,7 +130,7 @@ The router reads only what it needs to pick and hand off a workflow. Every gate 
 
 **Router reads** (open each at the step named):
 - Read [agent-rationalizations.md](../../references/agent-rationalizations.md) when tempted to skip a step; each excuse has its correct action.
-- Read [helix-session-constraints.md](../../references/helix-session-constraints.md) once at session start.
+- Read [helix-session-constraints.md](../../references/helix-session-constraints.md) at Routing step 2 (the first routed response).
 - Read [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) at Opening step 3, before showing the menu.
 - Read [session-closing.md](../../references/session-closing.md) at session end.
 - Read [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) before invoking or switching skills.

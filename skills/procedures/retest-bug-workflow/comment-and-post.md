@@ -6,7 +6,7 @@ Part of [WORKFLOW.md](WORKFLOW.md). Read before drafting the comment.
 
 - [Step 6 — Draft Jira comment \[medium freedom\]](#step-6--draft-jira-comment-medium-freedom)
   - [6·0 — Build the run manifest, render the body, run the guard (mandatory)](#60--build-the-run-manifest-render-the-body-run-the-guard-mandatory)
-  - [6a. Extra sections REQUIRED when the verdict is FAILED or BLOCKED](#6a-extra-sections-required-when-the-verdict-is-failed-or-blocked)
+  - [6a. Extra sections REQUIRED when the verdict is not PASSED](#6a-extra-sections-required-when-the-verdict-is-not-passed)
   - [6b. Dev-question gate (MUST pass before the draft goes to the user)](#6b-dev-question-gate-must-pass-before-the-draft-goes-to-the-user)
   - [6c. Independent reviewer pass (mandatory before the first post)](#6c-independent-reviewer-pass-mandatory-before-the-first-post)
   - [6d. End of round — decisions popup, then one approval bundle (mandatory, fixed order)](#6d-end-of-round--decisions-popup-then-one-approval-bundle-mandatory-fixed-order)
@@ -37,7 +37,7 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 *Env:* {ENV} ({url})
 *API:* {METHOD} {path}   (if API bug)
 *Swagger:* {link}
-*Design ref:* {figma node link}   (UI retest — or "none, to ask {who} (not yet sent)", once sent "none, asked {who} {YYYY-MM-DD}"; no " — " or " · " in the value)
+*Design ref:* {figma node link}   (UI retest — or "none, to ask {who} (not yet sent)", once sent "none, asked {who} {YYYY-MM-DD}"; no " — " in the value, " · " only between `TC → node` mappings)
 *Role:* {role(s) the cases were run as}
 *Date:* {YYYY-MM-DD}   (the date the cases ran; dry run or offline round = the session's current date — never a placeholder)
 *Build:*
@@ -112,7 +112,7 @@ line order and a machine-checked manifest → body example.
 ships on every retest, bug and task alike, but inside the rows it covers; it is what tells the next
 reader what was actually exercised, and a result that never became a case does not get re-run
 ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §1). The
-coverage lines stay **after** the table. The owner's words: "ทำไมต้องแยกตาราง รวมให้เป็นตารางเดียว".
+coverage lines stay **after** the table. The owner's words: "why split the table? merge it into one table".
 
 🔴 **No `Scope: FULL` line.** A full round prints no Scope line at all (the owner removed the `*Scope:* FULL` line);
 only a scoped round prints `*Scope:* CASES: <ids>`.
@@ -121,7 +121,7 @@ only a scoped round prints `*Scope:* CASES: <ids>`.
 (separated by ` · ` or ` — ` in `run.json`) renders as the label on its own line, one `* ` bullet per
 point, then exactly **one** blank line — without it the wiki list continues into the next label, and
 `Fixture` must sit at the same level as `Build`. Inside a table cell, several points (` · ` in
-`run.json`) render as `• point` lines joined by ` \\ `. Owner: "ให้ทำเป็นบลูเลทๆ เสมอไม่ยาวพืดให้อ่านยาก".
+`run.json`) render as `• point` lines joined by ` \\ `. Owner: "always bullets, never one long run that is hard to read".
 
 🔴 **After posting: column widths and centring (post-publish step).** The v2 wiki endpoint cannot
 carry widths or alignment, so once the wiki body is posted, GET the comment's v3 ADF, run
@@ -129,7 +129,7 @@ carry widths or alignment, so once the wiki body is posted, GET the comment's v3
 comment endpoint, GET it again and run `adf_colwidth.js --check readback.json` — exit 0 is required.
 It sets `colwidth` [50, 75, 230, 200, 330, 230, 65] on the single table and centres every clip and
 image in the `No.` / `Evidence` / `Status` columns (each MP4 `mediaGroup` becomes a centred
-`mediaSingle`); owner: "จัดกลางเสมอ อย่าให้ต้องบอกซ้ำ". The readback check is the evidence — not the
+`mediaSingle`); owner: "always centred, don't make me say it again". The readback check is the evidence — not the
 PUT status. When the workspace has no `adf_colwidth.js` ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)),
 edit the GET'd ADF by hand to the same `colwidth` values and centring, PUT it, GET it again and check
 each width and each centred clip/image in the readback one by one; write
@@ -219,16 +219,16 @@ form narrows the coverage denominator to what those cases cover, prints the verd
 round:` line — so a partial retest is honest instead of either breaking the coverage gate or quietly
 widening what was asked for.
 
-A hand-written body is still allowed when the manifest cannot be built, but it passes the same gate:
+Only when the renderer is not available ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)) is the body written by hand from [comment-template-v2.md](references/comment-template-v2.md); it passes the same gate:
 `node tools/retest-guard/retest_guard.js --body body.txt --format v2 --bug-type FE`.
 
 **What the guard does not decide, and never implies:** whether the clip reached its target, whether
 the cause is real, whether the expected side was verified against the design. Those are 4d, 4h and 4i
 and no exit code stands in for them.
 
-### 6a. Extra sections REQUIRED when the verdict is FAILED or BLOCKED
+### 6a. Extra sections REQUIRED when the verdict is not PASSED
 
-A PASSED comment stops at the template above. **A FAILED / BLOCKED comment adds exactly these two
+A PASSED comment stops at the template above. **A FAILED, BLOCKED or PWMI comment adds exactly these two
 blocks**, in this order (the failing behaviour itself already lives in the `Actual Result` cell + its
 `Evidence` MP4 / still, so it is not repeated as a separate prose block):
 
@@ -287,9 +287,9 @@ wait here.
 
 6b is the author's own re-read; [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the bar: *a second QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
 
-0. **Before every dispatch**, re-run the coverage, case-list and count reconciliation (Step 6) on the saved body,
-   confirm every evidence reference names a file captured this round and every sentence a fix added
-   traces to the ticket or a captured file — mechanical gaps cost reviewer rounds.
+0. **Before every dispatch**, check the **whole** saved body (these gaps caused 10 of 13 after-15 re-rounds): coverage, case-list and count reconciliation (Step 6); `{run}` counts only cases executed this round, and passed + failed + PWMI + blocked = total;
+   every evidence reference names a file captured this round (never "to be captured"); every claim in header lines and cells (Design ref, Fixture, Role, account, observer) traces to the ticket or a captured file — an unsent question reads `to ask`;
+   no `{placeholder}` left; every untested item is named in its row, the coverage lines or *Out of scope*.
 1. **Dispatch a reviewer subagent in the background** (Agent/Task tool) with **only**: the ticket key, the
    **file path** of the rendered body, and the **paths** of the evidence files — never paste the body or evidence text into the prompt; the reviewer opens each path itself and reads it in full. While
    it runs, build the Step 6d bundle in parallel; the reviewer must return **CLEAN before the approval
@@ -417,7 +417,7 @@ Use **v2** wiki markup and `/rest/api/2/issue/{KEY}/comment`.
 
 ### 7d — Post-publish review (mandatory)
 
-Before Step 8 transition, run review per [jira-comment-post-review.md](../../../references/jira-comment-post-review.md):
+Before Step 8 transition, run review per [jira-comment-post-review.md](../../../references/jira-comment-post-review.md) — for a retest its "TC rows" are the verdict-table rows, and its footer / CSV items (§1 Footer, §5) do not apply:
 
 1. Re-open `https://{JIRA_DOMAIN}/browse/{ISSUE_KEY}` (or equivalent).
 2. Checklist:

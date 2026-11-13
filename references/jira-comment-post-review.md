@@ -15,7 +15,7 @@ After posting a TC comment to Jira, the agent MUST review the rendered comment o
 ```
 Post comment → Review on Jira UI → Pass all checks?
   YES → Report to user: "commented"
-  NO  → Fix → PUT to the same comment id → Re-review (max 3 rounds — the cap of this posted-comment re-read loop; a workflow step that states its own cap uses that cap)
+  NO  → Fix → PUT to the same comment id → Re-review (max 3 rounds of this re-read loop; a workflow step with its own cap uses it — create-bug Phase F: 2, and for an issue body only §3, §4 apply)
         Still failing → Report specific failures to user, do NOT claim success
 ```
 
@@ -23,7 +23,7 @@ Post comment → Review on Jira UI → Pass all checks?
 
 ## Pre-post render + media check (before the approval popup)
 
-Run both checks on the **final** draft body, before the approval popup is shown
+Run both checks on the **final** draft body, before the approval popup is shown (tc-api/tc-fe: the G2 preview)
 ([round-time-contract.md §6](round-time-contract.md#6-comment-render-and-media-check-before-the-approval-popup)):
 
 1. **Render the body locally** in the format the guide sets (ADF for v3, wiki markup for v2). Confirm
@@ -31,10 +31,11 @@ Run both checks on the **final** draft body, before the approval popup is shown
 2. **Resolve every referenced image or clip** — the attachment exists, and its id or filename matches
    the reference in the body.
 
-A failure blocks the approval popup until it is fixed. This check does not replace the post-publish
-review below — the re-read on Jira UI remains the proof of what was posted.
+A failure blocks the approval popup; the post-publish re-read below still proves what was posted. These two checks live only here; round-time-contract §6 links to them.
 
 ## Review checklist (all items must pass)
+
+For a testing-ticket result comment, *TC rows* are its result rows and it has no CSV, so the attachment-name items do not apply.
 
 ### 1. Content completeness
 
@@ -102,7 +103,7 @@ If a fix attempt fails, **find the best alternative — never give up:**
 | Blocked by | Escalation path |
 |------------|-----------------|
 | MCP post shows `<br>` literal | Re-convert with `\n` and PUT the corrected body to the same comment id (edit in place — never delete and re-post). If it still fails and the session has not locked v2/v3 → switch to ADF via browser. Format locked, or no browser → provide the corrected body for the user to paste manually. |
-| MCP truncates table | Not locked → ADF + browser; locked → the full body in that format via browser; PUT to the same id. No browser → split into 2 labelled comments only if the format is not locked and the workflow allows more than one table; else give the user the body to paste. |
+| MCP truncates table | Not locked → ADF + browser; locked → the full body in that format via browser; PUT to the same id. No browser → add the second table as a new labelled comment (the first stays, edited in place, never deleted) only if the format is not locked and the workflow allows more than one table; else give the user the body to paste. |
 | CSV upload fails via MCP | Try browser upload. If no browser → save CSV in workspace + instruct user to drag-and-drop attach. |
 | Bold `**` not rendering | Session has not locked v2/v3 → switch to ADF bold nodes and PUT to the same comment id. Format locked, or ADF not possible → accept plain text headers (functional over pretty). |
 | Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before the PUT. |
@@ -118,4 +119,3 @@ Here's the corrected body ready to paste: [see above]
 CSV file: {workspace path} — please attach to {ISSUE_KEY}
 ```
 
-Never use vague success language.

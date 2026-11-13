@@ -38,7 +38,7 @@ If the workspace has Playwright E2E:
 
 - Prefer existing `playwright.*.config.ts` and fixtures.
 - Reuse the saved `storageState` after the session-endpoint probe returns the expected user id (WORKFLOW Phase D *Login reuse*).
-- Do not duplicate `installCFBypassProxy` or similar if the base fixture already installs it.
+- Do not duplicate a proxy or bot-check bypass helper the base fixture already installs.
 
 ## Session credentials
 

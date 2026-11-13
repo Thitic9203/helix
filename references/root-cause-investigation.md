@@ -39,7 +39,7 @@ Priority order — take the first one available in the session:
 | # | Skill | Why |
 |---|-------|-----|
 | 1 | **`superpowers:systematic-debugging`** | Iron law "no fixes without root-cause investigation first"; four phases, boundary-evidence pattern, rationalization table |
-| 2 | `debugging-tools:debugging` · `fullstack-dev-skills:debugging-wizard` | Equivalent systematic process when 1 is unavailable |
+| 2 | a debugging skill the session lists (e.g. `engineering:debug`, as in [dependencies.md](dependencies.md)) | Equivalent systematic process when 1 is unavailable |
 | 3 | [qa-debug-discipline.md](qa-debug-discipline.md) | In-repo fallback — reproduce → bound → falsifiable hypothesis → minimal check |
 
 **QA scope override:** follow that skill's Phases 1–3 (investigate, compare, hypothesise, test).
@@ -70,6 +70,7 @@ after one looks wrong — the first anomaly is often downstream of the real one.
 **Rules**
 
 - Every row is either an artifact or the word `not checked` — never a guess and never blank.
+- Audit of a document or your own prior work (catch-ai): rows 1-4 and 6 have no counterpart — write `n/a — document` with the file:line read; row 5 is the source file or data read directly, row 7 the state of the data file, row 8 the version and date of the files read.
 - Capture the artifact **at the moment of failure**, not reconstructed afterwards.
 - Timing first: after any state-changing step, hard-reload before you record a boundary
   (defect-report completeness §3a — see also [defect-report-completeness.md](defect-report-completeness.md), linked from every defect-writing skill's SKILL.md). A stale client makes rows 1–3
@@ -117,7 +118,7 @@ Every cause statement carries exactly one label. This is the whole point of the 
 |-------|-------------------|------------------------|
 | **Confirmed** | reproduced, **and** an artifact shows the mechanism, **and** the falsifying check was run and did not falsify | state the cause plainly + cite the artifact |
 | **Suspected** | an artifact is consistent with the cause, but the isolating check was **not** run | state the cause, label it `Suspected`, name **the exact check that would confirm it** and why it was not run |
-| **Unknown — not investigated** | the boundary was not reachable (no access, no VPN, no permission, no log) | say so; name what is needed and from whom |
+| **Unknown — not investigated** | the boundary was not reachable (no access, no VPN, no permission, no log), or the sweep found nothing (§6 stop 3) | say so; name what is needed and from whom |
 
 **Never** publish a `Suspected` cause with `Confirmed` wording. Never drop the label when the text is
 copied into a Jira comment, sheet cell, or notify message — the label travels with the sentence.
@@ -127,7 +128,7 @@ copied into a Jira comment, sheet cell, or notify message — the label travels 
 
 `น่าจะ` · `คาดว่า` · `เข้าใจว่า` · `probably` · `likely` · `seems` · `appears to be caused by` ·
 `must be` · `cache issue` · `environment issue` · `flaky` · `intermittent` · `race condition`
-· `it works on my side`.
+· `it works on my side`. (`intermittent` with its attempt counts is the label result-quality-gate.md layer 16 asks for.)
 
 Each of these is a cause claim wearing a hedge. Either it has an artifact and a label, or it is not
 written down at all.
@@ -174,7 +175,7 @@ Stop when **one** of these is true, and say which:
 2. **Suspected, blocked** — the isolating check needs access/permission/data QA does not have. Name
    the check and the owner.
 3. **Unknown, bounded** — the sweep is complete, every boundary is recorded, and no artifact points
-   anywhere. Report the sweep; an empty sweep is a real result, an unwritten one is not.
+   anywhere. Label it `Unknown — not investigated` with the note `sweep complete, no artifact`; report the sweep; an empty sweep is a real result, an unwritten one is not.
 
 Running out of patience is not an exit condition. Neither is "the verdict is already FAILED, so the
 cause does not change anything" — the cause is what the reader acts on.
@@ -194,5 +195,5 @@ cause does not change anything" — the cause is what the reader acts on.
 | MUST NOT use a hedge word from the [§4 banned list](#hedges) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |
 | MUST NOT infer a cause from a different record, role, run, entry point, or from a pre-state-change view | Learned repeatedly: the transferred observation is the artifact, not the product's behaviour |
 | MUST NOT restate the symptom as the cause | It reads as an answer and stops anyone else from investigating |
-| MUST NOT patch product code — QA diagnoses and hands off the isolated boundary + evidence | Fixing the product is dev's decision, not QA's |
+| MUST NOT patch product code unless the user explicitly asks — QA diagnoses and hands off the isolated boundary + evidence | Fixing the product is dev's decision, not QA's |
 | MUST re-run the surface before answering any "why" question that arrives after publishing | Answering from memory is how a wrong cause reached a developer |

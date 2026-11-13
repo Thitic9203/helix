@@ -260,12 +260,14 @@ workflow violation.
 The agent's own 4a–4e pass is not enough — draft TCs MUST also be checked by **independent reviewer
 subagents** (Agent/Task tool), which catch fabrication and coverage gaps the author is blind to.
 
-0. **Author self-check before round 1** (fix in the draft, n/a when moot): each Step with an observable result has its own Expected line, same order,
-   one outcome per line · Unit TC precondition = direct function access, not the browser shared prep ·
-   nothing the ticket does not state (role, reload behaviour, "no other change") · every outcome clause
-   of each AC/EC asserted · a pre-filled field is cleared before typing · glossary Thai in every column
-   you write, Services Impacted included (AC/EC column stays verbatim) · test data exact, no quotes inside code spans, spaces spelled out. Not a
-   review round; never replaces one.
+0. **Author self-check before round 1** (fix in the draft, n/a when moot; not a review round, never replaces one):
+   1. Each Step with an observable result has its own Expected line, same order, one outcome per line.
+   2. Expected names the observable outcome, never only ถูกต้อง / ครบถ้วน / correct / complete.
+   3. Unit TC precondition = direct function access, not the browser shared prep.
+   4. Nothing the ticket does not state (role, reload behaviour, "no other change"); every outcome clause of each AC/EC asserted.
+   5. A pre-filled field is cleared before typing.
+   6. Glossary Thai in every column you write, Services Impacted included (AC/EC column stays verbatim).
+   7. Test data exact, no quotes inside code spans, spaces spelled out.
 1. **Dispatch reviewer(s).** Give each reviewer the ticket's **verbatim AC/EC + seed** and the current
    TC draft **as a file path, not pasted text** (the working-draft file below;
    one reviewer by default, ≥2 per round only on the thorough request below), and instruct them to judge **only** against the ticket content (no requirements of their

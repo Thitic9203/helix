@@ -97,7 +97,7 @@ Figma/PO", "น่าจะ", "TBD", or any unconfirmed-spec marker, the spec is
 The expected is verified and the app still differs — before calling it a product defect, run the
 [root-cause-investigation.md](root-cause-investigation.md) sweep. A **test-side** cause — selector
 drift, stale auth/session, a missing or wrong fixture, an un-settled state read before a hard-reload,
-the wrong entry point — is a **test defect**: fix it on our side, re-run, and record it as such. It is
+the wrong entry point — is a **test defect**: fix it on our side, re-run, and record it as such (create-bug never re-runs: see its Phase B3). It is
 never published as a product FAILED, and a real product bug is never filed away as "flaky"
 ([qa-debug-discipline.md](qa-debug-discipline.md)).
 
@@ -109,10 +109,10 @@ into §4.
 ## 4. Surface it to the user and let them steer — before the verdict is committed or a bug is filed
 
 In an **interactive / supervised** session, post a short, plain-language flag in the chat **before**
-recording the non-PASS verdict or opening a bug. Keep it readable for a non-developer:
+recording the non-PASS verdict or opening a bug, in the user's language. Keep it readable for a non-developer:
 
 ```text
-⚠️ เอ๊ะ — {case / ticket}: ผลไม่ผ่านตรง ๆ ขอเช็คก่อนบันทึก
+⚠️ Check — {case / ticket}: not a clean pass; verifying before I record it
 • Expected: {X}  (source: {ticket AC / related ticket KEY / Figma frame})
 • Observed: {Y}  (evidence)
 • AC/EC check: {confirmed authoritative | expected looks wrong | superseded by {KEY} | unclear — needs {PO/role}}
@@ -130,7 +130,7 @@ The recommendation is exactly one of:
   re-run and re-observe before any verdict.
 - **(C) Confirm the defect** — not offered when the expected was superseded (only A or B then). Also not offered while a newer source that may supersede the expected is unresolved (an `unclear` AC/EC check with a competing newer source): C is offered only when the AC/EC check is confirmed authoritative. The expected is authoritative, the app genuinely differs, cause is on
   the product side. Proceed to the verdict / bug, and still state the finding so the user sees
-  the reasoning, and file it with its full write-up (repro matrix + expected-verbatim + labelled root
+  the reasoning, and file it with its full write-up (repro matrix — a retest writes it in its Fixture line and Evidence cells, [defect-report-completeness.md](defect-report-completeness.md) §1 — + expected-verbatim + labelled root
   cause + resolution options).
 
 For A and B, **wait for the user's decision** — the whole point is that adjusting a spec or re-testing

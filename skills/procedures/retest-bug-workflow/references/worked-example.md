@@ -51,18 +51,31 @@ block does not fit in a cell.
 **Build:** 4f21c0e
 **Fixture:** schedule created via POST, deleted after the run
 
+---
+
+**Test Step (from ticket):** PUT the schedule with an end date before its start date
+**Expected Result (from ticket, verbatim):** 400 with message "end date must be after start date"
+
 | **No.** | **ER** | **Case (Role)** | **Expected Result** | **Actual Result** | **Status** |
 |---|---|---|---|---|---|
 | 1 | ER1 | • TC_01 invalid date range is rejected (ADMIN) | 400 with message "end date must be after start date" | 500, unhandled exception | ❌ |
 
-**Expected-result coverage:** 1 / 1 items met
+**Expected-result coverage:** 0 / 1 items met · 1 failed
 **Case coverage:** 1 / 1 cases run — 0 passed / 1 failed / 0 blocked
+
+**Evidence**
+
+TC_01 — request and response:
+
+    curl -X PUT https://api.staging.example.com/api/v1/schedules/8812 -H 'Content-Type: application/json' -d '{"start":"2026-05-21","end":"2026-05-20"}'
+    HTTP/1.1 500 Internal Server Error
+    error: unhandled exception (constraint chk_schedule_range)
 
 Originally reported symptom: still present.
 
 **Root cause:** the range check runs after the persistence call, so the driver raises before
-validation is reached — Confirmed (response body carries the driver's constraint name; the same
-payload against the sibling endpoint returns 400).
+validation is reached — Confirmed with `superpowers:systematic-debugging` (response body carries the
+driver's constraint name; the same payload against the sibling endpoint returns 400).
 
 **Resolution options:** dev moves the range check ahead of persistence on `PUT /api/v1/schedules/:id`
 and leaves the equal-dates path alone, **or** the spec owner accepts 500 for this input and updates
@@ -88,7 +101,7 @@ _retestskillmarker · skill=retest-bug-workflow · src=ols-qa · via=retest-bug 
 **Result:** PASSED ✅
 
 FE bug → evidence → **v2 wiki markup**, so the body below is wiki markup, **not markdown**.
-Output (full comment — this is the entire body, nothing added):
+Output (full comment — this is the entire body, nothing added; both markers show `src=ols-qa` — fill `src` from your own run):
 
 ```text
 *Retest Result: PASSED* ✅
@@ -108,8 +121,8 @@ Output (full comment — this is the entire body, nothing added):
 *Expected Result (from ticket, verbatim):* Reject button reads "Review Failed" / queue row keeps its flagged badge
 
 ||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||
-|1|ER1|• TC_01 review modal button labels and queue badge (CONTENT_ADMIN)|Reject button reads "Review Failed"|• Reads "Review Failed" \\ • char-exact from the DOM|[▶ PROJ-88_TC_01_CONTENT_ADMIN.mp4|^PROJ-88_TC_01_CONTENT_ADMIN.mp4] !TC_01_CONTENT_ADMIN-ER_1.png!|✅|
-|2|ER2|• TC_01 review modal button labels and queue badge (CONTENT_ADMIN)|queue row keeps its flagged badge|Badge present after the modal closes|[▶ PROJ-88_TC_01_CONTENT_ADMIN.mp4|^PROJ-88_TC_01_CONTENT_ADMIN.mp4] !TC_01_CONTENT_ADMIN-ER_2.png!|✅|
+|1|ER1|• TC_01 review modal button labels and queue badge (CONTENT_ADMIN)|Reject button reads "Review Failed"|• Reads "Review Failed" \\ • char-exact from the DOM|[▶ PROJ-88_TC_01.mp4|^PROJ-88_TC_01.mp4] !TC_01-ER_1.png!|✅|
+|2|ER2|• TC_01 review modal button labels and queue badge (CONTENT_ADMIN)|queue row keeps its flagged badge|Badge present after the modal closes|[▶ PROJ-88_TC_01.mp4|^PROJ-88_TC_01.mp4] !TC_01-ER_2.png!|✅|
 
 *Expected-result coverage:* 2 / 2 items met
 *Case coverage:* 1 / 1 cases run — 1 passed / 0 failed / 0 blocked

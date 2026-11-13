@@ -57,7 +57,7 @@ Fix status: new report — no fix delivered yet
 
 Code reference (if known):
 - File: path:line
-- Root cause: {one sentence} — {Confirmed | Suspected | Unknown}
+- Root cause: {one sentence} — {Confirmed | Suspected | Unknown} (the cause label of root-cause-investigation.md §4, not the Confidence line)
 
 Environment:
 - URL:
@@ -78,7 +78,7 @@ Evidence:
   the matrix's own *Verdict line format* does: line number plus the row text copied character for character, never the file name alone.
 - **What happens / What should happen** — keep both headings. The verbatim source quote and its link go
   *inside* What should happen, under the expected bullets; they never replace the section. Every link comes
-  from the input or tool output — a missing one is `{link pending from reporter}`, never built from a domain and a key.
+  from the input or tool output — a missing one is the plain text `link pending from reporter` (no braces), never built from a domain and a key.
   A paraphrase, a feature name or a
   translation is not an expected side; with no quotable source the candidate is a question, not a bug
   (WORKFLOW Refusal-first).

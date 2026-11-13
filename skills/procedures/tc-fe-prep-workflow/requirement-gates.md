@@ -12,7 +12,7 @@ Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read after Step 2, 
   - [2.5a — Locate PRD and Figma links](#25a--locate-prd-and-figma-links)
   - [2.5b — Collect source metadata (recency)](#25b--collect-source-metadata-recency)
   - [2.5c — Cross-reference and conflict detection](#25c--cross-reference-and-conflict-detection)
-  - [2.5d — Generate HTML report and open in Chrome](#25d--generate-html-report-and-open-in-chrome)
+  - [2.5d — Generate HTML report and open it](#25d--generate-html-report-and-open-it)
 - [Step 2.6 — TC glossary re-check (mandatory gate) \[medium freedom\]](#step-26--tc-glossary-re-check-mandatory-gate-medium-freedom)
   - [2.6.1 — Re-fetch the glossary](#261--re-fetch-the-glossary)
   - [2.6.2 — Report to the user (evidence)](#262--report-to-the-user-evidence)
@@ -46,9 +46,9 @@ Do NOT post tables in chat — all detail goes into the HTML page (Step 2.5d).
 
 ### 2a.3 — User decision gate (when issues found)
 
-🔴 GATE — STOP: after the HTML report is opened in Chrome (Step 2.5d), if Step 2a found issues, ask in chat:
+🔴 GATE — STOP: after the HTML report is opened in the browser (Step 2.5d), if Step 2a found issues, ask in chat:
 
-> พบ AC/EC ที่ซ้ำ/ซ้ำซ้อน/ขัดแย้งกัน (ดูรายละเอียดใน Chrome) — ต้องการให้จัดการอย่างไรครับ?
+> พบ AC/EC ที่ซ้ำ/ซ้ำซ้อน/ขัดแย้งกัน (ดูรายละเอียดในรายงาน HTML) — ต้องการให้จัดการอย่างไรครับ?
 >
 > 1. **ข้ามส่วนที่ซ้ำ** — ตัดข้อที่ซ้ำซ้อนออก draft TC เฉพาะข้อที่ไม่ซ้ำ
 > 2. **Draft ตาม AC/EC ทั้งหมดที่ระบุในทิคเกต** — เขียน TC ตาม AC/EC ทุกข้อตามที่เขียนไว้ ไม่ตัดไม่รวม
@@ -101,7 +101,7 @@ For each source that is available, record its **last-updated datetime** before c
 | PRD | Page last-modified datetime (Confluence footer); version number in page title if present |
 | Figma | Frame or page last-edited datetime shown in Figma (hover the file or frame); version label in page/frame name if present |
 
-**Timezone:** All datetimes MUST be displayed in **Bangkok time (ICT, UTC+7)**. Convert from UTC or any other timezone before displaying — never show UTC or raw platform timestamps.
+**Timezone:** All datetimes MUST be displayed in the project guide's display timezone (default **Bangkok time, ICT, UTC+7**). Convert from UTC or any other timezone before displaying — never show UTC or raw platform timestamps.
 
 Format: `DD Mon YYYY HH.MM AM/PM` (e.g. `05 Jun 2026 02.30 PM`)
 
@@ -121,16 +121,16 @@ Compare against the story's AC/EC and description across these areas:
 | Scope gaps | Features visible in Figma/PRD that no AC/EC covers |
 | Contradictions | Conflicting expected results between ticket and PRD/Figma |
 
-### 2.5d — Generate HTML report and open in Chrome
+### 2.5d — Generate HTML report and open it
 
 **Do NOT post conflict tables or AC/EC consistency tables in chat.** Generate a single HTML page that contains both Step 2a and Step 2.5 results.
 
 1. **Generate** `references/{ISSUE_KEY}_FE_pre_draft_review.html` following [html-pre-draft-review-template.md](references/html-pre-draft-review-template.md) — includes Step 2a consistency check + Step 2.5 conflict/recency/scope-gap sections.
-2. **Write** the file to the workspace using the Write tool.
+2. **Write** the file to the workspace with the agent's file-write tool.
 3. **Open** in the browser (the agent's browser tool, `open_url` / `navigate`) → `file:///absolute/path/to/references/{ISSUE_KEY}_FE_pre_draft_review.html` — if that is not possible, use the WORKFLOW Step 5 item-3 fallback (absolute path + short chat summary of issue counts, then the same decision prompts).
-4. **Post in chat** (short — all detail is in Chrome):
+4. **Post in chat** (short — all detail is in the HTML report):
 
-> Pre-draft review เปิดใน Chrome แล้ว — ตรวจสอบผลการเช็ค AC/EC consistency + PRD/Figma conflict ได้เลยครับ
+> Pre-draft review เปิดในเบราว์เซอร์แล้ว — ตรวจสอบผลการเช็ค AC/EC consistency + PRD/Figma conflict ได้เลยครับ
 
 Then handle user decisions in chat:
 - If Step 2a found issues → post the Step 2a.3 decision prompt in chat.
@@ -150,7 +150,7 @@ Then handle user decisions in chat:
 
 **If NO conflicts and no gaps and no Step 2a issues:** generate the HTML (both sections show clean status), tell the user in chat, then continue to Step 2.6 immediately.
 
-**If conflicts, gaps, or Step 2a issues found:** generate the HTML, open in Chrome, then handle each set of issues in chat. Do NOT start Step 3 until all issues are resolved — TCs built on contradictory or inconsistent requirements must be redesigned.
+**If conflicts, gaps, or Step 2a issues found:** generate the HTML, open it, then handle each set of issues in chat. Do NOT start Step 3 until all issues are resolved — TCs built on contradictory or inconsistent requirements must be redesigned.
 
 **Go back:** If an issue is resolved by changing the ticket's AC/EC (Step 2a.3 option 3), return to Step 2 — Extract requirements and run Step 2a and Step 2.5 again on the updated ticket.
 
@@ -203,7 +203,7 @@ Scan **only the terms this ticket's test cases will use** — do not interrogate
 
 **Wait for the user's answers** to every 2.6 stop above. Record each decision for the Step 4.5 table, and list the (a), ticket-Thai and collision terms you carry to Step 4.5 in the 2.6 report so the user sees them now.
 
-Writing a guess and tagging it *provisional* / *pending confirmation* / *documented fallback* is **not** asking. See the red flags in [tc-glossary.md](../../../references/tc-glossary.md).
+Writing a guess and tagging it *provisional* / *pending confirmation* / *documented fallback* is **not** asking. See the red flags in [tc-glossary.md](../../../references/tc-glossary.md). This 2.6.3 table overrides that file's generic stop rules (wait before design; no row → ask) for the cases it carries to Step 4.5.
 
 Do NOT proceed to Step 3 until every Step 2.6 stop is answered. Carried (a), ticket-Thai and collision terms are not stops; they are open questions that Step 4.5 must close.
 

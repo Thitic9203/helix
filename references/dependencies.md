@@ -1,7 +1,7 @@
 # Dependencies — what each skill needs, how to check it, how to get it
 
 Each skill's `## Dependencies` names the rows it uses. Run the **Check** for each
-named row before step 1, or at the later point that section names. A failed check is a stop: install it, use the stated fallback, or report the
+named row at the skill's dependency step (before its first phase), or at the later point that section names. A failed check is a stop: install it, use the stated fallback, or report the
 step as BLOCKED with the missing dependency named. Never skip the step silently, never guess a path.
 
 Paths are never machine paths. A local root is a
@@ -36,7 +36,7 @@ workspace under test), or asked once and saved there.
 
 | Dependency | Check | Install / fallback |
 |------------|-------|--------------------|
-| QA capture and verify tools (recorder, `verify_video.py`, `verify_shot.py`, `freeze_cut.py`, reconcilers) and the smoke templates | `test -d "{QA_TOOLS_ROOT}/capture"` | live outside this repo, with the QA bot tooling; `{QA_TOOLS_ROOT}` missing → stop and ask for it — evidence that needs them is BLOCKED until they run |
+| QA capture and verify tools (recorder, `verify_video.py`, `verify_shot.py`, `freeze_cut.py`, reconcilers) and the smoke templates | `test -d "{QA_TOOLS_ROOT}/capture"` | live outside this repo; `{QA_TOOLS_ROOT}` missing → stop and ask for it — evidence that needs them is BLOCKED until they run |
 | Clones of the product repo and the e2e repo | `git -C "{MONOREPO}" rev-parse --is-inside-work-tree` (same for `{E2E_REPO}`) | `git clone` from the URL in the project guide |
 | Private evidence repo (test-data files and covers) | `git -C "{EVIDENCE_REPO}" rev-parse --is-inside-work-tree` | ask the owner for access; never substitute self-written content |
 | Local image API (cover generation) | `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:{IMAGE_API_PORT}/` returns 200 | start the app and enable its API; else BLOCKED |
@@ -44,9 +44,11 @@ workspace under test), or asked once and saved there.
 
 ## Agent skills and plugins
 
+`/plugin` below is Claude Code's installer; another runtime uses its own.
+
 | Dependency | Check | Install / fallback |
 |------------|-------|--------------------|
-| `superpowers:systematic-debugging` (every skill: any failure, error or mismatch) | the name appears in the session's available-skills list | install the superpowers plugin via `/plugin`; fallback: a debugging skill the session lists (e.g. `engineering:debug`) with the same reproduce → root cause → fix → verify order |
+| `superpowers:systematic-debugging` (every skill: any failure, error or mismatch) | the name appears in the session's available-skills list | install the superpowers plugin (`/plugin` or host installer); fallback: [root-cause-investigation § 0](root-cause-investigation.md), then [qa-debug-discipline](qa-debug-discipline.md) |
 | `engineering:testing-strategy` (retest, testing ticket, review result) | listed in available skills | install the engineering plugin via `/plugin`; fallback: write the test strategy inline before running |
 | `superpowers-chrome:browsing` (browser fallback) | listed in available skills | install via `/plugin`; fallback: the browser MCP below |
 | `superpowers:writing-skills` (maintainers editing a skill) | listed in available skills | install via `/plugin` |
@@ -55,9 +57,9 @@ workspace under test), or asked once and saved there.
 
 | Dependency | Check | Install / fallback |
 |------------|-------|--------------------|
-| Atlassian (Jira / Confluence) MCP | call a read-only tool (e.g. list visible Jira projects) and get a result | connect it in the client's connector settings; fallback: Jira REST with the user's own email + API token |
+| Atlassian (Jira / Confluence) MCP | call a read-only tool (e.g. list visible Jira projects) and get a result | connect it in the client's connector settings; fallback: Jira REST with the user's own email + API token; `helix` keeps routing and asks for the pasted ticket text |
 | Jira REST credentials (REST publish or fallback) | `curl -s -o /dev/null -w '%{http_code}' -u "{JIRA_EMAIL}:{JIRA_TOKEN}" https://{JIRA_DOMAIN}/rest/api/3/myself` returns 200 | the user creates an API token in their Atlassian account; never reuse another person's token; browser-tab publishers need no token: tc-api-prep checks it only at its REST fallback, tc-fe-prep never |
 | Figma (Dev Mode MCP or browser view) | open the design node and read one frame | enable Dev Mode MCP, or view the file in a browser session; when neither opens, design comparison is "not verified" |
 | Browser automation MCP (Chrome extension or equivalent) | list tabs and get a result | install and connect the extension; else BLOCKED for steps that need a real browser |
 | Qase (TC suite tree, FE prep import) | open the project's suite tree, or the user pastes it | ask the owner for access; still unreadable → tc-fe-prep Step 6 suite gate: no CSV, export **Not exported** |
-| Notify channel webhook / bot — tc-review: its project's TC-review channel on every run (owner decision 20/Oct); testing-ticket: every round when the project guide configures a QA notify channel (results-update G8); retest-bug: every retest at its Step 9 notify; every other workflow: only on an explicit share request | the webhook or bot id is in the secrets folder; the channel comes from the project guide (`references/{PROJECT}-guide.md` § TC review notify) | ask the owner; never invent a channel, thread or id |
+| Notify channel webhook / bot — tc-review: its project's TC-review channel on every run; testing-ticket: every round when the project guide configures a QA notify channel (results-update G8); retest-bug: every retest at its Step 9 notify; every other workflow: only on an explicit share request | the webhook or bot id is in the secrets folder; the channel comes from the project guide (`references/{PROJECT}-guide.md` § TC review notify) | ask the owner; never invent a channel, thread or id |

@@ -85,7 +85,7 @@ Full rules: [jira-linebreak-conversion.md](jira-linebreak-conversion.md).
 Deliver to user:
 - Full markdown in chat (tc-fe-prep: `.adf.json` + `.preview.md` paths, never the TC table).
 - CSV file in workspace `references/`.
-- Short instructions: attach CSV, paste markdown, verify row count.
+- Instructions: attach CSV, paste the body, verify row count.
 
 ---
 
@@ -94,7 +94,7 @@ Deliver to user:
 **Use when:** TCs will be handed to a Playwright/CLI agent, or read in a PR.
 
 - Offer **alongside** CSV/Excel — never instead of (existing spreadsheet users must not break).
-- Format spec: [test-md-format.md](test-md-format.md).
+- See also: [test-md-format.md](test-md-format.md).
 - Same reviewed chat table feeds it; emit exactly the rows shown (no fabricated cases).
 - File: `{ISSUE_KEY}.test.md` in workspace `references/`.
 
@@ -118,4 +118,4 @@ Deliver to user:
 | Content-Type | `text/csv` with UTF-8 BOM |
 | Filenames | `Draft_Jira_{ISSUE_KEY}.csv` (Jira table format) + `Import_Qase_{ISSUE_KEY}.csv` (Qase import) — upload both |
 | Issue | Same as comment target |
-| Upload order | `Draft_Jira` first, `Import_Qase` second, typed CSV third (if `{csv_type}` set) |
+| Upload order | `Draft_Jira` first, `Import_Qase` second, then typed CSVs (Unit, Integration, System) |

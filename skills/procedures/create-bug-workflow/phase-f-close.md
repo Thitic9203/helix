@@ -4,7 +4,7 @@ Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F; every rule here is a full
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
-After Phase D create calls:
+Runs after Phase D create calls. A run that files nothing (every candidate Dropped, BLOCKED or Needs Review, or the user cancelled) skips items 1-6: close with `Verdict: CREATED 0/{K} — {reason}`, each candidate with its outcome and source link, then QA closing.
 
 1. List each issue with **URL or key** from tool output (not guessed).
 2. **Fix-verify round 1:** Fetch each link (`gh issue view <url> --json title,body,labels`; Jira `getJiraIssue`) — confirm title/summary and body match approved draft.
@@ -12,7 +12,7 @@ After Phase D create calls:
    draft-vs-destination difference and the proposed fix (edit in place, or recreate), and **wait for
    approval**. Then fix via the edit API, or recreate — when recreating, also close or link the wrong
    issue as a duplicate (with the same approval) so no stray issue stays behind → **re-fetch** each link.
-4. **Maximum 2 fix-verify rounds** — then report partial success honestly.
+4. **Maximum 2 fix-verify rounds** (this cap replaces the 3 in jira-comment-post-review.md) — then report partial success honestly.
 5. If any create failed → report which succeeded, which failed and which are outcome unknown.
 6. **Fetch fails** (permission, 404, MCP down) → report that key/URL from the tool output as **created-unverified** with the error verbatim, retry the fetch once by another read path (REST, browser or `gh issue view`); still failing → `Verdict: CREATED {N}/{N} — {m} unverified`. Never call it verified.
 

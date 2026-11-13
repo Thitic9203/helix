@@ -101,7 +101,7 @@ all, and one bug filed against a button that was never in any spec.
 Do this, in order:
 
 1. **Say it in the run's own channel, to the person who assigned it** — the chat when a person is
-   driving, the thread/channel that triggered the run when it is unattended. State:
+   driving (a retest queues it for its Step 6d decisions popup, [round-time-contract.md](round-time-contract.md) §2), the thread/channel that triggered the run when it is unattended. State:
    `Ticket {KEY} · screen {name} · no design reference found (searched: ticket links, every ticket
    comment, every linked ticket and its comments, parent story, project guide, design file — {n}
    sources read) · I cannot judge layout/wording/order without it.`

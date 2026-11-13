@@ -18,7 +18,7 @@ Slim summary table — 6 columns (ADF table; headers are tableHeader nodes, bold
 | EC_02     | 1. order-service 2. api-gateway | 2 | ...   | Medium   | System Test |
 
 Attachments — one link per uploaded file (link text = filename, href from __ATT{n}_ID__):
-Draft_Jira_{ISSUE_KEY}.csv — ตารางเทสเคส (Jira format)
+Draft_Jira_{ISSUE_KEY}.csv — ตาราง TC ครบ (AC text, Precondition, Steps, Expected)
 Import_Qase_{ISSUE_KEY}.csv — Qase import file พร้อม import เข้า Qase project
 Unit_Test_{ISSUE_KEY}.csv / Integration_Test_{ISSUE_KEY}.csv / System_Test_{ISSUE_KEY}.csv — only if generated
 

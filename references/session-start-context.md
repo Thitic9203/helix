@@ -1,9 +1,9 @@
 # Session start — context skills (do this first)
 
-When any Helix skill starts, before step 1:
+When any Helix skill starts:
 
-1. Invoke the skill `caveman:caveman` (args `lite`), then `context-mode:context-mode`.
-2. Check both are in this session's skill list. If one is missing, ask the user **once** whether to install it, with this reason:
+1. Check `caveman:caveman` and `context-mode:context-mode` are in this session's skill list.
+2. Invoke each listed one, caveman first (args `lite`). If one is missing, ask the user **once** whether to install it, with this reason:
    - **context-mode** — keeps large tool output in a sandbox, returning only the answer, so context fills slower and long runs stay accurate.
    - **caveman lite** — cuts filler words: shorter replies, fewer output tokens, same grammar and politeness.
    Both are free plugins. NEVER install without a clear yes.

@@ -5,7 +5,7 @@ asking you anything**. Every question a reader asks after you post is a section 
 and every answer you give in chat instead of in the report is knowledge the next reader will not have.
 
 Applies to every verdict that is not a clean PASSED: the retest comment (retest-bug-workflow Step 6)
-and the defect list / external result write (testing-ticket-workflow Phase F3, Phase G).
+and the defect list / external result write (testing-ticket-workflow Phase F3, Phase G), and the create-bug draft (§1 Create-bug draft format).
 
 ---
 
@@ -53,6 +53,8 @@ that draft unchanged.
 
 ## 2. Repro matrix — REQUIRED for every non-PASSED item
 
+A retest comment carries these rows in its `Fixture` line and `Evidence` cells (§1 *Retest-bug comment format*), never as a separate block.
+
 Every way a user can reach the broken surface gets its own row. No row = no claim about that path.
 
 ```text
@@ -96,7 +98,7 @@ If two observations of the same surface disagree — two runs, screenshot vs. no
 this run vs. an earlier run — you **MUST NOT draft the report yet**.
 
 1. Name the contradiction explicitly ("run 1 shows the card clickable, run 2 shows it disabled").
-2. Re-run **that surface only**, cleanly, after §3a.
+2. Re-run **that surface only**, cleanly, after §3a (create-bug never reproduces: the reporter or testing-ticket re-runs, the item stays Needs Review).
 3. The clean re-run decides. Record which earlier observation was the artifact **and why**.
 4. **Never resolve a contradiction by picking the observation that supports the verdict you already
    reached.** That is how a wrong repro path gets published.

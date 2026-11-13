@@ -196,7 +196,7 @@ If verification failed partially, state what succeeded and what did not — NEVE
 ### G8 — QA result notify (mandatory when a channel is configured)
 
 When the project guide configures a QA notify channel, this step is **mandatory** on every round — whoever
-started the run, asked for a notify or not. It is covered by the Step 4 approval bundle (channel + resolved
+started the run, asked for a notify or not. It is covered by the F5 step 4 approval popup ([execute-and-summarize.md](execute-and-summarize.md)) (channel + resolved
 recipient), so there is no second approval.
 
 - **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials,

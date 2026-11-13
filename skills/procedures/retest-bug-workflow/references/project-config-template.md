@@ -36,13 +36,13 @@ Save as `references/{project-name}-retest-guide.md` in the **user's workspace**.
 
 ### Session restore commands (login by command)
 
-Claude never opens a login window. Record the command names here; the combined `bash` blocks built from them are in [execute-and-evidence.md §4b](../execute-and-evidence.md#4b-login).
+The agent never opens a login window. Record the command names here; the combined `bash` blocks built from them are in [parallel-test-lanes.md](../../../../references/parallel-test-lanes.md) §3.
 
 | Item | Value |
 |------|-------|
 | Relink command (no password) | `<relink-command>` |
 | Setup/mint command (only accounts whose relink FAILED) | `<mint-command>` |
-| Probe (Claude runs it) | `<session endpoint>` returns the account's user id |
+| Probe (the agent runs it) | `<session endpoint>` returns the account's user id |
 
 ## API architecture
 
@@ -63,7 +63,7 @@ Short note: which portal calls which gateway, auth headers, etc.
 
 1. Response code must match Swagger.
 2. Message vs error docs if Swagger is silent.
-3. Both match → PASSED; code or message mismatch → not PASSED (PWMI / FAILED per the [verdict rule](../WORKFLOW.md#verdict-rule)); Swagger and error docs both silent → BLOCKED.
+3. Both match → that check passes (the row's status still follows the verdict rule); code or message mismatch → not PASSED (PWMI / FAILED per the [verdict rule](../WORKFLOW.md#verdict-rule)); Swagger and error docs both silent → BLOCKED.
 
 ## Jira transitions (required — project-specific)
 
@@ -71,6 +71,8 @@ Short note: which portal calls which gateway, auth headers, etc.
 |---------------|--------------------------------------|
 | PASSED | e.g. `Done`, `Ready for QA`, … |
 | FAILED | e.g. `In Progress`, `Reopened`, … |
+| PWMI | e.g. `Done` with a follow-up bug, … |
+| BLOCKED | e.g. `Blocked`, or no transition (status kept), … |
 
 ## Project-specific gotchas
 
