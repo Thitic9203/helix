@@ -29,11 +29,11 @@ Claude Code shortcut: `/tc-fe-prep` → [commands/tc-fe-prep.md](../../commands/
 
 ## Contents
 
-Every must-read file for this workflow, linked directly from here. References already linked above are not repeated.
+Every must-read file for this workflow, linked directly from here.
 
 ### Every run
 
-Read these on every run — each one is used in every TC prep session.
+Read these on every run.
 
 - [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) — always: the procedure; open each file at the step its progress checklist names.
 - [must-never.md](../procedures/tc-fe-prep-workflow/references/must-never.md) — read at the start of every run, before Step 0, and again before any write or post — the skill-specific MUST / NEVER table; every row binds drafting, review and publishing.
@@ -59,7 +59,7 @@ Read each file below at the point written next to it, not up front. If that step
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates; its cross-ticket conflict check applies to testing-ticket and retest-bug only, not to TC prep.
 - [session-closing.md](../../references/session-closing.md) — after the verify gate passes — artifact index, next workflow, handoff.
 - [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
-- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step; each excuse has its correct action.
+- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step.
 - [coverage-delta-template.md](../../references/coverage-delta-template.md) — read after the coverage review, before the full draft.
 - [csv-template-types.md](../../references/csv-template-types.md) — read before exporting a CSV.
 - [figma-design-comparison.md](../../references/figma-design-comparison.md) — read before judging any UI or visual result against the design.
@@ -104,12 +104,12 @@ All close-out gates are in WORKFLOW.md, [verify-closing-checklist.md](../../refe
 
 ## Dependencies
 
-Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+Check each before step 1 — commands and install hints: [dependencies.md](../../references/dependencies.md):
 
 - curl
 - Python 3 + `openpyxl` (xlsx only)
 - Atlassian MCP
-- Jira REST credentials (ADF-direct publish)
+- Jira REST credentials or a signed-in Jira session — publish uses only the session, checked at Step 7; a failed REST check is not a stop, no session → Step 7 failure branch
 - Qase
 - a browser for the HTML preview
 - `superpowers:systematic-debugging`

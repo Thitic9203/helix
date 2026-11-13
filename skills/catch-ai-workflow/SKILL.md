@@ -51,10 +51,10 @@ Catch AI progress:
 - [ ] Procedure 4 — Inspect the actual side directly
 - [ ] Procedure 5 — Compare character-exact
 - [ ] Procedure 6 — Map coverage
-- [ ] Procedure 7 — Find the root cause of each defect (open root-cause-investigation.md)
+- [ ] Procedure 7 — Find the root cause of each defect
 - [ ] Procedure 8 — Propose the fix and the prevention
-- [ ] Procedure 9 — Report and give the verdict (open qa-evidence-gates.md core first)
-- [ ] Result quality gate — result-quality-gate.md (N/A only when no test verdict is in scope — say so in the report)
+- [ ] Procedure 9 — Report and give the verdict
+- [ ] Result quality gate — result-quality-gate.md (N/A only when no test verdict is in scope — its report line says so)
 - [ ] QA closing (mandatory before "done") — qa-closing-shared.md, then session-closing.md
 ```
 

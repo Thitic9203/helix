@@ -31,7 +31,7 @@ An action that was not listed in that bundle is not run without asking.
 - [ ] **`retest_guard.js` exits 0 for the posted body** (re-run it against what was actually posted, not against the draft). Exit 2 is not a pass. **Skip only** when a fresh hash compare shows the posted body byte-identical to the draft that passed the guard; any difference → run the guard ([round-time-contract.md](../../../references/round-time-contract.md) §9).
 - [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**; env + results table present (bold headers, `No.` column).
 - [ ] **Case list present and reconciled:** the single table's `Case (Role)` cells carry every Step 2c case, every `ER*`/`AC*` row names at least one case, and `Case coverage: {n}/{total}` matches the rows. A planned-but-unrun case is a BLOCKED row with its reason — never a shortened list.
-- [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
+- [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was or is to be asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
 - [ ] **No passing row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้`** — such a row is BLOCKED or PWMI, never PASSED ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3).
 - [ ] **Every passing row carries an evidence reference** — `count(passing rows) == count(evidence links)`.
 - [ ] **AC/EC coverage reconciled (gate layer 6·7):** `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)` and `{n}=={total}` ([coverage gate](WORKFLOW.md#coverage-gate)). Any shortfall ⇒ do **not** transition; go back and close it.
@@ -143,14 +143,14 @@ never estimated:
 
 After the transition, if the project defines a **QA notify channel** (Discord/Slack/chat), post a **retest-result** notification so the reporter / QA owner sees the outcome. It runs under the Step 6d approval bundle, which named the channel and the resolved recipient — no second approval.
 
-**Who invoked the retest never changes this.** The notify is part of closing a retest, not a favour to the person who asked for one. It is sent the same way whether the workflow was started by the repo owner, by another QA, by a teammate in the channel, by a slash command, or by an unattended bot/trigger — and whether or not that person mentioned a notification. The **only** condition is the one above: the project configures a channel. A retest whose comment is posted and whose ticket is transitioned but whose notify was skipped is **not closed**.
+**Who invoked the retest never changes this** (owner, another QA, a teammate, a slash command, a bot — mentioned or not). The **only** condition is that the project configures a channel. A retest whose comment is posted and whose ticket is transitioned but whose notify was skipped is **not closed**.
 
 - Load channel, format, recipient, and any helper from the workspace `*-retest-guide.md` / project guide. **Never hardcode webhook URLs, tokens, machine paths, or user IDs in this skill** ([portable-content.md](../../../references/portable-content.md)) — they live in project config or local agent memory.
 - Message = the single **retest verdict** (PASSED ✅ / FAILED ❌ / BLOCKED ⛔ / PWMI ⚠️ — same as the comment's summary line), a short bullet of what was checked, a link to the Jira retest comment, and an @mention of the recipient.
 - **Recipient resolution (mandatory):** read the recipient from the ticket field the project guide names (e.g. a "QA Owner" custom field) — fetch that field's value from the bug itself for **every** notify; do not reuse a name from an earlier ticket, and do not default to the Reporter. The label printed next to the mention MUST match the field the value came from (label "QA Owner" ⇒ value from the QA Owner field). Resolve it before the 6d approval popup; if the field is empty or the guide names no field, queue the recipient question in the 6d decisions popup — never ask after approval.
-- This is a **result FYI**, not a "please review" request (the retest is already closed) — do not reuse the full-test-run "QA Review Requested / pending review" wording.
+- This is a **result FYI**, not a "please review" request — do not reuse the "QA Review Requested / pending review" wording.
 - If the project provides a notify helper, **use it** (it gets @mention + headers right) instead of hand-assembling the payload.
-- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send again — never state a cause you have not checked. The round is not closed until the helper prints its success line (the guide names it).
+- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send again — never state a cause you have not checked. The round is not closed until the helper prints its success line (the guide names it). Send with `?wait=true` (or the helper's equivalent); record the returned message `id` and thread id.
 
 ### Pre-notify review gate (mandatory, every send)
 
@@ -167,12 +167,14 @@ Run this checklist on the **dry-run output** before every real send — no excep
 
 ### Correcting a posted notification
 
-If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re-audit):
+If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re-audit), first list steps 2–4 by name in one approval popup:
 
-1. **PATCH the existing Discord message** — do not repost. Use `PATCH /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` with the corrected content.
-2. To find the message ID: use webhook GET `GET /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` (bot token GET returns empty `content` without MESSAGE_CONTENT intent).
-3. Update the Jira comment in place (`addCommentToJiraIssue` with `commentId` parameter) — keep the usage marker as the body's last line, unchanged.
+1. `{mid}` = the message `id` recorded at the Step 9 send. GET `/webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` reads that message back. No recorded id → stop and report.
+2. **PATCH the existing Discord message** — do not repost: `PATCH /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}`, after the pre-notify review gate.
+3. PUT the corrected Jira comment to the same `commentId` in the Step 3 format — usage marker stays the last line.
 4. Transition the ticket to the correct status.
+
+Any step fails → stop, report the step and its response; never repost or run the next step.
 
 ---
 

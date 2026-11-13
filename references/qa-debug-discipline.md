@@ -80,5 +80,5 @@ If trace/network analysis is large, see [subagent-qa-patterns.md](subagent-qa-pa
 | Rule | Because |
 |------|---------|
 | MUST NOT mark PASSED after only changing timeouts | Masks flake |
-| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on PD3-style envs |
+| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on VPN-only envs |
 | MUST attach evidence paths in summary | Chat alone is not proof |

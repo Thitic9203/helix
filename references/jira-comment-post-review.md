@@ -74,18 +74,16 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 - [ ] **Attachment opens correctly** — row count matches table, Thai characters intact
 - [ ] **Footer link** in comment points to the actual attachment (not a broken/missing link)
 
-If CSV/Excel was generated in a prior step but NOT attached to Jira → **attachment is missing. Fix before reporting done.**
-
 ## Fix procedure (when any check fails)
 
 | Failure | Fix |
 |---------|-----|
 | Missing rows / truncated table | PUT the full corrected body to the same comment id (edit in place, `jira-wiki-vs-markdown.md` § Fixing a comment that already shipped); when the re-read still shows the table truncated, send that body as ADF (v3) — unless the session locked v2/v3, then hand the corrected body to the user |
-| Literal `<br>` or HTML tags | Re-run [jira-linebreak-conversion.md](jira-linebreak-conversion.md), strip tags, re-post |
-| Numbered items on same line | Verify conversion produced actual line breaks; re-post with corrected body |
+| Literal `<br>` or HTML tags | Re-run [jira-linebreak-conversion.md](jira-linebreak-conversion.md), strip tags, PUT to the same comment id |
+| Numbered items on same line | Verify conversion produced actual line breaks; PUT the corrected body to the same id |
 | Literal `**` visible | The body is markdown but was posted to the **v2 wiki** endpoint. Wiki bold is a single `*`; `**x**` renders as bold-wrapped-in-asterisks. Convert the whole body to wiki syntax (`*bold*`, `----`, `\|\|header\|\|` with no divider row, bare `!file.png!`) and PUT it back to the same comment id — never repost |
 | CSV not attached | Upload CSV/Excel to the issue via MCP or browser; update footer link |
-| Footer link broken | Get correct attachment URL after upload; edit comment footer |
+| Footer link broken | Edit the footer to the uploaded attachment URL |
 
 After fix → **re-read on Jira UI again** and re-run the full checklist. Do not assume the fix worked.
 
@@ -99,15 +97,15 @@ Attachment: {FILENAME} ({N} rows).
 Verified on Jira UI: all rows visible, formatting correct, attachment present.
 ```
 
-If a fix attempt fails, **find the best alternative — never give up or say "can't do it":**
+If a fix attempt fails, **find the best alternative — never give up:**
 
 | Blocked by | Escalation path |
 |------------|-----------------|
 | MCP post shows `<br>` literal | Re-convert with `\n` and PUT the corrected body to the same comment id (edit in place — never delete and re-post). If it still fails and the session has not locked v2/v3 → switch to ADF via browser. Format locked, or no browser → provide the corrected body for the user to paste manually. |
-| MCP truncates table | Switch to ADF + browser session. If no browser → split into 2 comments (header+first half, second half) with clear labels. |
+| MCP truncates table | Not locked → ADF + browser; locked → the full body in that format via browser; PUT to the same id. No browser → split into 2 labelled comments only if the format is not locked and the workflow allows more than one table; else give the user the body to paste. |
 | CSV upload fails via MCP | Try browser upload. If no browser → save CSV in workspace + instruct user to drag-and-drop attach. |
 | Bold `**` not rendering | Session has not locked v2/v3 → switch to ADF bold nodes and PUT to the same comment id. Format locked, or ADF not possible → accept plain text headers (functional over pretty). |
-| Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before re-post. |
+| Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before the PUT. |
 
 After exhausting automated options → provide the user with:
 1. **Corrected comment body** (ready to paste)
@@ -120,4 +118,4 @@ Here's the corrected body ready to paste: [see above]
 CSV file: {workspace path} — please attach to {ISSUE_KEY}
 ```
 
-Never use vague success language. Be specific about what was verified.
+Never use vague success language.

@@ -1,6 +1,6 @@
 ---
 description: |
-  Test a Jira ticket with Playwright — collect Ticket, URL, test account (no password), VPN, Confluence, Swagger, design (Figma) reference, confirm, then run.
+  Test a Jira ticket with Playwright — collect Ticket, URL, test account (no password), VPN, Confluence, Swagger; design (Figma) at Phase B; confirm, run.
   Do NOT use for opening bugs (create-bug), retest-after-fix on a bug (retest-bug), or drafting manual TC tables (tc-fe-prep / tc-api-prep).
 ---
 
