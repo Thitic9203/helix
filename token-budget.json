@@ -1,52 +1,52 @@
 {
  "schema": 1,
  "method": "graph_v2.py port; tokens = bytes/4; direct = skill mandatory reads; routed = helix router mandatory + skill mandatory, each file once; always_on = skills/*/SKILL.md description bytes",
- "tag": "v1.5.194",
- "commit": "66a2c77d165c6a70334ccbca0a2a390894f7699e",
+ "tag": "v1.5.196",
+ "commit": "7153e0219f08b567b8b42df509e82644f2a49ed5",
  "skills": {
   "catch-ai-workflow": {
-   "direct": 9266,
-   "routed": 14019
+   "direct": 9248,
+   "routed": 14001
   },
   "create-bug-workflow": {
-   "direct": 6452,
-   "routed": 13740
+   "direct": 6444,
+   "routed": 13732
   },
   "helix": {
    "direct": 7787,
    "routed": null
   },
   "retest-bug-workflow": {
-   "direct": 18393,
-   "routed": 25401
+   "direct": 18378,
+   "routed": 25386
   },
   "review-result-workflow": {
-   "direct": 10777,
-   "routed": 17526
+   "direct": 10770,
+   "routed": 17519
   },
   "tc-api-prep-workflow": {
-   "direct": 6094,
-   "routed": 13382
+   "direct": 6049,
+   "routed": 13337
   },
   "tc-change-format-workflow": {
    "direct": 5352,
    "routed": 13139
   },
   "tc-fe-prep-workflow": {
-   "direct": 17069,
-   "routed": 24077
+   "direct": 17061,
+   "routed": 24069
   },
   "tc-review-workflow": {
-   "direct": 8104,
-   "routed": 14853
+   "direct": 8103,
+   "routed": 14852
   },
   "test-data-prep-workflow": {
    "direct": 7095,
    "routed": 14642
   },
   "testing-ticket-workflow": {
-   "direct": 16395,
-   "routed": 23942
+   "direct": 16388,
+   "routed": 23935
   }
  },
  "always_on": {
