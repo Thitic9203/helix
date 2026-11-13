@@ -4,16 +4,11 @@ description: |-
   Test one Jira ticket with Playwright: intake + plan, confirm, run, compare to Figma, report, optionally update a results destination.
   Use when the user says /testing-ticket, asks to test/verify/QA one story/ticket on an env, "run Playwright on {KEY}"/"E2E this story" ("เทส ticket นี้ให้หน่อย").
   Do NOT use for filing bugs (create-bug), retest after a fix (retest-bug), manual TC tables (tc-fe-prep/tc-api-prep), or full regression.
-metadata:
-  proactive_triggers:
-    - /testing-ticket
-    - testing ticket
-    - Playwright ticket
-    - test ticket
-    - run playwright on ticket
 ---
 
 # Testing Ticket (discovery stub)
+
+Also triggers on: testing ticket; Playwright ticket; test ticket; run playwright on ticket.
 
 **Thin entry for agent skill discovery.** Full procedure: [WORKFLOW.md](../procedures/testing-ticket-workflow/WORKFLOW.md).
 

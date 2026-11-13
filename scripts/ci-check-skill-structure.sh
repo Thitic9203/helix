@@ -52,10 +52,10 @@ check_skill_file() {
   local base
   base="$(basename "$(dirname "$f")")"
 
-  # proactive_triggers lives under metadata: (passes skill-creator quick_validate).
-  # Migration finished 2026-10-25: the legacy top-level form now fails.
-  if ! python3 "$ROOT/scripts/lib/frontmatter-triggers.py" "$f" --metadata-only; then
-    log_err "$base: missing proactive_triggers in frontmatter (put it under metadata:)"
+  # proactive_triggers was removed (owner 13 Nov 2026): routing reads description only.
+  # Reject it so the duplicate field cannot creep back. Spec: docs/sdd/remove-proactive-triggers R3.
+  if awk 'NR==1&&$0!="---"{exit} NR>1&&$0=="---"{exit} /^[[:space:]]*proactive_triggers:/{f=1} END{exit !f}' "$f"; then
+    log_err "$base: frontmatter still has proactive_triggers (removed; put trigger phrases in description)"
   fi
 
   if ! grep -q '## QA closing' "$f"; then
