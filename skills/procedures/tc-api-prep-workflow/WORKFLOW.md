@@ -123,7 +123,7 @@ Skip the question for any field the user's messages already fixed (the link for 
 
 🔴 **STOP — wait for an answer** to every field still missing before designing and drafting (Phases D–F).
 
-Delivery recorded → before Phase D, check each SKILL.md § Dependencies row it uses; a failed check is a stop.
+Delivery recorded → before Phase D, check each SKILL.md § Dependencies row it uses, at the point that row names; a failed check is a stop.
 
 ---
 
@@ -141,19 +141,19 @@ At Phase E, open [phase-e-review.md](phase-e-review.md) and follow every line of
 
 ## Phase F — Draft in chat (approval gate) [medium freedom]
 
-At Phase F, open [phase-f-draft.md](phase-f-draft.md) and follow every line of it before you move on. Approval gate: nothing is delivered before the user approves the draft.
+At Phase F, open [phase-f-draft.md](phase-f-draft.md) and follow every line of it before you move on.
 
 ---
 
 ## Phase G — Deliver (after approval only) [low freedom]
 
-At Phase G, open [phase-g-deliver.md](phase-g-deliver.md) and follow every line of it before you move on. After approval only; includes G-verify, which must pass before done.
+At Phase G, open [phase-g-deliver.md](phase-g-deliver.md) and follow every line of it before you move on.
 
 ---
 
 ## QA closing (mandatory before "done") [low freedom]
 
-The QA closing checklist is the last section of phase-g-deliver.md (opened at Phase G); finish it before reporting done.
+It is the last section of phase-g-deliver.md; finish it before reporting done.
 
 ---
 

@@ -153,8 +153,7 @@ Flag, with the row/AC ids named:
 ## Step 3 — Row-quality check [medium freedom]
 
 Apply [tc-quality-standards.md](../../references/tc-quality-standards.md) to every row, reading for
-these review-specific failure shapes (distinct from authoring quality — this is about a document written
-by someone else, so the question is whether it can be trusted, not whether it is elegant):
+these review-specific failure shapes (not authoring quality: can someone else's document be trusted):
 
 | Signal | Why it matters |
 |--------|-----------------|
@@ -214,13 +213,16 @@ The delivered review is the Step 2 matrix, then two short lists, each bullet anc
 **Need Improve**
 - {finding, with TC/AC id or quote}
   → Suggest: {how to fix it}
+
+**Document:** {Pass | Need Improve | Unverified}
 ```
+
+**Document:** Unverified wins if any row is "unverified expected"; else Need Improve if that list has a bullet; else Pass. It is no test verdict; the session-closing `Verdict:` stays separate.
 
 **Every Need Improve bullet carries a "→ Suggest:" line** that says how to fix it. Each suggestion must come from a source, never an invented value:
 
 - **Computed from the row's own data:** when the Test Data already holds the inputs, work out the value
-  and give it (e.g. the expected order with each computed score). Show the numbers so the author can
-  check them.
+  and show it with its numbers (e.g. the expected order with each computed score).
 - **Taken from the AC/EC wording:** e.g. replace the wrong condition with the AC's own phrase, or add the
   missing Expected Result clause using the AC's own text.
 - **No source gives the value** (a threshold, count or timing the ticket never states, including a boundary inferred from
@@ -275,7 +277,7 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
    holds for a channel or thread id: never invent one; it comes from config or from the user's answer.
 2. Use the wording conventions in the project guide § *TC review notify* (above), e.g. a fixed term for
    "ticket". None there → keep the wording of the review shown in chat; never invent new terms.
-3. **Fit the platform's message limit before sending** (Discord: 2,000 characters). Count the characters.
+3. **Fit the platform's message limit before sending** (Discord: 2,000 characters).
    If too long, tighten the wording. Do not drop findings the user saw in chat, and do not split unless the user asks.
    Still over after tightening → 🔴 **STOP —** show the character count, ask: split into numbered posts, or which findings to cut. Send nothing before the answer.
 4. A thread is reached through a webhook plus `thread_id`. Without `thread_id` the message lands in the
@@ -314,9 +316,9 @@ Then, in this order (items 1–6 every send; items 7 and 8 only when correcting 
 - [ ] Every AC and EC on the ticket appears in the traceability matrix, covered or flagged as a gap.
 - [ ] Struck-through AC/EC appear nowhere in the matrix or the report.
 - [ ] Business rules and comments appear in the report only where they conflict with a named AC/EC.
-- [ ] Every finding names a TC/AC id or quotes source text — none are a general impression.
+- [ ] Every finding names a TC/AC id or quotes source text.
 - [ ] Every Need Improve bullet has a "→ Suggest:" line. Any value in it was computed from the row or
-      quoted from the AC/EC, or the line says who confirms it. No suggestion contains a made-up value.
+      quoted from the AC/EC, or the line says who confirms it.
 - [ ] Any design-source (Figma/PRD) claim states plainly whether it was actually opened this session.
 - [ ] Every "confirm with dev/PO" question carries its Step 3b sources or `code not checked — no clone`.
 - [ ] If sent externally: destination and mentions verified from the read-back response, not assumed.
@@ -359,7 +361,7 @@ Open each file below at the step that names it, never all up front.
 
 - At start: [helix-session-constraints.md](../../references/helix-session-constraints.md) once per session; [long-workflow-todos.md](../../references/long-workflow-todos.md) when the run has many steps.
 - Before invoking or switching skills: [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md); choosing which skill handles a request: [skill-routing.md](../../references/skill-routing.md).
-- At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (to the matrix: only coverage layers 1, 2, 4, 6, 7 and pre-delivery 1, 4, 6, 7 apply — no test run, evidence or verdict here; no Out-of-scope block names a struck-through AC/EC or non-conflicting rule — Step 2 wins); at session end [session-closing.md](../../references/session-closing.md).
+- At QA closing, before saying done: [qa-closing-shared.md](../../references/qa-closing-shared.md) and [qa-evidence-gates.md](../../references/qa-evidence-gates.md) (core) and [qa-evidence-coverage.md](../../references/qa-evidence-coverage.md) (to the matrix: only coverage layers 1, 2, 4, 6, 7 and pre-delivery 1, 4, 6, 7 apply — no test run, evidence or test verdict here; no Out-of-scope block names a struck-through AC/EC or non-conflicting rule — Step 2 wins); at session end [session-closing.md](../../references/session-closing.md).
 
 ### Only if triggered (exact condition on each line)
 
@@ -375,7 +377,7 @@ Open each file below at the step that names it, never all up front.
 
 ### Execution-only files (this workflow never triggers them)
 
-This workflow never runs tests, sets a bug priority, records a verdict or opens a bug. The shared files above link onward to execution-only references — [bug-priority-matrix.md](../../references/bug-priority-matrix.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [defect-report-completeness.md](../../references/defect-report-completeness.md), [playwright-preflight.md](../../references/playwright-preflight.md), [resilient-selectors.md](../../references/resilient-selectors.md), [test-through-real-steps.md](../../references/test-through-real-steps.md), [verify-closing-checklist.md](../../references/verify-closing-checklist.md) — which a TC review must not load.
+This workflow never runs tests, sets a bug priority, records a test verdict or opens a bug. The shared files above link onward to execution-only references — [bug-priority-matrix.md](../../references/bug-priority-matrix.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [defect-report-completeness.md](../../references/defect-report-completeness.md), [playwright-preflight.md](../../references/playwright-preflight.md), [resilient-selectors.md](../../references/resilient-selectors.md), [test-through-real-steps.md](../../references/test-through-real-steps.md), [verify-closing-checklist.md](../../references/verify-closing-checklist.md) — which a TC review must not load.
 
 ## Dependencies
 
@@ -384,6 +386,6 @@ Run the check for each of these before step 1 — check commands and install hin
 - Atlassian MCP
 - Figma (only when a design cross-check is asked)
 - clone of the product repo (`{MONOREPO}`) for the source sweep
-- `tools/result-gate` is not run here (it checks `results.jsonl`, which this workflow never writes; Step 3b applies layer 14 by hand)
+- `tools/result-gate` is not run here (no `results.jsonl` here; Step 3b applies layer 14 by hand)
 - the ticket project's TC-review notify channel + its webhook (project config / local secrets)
 - `superpowers:systematic-debugging`

@@ -5,12 +5,12 @@ Complete **every** item before starting Phase E. Stop on first hard failure and 
 ## 1 — Workspace & guide
 
 - [ ] [workspace-guide-discovery.md](workspace-guide-discovery.md) completed for **Testing ticket**
-- [ ] If `*-testing-ticket-guide.md` exists: VPN, base URL, auth file path, CP grep pattern noted
+- [ ] If `*-testing-ticket-guide.md` exists: VPN, base URL, auth file path noted
 
 ## 2 — Environment reachability
 
 - [ ] `URL` loads (HTTP 200 or expected redirect — not CF challenge / login wall unless expected)
-- [ ] VPN: if **Required**, user confirmed tunnel active or runner can reach PD3/private network
+- [ ] VPN: if **Required**, user confirmed tunnel active or runner can reach the private network
 - [ ] Login: saved login file `{auth dir from guide}/{env}-{role}-{alias}.json` (named by account, not by lane; gitignored) exists (no file → the main thread restores it by command, `parallel-test-lanes.md` §3 *Dead session*)
 - [ ] Saved login checked: load the file, call the session endpoint, expected user id returned. On 401/403, a redirect to login, or a different user → return `SESSION-DEAD {account tag}`; the main thread restores the login by command (`parallel-test-lanes.md` §3 *Dead session*) — the agent never logs in itself ([round-time-contract.md §5](round-time-contract.md#5-login-reuse-per-operator-across-runs))
 

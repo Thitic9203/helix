@@ -57,5 +57,5 @@ No row is checked at the start of the run: each is checked when Phase C records 
 
 - Python 3 + `openpyxl` — Excel file chosen
 - Atlassian MCP — delivery includes A
-- Jira REST credentials (ADF-direct publish and the REST v3 fallback) — delivery includes A
+- Jira REST credentials — only at the G2 step 4 REST fallback
 - `superpowers:systematic-debugging` — delivery includes A (REST failure hand-off)

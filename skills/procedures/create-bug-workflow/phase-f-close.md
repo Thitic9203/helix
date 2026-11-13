@@ -13,7 +13,7 @@ After Phase D create calls:
    approval**. Then fix via the edit API, or recreate — when recreating, also close or link the wrong
    issue as a duplicate (with the same approval) so no stray issue stays behind → **re-fetch** each link.
 4. **Maximum 2 fix-verify rounds** — then report partial success honestly.
-5. If any create failed → report which succeeded and which failed.
+5. If any create failed → report which succeeded, which failed and which are outcome unknown.
 6. **Fetch fails** (permission, 404, MCP down) → report that key/URL from the tool output as **created-unverified** with the error verbatim, retry the fetch once by another read path (REST, browser or `gh issue view`); still failing → `Verdict: CREATED {N}/{N} — {m} unverified`. Never call it verified.
 
 **Go back:** If fix-verify round 1 finds a mismatch, fix it (item 3) and return to item 2 of this phase — re-fetch every link. After round 2, stop and report partial success.

@@ -162,9 +162,8 @@ checker line plus the root-cause note.
 
 **14. Exhaustive source sweep before any BLOCKED, FAILED or "ask the PO / reporter" — M+J.**
 Stops: concluding "cannot be done", "wrong" or "wait for someone" before reading what already
-answers it. Real case (2026-10-11 round): a detail page showed an "unavailable" guard that looked
-like a defect; the guard's commit message named a sibling ticket whose business rule required it,
-which turned a suspected defect into a documented spec conflict. Check, in this order, and quote
+answers it. Real case (2026-10-11 round): an "unavailable" guard that looked like a defect was
+required by a sibling ticket named in its commit message. Check, in this order, and quote
 each source in the verdict line:
 1. **Product code at the default branch** — the lines that produce the behaviour, with `path:line`,
    **including their inline comments**, and `git log -L <start>,<end>:<path>` (or blame) on those
@@ -178,7 +177,8 @@ each source in the verdict line:
 
 A result with nothing found at a step says so, with the search used. Runs: per BLOCKED / FAILED
 line and before any question to the PO or reporter; checker `NO_SOURCE_SWEEP` refuses a BLOCKED or
-FAILED line without at least one `code_refs` entry shaped `path:line` **and** one `ticket_refs`
+FAILED line without at least one `code_refs` entry shaped `path:line` (no read access to the product repo: exactly
+`not checked — no repo access ({who can grant it})`) **and** one `ticket_refs`
 entry shaped like a ticket key (`KEY` or `KEY#comment-id`). Proof: `code_refs`, `ticket_refs` and
 the regression / design sources on the line.
 
