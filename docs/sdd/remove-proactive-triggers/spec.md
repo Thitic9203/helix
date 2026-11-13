@@ -18,5 +18,5 @@ Source for "the field is not read at runtime": Claude Code routes skills from `d
 - R2: every phrase listed in plan.md "Moved phrases" is found in its SKILL.md body.
 - R3/R4: `bash scripts/tests/run.sh` passes with the new probe cases.
 - R5: `git grep proactive_triggers -- docs/*.md` is empty.
-- R6: `bash scripts/ci-check-token-budget.sh pr origin/main` prints both pass lines.
+- R6: `bash scripts/ci-token-budget.sh pr origin/main` prints both pass lines.
 - R7: `git diff --stat origin/main` lists no `.github/` path.
