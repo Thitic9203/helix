@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.180** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.197** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04, fixed in v1.5.167):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) and update to v1.5.167 or later.
 
@@ -34,7 +34,7 @@ Helix uses the open **[Agent Skills](https://agentskills.io)** format (`SKILL.md
 
 | Agent / IDE | Supported | Global skills folder (after install) |
 |-------------|-----------|--------------------------------------|
-| **Claude Code** | Yes | `~/.claude/skills/` + plugin cache |
+| **Claude Code** | Yes | plugin **`helix@helix-dev`** only (no `~/.claude/skills/` links) |
 | **Cursor** | Yes | `~/.cursor/skills/` |
 | **OpenAI Codex** | Yes | `~/.codex/skills/` |
 | **GitHub Copilot** (VS Code) | Yes | `~/.copilot/skills/` |
@@ -58,7 +58,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 This downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes. If a download fails or the hash does not match, nothing is installed and nothing is written under your home folder (the two files land in the current folder only).
 
 ```bash
-HELIX_TAG=v1.5.180
+HELIX_TAG=v1.5.197
 base="https://github.com/Thitic9203/helix/releases/download/$HELIX_TAG"
 curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && [ "$(wc -l < install.sh.sha256)" -eq 1 ] \
@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 11 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 11 workflow skills** into the global folders above except Claude Code (which loads them once, from the plugin — older Helix links in `~/.claude/skills` are removed with a one-line notice; your own folders and other links there are never touched) (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -167,6 +167,8 @@ bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
 | **You** run the update command above | [scripts/helix-auto-update.sh](scripts/helix-auto-update.sh) (no arguments) |
 | You run `git pull` in `~/.helix/tc-fe-prep` | [scripts/hooks/post-merge](scripts/hooks/post-merge) → refresh symlinks + [claude-plugin-sync](scripts/claude-plugin-sync.sh) |
 
+The update command installs a release only when its `token-report.json` asset says the session-token budget passed. If the report is missing, failing or cannot be fetched, the update prints one line saying why and leaves you on your current version.
+
 **What the update command does:**
 
 1. Fetch `main` and tags, then fast-forward `~/.helix/tc-fe-prep` to the newest release tag — never to unreleased `main`, never backwards (skill symlinks pick up new `SKILL.md` immediately)
@@ -185,7 +187,7 @@ Failures are recorded in `~/.helix/last-update-error` and shown once at the next
 
 - The session-start check needs **network**; offline → no notice, no error.
 - **Cursor / Copilot / Codex / …** — skills update via symlinks after pull; **Reload window** (Cursor) if the agent still shows old skill text.
-- **Claude Code** — after a plugin version jump, **start a new session** once if `/helix` or slash commands look stale (skills via `~/.claude/skills` are usually current sooner).
+- **Claude Code** — after a plugin version jump, **start a new session** once if `/helix` or slash commands look stale (Claude Code reads Helix only from the plugin).
 
 ### Claude Code plugin id
 

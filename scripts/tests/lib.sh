@@ -21,3 +21,15 @@ finish() {
   [ "$RUNS" -gt 0 ] || { echo "  no checks ran — refusing"; exit 2; }
   [ "$FAILS" -eq 0 ]
 }
+# make_report <assets-dir> <tag> <commit> <verdict>: a token-report.json release asset (token-budget-guard R10)
+make_report() {
+  mkdir -p "$1/$2"
+  printf '{"schema": 1, "tag": "%s", "release_tag": "%s", "release_commit": "%s", "verdict": "%s"}\n' "$2" "$2" "$3" "$4" > "$1/$2/token-report.json"
+}
+# pass_reports <bare-origin> <assets-dir>: a pass report for every release tag on the origin
+pass_reports() {
+  local t c
+  git -C "$1" for-each-ref --format='%(refname:short) %(objectname)' 'refs/tags/v*' | while read -r t c; do
+    c="$(git -C "$1" rev-parse "$t^{commit}")"; make_report "$2" "$t" "$c" pass
+  done
+}

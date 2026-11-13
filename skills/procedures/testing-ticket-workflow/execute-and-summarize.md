@@ -22,7 +22,7 @@ Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read in run order a
 ## Phase E — Execute tests (Playwright) [low freedom]
 
 Run the planned scenarios; record **PASSED** / **PWMI** / **FAILED** / **BLOCKED** (a scenario not run is BLOCKED with its reason) with evidence (screenshots, console, network).
-**Open every evidence file you cite, this round** — view each still, play each clip to its last frame — before it backs a verdict; a `verify.json`, a checker line or `file` output is not opening it ([qa-evidence-gates.md](../../../references/qa-evidence-gates.md) § *Pre-delivery completeness*).
+**Open every evidence file you cite, this round** — view each still, play each clip to its last frame — before it backs a verdict; a `verify.json`, a checker line or `file` output is not opening it ([qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md#pre-delivery-completeness--7-layer-defense-gate-before-handing-results-to-the-requester)).
 
 Phase E runs in this order; each step names its output:
 
@@ -31,7 +31,7 @@ Phase E runs in this order; each step names its output:
 - **E-c Execute per AC/EC id** — output: one result row per id, with evidence (*Real surface* and *Cover every enumerated AC/EC id* below), then E0–E2 per scenario inside the lane.
 - **E-d Merge** — output: one report and one bundle after the §6 merge checks, including *Lane failure* below; then E3 on every non-PASS.
 
-**Fan out whenever the plan has 2 or more units** ([round-time-contract.md §4](../../../references/round-time-contract.md)) —
+**Fan out whenever the plan has 2 or more units** ([round-time-contract.md §4](../../../references/round-time-contract.md); a serial plan names its [parallel-test-lanes.md §4](../../../references/parallel-test-lanes.md) predicate) —
 dispatch the planned lanes at once, after any parent pre-login for accounts sharing one OTP
 inbox (§3), one subagent per lane, all in a single message, each
 with the lane prompt from [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §5 — it passes
@@ -92,11 +92,7 @@ Run this **as each scenario executes**, not while writing Phase F.
 1. **Compare the screen against its design node** on all five points — elements present · text
    char-exact · order/position · the states the node defines · no overflow and no overlap
    ([figma-design-comparison.md](../../../references/figma-design-comparison.md) §3). Record the node
-   link opened on the report header's `Design ref:` line (F2 — no design-node column). **Dedupe, never shorten** ([round-time-contract.md §7](../../../references/round-time-contract.md)):
-   one compare per screen × width per round — cases on the same screen share one fresh app capture and
-   one design read; cache the design-side export (node screenshot + metadata) keyed by the Figma file's
-   `lastModified` and re-fetch only when it changes. The app-side capture is always fresh, and the
-   compare still covers all five points.
+   link opened on the report header's `Design ref:` line (F2 — no design-node column). **Dedupe, never shorten** — [round-time-contract.md §7](../../../references/round-time-contract.md#7-figma-compare-keep-it-full-dedupe).
 2. **Measure the layout checks, do not eyeball them** — overflow is `rect.right > window.innerWidth` or
    `document.documentElement.scrollWidth > window.innerWidth`; overlap is two text rectangles
    intersecting by more than ~3 px. Run them at **every in-scope width**, and on both sides of any
@@ -134,6 +130,8 @@ These three cannot be reconstructed while writing Phase F — do them before mov
    surface disagree, name it, re-run that surface cleanly, record which was the artifact and why. Never
    resolve it in favour of the result you already wrote. Unresolvable after a clean re-run → **BLOCKED**,
    not FAILED.
+4. **Reproduce before FAILED.** Re-run the failing step until it fails 3 of 3, or record it
+   intermittent with attempts and failed attempts ([result-quality-gate.md](../../../references/result-quality-gate.md) layer 16).
 
 ### E2 — Root-cause investigation (mandatory for every FAILED and BLOCKED scenario, during the run)
 
@@ -234,8 +232,7 @@ Always post a clear summary **in the same conversation** before anything else:
 **Every row carries evidence — passed rows included** (`count(passed rows) == count(evidence
 references)`). 🔴 **No design-node column** — the design reference is one fact about the round, not a
 per-row fact: it goes on the report header's `Design ref:` line (the node URL, or the Phase B
-BLOCKED-with-reason when none exists), never repeated down every row. Removed on user instruction
-2026-08-25. A
+BLOCKED-with-reason when none exists), never repeated down every row. A
 run whose passed rows have no evidence cannot be re-examined later, which is how layout defects
 survived a green round and reached the customer
 ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §7). `Width` is
@@ -247,19 +244,8 @@ row with its own verdict; it is **never** parked in Notes/remark/chat while the 
 
 ### F3 — Defects observed (if any)
 
-Report defects **without filing them**, as these two tables (bullets or prose do not count):
-
-**Defect candidates — NOT filed** (only rows whose expected side is a confirmed spec)
-
-| Ticket | TC / ER point | Actual | Expected | Requirement reference (source + char-exact quote) | Evidence (still + accepted clip, layer 10, + capture manifest) | Root cause `path:line` | Confidence | Priority ([matrix](../../../references/bug-priority-matrix.md)) | Status |
-|---|---|---|---|---|---|---|---|---|---|
-| `{ISSUE_KEY}` | `TC_nn` · `ER_n` | … | … | AC id / design node / PO comment id: "…" | … | … | Confirmed | … | Not filed yet (Thai: ยังไม่ได้เปิดบั๊ก) |
-
-**Needs PO decision** — `| Ticket | TC / ER point | Source 1 + char-exact quote | Source 2 + char-exact quote | Observed |`, one row per spec conflict; the case stays BLOCKED.
-Only when the round found a defect, follow the template and example in [defect-candidates.md](../../../references/output-templates/defect-candidates.md):
-when the candidate table has at least one row, the report ends with its fixed owner question
-`Open bugs for the <N> candidate(s) above? (Yes → create-bug for all · Choose rows · No)` — filing
-starts only after the owner answers.
+Report defects **without filing them**, as the two tables in [defect-candidates.md](../../../references/output-templates/defect-candidates.md) — the single copy of their shape: **Defect candidates — NOT filed** (only rows whose expected side is a confirmed spec) and **Needs PO decision** (one row per spec conflict; the case stays BLOCKED). Bullets or prose do not count.
+When the candidate table has at least one row, the report ends with its fixed owner question — the round's one filing question; F5 step 2 carries that same question, never a second per-row one. Filing starts only after the owner answers.
 The **Confidence** column carries the E2 label — `Confirmed` / `Suspected` / `Unknown — not
 investigated` — and it describes the **cause**, not how strongly you feel about the defect.
 
@@ -326,8 +312,8 @@ cause:
 - [ ] It cites a **captured artifact** from the E2 sweep (status code, response field, console error,
       bundle probe, fixture read-back) — not a recollection, not another scenario's behaviour.
 - [ ] It carries a label matching what was actually run — `Confirmed` only if the falsifying check ran.
-- [ ] It contains **no hedge standing in for a cause** (`probably`, `น่าจะ`, `seems`, `flaky`,
-      `cache issue`, `environment issue`, `race condition`).
+- [ ] It contains **no hedge standing in for a cause** — no word from the
+      [banned list](../../../references/root-cause-investigation.md#hedges).
 - [ ] It does not restate the symptom as the cause, and `not checked` boundaries are still visible.
 
 Any box unchecked → delete the sentence or return to E2 and earn it. Never soften it into a hedge.
@@ -355,13 +341,12 @@ When a round ends, follow [round-time-contract.md §3](../../../references/round
    reviewer must return CLEAN before step 4.
 2. **Decisions popup** — only when questions are queued. One structured-question popup (e.g. `AskUserQuestion`; a runtime without one uses a single numbered question list in chat), batched 4 at a time:
    the scope plan from Phase C, each queued E3 non-PASS (A/B/C), missing design, cross-ticket
-   conflicts (*Investigate further* / *Close out now*), and **for every Defect-candidate row (and
-   every C answer) "Open a bug for {TC/ER}?"** (*Not now — stays Not filed yet* / *Open it via
-   create-bug-workflow*). Only a live *Open it* answer from the owner routes to create-bug.
+   conflicts (*Investigate further* / *Close out now*), and the F3 owner question once (a C answer adds its row to it). Only a live *Yes* or chosen row from the owner routes to create-bug.
 3. **Apply the answers** — re-render the draft and re-run the guard.
 4. 🔴 GATE: **Approval popup** — nothing is written outside the run until it is answered; one approval for the whole bundle, naming every concrete action: the comment
    (target ticket + endpoint), each external result update (destination + rows), and any notify
-   (channel + resolved recipient).
+   (channel + resolved recipient). An action the owner delegated by name skips only the wait; its bundle list is still
+   printed in chat and step 5's gates still run ([layer 19](../../../references/no-wait-decision-gate.md)).
 5. **Execute** — Phase G4–G7 with no second approval.
 
 No queued decisions → step 2 is skipped and the round has a single human touch.

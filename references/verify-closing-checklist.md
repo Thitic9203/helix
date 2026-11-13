@@ -6,9 +6,8 @@ Apply [qa-evidence-gates.md](qa-evidence-gates.md) before any pass/post/done cla
 
 ## All workflows
 
-- [ ] User-facing messages follow the user's language ([user-communication.md](user-communication.md))
 - [ ] No success claim without tool output **and** destination re-read for every external write — post, create, upload, sheet or page update ([qa-evidence-gates.md](qa-evidence-gates.md))
-- [ ] Approval gates were not skipped
+- [ ] Shared items: `qa-closing-shared.md` § Shared checklist
 - [ ] Artifact index posted
 - [ ] One-line next-workflow offer made (or “none” stated)
 - [ ] `Verdict:` block posted
@@ -19,7 +18,7 @@ Apply [qa-evidence-gates.md](qa-evidence-gates.md) before any pass/post/done cla
 - [ ] Coverage delta table posted ([coverage-delta-template.md](coverage-delta-template.md))
 - [ ] File row count matches approved table (if files written)
 - [ ] Jira/destination UI matches draft (not API response alone)
-- [ ] **Post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)): no literal `<br>`/HTML tags, numbered items on separate lines, attachment present
+- [ ] **Post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)), attachment present
 - [ ] **CSV/Excel attached to Jira issue** (not just saved in workspace) — footer link verified working
 - [ ] **Final TC review report posted** ([tc-final-review-report.md](../skills/procedures/tc-fe-prep-workflow/references/tc-final-review-report.md)): four axes **PASS** (AC/EC alignment, spelling, numbering, scope)
 - [ ] Agent did NOT report "commented" / "done" / "TC prep complete" before all checks passed
@@ -31,14 +30,14 @@ Apply [qa-evidence-gates.md](qa-evidence-gates.md) before any pass/post/done cla
 - [ ] **AC/EC coverage gate reconciled** ([qa-evidence-gates.md](qa-evidence-gates.md) § *AC/EC & bug-detail coverage*): `enumerated in-scope AC*/EC* ids == rows carrying a verdict + evidence (or explicit BLOCKED)`; every AC/EC is its own row (none only in a remark/Notes/chat), no case PASSED on partial coverage, no id left `NOT TESTED` unless explicitly out-of-scope at confirm
 - [ ] Every scenario has result + evidence reference
 - [ ] Phase G6 re-read completed if external update ran
-- [ ] If Jira/Confluence update: no literal `<br>`/HTML tags, numbered items on separate lines
+- [ ] If Jira/Confluence update: the post-publish review (TC FE / TC API section) passed
 
 ## Retest bug
 
 - [ ] Retest plan (dev claim vs verify) posted before tests
 - [ ] **AC/EC & bug-detail coverage gate reconciled** ([qa-evidence-gates.md](qa-evidence-gates.md) § *AC/EC & bug-detail coverage*): `enumerated ER* ids == verdict-table rows carrying a status + evidence (or explicit BLOCKED)`, `Expected-result coverage: {n}/{total}` with `{n}=={total}`; every expected-result/detail item is its own row (none only in a remark/note/chat), no PASSED over an unverified or differing item
 - [ ] Comment format v2/v3 not switched mid-session
-- [ ] **`node tools/retest-guard/retest_guard.js --body <file> --format v2|v3 --bug-type FE|API` exits 0** — the mechanical rules (syntax, header lines, table headers, Scope, per-row evidence, coverage reconciliation, local paths) are checked by `tools/retest-guard/retest_rules.js`, not from memory. Exit 2 (could not run) is **not** a pass.
+- [ ] **`node tools/retest-guard/retest_guard.js --body <file> --format v2|v3 --bug-type FE|API` exits 0** — the mechanical rules (syntax, header lines, table headers, Scope, per-row evidence, coverage reconciliation, local paths) are checked by `tools/retest-guard/retest_rules.js`, not from memory. Exit 2 (could not run) is **not** a pass. With no `tools/retest-guard/`, check the rules by hand and say so (`dependencies.md`).
 - [ ] **Step 8·0 format-completeness gate PASSED before any status transition** — FE bug: a whole-flow **MP4 per executed case** linked in that row's `Evidence` cell and confirmed to play from Jira, **plus** a bare inline `!file.png!` still on every text-verification row; API bug: full cURL/response per row. A text-only FE comment fails this gate → do NOT transition, resolve or get explicit user waiver first.
 - [ ] MP4s and stills attached to the issue before the v2 wiki embed (FE), each MP4 green on the 7-layer quality + correctness gate
 - [ ] Transition names match workspace guide

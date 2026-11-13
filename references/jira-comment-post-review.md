@@ -15,7 +15,7 @@ After posting a TC comment to Jira, the agent MUST review the rendered comment o
 ```
 Post comment → Review on Jira UI → Pass all checks?
   YES → Report to user: "commented"
-  NO  → Fix → PUT to the same comment id → Re-review (max 3 rounds — the cap of this posted-comment re-read loop; a workflow step that states its own cap uses that cap)
+  NO  → Fix → PUT to the same comment id → Re-review (max 3 rounds of this re-read loop; a workflow step with its own cap uses it — create-bug Phase F: 2, and for an issue body only §3, §4 apply)
         Still failing → Report specific failures to user, do NOT claim success
 ```
 
@@ -23,7 +23,7 @@ Post comment → Review on Jira UI → Pass all checks?
 
 ## Pre-post render + media check (before the approval popup)
 
-Run both checks on the **final** draft body, before the approval popup is shown
+Run both checks on the **final** draft body, before the approval popup is shown (tc-api/tc-fe: the G2 preview)
 ([round-time-contract.md §6](round-time-contract.md#6-comment-render-and-media-check-before-the-approval-popup)):
 
 1. **Render the body locally** in the format the guide sets (ADF for v3, wiki markup for v2). Confirm
@@ -31,17 +31,18 @@ Run both checks on the **final** draft body, before the approval popup is shown
 2. **Resolve every referenced image or clip** — the attachment exists, and its id or filename matches
    the reference in the body.
 
-A failure blocks the approval popup until it is fixed. This check does not replace the post-publish
-review below — the re-read on Jira UI remains the proof of what was posted.
+A failure blocks the approval popup; the post-publish re-read below still proves what was posted. These two checks live only here; round-time-contract §6 links to them.
 
 ## Review checklist (all items must pass)
+
+For a testing-ticket result comment, *TC rows* are its result rows and it has no CSV, so the attachment-name items do not apply.
 
 ### 1. Content completeness
 
 - [ ] **All TC rows present** — count rows on Jira UI, must match approved draft row count
 - [ ] **Shared data preparation section** visible above table (when the approved draft has one)
 - [ ] **Precondition note** visible (when the approved draft has one)
-- [ ] **Table header row** visible with all column names — every column has an explicit, **all-English** header; row-number column reads `No.` (a bare `#` renders as a **blank** header cell in Jira)
+- [ ] **Table header row** visible with all column names — every column has an explicit, **all-English** header; row-number column reads `No.` (tc-fe-prep slim table: `ID`; a bare `#` renders as a **blank** header cell in Jira)
 - [ ] **Footer** visible (CSV/Excel reference line, attachment link)
 
 ### 2. Content accuracy
@@ -70,22 +71,20 @@ review below — the re-read on Jira UI remains the proof of what was posted.
 ### 5. Attachment (when CSV/Excel was generated)
 
 - [ ] **CSV or Excel file attached** to the same Jira issue (not just in workspace)
-- [ ] **Attachment filename** matches convention (`{ISSUE_KEY}_FE_TC.csv` or similar)
+- [ ] **Attachment filename** matches convention (tc-fe-prep: `Draft_Jira_{KEY}.csv`, `Import_Qase_{KEY}.csv` + typed CSVs; tc-api-prep: `{SCOPE}_API_TC.csv`/`.xlsx`)
 - [ ] **Attachment opens correctly** — row count matches table, Thai characters intact
 - [ ] **Footer link** in comment points to the actual attachment (not a broken/missing link)
-
-If CSV/Excel was generated in a prior step but NOT attached to Jira → **attachment is missing. Fix before reporting done.**
 
 ## Fix procedure (when any check fails)
 
 | Failure | Fix |
 |---------|-----|
 | Missing rows / truncated table | PUT the full corrected body to the same comment id (edit in place, `jira-wiki-vs-markdown.md` § Fixing a comment that already shipped); when the re-read still shows the table truncated, send that body as ADF (v3) — unless the session locked v2/v3, then hand the corrected body to the user |
-| Literal `<br>` or HTML tags | Re-run [jira-linebreak-conversion.md](jira-linebreak-conversion.md), strip tags, re-post |
-| Numbered items on same line | Verify conversion produced actual line breaks; re-post with corrected body |
+| Literal `<br>` or HTML tags | Re-run [jira-linebreak-conversion.md](jira-linebreak-conversion.md), strip tags, PUT to the same comment id |
+| Numbered items on same line | Verify conversion produced actual line breaks; PUT the corrected body to the same id |
 | Literal `**` visible | The body is markdown but was posted to the **v2 wiki** endpoint. Wiki bold is a single `*`; `**x**` renders as bold-wrapped-in-asterisks. Convert the whole body to wiki syntax (`*bold*`, `----`, `\|\|header\|\|` with no divider row, bare `!file.png!`) and PUT it back to the same comment id — never repost |
 | CSV not attached | Upload CSV/Excel to the issue via MCP or browser; update footer link |
-| Footer link broken | Get correct attachment URL after upload; edit comment footer |
+| Footer link broken | Edit the footer to the uploaded attachment URL |
 
 After fix → **re-read on Jira UI again** and re-run the full checklist. Do not assume the fix worked.
 
@@ -99,15 +98,15 @@ Attachment: {FILENAME} ({N} rows).
 Verified on Jira UI: all rows visible, formatting correct, attachment present.
 ```
 
-If a fix attempt fails, **find the best alternative — never give up or say "can't do it":**
+If a fix attempt fails, **find the best alternative — never give up:**
 
 | Blocked by | Escalation path |
 |------------|-----------------|
 | MCP post shows `<br>` literal | Re-convert with `\n` and PUT the corrected body to the same comment id (edit in place — never delete and re-post). If it still fails and the session has not locked v2/v3 → switch to ADF via browser. Format locked, or no browser → provide the corrected body for the user to paste manually. |
-| MCP truncates table | Switch to ADF + browser session. If no browser → split into 2 comments (header+first half, second half) with clear labels. |
+| MCP truncates table | Not locked → ADF + browser; locked → the full body in that format via browser; PUT to the same id. No browser → add the second table as a new labelled comment (the first stays, edited in place, never deleted) only if the format is not locked and the workflow allows more than one table; else give the user the body to paste. |
 | CSV upload fails via MCP | Try browser upload. If no browser → save CSV in workspace + instruct user to drag-and-drop attach. |
 | Bold `**` not rendering | Session has not locked v2/v3 → switch to ADF bold nodes and PUT to the same comment id. Format locked, or ADF not possible → accept plain text headers (functional over pretty). |
-| Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before re-post. |
+| Numbered items still on same line | Check conversion output — likely `\n` not actually inserted. Re-run conversion with explicit verification before the PUT. |
 
 After exhausting automated options → provide the user with:
 1. **Corrected comment body** (ready to paste)
@@ -120,4 +119,3 @@ Here's the corrected body ready to paste: [see above]
 CSV file: {workspace path} — please attach to {ISSUE_KEY}
 ```
 
-Never use vague success language. Be specific about what was verified.

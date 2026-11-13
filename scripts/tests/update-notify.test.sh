@@ -40,7 +40,8 @@ snap() { # everything the hook must leave alone
   ls -laR "$W/home/.claude/skills" "$W/home/.claude/plugins"
 }
 hook() { env HELIX_REMOTE_URL="$W/no-such-remote.git" HOME="$W/home" PATH="$W/bin:$PATH" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" "$@" bash "$HOOK" 2>/dev/null; }
-update_cmd() { env HOME="$W/home" PATH="$W/bin:$PATH" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" "$@" bash "$AU" >/dev/null 2>&1; }
+# R10 (docs/sdd/token-budget-guard): every published release carries a pass token-report.json asset
+update_cmd() { pass_reports "$W/origin.git" "$W/assets"; env HOME="$W/home" PATH="$W/bin:$PATH" HELIX_REPO_DIR="$W/clone" HELIX_STATE_DIR="$W/state" HELIX_RELEASE_ASSETS="$W/assets" "$@" bash "$AU" >/dev/null 2>&1; }
 ctx() { python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("additionalContext") or d["hookSpecificOutput"]["additionalContext"])'; }
 notices() { grep -cE 'Helix v[0-9.]+ is available' <<<"$(ctx <<<"$1")"; }
 valid_json() { printf '%s' "$1" | python3 -c 'import json,sys; json.load(sys.stdin)' 2>/dev/null; }

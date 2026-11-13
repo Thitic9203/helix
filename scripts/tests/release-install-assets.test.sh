@@ -77,7 +77,7 @@ case "\$1 \$2" in
   "release view") exit 1 ;;
   "release create") echo "\$@" > "$d/gh.args"
     while [ \$# -gt 0 ]; do case "\$1" in
-      */install.sh|*/install.sh.sha256) cp "\$1" "$d/pub/";;
+      */install.sh|*/install.sh.sha256|*/token-report.json) cp "\$1" "$d/pub/";;
       --notes-file) cp "\$2" "$d/notes.md"; shift;;
     esac; shift; done ;;
   *) echo "unexpected gh call: \$*" >&2; exit 9 ;;
@@ -85,14 +85,16 @@ esac
 GH
   chmod +x "$d/bin/gh"
 }
-run_step() { # run_step <sandbox> -> exit code of the real step body
-  ( cd "$1/repo" && GH_TOKEN=x PATH="$1/bin:$PATH" bash -e -c "$(step_body)" ) >"$1/step.log" 2>&1
+run_step() { # run_step <sandbox> [verdict] -> exit code of the real step body
+  # R10 (docs/sdd/token-budget-guard): the token gate step leaves token-report.json in RUNNER_TEMP
+  mkdir -p "$1/tmp"; make_report "$1/rt" v9.9.9 "$(git -C "$1/repo" rev-parse HEAD)" "${2:-pass}"; cp "$1/rt/v9.9.9/token-report.json" "$1/tmp/"
+  ( cd "$1/repo" && GH_TOKEN=x RUNNER_TEMP="$1/tmp" PATH="$1/bin:$PATH" bash -e -c "$(step_body)" ) >"$1/step.log" 2>&1
 }
 [ -n "$(step_body)" ] && ok "extracted the release step body from version.yml" || fail "extracted the release step body from version.yml"
 mk_sandbox "$S/sbx"; run_step "$S/sbx"; rc=$?
 [ "$rc" -eq 0 ] && ok "release step runs against a fake gh (rc=0)" || fail "release step (rc=$rc: $(tail -2 "$S/sbx/step.log" | tr '\n' ' '))"
 head_sha="$(git -C "$S/sbx/repo" rev-parse HEAD)"
-grep -q -- "release create v9.9.9 .*/install.sh .*/install.sh.sha256 --target $head_sha " "$S/sbx/gh.args" && ok "gh release create v9.9.9 attaches both files at --target HEAD" || fail "gh args: $(cat "$S/sbx/gh.args" 2>/dev/null)"
+grep -q -- "release create v9.9.9 .*/install.sh .*/install.sh.sha256 .*/token-report.json --target $head_sha " "$S/sbx/gh.args" && ok "gh release create v9.9.9 attaches install.sh, its .sha256 and token-report.json at --target HEAD" || fail "gh args: $(cat "$S/sbx/gh.args" 2>/dev/null)"
 if (cd "$S/sbx/pub" && { command -v sha256sum >/dev/null && sha256sum -c install.sh.sha256 || shasum -a 256 -c install.sh.sha256; }) >/dev/null 2>&1
 then ok "published pair passes the user's check"; else fail "published pair passes the user's check"; fi
 cmp -s "$REPO_ROOT/scripts/install.sh" "$S/sbx/pub/install.sh" && ok "published install.sh is this commit's scripts/install.sh" || fail "published install.sh differs"
@@ -101,4 +103,7 @@ if grep -Eq 'curl.*[|] *ba''sh' "$S/sbx/notes.md"; then fail "release notes stil
 # failure path: no install.sh to hash -> the step stops and no release is created
 mk_sandbox "$S/bad"; rm "$S/bad/repo/scripts/install.sh"; run_step "$S/bad"; rc=$?
 { [ "$rc" -ne 0 ] && [ ! -e "$S/bad/gh.args" ] && grep -q "install.sh not found" "$S/bad/step.log"; } && ok "asset build fails: step rc=$rc and gh release create never called" || fail "asset-build failure path (rc=$rc, gh.args exists? $([ -e "$S/bad/gh.args" ] && echo y || echo n))"
+# R10: a token report that is not a pass for this commit -> no release
+mk_sandbox "$S/tok"; run_step "$S/tok" fail; rc=$?
+{ [ "$rc" -ne 0 ] && [ ! -e "$S/tok/gh.args" ] && grep -q "token-report.json is not a pass" "$S/tok/step.log"; } && ok "R10: a fail token report: step rc=$rc and gh release create never called" || fail "R10: fail-report path (rc=$rc, gh.args exists? $([ -e "$S/tok/gh.args" ] && echo y || echo n))"
 finish

@@ -22,7 +22,7 @@ log() {
 }
 
 if ! command -v claude >/dev/null 2>&1; then
-  log "[claude] skipped — Claude CLI not on PATH (skills still work via ~/.claude/skills)"
+  log "[claude] skipped — Claude CLI not on PATH (run it again once Claude Code is installed)"
   exit 0
 fi
 

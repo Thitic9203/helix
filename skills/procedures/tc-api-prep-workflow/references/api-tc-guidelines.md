@@ -9,7 +9,7 @@ At minimum, cover each scenario below whose condition holds for the operation:
 | Happy path | Documented 2xx + schema fields |
 | Missing auth | 401 — when the operation (or the global spec) has a `security` requirement |
 | Forbidden role | 403 — when the spec or Swagger names roles/scopes for the operation |
-| Invalid body | 400 with validation detail |
+| Invalid body | 400 (or 422 when Swagger lists it) with validation detail |
 | Missing required field | 400 |
 | Wrong type / format | 400 |
 | Not found | 404 — when the path has an id parameter |

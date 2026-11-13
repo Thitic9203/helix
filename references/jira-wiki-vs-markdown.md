@@ -1,12 +1,12 @@
 # Jira wiki markup vs markdown — the silent-corruption rule
 
-Canonical syntax rule for **any** body sent to Jira. Linked by every skill that posts a comment or
-issue description; do not duplicate this content into a skill.
+Canonical syntax rule for **any** body sent to Jira; do not duplicate this content into a skill.
 
 ## The rule
 
 **Draft in the syntax of the endpoint you picked, from the first keystroke.** Never draft in
-markdown and "convert at post time".
+markdown and "convert at post time". A markdown chat preview is not the body: the post body is
+rewritten in the endpoint's syntax, then scanned (*Gates*).
 
 | Endpoint / tool | Body language |
 |-----------------|---------------|
@@ -15,8 +15,7 @@ markdown and "convert at post time".
 | MCP `addCommentToJiraIssue` / `createJiraIssue` | markdown (converted to ADF for you) |
 
 A markdown body POSTed to the **v2** endpoint **returns HTTP 200 and renders wrong**. There is no
-error to catch. Proof-reading the draft does not catch it either — the source reads as correct,
-because markdown is what the author meant. Only a string scan of the outgoing body catches it.
+error to catch. Proof-reading the draft does not catch it either. Only a string scan of the outgoing body catches it.
 
 ## markdown → wiki
 
@@ -25,9 +24,9 @@ because markdown is what the author meant. Only a string scan of the outgoing bo
 | `**bold**` | `*<b>bold</b>*` — bold text wrapped in literal asterisks | `*bold*` |
 | `---` | `—` em-dash character, no horizontal rule | `----` |
 | `\| a \| b \|` + `\|---\|---\|` | table renders, divider becomes a visible row of dashes | `\|\|a\|\|b\|\|` header, **no divider row** |
-| `![alt](url)` | literal `![alt](url)` text | `!file.png!` — **bare**; a `\|width=` parameter puts a pipe inside the cell and splits the table row (rule `img-width-param`, enforced by `tools/retest-guard/`). Resize before upload instead |
+| `![alt](http://x/a.png)` | literal `![alt](http://x/a.png)` text | `!file.png!` — **bare**; a `\|width=` parameter puts a pipe inside the cell and splits the table row (rule `img-width-param`, enforced by `tools/retest-guard/`). Resize before upload instead |
 | `` `code` `` | literal backticks | `{{code}}` |
-| `[text](url)` | literal text | `[text\|url]` |
+| `[text](http://x)` | literal text | `[text\|url]` |
 
 ## Two traps that survive a visual check
 

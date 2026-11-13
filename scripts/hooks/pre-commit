@@ -28,6 +28,14 @@ if [ -n "$STAGED_ACM" ]; then
   fi
 fi
 
+# --- Token budget (docs/sdd/token-budget-guard R3): refuse a staged change that adds session tokens ---
+if printf '%s\n' "$STAGED" | "$ROOT/scripts/token-budget-check.sh" watched; then
+  "$ROOT/scripts/token-budget-check.sh" staged || {
+    echo "pre-commit: refused — this commit would raise session tokens (see above)." >&2
+    exit 1
+  }
+fi
+
 version_staged=false
 echo "$STAGED" | grep -qx 'VERSION' && version_staged=true
 

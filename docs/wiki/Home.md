@@ -30,7 +30,7 @@ Full agent list: [supported-agents.md](https://github.com/Thitic9203/helix/blob/
 
 | Agent | Global folder after install | Start Helix |
 |-------|-----------------------------|-------------|
-| Claude Code | `~/.claude/skills/` + plugin **`helix@helix-dev`** | `/helix` or `/tc-fe-prep`, … |
+| Claude Code | plugin **`helix@helix-dev`** only (old `~/.claude/skills/` Helix links removed on install/update) | `/helix` or `/tc-fe-prep`, … |
 | Cursor | `~/.cursor/skills/` | `@helix` or skill **helix** |
 | Codex | `~/.codex/skills/` | skill **helix** |
 | GitHub Copilot | `~/.copilot/skills/` | skill **helix** in chat |
@@ -119,6 +119,8 @@ bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh
 | New Claude Code / Cursor session | [helix-auto-update.sh](https://github.com/Thitic9203/helix/blob/main/scripts/helix-auto-update.sh) `--check` (notice only) |
 | You run the update command | same script, no arguments (updates) |
 | `git pull` in `~/.helix/tc-fe-prep` | post-merge hook → sync plugin + symlinks |
+
+The update command installs a release only when its `token-report.json` asset says the session-token budget passed. If the report is missing, failing or cannot be fetched, the update prints one line saying why and leaves you on your current version.
 
 **What the update command does:**
 

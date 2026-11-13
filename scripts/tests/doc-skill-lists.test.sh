@@ -5,9 +5,9 @@
 R="$(copy_repo)"; H="$(mktemp -d)"; B="$(mktemp -d)"; trap 'rm -rf "$R" "$H" "$B"' EXIT
 
 # R1: the helper lists exactly what link-skills.sh links
-mkdir -p "$H/.claude"
+mkdir -p "$H/.cursor"
 HOME="$H" HELIX_QUIET=1 bash "$R/scripts/link-skills.sh" >/dev/null 2>&1
-want="$(find "$H/.claude/skills" -maxdepth 1 -type l -exec basename {} \; | sort | tr '\n' ' ')"
+want="$(find "$H/.cursor/skills" -maxdepth 1 -type l -exec basename {} \; | sort | tr '\n' ' ')"
 got="$(. "$R/scripts/lib/skill-list.sh" && helix_linked_skills "$R" | tr '\n' ' ')"
 [ -n "$got" ] && [ "$got" = "$want" ] && ok "helper lists the skills link-skills.sh links" || fail "helper [$got] != linked [$want]"
 total="$(echo "$got" | wc -w | tr -d ' ')"
@@ -16,7 +16,7 @@ total="$(echo "$got" | wc -w | tr -d ' ')"
 mkdir -p "$R/.git"
 doctor() { HOME="$H" HELIX_REPO_DIR="$R" HELIX_STATE_DIR="$H/state" PATH="$B:/usr/bin:/bin" bash "$R/scripts/helix-doctor.sh" 2>&1; }
 out="$(doctor)"
-echo "$out" | grep -q "Claude Code: all $total skills linked" && ok "doctor checks all $total linked skills" || fail "doctor did not report all $total skills linked"
+echo "$out" | grep -q "Cursor: all $total skills linked" && ok "doctor checks all $total linked skills" || fail "doctor did not report all $total skills linked"
 echo "$out" | grep -q "expect helix + $((total - 1)) workflows" && ok "doctor header shows the computed count" || fail "doctor header count is not $((total - 1))"
 mkdir -p "$R/skills/zz-workflow" && printf -- '---\nname: zz-workflow\n---\n' > "$R/skills/zz-workflow/SKILL.md"
 out="$(doctor)"; echo "$out" | grep -q "Skill zz-workflow" && ok "doctor picks up a new skill without edits" || fail "doctor ignored a new skill"

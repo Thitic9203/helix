@@ -1,19 +1,19 @@
 # Create bug — Phase F
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase F; every rule here is a full gate.
 
 ## Phase F — Fix-verify and close (mandatory) [low freedom]
 
-After Phase D create calls:
+Runs after Phase D create calls. A run that files nothing (every candidate Dropped, BLOCKED or Needs Review, or the user cancelled) skips items 1-6: close with `Verdict: CREATED 0/{K} — {reason}`, each candidate with its outcome and source link, then QA closing.
 
 1. List each issue with **URL or key** from tool output (not guessed).
-2. **Fix-verify round 1:** Open or fetch each link — confirm title/summary and body match approved draft.
+2. **Fix-verify round 1:** Fetch each link (`gh issue view <url> --json title,body,labels`; Jira `getJiraIssue`) — confirm title/summary and body match approved draft.
 3. **🔴 GATE — mismatch** (wrong project, truncated body, wrong priority/severity): show the user the
    draft-vs-destination difference and the proposed fix (edit in place, or recreate), and **wait for
    approval**. Then fix via the edit API, or recreate — when recreating, also close or link the wrong
    issue as a duplicate (with the same approval) so no stray issue stays behind → **re-fetch** each link.
-4. **Maximum 2 fix-verify rounds** — then report partial success honestly.
-5. If any create failed → report which succeeded and which failed.
+4. **Maximum 2 fix-verify rounds** (this cap replaces the 3 in jira-comment-post-review.md) — then report partial success honestly.
+5. If any create failed → report which succeeded, which failed and which are outcome unknown.
 6. **Fetch fails** (permission, 404, MCP down) → report that key/URL from the tool output as **created-unverified** with the error verbatim, retry the fetch once by another read path (REST, browser or `gh issue view`); still failing → `Verdict: CREATED {N}/{N} — {m} unverified`. Never call it verified.
 
 **Go back:** If fix-verify round 1 finds a mismatch, fix it (item 3) and return to item 2 of this phase — re-fetch every link. After round 2, stop and report partial success.

@@ -1,8 +1,8 @@
 ---
 name: create-bug-workflow
 description: |-
-  File bug reports on Jira or GitHub: collect target link, format and details, check the board for an earlier decision, falsify the defect, confirm with the user before creating.
-  Use when the user picks Create bug from Helix, says /create-bug, or wants a found defect logged ("raise a ticket for this", "log this defect", "เปิดบั๊ก").
+  File bug reports on Jira or GitHub: collect target, format and details, check the board, falsify the defect, confirm before creating.
+  Use when the user picks Create bug from Helix, says /create-bug, or wants a defect logged, even a test-run finding or without the word bug ("raise a ticket for this", "เปิดบั๊ก").
   Do NOT use for Playwright runs (testing-ticket), retest after a fix (retest-bug), TC tables (tc-fe-prep / tc-api-prep), or result-sheet updates.
 metadata:
   proactive_triggers:
@@ -27,28 +27,28 @@ Claude Code shortcut: `/create-bug` → [commands/create-bug.md](../../commands/
 
 ## Contents
 
-Shared reference index, with the trigger that opens each file (see also): [skill-reference-index.md](../../references/skill-reference-index.md).
+Shared reference index with triggers (see also): [skill-reference-index.md](../../references/skill-reference-index.md).
 
 At the start of every run: [shared-preamble.md](../../references/shared-preamble.md), [user-communication.md](../../references/user-communication.md), [long-workflow-todos.md](../../references/long-workflow-todos.md), then [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) and [intake-one-pager.md](../../references/intake-one-pager.md) on the first response (WORKFLOW Refusal-first).
 
 Bug-filing gates, at the moment named:
 
 - [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — read at Phase A3, before setting any Priority/Severity or a PWMI / FAILED verdict.
-- [figma-design-comparison.md](../../references/figma-design-comparison.md) — read when the expected side cites a design frame (Refusal-first, Phase E).
+- [figma-design-comparison.md](../../references/figma-design-comparison.md) — read when the expected side cites a design frame (Refusal-first, Phase B3).
 - [defect-report-completeness.md](../../references/defect-report-completeness.md) — read at Phase C, before the first draft body; a run where every candidate is Dropped writes no draft; a Needs Review candidate is drafted and shown labelled "Needs Review — not filed".
 - [bug-draft-template.md](../procedures/create-bug-workflow/references/bug-draft-template.md) — read when drafting; [posting-discipline.md](../procedures/create-bug-workflow/references/posting-discipline.md) — at Phase D, before posting.
 - [shared-must-never.md](../../references/shared-must-never.md) — read at Phase D, before the first write (create call, attachment upload or comment).
-- [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md), [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md), [jira-comment-post-review.md](../../references/jira-comment-post-review.md) — read when the target is Jira: before and after posting any body.
-- [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md), [result-quality-gate.md](../../references/result-quality-gate.md) — read before recording a non-PASSED result or letting any verdict leave the round.
+- [jira-wiki-vs-markdown.md](../../references/jira-wiki-vs-markdown.md), [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md), [jira-comment-post-review.md](../../references/jira-comment-post-review.md) (issue body: pre-post render check, §3, §4; Phase F's 2-round cap) — read when the target is Jira: before and after posting any body.
+- [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) — read at Phase B3, before any label or BLOCKED line; [result-quality-gate.md](../../references/result-quality-gate.md) is a test-round gate — when filing, apply its layer map in [B3](../procedures/create-bug-workflow/phase-b3-falsification.md#result-quality-gate-layer-map-filing).
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read at Phase F, before any completion claim, and at the end of a run that files nothing.
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — read at QA closing, before reporting done, whether or not anything was filed; its cross-ticket conflict check is for testing-ticket and retest-bug only — this workflow's board check is Phase B2.
 - Reproducing in a browser: never on its own (steps come only from the reporter); hand it to testing-ticket-workflow unless the user insists.
 
-Also read each only when its trigger (in WORKFLOW.md or the index) fires: [agent-rationalizations.md](../../references/agent-rationalizations.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [helix-session-constraints.md](../../references/helix-session-constraints.md), [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md), [qa-debug-discipline.md](../../references/qa-debug-discipline.md), [root-cause-investigation.md](../../references/root-cause-investigation.md), [round-time-contract.md](../../references/round-time-contract.md), [session-closing.md](../../references/session-closing.md), [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md), [skill-routing.md](../../references/skill-routing.md), [skill-rules-style.md](../../references/skill-rules-style.md), [phase-b2-board-check.md](../procedures/create-bug-workflow/phase-b2-board-check.md), [phase-c-confirm.md](../procedures/create-bug-workflow/phase-c-confirm.md), [phase-d-create.md](../procedures/create-bug-workflow/phase-d-create.md), [phase-e-falsification.md](../procedures/create-bug-workflow/phase-e-falsification.md), [phase-f-close.md](../procedures/create-bug-workflow/phase-f-close.md).
+Also read each only when its trigger fires: [agent-rationalizations.md](../../references/agent-rationalizations.md) (skipping a gate), [helix-session-constraints.md](../../references/helix-session-constraints.md) (first reply), [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) (switching skills), [qa-debug-discipline.md](../../references/qa-debug-discipline.md) (tool error, env down), [root-cause-investigation.md](../../references/root-cause-investigation.md) (stating a cause); [B2](../procedures/create-bug-workflow/phase-b2-board-check.md), [B3](../procedures/create-bug-workflow/phase-b3-falsification.md), [C](../procedures/create-bug-workflow/phase-c-confirm.md), [D](../procedures/create-bug-workflow/phase-d-create.md), [F](../procedures/create-bug-workflow/phase-f-close.md) at their step; [session-closing.md](../../references/session-closing.md) (close-out), [skill-routing.md](../../references/skill-routing.md) (out-of-scope request), [skill-rules-style.md](../../references/skill-rules-style.md) (editing this skill), [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) (offering a next skill); [customer-escape-prevention.md](../../references/customer-escape-prevention.md) and [round-time-contract.md](../../references/round-time-contract.md) (test rounds only, not filing).
 
 ## Refusal-first (precondition gate)
 
-All preconditions and refusal rules are in WORKFLOW.md. MUST NOT create issues until the user approves each draft. MUST re-check the tracker/board first (WORKFLOW Phase B2): a defect a prior/closed ticket already settled as intended behavior is not a bug — report it to the user with the reference link instead of filing.
+All preconditions and refusal rules are in WORKFLOW.md. MUST NOT create issues before the Phase C **confirm**; MUST re-check the board first (Phase B2) — a defect an earlier ticket settled as intended is reported with its link, not filed.
 
 ## QA closing (mandatory before "done")
 
@@ -56,7 +56,7 @@ All close-out gates are in WORKFLOW.md and [verify-closing-checklist.md](../../r
 
 ## Dependencies
 
-Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+Run the check for each of these after step 1, before step 2 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
 
 - GitHub CLI `gh` (GitHub targets)
 - Atlassian MCP or Jira REST credentials (Jira targets)

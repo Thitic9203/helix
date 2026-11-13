@@ -2,8 +2,7 @@
 
 ## GitHub
 
-- `gh issue create` — use HEREDOC for body; capture stdout for issue URL.
-- Labels: `bug`, `severity:<Severity>` (the draft's Severity: Low / Medium / High / Urgent), `module:<name>` when supported —
+- Labels: `bug`, `severity:<Severity>` (the draft's Severity: Low / Medium / High / Urgent) —
   only labels the [WORKFLOW Phase B tracker-fields pre-flight](../WORKFLOW.md#phase-b--parse-target-medium-freedom) found or the user approved.
 
 ## Jira
@@ -13,24 +12,19 @@ Which body markup each create path takes, and which gate runs on it, is one tabl
 
 ## Jira MCP → JXA fallback
 
-Used only when WORKFLOW Phase D's MCP-failure branch selects it (macOS with a logged-in browser
-session). Otherwise follow the next branch there — REST with credentials, or hand the drafts to the user.
-
+Used only when [phase-d-create.md](../phase-d-create.md) item 4 selects it.
 
 1. Build body; `JSON.stringify` then escape non-ASCII to `\uXXXX` for ASCII-only `.js` file.
 2. Dry-run decode before `osascript`.
 3. Real emoji `✅` `❌` — not literal `\\u274c` in posted content.
+4. In the logged-in Jira tab the script calls `fetch('/rest/api/2/issue', {method: 'POST', …})` (v3 lock: `/rest/api/3/issue`) and reads `key` from the response; a non-2xx or no response → phase-d-create item 4.
 
 ## Pre-post checklist
 
 - [ ] User confirmed drafts
 - [ ] Evidence attached where required (FE/UI screenshots on Jira)
 - [ ] No bare `PROJ-123` in wiki — use `{{PROJ-123}}` when auto-link is unwanted
-- [ ] Tool output shows issue key or URL
 
 ## Post-create verification
 
-- Fetch or open each issue URL.
-- Compare title **and** body (and Priority/Severity) to the approved draft — the full check and its
-  mismatch gate are [WORKFLOW Phase F](../WORKFLOW.md#phase-f--fix-verify-and-close-mandatory-low-freedom).
-- Report failures explicitly.
+Re-fetch each issue and compare it to the approved draft per [phase-f-close.md](../phase-f-close.md).

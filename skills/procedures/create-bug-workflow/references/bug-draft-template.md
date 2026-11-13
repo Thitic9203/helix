@@ -20,7 +20,7 @@ Title: [{Severity}] {Module} — {behavioral one line}
 Priority: Lowest | Low | Medium | High | Highest — matrix bug-priority-matrix.md:<LINE> "<cheat-sheet row text, verbatim>"
 Severity: Low | Medium | High | Urgent — the value the reporter gave at intake (A3), kept as given
 Module: {area}
-Confidence: Confirmed | Likely
+Confidence: Confirmed | Likely | Needs Review — not filed
 
 What happens:
 - {observable behavior, one fact per line}
@@ -57,7 +57,7 @@ Fix status: new report — no fix delivered yet
 
 Code reference (if known):
 - File: path:line
-- Root cause: ...
+- Root cause: {one sentence} — {Confirmed | Suspected | Unknown} (the cause label of root-cause-investigation.md §4, not the Confidence line)
 
 Environment:
 - URL:
@@ -73,22 +73,17 @@ Evidence:
 
 ## Block rules
 
-- **Severity** — the value the reporter gave at intake, unchanged; it is also the title bracket. Never
-  replace a reporter-given severity with your own reading. If none was given, or the matrix has no cell
-  where that Severity row meets the cited Priority column, show the matching matrix row and ask (WORKFLOW
-  A3) — never fill it with a guess.
-- **Priority** — its own field, derived from the matrix: the Severity row × the Priority column whose
-  description fits the defect; cite the cheat-sheet row as the matrix's own *Verdict line format* does: line number
-  plus the row text copied character for character, never the file name alone. No matching row →
-  show the closest rows to the user and ask; never invent a level and never use any other scale.
+- **Severity / Priority** — the one rule is WORKFLOW Phase A3 (Severity as the reporter gave it, also the title
+  bracket; Priority from the matrix cell; anything the matrix cannot place is asked). Cite the cheat-sheet row as
+  the matrix's own *Verdict line format* does: line number plus the row text copied character for character, never the file name alone.
 - **What happens / What should happen** — keep both headings. The verbatim source quote and its link go
-  *inside* What should happen, under the expected bullets; they never replace the section.
-  Quote the source line verbatim and link it. A paraphrase, a feature name or a
+  *inside* What should happen, under the expected bullets; they never replace the section. Every link comes
+  from the input or tool output — a missing one is the plain text `link pending from reporter` (no braces), never built from a domain and a key.
+  A paraphrase, a feature name or a
   translation is not an expected side; with no quotable source the candidate is a question, not a bug
   (WORKFLOW Refusal-first).
 - **Why failed** — the expected-result line quoted verbatim (the same line as in What should happen) and
-  the exact deviation from it, as one observable fact. No quotable line → the candidate is a question, not
-  a bug (WORKFLOW Refusal-first).
+  the exact deviation from it, as one observable fact.
 - **Resolution options** — both rows, each with a named owner in Decided by; name the exact surface to
   change and the parts that must not change. Never pick an option yourself and never edit the ticket's
   expected-result field (contract §4).

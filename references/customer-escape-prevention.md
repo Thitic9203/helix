@@ -103,15 +103,14 @@ does require operator credentials — so the caveat was true, and the PASSED was
 
 ## 4. Screen sizes: measure them, and say which ones are in scope
 
-`mobile`, `tablet`, `viewport` and `responsive` appeared **zero** times in the frozen test set while
-the harness captured at one desktop width. Seven escaped defects were on other widths.
+`mobile`, `tablet`, `viewport` and `responsive` appeared **zero** times in the frozen test set. Seven escaped defects were on other widths.
 
 - **Settle scope in writing before the run:** which widths are in scope this round, and which are
   explicitly not delivered yet. A width that is out of scope is stated out of scope to the customer —
   not silently untested (a "not yet delivered" scope is a change request, never our defect).
-- **In-scope widths are exercised as their own lane** (the mobile and tablet widths the project guide names, beside
-  desktop), and every in-scope page carries a result per width.
-- **Judge by measurement, not by eye** — these two checks caught the real defects and are cheap:
+- **Each in-scope width is its own row** (the mobile and tablet widths the project guide names, beside
+  desktop), run in its screen's lane (`parallel-test-lanes.md` §2), and every in-scope page carries a result per width.
+- **Judge by measurement, not by eye** — these two checks caught the real defects:
   - overflow: any element with `rect.right > window.innerWidth`, or
     `document.documentElement.scrollWidth > window.innerWidth`
   - overlap: two text boxes whose rectangles intersect by more than ~3 px
@@ -215,13 +214,13 @@ forbids guessing a spec forbids guessing an absence.
 | MUST turn any result worth a verdict into a **case row with an id** — never leave it as prose in a comment | A result that is not a case is never re-run; 3 escapes came through that gap |
 | MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) | "Shows A, B, C" passes a wrecked screen |
 | MUST NOT use `complete` / `correct` / `properly` / `ครบถ้วน` / `ถูกต้อง` / `สวยงาม` alone as an expected result | They are unfalsifiable, and they passed the screen that produced five customer bugs |
-| MUST report a wrong thing observed while checking something else, even when no expected asked for it | The badge-overflow defect was on screen and unremarked |
-| MUST NOT record PASSED when the actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้` — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |
+| MUST report anything wrong observed during a run, including while checking something else, even when no AC or expected asked for it | The badge-overflow defect was on screen and unremarked while "Badges render correctly" was written |
+| MUST NOT record PASSED when the actual result contains a word on the §3 list — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |
 | MUST state the verification method (endpoint + permission) for any expected the UI does not display, at the time the case is written; no method ⇒ BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |
-| MUST settle in writing which screen widths are in scope, run every in-scope width as its own lane, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |
+| MUST settle in writing which screen widths are in scope, run every in-scope width as its own row, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |
 | MUST verify the standing realistic fixture set exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | A one-item fixture cannot overflow, wrap, or scroll |
 | MUST bind results to a build/commit id and re-run any surface changed after the run before delivering | 122/122 passed against a build the customer never saw |
-| MUST NOT hand over a result set where passed rows outnumber evidence links | Nobody could re-examine the layouts that later produced bugs |
 | MUST turn unspecified behaviour into a written question + BLOCKED, never a PASSED and never a defect | 7 escapes had no requirement; 2 filed bugs had no supporting spec (PM-006) |
 | MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported "no defects" for an entire set |
 | MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as "never tested" and became a wrong number-one root cause |
+| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G; NEVER hand over a result set where passed rows outnumber evidence links | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |

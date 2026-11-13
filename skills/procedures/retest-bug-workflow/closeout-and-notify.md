@@ -1,6 +1,6 @@
 # Retest bug — close out and notify (Steps 8–10)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read right after the comment is posted.
+Part of [WORKFLOW.md](WORKFLOW.md). Read right after the comment is posted.
 
 ## Contents
 
@@ -31,16 +31,16 @@ An action that was not listed in that bundle is not run without asking.
 - [ ] **`retest_guard.js` exits 0 for the posted body** (re-run it against what was actually posted, not against the draft). Exit 2 is not a pass. **Skip only** when a fresh hash compare shows the posted body byte-identical to the draft that passed the guard; any difference → run the guard ([round-time-contract.md](../../../references/round-time-contract.md) §9).
 - [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**; env + results table present (bold headers, `No.` column).
 - [ ] **Case list present and reconciled:** the single table's `Case (Role)` cells carry every Step 2c case, every `ER*`/`AC*` row names at least one case, and `Case coverage: {n}/{total}` matches the rows. A planned-but-unrun case is a BLOCKED row with its reason — never a shortened list.
-- [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
-- [ ] **No passing row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้`** — such a row is BLOCKED or PWMI, never PASSED ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3).
+- [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was or is to be asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
+- [ ] **No passing row whose actual result contains a word on the [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3 list** (`caveat`, `not verifiable`, …) — such a row is BLOCKED or PWMI, never PASSED.
 - [ ] **Every passing row carries an evidence reference** — `count(passing rows) == count(evidence links)`.
-- [ ] **AC/EC coverage reconciled (7-layer gate layer 6·7):** `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)`, and `Expected-result coverage: {n}/{total}` has `{n}=={total}`. Every expected-result/detail item is its **own row** — none only in a remark/note/chat; no PASSED verdict over an unverified or differing item. Any shortfall ⇒ do **not** transition; go back and close it.
+- [ ] **AC/EC coverage reconciled (gate layer 6·7):** `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)` and `{n}=={total}` ([coverage gate](WORKFLOW.md#coverage-gate)). Any shortfall ⇒ do **not** transition; go back and close it.
 - [ ] **FE / UI bug:** a whole-flow **MP4 for every executed case**, uploaded as an attachment **and linked in that row's `Evidence` cell** (`[▶ …mp4|^…mp4]`), the link confirmed to resolve/play from the Jira UI (Step 7d); **plus** an inline screenshot (`!file.png!`, pre-resized, no `|width`) on every **text-verification** row, confirmed rendering as a picture. **A text-only comment for an FE bug FAILS this gate** — the exact-text/values table is not a substitute for the required MP4 (and text stills).
 - [ ] **Every MP4 passes all 7 layers of the [MP4 quality + correctness gate](../../../references/qa-evidence-capture.md)** — max quality, whole flow with no skip, reaches the stated target (never cut early), ER visible on screen, legible/text-backed, file integrity + case match, attached-and-link-verified. Fail-closed: any layer red = re-capture, do NOT transition.
 - [ ] **API bug:** full cURL + response per row (no "same as above").
 - [ ] No local file paths, no literal `<br>`/HTML markup.
 
-If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it (or get an explicit user waiver) first. Never move a bug's status on an evidence-incomplete comment.
+If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it first — an FE MP4 / still gap is never waived (WORKFLOW *MUST / NEVER*); any other item only by the user's explicit waiver of that item. Never move a bug's status on an evidence-incomplete comment.
 
 **Go back:** If any 8·0 item fails, fix the posted comment in place (same comment id) and return to Step 7d — re-verify, then run this gate again. 8a waits.
 
@@ -48,9 +48,9 @@ If any item fails — including when evidence **cannot** be embedded (e.g. no Ji
 
 Read transition names from the workspace `*-retest-guide.md` (see [project-config-template.md](references/project-config-template.md)). If missing, ask once for the transition name of this round's verdict (PASSED / FAILED / PWMI / BLOCKED) in the 6d decisions popup (before approval) and save them to the guide immediately ([round-time-contract.md §2](../../../references/round-time-contract.md)); never ask after the bundle was approved.
 
-NEVER hardcode transition names in the skill — Jira workflows differ per project.
-
 Use `getTransitionsForJiraIssue` and match the names from config or the user.
+
+**Not offered, or refused** (name not offered from the current status, or the transition or 8c assign errors): never pick another transition or repeat the call unchanged ([settle-and-strategize.md](../../../references/settle-and-strategize.md) §4); read status and assignee back. The comment stays; 8d runs only on a read-back Done; Step 9 still sends the verdict; 8e lists each action not done with its error and the offered transitions and asks once — another transition runs only on that live yes. The round stays open until then.
 
 **Shape of the config (placeholders only — never use these as names):**
 
@@ -61,19 +61,17 @@ Use `getTransitionsForJiraIssue` and match the names from config or the user.
 | PWMI | `{PWMI_TARGET_STATUS}` | `{PWMI_TRANSITION}` |
 | BLOCKED | `{BLOCKED_TARGET_STATUS}` | `{BLOCKED_TRANSITION}` |
 
-The only sources for these values are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
+Never hardcode these names: the only sources are the workspace `*-retest-guide.md` and the ask-once popup above; a name not found there is asked, never guessed. Some projects use BLOCKED for FAILED retests — the guide says which.
 
 ### 8b. Find developer (project-overridable)
 
 From changelog: last move into the project's **active development** status (often named "In Progress" — use the name from config if different) → that author's `accountId`.
 
-**Some projects never change assignee** — check the project guide before running this step.
-
 ### 8c. Assign (project-overridable)
 
-`editJiraIssue` → assignee = that developer (PASSED and FAILED).
+`editJiraIssue` → assignee = that developer, for every verdict (the 6d default). Refused → the 8a **Not offered, or refused** rule.
 
-**Skip if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
+**Skip 8b–8c if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
 
 ### 8d. Unblock linked stories (run once the bug reaches Done)
 
@@ -101,14 +99,6 @@ when **nothing else** still blocks it.
 7. Never change the story's assignee or QA Owner while doing this.
 
 **Bug not in Done → skip this step entirely.** A story stays blocked while the bug is unfixed.
-
-| Situation | Action |
-|-----------|--------|
-| Bug Done, story parked in blocked status, no other blocker outside Done | transition story → ready-for-QA status |
-| Bug Done, story still blocked by something not Done | leave; report the blocker keys + statuses |
-| Bug Done, story already in QA or still in development | leave; never move it backwards |
-| Bug Done, no blocks link on the bug | nothing to do |
-| Bug not in Done (FAILED / BLOCKED verdict) | skip |
 
 ### 8e. Tell the user
 
@@ -153,14 +143,14 @@ never estimated:
 
 After the transition, if the project defines a **QA notify channel** (Discord/Slack/chat), post a **retest-result** notification so the reporter / QA owner sees the outcome. It runs under the Step 6d approval bundle, which named the channel and the resolved recipient — no second approval.
 
-**Who invoked the retest never changes this.** The notify is part of closing a retest, not a favour to the person who asked for one. It is sent the same way whether the workflow was started by the repo owner, by another QA, by a teammate in the channel, by a slash command, or by an unattended bot/trigger — and whether or not that person mentioned a notification. The **only** condition is the one above: the project configures a channel. A retest whose comment is posted and whose ticket is transitioned but whose notify was skipped is **not closed**.
+**Who invoked the retest never changes this** (owner, another QA, a teammate, a slash command, a bot — mentioned or not). The **only** condition is that the project configures a channel. A retest whose comment is posted and whose ticket is transitioned but whose notify was skipped is **not closed**.
 
 - Load channel, format, recipient, and any helper from the workspace `*-retest-guide.md` / project guide. **Never hardcode webhook URLs, tokens, machine paths, or user IDs in this skill** ([portable-content.md](../../../references/portable-content.md)) — they live in project config or local agent memory.
 - Message = the single **retest verdict** (PASSED ✅ / FAILED ❌ / BLOCKED ⛔ / PWMI ⚠️ — same as the comment's summary line), a short bullet of what was checked, a link to the Jira retest comment, and an @mention of the recipient.
 - **Recipient resolution (mandatory):** read the recipient from the ticket field the project guide names (e.g. a "QA Owner" custom field) — fetch that field's value from the bug itself for **every** notify; do not reuse a name from an earlier ticket, and do not default to the Reporter. The label printed next to the mention MUST match the field the value came from (label "QA Owner" ⇒ value from the QA Owner field). Resolve it before the 6d approval popup; if the field is empty or the guide names no field, queue the recipient question in the 6d decisions popup — never ask after approval.
-- This is a **result FYI**, not a "please review" request (the retest is already closed) — do not reuse the full-test-run "QA Review Requested / pending review" wording.
+- This is a **result FYI**, not a "please review" request — do not reuse the "QA Review Requested / pending review" wording.
 - If the project provides a notify helper, **use it** (it gets @mention + headers right) instead of hand-assembling the payload.
-- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send again — never state a cause you have not checked. The round is not closed until the helper prints its success line (the guide names it).
+- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send once more — never state a cause you have not checked. The same result twice → stop resending ([settle-and-strategize.md](../../../references/settle-and-strategize.md) §4), report the helper's output, and leave the round open. The round is not closed until the helper prints its success line (the guide names it). Send with `?wait=true` (or the helper's equivalent); record the returned message `id` and thread id.
 
 ### Pre-notify review gate (mandatory, every send)
 
@@ -175,16 +165,16 @@ Run this checklist on the **dry-run output** before every real send — no excep
 
 **Go back:** If any of checks 1–5 fails, stop (item 6) — fix the dry-run and run this gate again from check 1 before any send.
 
-Skip if the project has no notify channel configured.
-
 ### Correcting a posted notification
 
-If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re-audit):
+If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re-audit), first list steps 2–4 by name in one approval popup:
 
-1. **PATCH the existing Discord message** — do not repost. Use `PATCH /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` with the corrected content.
-2. To find the message ID: use webhook GET `GET /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` (bot token GET returns empty `content` without MESSAGE_CONTENT intent).
-3. Update the Jira comment in place (`addCommentToJiraIssue` with `commentId` parameter) — keep the usage marker as the body's last line, unchanged.
+1. `{mid}` = the message `id` recorded at the Step 9 send; read that message back with the channel's get call (Discord webhook: `GET /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}`). No recorded id → stop and report.
+2. **Edit the existing message in place** with the channel's edit call named in the project guide (Discord webhook: `PATCH` the same path) — do not repost — after the pre-notify review gate.
+3. PUT the corrected Jira comment to the same `commentId` in the Step 3 format — usage marker stays the last line.
 4. Transition the ticket to the correct status.
+
+Any step fails → stop, report the step and its response; never repost or run the next step.
 
 ---
 

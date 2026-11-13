@@ -1,8 +1,10 @@
 # Create bug — Phase B2
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase B2 as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase B2; every rule here is a full gate.
 
-## 🔴 GATE: Phase B2 — Board-conflict re-check (hard gate, before drafting/confirm) [low freedom]
+## 🔴 GATE: Phase B2 — steps
+
+Gate scope and freedom level: [WORKFLOW.md § Phase B2](WORKFLOW.md#-gate-phase-b2--board-conflict-re-check-hard-gate-before-draftingconfirm-low-freedom).
 
 **For every bug about to be filed, search the tracker/board first** — a defect the team already
 discussed and concluded is *intended behavior* is not a bug, even if it looks wrong to you, and
@@ -34,14 +36,14 @@ re-filing it wastes a full file → retest → close-out round.
      comment anchor) so they can verify the reasoning themselves.
    - **Duplicate — already open.** The same defect is already filed and unresolved → do not open a
      second one; point the user at the existing ticket.
-   - **No conflict.** No ticket settles it → proceed to Phase E for this candidate.
+   - **No conflict.** No ticket settles it → proceed to Phase B3 for this candidate.
 4. **Uncertain whether a match truly settles it?** Treat it as a **question to the user / PO, not a
    bug** — surface the ticket link and ask, rather than filing over a possible prior decision.
 5. **The search itself cannot run** (no tracker read access, MCP down, search error) → **STOP.**
    Report the error verbatim, hold every candidate as **BLOCKED (board search not run)**, and do not
-   move to Phase E or Phase C until a search has completed for each candidate.
+   move to Phase B3 or Phase C until a search has completed for each candidate.
 
-Only candidates that clear this gate move on — to Phase E, then Phase C. Note in the confirm block
+Only candidates that clear this gate move on — to Phase B3, then Phase C. Note in the confirm block
 that the board was checked (see Phase C).
 
 (Root cause this prevents: re-filing a defect against a point the team already closed with an

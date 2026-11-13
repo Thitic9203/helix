@@ -68,13 +68,7 @@ expected, the outcome is a spec conflict — **Needs PO decision**, the case BLO
 Record in the run: the **node link actually opened** and how it was opened. "Compared against Figma"
 with no node link is not evidence that a comparison happened.
 
-**Dedupe per round** ([round-time-contract.md §7](round-time-contract.md#7-figma-compare-keep-it-full-dedupe)):
-
-- **One compare per screen × width per round.** Cases that land on the same screen at the same width
-  share one fresh app capture and one design read; each case still records the node link.
-- **Cache the design-side export** (node screenshot and metadata), keyed by the Figma file's
-  `lastModified`. Re-fetch only when `lastModified` changes.
-- **The app-side capture is always fresh** — never reused from an earlier round or run.
+**Dedupe per round** — the rule is [round-time-contract.md §7](round-time-contract.md#7-figma-compare-keep-it-full-dedupe).
 
 ---
 
@@ -107,7 +101,7 @@ all, and one bug filed against a button that was never in any spec.
 Do this, in order:
 
 1. **Say it in the run's own channel, to the person who assigned it** — the chat when a person is
-   driving, the thread/channel that triggered the run when it is unattended. State:
+   driving (a retest queues it for its Step 6d decisions popup, [round-time-contract.md](round-time-contract.md) §2), the thread/channel that triggered the run when it is unattended. State:
    `Ticket {KEY} · screen {name} · no design reference found (searched: ticket links, every ticket
    comment, every linked ticket and its comments, parent story, project guide, design file — {n}
    sources read) · I cannot judge layout/wording/order without it.`

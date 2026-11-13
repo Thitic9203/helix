@@ -46,7 +46,6 @@ Run these steps on every cell value **before** writing to any file:
    output: Run suite at <SUITE_PATH>
            then check
    ```
-   `<SUITE_PATH>` is kept; `<br>` is removed (turned into a line break by step 1); `<b>`/`</b>` and `**` are removed.
 3. Strip `**` markdown bold markers (replace `**` with empty string).
 4. **Do NOT alter, escape, or transliterate any Thai or non-ASCII characters** — preserve them exactly.
 
@@ -66,7 +65,7 @@ MUST use this path unless the user explicitly requested Excel **or** gave an exp
 
 ### In-agent CSV export (inline script)
 
-Generate and run this Python script inline:
+Generate and run this Python script inline. `{OUT}` is the file the calling workflow names (tc-fe Step 6: `references/Draft_Jira_{ISSUE_KEY}` and `references/Import_Qase_{ISSUE_KEY}`, one run each; tc-api G1: `references/{SCOPE}_API_TC`):
 
 ```python
 import csv
@@ -84,13 +83,13 @@ rows = [
     ["{val}", ...],  # one list per TC row — Thai strings passed as-is
 ]
 
-with open("{ISSUE_KEY}_FE_TC.csv", "w", newline="", encoding="utf-8-sig") as f:
+with open("{OUT}.csv", "w", newline="", encoding="utf-8-sig") as f:
     writer = csv.writer(f)
     writer.writerow([clean_cell(h) for h in headers])
     for row in rows:
         writer.writerow([clean_cell(v) for v in row])
 
-print(f"Saved {len(rows)} rows to {ISSUE_KEY}_FE_TC.csv")
+print(f"Saved {len(rows)} rows to {OUT}.csv")
 ```
 
 ### Optional CSV script (user-provided install root only)
@@ -117,23 +116,13 @@ Use this path when format detection resolves to `.xlsx`.
 ### In-agent xlsx export
 
 1. Apply **Cell text cleaning** (see above) to every cell — `<br>` variants → `\n`, strip HTML tags, strip `**`.
-2. Ensure `openpyxl` is available — if not, install it first:
-   ```bash
-   pip install openpyxl
-   ```
-3. Generate and run a Python script inline — include the cleaning function:
+2. Check `openpyxl` per [dependencies.md](dependencies.md). Missing → never install it yourself; the calling
+   workflow's gate decides (tc-fe-prep: WORKFLOW Step 6 🔴 GATE).
+3. Generate and run a Python script inline — paste `clean_cell` (and `import re`) from the CSV script above:
 
 ```python
-import re
 import openpyxl
 from openpyxl.styles import Alignment, Font
-
-def clean_cell(text):
-    text = str(text) if text is not None else ""
-    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)  # <br> variants → newline
-    text = re.sub(r"</?(?:a|b|br|code|div|em|h[1-6]|hr|i|li|ol|p|pre|span|strong|sub|sup|table|tbody|td|th|thead|tr|u|ul)(?=[\s/>])[^>]*>", "", text, flags=re.IGNORECASE)  # strip real HTML tags only; keeps <PLACEHOLDER>
-    text = text.replace("**", "")                                  # strip markdown bold
-    return text.strip()
 
 wb = openpyxl.Workbook()
 ws = wb.active
@@ -158,12 +147,12 @@ for row in rows:
         if "\n" in val:
             ws.cell(row=row_idx, column=col_idx).alignment = Alignment(wrap_text=True)
 
-wb.save("{ISSUE_KEY}_FE_TC.xlsx")
-print(f"Saved {len(rows)} rows to {ISSUE_KEY}_FE_TC.xlsx")
+wb.save("{OUT}.xlsx")
+print(f"Saved {len(rows)} rows to {OUT}.xlsx")
 ```
 
 4. Row count printed must match the approved markdown table (excluding header).
-5. Save to `references/{ISSUE_KEY}_FE_TC.xlsx` inside the user’s workspace.
+5. `{OUT}` is the calling workflow's name, as in the CSV script, inside the user’s workspace.
 
 ### Fallback
 
@@ -177,37 +166,16 @@ Generate one typed CSV per Type that has TCs (Unit / Integration / System), afte
 
 | Type | File | Template spec |
 |------|------|---------------|
-| Unit Test | `Unit_Test_{ISSUE_KEY}.csv` | 13 English columns, Function/Sub Function header rows, no footer |
+| Unit Test | `Unit_Test_{ISSUE_KEY}.csv` | 13 English columns, Function/Sub Function header rows, no footer, UTF-8 BOM |
 | Integration Test | `Integration_Test_{ISSUE_KEY}.csv` | 9 Thai columns, one row per TC, no footer, UTF-8 BOM |
 | System Test | `System_Test_{ISSUE_KEY}.csv` | 9 Thai columns, one row per TC, no footer, UTF-8 BOM |
 
-### Unit Test
+Header columns, Function / Sub Function rows and row layout: [csv-template-types.md](csv-template-types.md) (single source).
 
-1. Header: `No., Sub Function, Test Scenario, Test Description, Pre-condition, Test Step, Test Data, Expected Result, Actual Result, Test status, Test Date, Test By, Comment`
-2. One `Function : <name>` header row, then per Sub Function group a `Sub Function : <name>` header row (col 1 only; cols 2–13 empty), then that group's numbered data rows
-3. No summary footer
-4. Encoding: UTF-8 (no BOM needed for English-header files)
-
-### Integration Test / System Test
-
-1. Header: `ลำดับ, โมดูล, รายการทดสอบ, ขั้นตอนการทดสอบ, ผลการทดสอบที่คาดหวัง, ผลการทดสอบ, วันที่ทดสอบ, ผู้ทดสอบ, หมายเหตุ`
-2. One numbered data row per TC of that Type
-3. No summary footer — end after the last data row
-4. Encoding: UTF-8 BOM (`utf-8-sig`) — required for Thai to open correctly in Excel
-
-### Upload + comment link
-
-After generating the typed CSV:
-1. Upload via browser JS (Control Chrome fetch — see CLAUDE.md workaround) while on the Jira issue page
-2. Retrieve `attachment_id` from the response JSON
-3. Append link after the `Import_Qase` footer line:
-   ```
-   [Unit_Test_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{attachment_id}/Unit_Test_{ISSUE_KEY}.csv)
-   ```
-   (substitute the filename pattern for integration/system accordingly)
+**Upload + link:** typed CSVs upload in the same [jira-fast-publish.md](jira-fast-publish.md) Pattern B call, after `Import_Qase`; each link is the ADF `__ATT{n}_ID__` node that call fills, never a markdown link.
 
 ---
 
 ## Sibling format — Test.md (agent-native)
 
-For hand-off to a Playwright/CLI agent, offer **Test.md** alongside CSV — see [test-md-format.md](test-md-format.md). Test.md is **additive**, never a replacement for CSV/Excel; both read the same reviewed chat table. Generator: [scripts/export-test-md.py](../scripts/export-test-md.py).
+For hand-off to a Playwright/CLI agent, offer **Test.md** alongside CSV — see also [test-md-format.md](test-md-format.md). Test.md is **additive**, never a replacement for CSV/Excel; both read the same reviewed chat table. Generator: [scripts/export-test-md.py](../scripts/export-test-md.py).

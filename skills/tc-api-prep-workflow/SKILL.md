@@ -27,21 +27,27 @@ Slash-command shortcut (runtimes that support commands): `/tc-api-prep` → [com
 
 ## Contents
 
-Shared reference index, with the trigger that opens each file (see also): [skill-reference-index.md](../../references/skill-reference-index.md).
+Shared reference index, with the trigger that opens each file (see also; open on demand only, never at the start): [skill-reference-index.md](../../references/skill-reference-index.md).
 
 At the start of every run: [shared-preamble.md](../../references/shared-preamble.md), [user-communication.md](../../references/user-communication.md), [long-workflow-todos.md](../../references/long-workflow-todos.md), then [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) and [intake-one-pager.md](../../references/intake-one-pager.md) on the first response (WORKFLOW Refusal-first).
 
 API-specific notes on shared files (apply when the step opens them):
 
-- [tc-quality-standards.md](../../references/tc-quality-standards.md) — at Phase E, on every TC row. API mapping: with no Test Steps column (the default set, [default-columns.md](../procedures/tc-api-prep-workflow/references/default-columns.md)), Test Data (method, path, headers, body) is the step and Expected Result leads with the status code.
-- [csv-export-rules.md](../../references/csv-export-rules.md) — at Phase G1, when exporting. API mapping: its `{ISSUE_KEY}_FE_TC` file names become `references/{SCOPE}_API_TC.csv` / `.xlsx` (WORKFLOW G1).
-- [swagger-diff-phase.md](../../references/swagger-diff-phase.md) — when Swagger changed, a new API version shipped, or existing API TCs are being updated; [tc-api-chunked-scope.md](../../references/tc-api-chunked-scope.md) — when more than 15 Swagger operations are in scope or the user asks for a whole service.
-- [csv-template-types.md](../../references/csv-template-types.md) — at Phase G1, before exporting a CSV; [test-md-format.md](../../references/test-md-format.md) — only when the user picks Test.md at Phase C.
+- Open [tc-quality-standards.md](../../references/tc-quality-standards.md) at Phase E, on every TC row. API mapping: with no Test Steps column (the default set, [default-columns.md](../procedures/tc-api-prep-workflow/references/default-columns.md)), Test Data (method, path, headers, body) is the step and Expected Result leads with the status code.
+- Open [csv-export-rules.md](../../references/csv-export-rules.md) at Phase G1, when exporting. API mapping: its `{OUT}` is `references/{SCOPE}_API_TC` (`.csv` / `.xlsx`, WORKFLOW G1).
+- Open [swagger-diff-phase.md](../../references/swagger-diff-phase.md) when Swagger changed, a new API version shipped, or existing API TCs are being updated; open [tc-api-chunked-scope.md](../../references/tc-api-chunked-scope.md) when more than 15 Swagger operations are in scope or the user asks for a whole service.
+- [csv-template-types.md](../../references/csv-template-types.md) — TC FE only, never opened here (an API export is one CSV); [test-md-format.md](../../references/test-md-format.md) — only when the user picks Test.md at Phase C.
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — before any completion claim (Phase G-verify, QA closing).
 - [skill-routing.md](../../references/skill-routing.md) — read only when the request turns out not to be API TC drafting and another skill owns it.
-- Execution-only files (bug priority matrix, Playwright, non-pass and result gates) are never triggered: this workflow writes test cases; it never runs tests, records verdicts or opens bugs. The TC **Priority** column follows [api-tc-guidelines.md](../procedures/tc-api-prep-workflow/references/api-tc-guidelines.md) § Priority.
+- Execution-only files (bug priority matrix, Playwright, non-pass and result gates) are never triggered here. The TC **Priority** column follows [api-tc-guidelines.md](../procedures/tc-api-prep-workflow/references/api-tc-guidelines.md) § Priority.
 
-Also read each only when its trigger (in WORKFLOW.md or the index) fires: [coverage-delta-template.md](../../references/coverage-delta-template.md), [helix-session-constraints.md](../../references/helix-session-constraints.md), [jira-comment-post-review.md](../../references/jira-comment-post-review.md), [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md), [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md), [result-quality-gate.md](../../references/result-quality-gate.md), [root-cause-investigation.md](../../references/root-cause-investigation.md), [round-time-contract.md](../../references/round-time-contract.md), [session-closing.md](../../references/session-closing.md), [shared-must-never.md](../../references/shared-must-never.md), [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md), [skill-rules-style.md](../../references/skill-rules-style.md), [swagger-diff-phase.md](../../references/swagger-diff-phase.md), [tc-api-chunked-scope.md](../../references/tc-api-chunked-scope.md), [tc-quality-standards.md](../../references/tc-quality-standards.md), [phase-d-scope-design.md](../procedures/tc-api-prep-workflow/phase-d-scope-design.md), [phase-e-review.md](../procedures/tc-api-prep-workflow/phase-e-review.md), [phase-f-draft.md](../procedures/tc-api-prep-workflow/phase-f-draft.md), [phase-g-deliver.md](../procedures/tc-api-prep-workflow/phase-g-deliver.md), [default-columns.md](../procedures/tc-api-prep-workflow/references/default-columns.md), [agent-rationalizations.md](../../references/agent-rationalizations.md), [bug-priority-matrix.md](../../references/bug-priority-matrix.md), [csv-export-rules.md](../../references/csv-export-rules.md), [customer-escape-prevention.md](../../references/customer-escape-prevention.md), [figma-design-comparison.md](../../references/figma-design-comparison.md), [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md), [qa-closing-shared.md](../../references/qa-closing-shared.md), [qa-debug-discipline.md](../../references/qa-debug-discipline.md), [delivery-options.md](../procedures/tc-api-prep-workflow/references/delivery-options.md), [spec-coverage-review.md](../procedures/tc-api-prep-workflow/references/spec-coverage-review.md).
+Also read each only when its trigger (in WORKFLOW.md or the index) fires:
+
+- Read at Phases D–G: [phase-d-scope-design.md](../procedures/tc-api-prep-workflow/phase-d-scope-design.md), [phase-e-review.md](../procedures/tc-api-prep-workflow/phase-e-review.md), [phase-f-draft.md](../procedures/tc-api-prep-workflow/phase-f-draft.md), [phase-g-deliver.md](../procedures/tc-api-prep-workflow/phase-g-deliver.md), [spec-coverage-review.md](../procedures/tc-api-prep-workflow/references/spec-coverage-review.md), [delivery-options.md](../procedures/tc-api-prep-workflow/references/delivery-options.md).
+- Read at Phase E3b: [coverage-delta-template.md](../../references/coverage-delta-template.md).
+- Read at Phase G, Jira comment: [jira-linebreak-conversion.md](../../references/jira-linebreak-conversion.md), [jira-comment-post-review.md](../../references/jira-comment-post-review.md); before the first write: [shared-must-never.md](../../references/shared-must-never.md).
+- Read at G3 and QA closing: [session-closing.md](../../references/session-closing.md), [qa-closing-shared.md](../../references/qa-closing-shared.md).
+- Read only when the situation arises: [helix-session-constraints.md](../../references/helix-session-constraints.md), [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md), [agent-rationalizations.md](../../references/agent-rationalizations.md), [skill-rules-style.md](../../references/skill-rules-style.md), [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md), [root-cause-investigation.md](../../references/root-cause-investigation.md), [round-time-contract.md](../../references/round-time-contract.md), [qa-debug-discipline.md](../../references/qa-debug-discipline.md).
 
 ## Refusal-first (precondition gate)
 
@@ -53,9 +59,9 @@ All close-out gates are in WORKFLOW.md and [verify-closing-checklist.md](../../r
 
 ## Dependencies
 
-Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+No row is checked at the start of the run: each is checked when Phase C records a delivery that uses it (WORKFLOW Phase C). Check commands: [dependencies.md](../../references/dependencies.md).
 
-- Python 3 + `openpyxl` (xlsx only)
-- Atlassian MCP
-- Jira REST credentials (ADF-direct publish and the REST v3 fallback)
-- `superpowers:systematic-debugging`
+- Python 3 + `openpyxl` — Excel file chosen
+- Atlassian MCP — Confluence destination only
+- Jira REST credentials — only at the G2 step 4 REST fallback
+- `superpowers:systematic-debugging` — delivery includes A (REST failure hand-off)

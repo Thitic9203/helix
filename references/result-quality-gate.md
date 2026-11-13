@@ -23,8 +23,8 @@ the exact sentence that preceded a recorded escape below.
 
 1. Write one result line per case (JSONL, fields in § Result line). A resumed or re-run lane does
    not append a second final line — it marks the old one `"superseded": true`.
-2. Run the mechanical layers. If the workspace carries the checker (`tools/result-gate/check.js` in
-   the ols-qa repository), run it and paste its last line:
+2. Run the mechanical layers. If the workspace carries the checker (`tools/result-gate/check.js`), run
+   it and paste its last line:
 
    ```bash
    node tools/result-gate/check.js --results <round>/results.jsonl \
@@ -58,23 +58,23 @@ the exact sentence that preceded a recorded escape below.
 | `requirement_source`, `requirement_quote` | FAILED: where the confirmed expected result lives, and its exact words — layer 17 |
 | `code_refs[]`, `ticket_refs[]` | BLOCKED / FAILED: `path:line` read at the default branch, and ticket keys (`KEY#comment-id`) read — layer 14 |
 | `attempts`, `failed_attempts`, `intermittent` | FAILED: how often it was observed |
-| `role`, `env`, `skill`, `ts` | Who, where, with which workflow, when |
+| `role`, `env`, `skill`, `fix_ref`, `ts` | Who, where, which workflow (+ the fix a Story retest re-verifies), when |
 | `superseded` | `true` on an older line kept for history |
 
 ## The 20 layers
 
 Kind: **M** = mechanical (the checker or a counted hand check decides) · **J** = judgement (the
-agent decides, and must write what it compared). Citations are post-mortem report numbers in this
-repository's `docs/post-mortem/` index, or incidents from the 2026-10-10/11 round (described
-generically).
+agent decides, and must write what it compared). Citations: post-mortem ids of the source repository (each
+incident is described inline, so the file stands alone), or 2026-10-10/11 incidents (described generically).
 
 ### A. Right test, right place
 
-**1. Right workflow for the ticket type — M.** Stops: a Story run without the repository's
-testing workflow, so none of its gates ran (#0174). Check: Story → `testing-ticket-workflow`, Bug →
-`retest-bug-workflow` per [skill-routing.md](skill-routing.md); other types record the skill used,
-no invented mapping. Runs: checker `SKILL_MISMATCH` / `SKILL_MISSING` with `--types`. Proof: checker
-line, or the type and skill per key listed.
+**1. Right workflow for the ticket type — M.** Stops: a Story run without the testing workflow,
+so none of its gates ran (#0174). Check: Bug → `retest-bug-workflow`, Story →
+`testing-ticket-workflow` ([skill-routing.md](skill-routing.md)), or `retest-bug-workflow` if its
+`fix_ref` names the fix re-verified; other types record the skill, no invented mapping.
+Runs: checker `SKILL_MISMATCH` / `SKILL_MISSING` with `--types`. Proof: checker line, or type +
+skill per key.
 
 **2. Right environment — M.** Stops: results produced on the wrong environment staying in the
 round's files (2026-10-11 round); a tool whose default pointed at a forbidden environment (#0009).
@@ -126,7 +126,7 @@ before execution. Proof: a screen or API read showing the fixture on that surfac
 **10. The clip is accepted before PASSED or FAILED is written; stills alone never carry it — M.** Stops: a lane writing
 PASSED while its clip failed the verifier (2026-10-11 round); clips flipped to pass with "verify +
 gate passed" that never ran (#0113); a clip captured with a forbidden recorder and marked PASSED
-before provenance was checked (#0075); lanes marking PASSED with stills only (2026-10-11 round);
+before provenance was checked (#0075); lanes marking PASSED with stills only;
 a pass citing the ER from a PNG (#0115). Check: a clip is **accepted** when EITHER the verifier passed it
 (`clip_verified: true`, set only by reading the verifier's own result file) OR the verifier's
 **only** failures are motion/freeze metrics (too little motion, frozen repeats, still-hold share)
@@ -162,9 +162,8 @@ checker line plus the root-cause note.
 
 **14. Exhaustive source sweep before any BLOCKED, FAILED or "ask the PO / reporter" — M+J.**
 Stops: concluding "cannot be done", "wrong" or "wait for someone" before reading what already
-answers it. Real case (2026-10-11 round): a detail page showed an "unavailable" guard that looked
-like a defect; the guard's commit message named a sibling ticket whose business rule required it,
-which turned a suspected defect into a documented spec conflict. Check, in this order, and quote
+answers it. Real case: an "unavailable" guard that looked like a defect was
+required by a sibling ticket named in its commit message. Check, in this order, and quote
 each source in the verdict line:
 1. **Product code at the default branch** — the lines that produce the behaviour, with `path:line`,
    **including their inline comments**, and `git log -L <start>,<end>:<path>` (or blame) on those
@@ -178,7 +177,8 @@ each source in the verdict line:
 
 A result with nothing found at a step says so, with the search used. Runs: per BLOCKED / FAILED
 line and before any question to the PO or reporter; checker `NO_SOURCE_SWEEP` refuses a BLOCKED or
-FAILED line without at least one `code_refs` entry shaped `path:line` **and** one `ticket_refs`
+FAILED line without at least one `code_refs` entry shaped `path:line` (no read access to the product repo: exactly
+`not checked — no repo access ({who can grant it})`) **and** one `ticket_refs`
 entry shaped like a ticket key (`KEY` or `KEY#comment-id`). Proof: `code_refs`, `ticket_refs` and
 the regression / design sources on the line.
 
@@ -259,4 +259,5 @@ case stays BLOCKED until the PO decides — it never appears in the defect table
 - [review-result-workflow/WORKFLOW.md](../skills/procedures/review-result-workflow/WORKFLOW.md) § Result quality gate
 - `smoke-test-workflow` SKILL.md § Result quality gate (ols-qa workspace only)
 - [catch-ai-workflow/SKILL.md](../skills/catch-ai-workflow/SKILL.md) § Result quality gate
+- tc-review-workflow § Step 3b
 - [shared-preamble.md](shared-preamble.md)

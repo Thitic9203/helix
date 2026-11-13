@@ -6,7 +6,11 @@
 #   (no args) the update command, run by the user: fetch origin, fast-forward ~/.helix/tc-fe-prep to the
 #             newest release tag (never an unreleased main), refresh the plugin-cache link, run
 #             link-skills.sh and claude-plugin-sync.sh. Failures are recorded in last-update-error.
+#             Release gate (docs/sdd/token-budget-guard R10): the newest release is installed only when its
+#             token-report.json asset names that tag and commit and has verdict "pass". A missing, failing
+#             or unreadable report keeps the current version and prints one line saying why (fail closed).
 # HELIX_FORCE_UPDATE and HELIX_AUTO_UPDATE_INTERVAL_SEC are accepted and ignored.
+# HELIX_RELEASE_ASSETS overrides where release assets are read (tests point it at a local directory).
 #
 # Usage:
 #   bash ~/.helix/tc-fe-prep/scripts/helix-auto-update.sh              # update (you run it)
@@ -24,6 +28,8 @@ ERR_FILE="$STATE_DIR/last-update-error"
 ERRORS_THIS_RUN=0
 # Where release tags are read when there is no clone (tests point this at a local bare repo).
 REMOTE_URL="${HELIX_REMOTE_URL:-https://github.com/Thitic9203/helix.git}"
+# Release assets: <base>/<tag>/token-report.json (GitHub release download URL, or a local directory).
+REPORT_BASE="${HELIX_RELEASE_ASSETS:-https://github.com/Thitic9203/helix/releases/download}"
 MARKETPLACE_NAME="helix-dev"
 PLUGIN_NAME="helix"
 CACHE_BASE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME"
@@ -64,6 +70,44 @@ newest_remote_release() {
   printf '%s\n' "$tags" \
     | sed -n 's#.*refs/tags/v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)$#\1#p' \
     | sort -t. -k1,1n -k2,2n -k3,3n | tail -1
+}
+
+# release_report_check <tag> [commit]: 0 when the release's token-report.json is a pass for <tag> (and
+# <commit>, when given). Otherwise prints the reason and returns 1. Update path only, never --check.
+json_str() { # json_str <flat-json> <key>: the value of the one "<key>": "..." pair, empty if absent or repeated
+  local hits
+  hits=$(printf '%s' "$1" | grep -oE "\"$2\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" || true)
+  [ "$(printf '%s' "$hits" | grep -c .)" = 1 ] || return 0
+  printf '%s' "$hits" | sed -E 's/.*:[[:space:]]*"([^"]*)"$/\1/'
+}
+release_report_check() {
+  local tag="$1" commit="${2:-}" f rc=0 flat verdict rtag rcommit
+  f="$(mktemp 2>/dev/null)" || { echo "a temp file for its token-report.json could not be created"; return 1; }
+  case "$REPORT_BASE" in
+    http://* | https://*)
+      if ! command -v curl >/dev/null 2>&1; then
+        rm -f "$f"; echo "its token-report.json could not be fetched (curl is not installed)"; return 1
+      fi
+      curl -fsSL --max-time 20 -o "$f" "$REPORT_BASE/$tag/token-report.json" 2>>"$LOG_FILE" || rc=$?
+      if [ "$rc" = 22 ]; then rm -f "$f"; echo "its token-report.json is missing from the release"; return 1; fi
+      if [ "$rc" != 0 ]; then rm -f "$f"; echo "its token-report.json could not be fetched (offline? curl exit $rc)"; return 1; fi
+      ;;
+    *)
+      cp "$REPORT_BASE/$tag/token-report.json" "$f" 2>/dev/null || { rm -f "$f"; echo "its token-report.json is missing from the release"; return 1; }
+      ;;
+  esac
+  flat="$(tr -d '\n\r' <"$f")"; rm -f "$f"
+  verdict="$(json_str "$flat" verdict)"; rtag="$(json_str "$flat" release_tag)"; rcommit="$(json_str "$flat" release_commit)"
+  if [ -z "$verdict" ] || [ -z "$rtag" ]; then echo "its token-report.json is unreadable"; return 1; fi
+  if [ "$rtag" != "$tag" ]; then echo "its token-report.json is for $rtag, not $tag"; return 1; fi
+  if [ -n "$commit" ] && [ "$rcommit" != "$commit" ]; then echo "its token-report.json is for a different commit"; return 1; fi
+  if [ "$verdict" != pass ]; then echo "its token-report.json verdict is '$verdict' (session-token budget not met)"; return 1; fi
+  return 0
+}
+
+refuse_release() { # refuse_release <target-version> <installed-version> <reason>: the one line the user sees
+  log "refused v$1: $3"
+  echo "Helix update refused: v$1 was not installed because $3; staying on v${2:-current}."
 }
 
 mark_checked() {
@@ -141,6 +185,11 @@ update_git_clone() {
     log "clone ($local_ver) is already past release $target — nothing to do"
     return 2
   fi
+  local why
+  if ! why="$(release_report_check "$tag" "$(git -C "$REPO" rev-parse "$tag^{commit}")")"; then
+    refuse_release "$target" "$local_ver" "$why"
+    return 3
+  fi
   log "updating $local_ver -> release $target..."
   if ! git -C "$REPO" merge --ff-only "$tag" --quiet 2>>"$LOG_FILE"; then
     note_error "fast-forward to $tag failed (local changes or diverged branch in $REPO)"
@@ -214,6 +263,8 @@ else
   REMOTE="$(newest_remote_release "$REMOTE_URL" || true)"
   if [ -z "$REMOTE" ]; then
     note_error "could not read the release tags from $REMOTE_URL (git ls-remote failed; check proxy or TLS settings)"
+  elif ! why="$(release_report_check "v$REMOTE")"; then
+    refuse_release "$REMOTE" "$(local_version)" "$why"
   else
     update_marketplace_only "$REMOTE"
   fi

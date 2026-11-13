@@ -8,8 +8,8 @@ When you notice these thoughts, **stop** and follow the linked reference or skil
 |-----------------|----------------|
 | “MCP addComment returned 200” | Re-open issue in UI or GET — check truncation, ADF/wiki rendering |
 | “Table is small, skip re-read” | Re-read anyway — formatting breaks are common |
-| “User said post, skip draft approval” | Unless they explicitly waive approval, show draft first |
-| “v3 will work for screenshots” | FE bugs: lock v2 wiki + attach before embed |
+| “User said post, skip draft approval” | Unless they explicitly waive approval, show draft first (never create-bug Phase C) |
+| “v3 will work for screenshots” | FE bugs: lock v2 wiki; embed only after attach (new bug: create, attach, update) |
 
 ## Test execution
 
@@ -36,7 +36,7 @@ When you notice these thoughts, **stop** and follow the linked reference or skil
 
 | Rationalization | Correct action |
 |-----------------|----------------|
-| “Row count = AC count, good enough” | Run the AC/EC traceability step of [tc-fe-prep-workflow](../skills/tc-fe-prep-workflow/SKILL.md) |
+| “Row count = AC count, good enough” | Run the AC/EC traceability step (Step 4 of the [tc-fe-prep-workflow](../skills/tc-fe-prep-workflow/SKILL.md) procedure, `design-and-review.md`) |
 | “Extra TCs are helpful” | Orphan TCs violate scope — remove or get user sign-off |
 | “Swagger is enough, skip API spec” | Refuse Phase D until spec + Swagger per skill — unless the user says the spec exists only in Swagger; then Swagger is both (tc-api-prep Phase A) |
 

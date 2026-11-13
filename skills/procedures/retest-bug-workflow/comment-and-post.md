@@ -1,12 +1,12 @@
 # Retest bug — comment and post (Steps 6–7)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read before drafting the comment.
+Part of [WORKFLOW.md](WORKFLOW.md). Read before drafting the comment.
 
 ## Contents
 
 - [Step 6 — Draft Jira comment \[medium freedom\]](#step-6--draft-jira-comment-medium-freedom)
   - [6·0 — Build the run manifest, render the body, run the guard (mandatory)](#60--build-the-run-manifest-render-the-body-run-the-guard-mandatory)
-  - [6a. Extra sections REQUIRED when the verdict is FAILED or BLOCKED](#6a-extra-sections-required-when-the-verdict-is-failed-or-blocked)
+  - [6a. Extra sections REQUIRED when the verdict is not PASSED](#6a-extra-sections-required-when-the-verdict-is-not-passed)
   - [6b. Dev-question gate (MUST pass before the draft goes to the user)](#6b-dev-question-gate-must-pass-before-the-draft-goes-to-the-user)
   - [6c. Independent reviewer pass (mandatory before the first post)](#6c-independent-reviewer-pass-mandatory-before-the-first-post)
   - [6d. End of round — decisions popup, then one approval bundle (mandatory, fixed order)](#6d-end-of-round--decisions-popup-then-one-approval-bundle-mandatory-fixed-order)
@@ -21,12 +21,11 @@ Part of [WORKFLOW.md](WORKFLOW.md). Sections moved verbatim; read before draftin
 
 ## Step 6 — Draft Jira comment [medium freedom]
 
-🔴 **GATE — STOP: Do not post until the user approves** (unless they explicitly waive approval) — through the single
+🔴 **GATE — STOP: Do not post until the user approves** (or delegated that action by name — 6d *Delegated actions*) — through the single
 Step 6d approval popup.
 
 **Draft in the syntax of the endpoint chosen at Step 3 — never in markdown "and convert later".**
-Markdown and Jira wiki markup are different languages that share characters, so a markdown draft
-posted to `/rest/api/2/` does not error — it renders as visible garbage (`**x**` → `*<b>x</b>*`).
+A markdown draft posted to `/rest/api/2/` does not error — it renders as garbage (`**x**` → `*<b>x</b>*`).
 Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 [jira-wiki-vs-markdown.md](../../../references/jira-wiki-vs-markdown.md).
 
@@ -38,7 +37,7 @@ Pick the template below that matches `COMMENT_FORMAT`; syntax map and gates in
 *Env:* {ENV} ({url})
 *API:* {METHOD} {path}   (if API bug)
 *Swagger:* {link}
-*Design ref:* {figma node link}   (UI retest — or "none, asked {who} {YYYY-MM-DD}"; no " — " or " · " in the value)
+*Design ref:* {figma node link}   (UI retest — or "none, to ask {who} (not yet sent)", once sent "none, asked {who} {YYYY-MM-DD}"; no " — " in the value, " · " only between `TC → node` mappings)
 *Role:* {role(s) the cases were run as}
 *Date:* {YYYY-MM-DD}   (the date the cases ran; dry run or offline round = the session's current date — never a placeholder)
 *Build:*
@@ -85,15 +84,14 @@ node tools/run-time/measure.js --dirs {lane1_evidence_dir},{lane2_evidence_dir} 
 
 It prints `{method, minutes, bursts, files, gapS, hasVideo}` (method `evidence-burst-v1`): the file write
 times of all lanes as one union, split into bursts wherever no file was written for more than 120 s, and
-the burst durations summed — so it counts running and evidence capture, and leaves out idle time,
-re-checks, design lookup and comment drafting. Copy it into `run.json` as
+the burst durations summed. Copy it into `run.json` as
 `testRunTime: {minutes, hasVideo, method}`; the renderer prints the line (`hasVideo` picks "screenshots" or
 "screenshots and video"), `retest_manifest.js` refuses a manifest without it, and `retest_guard.js`
 refuses a body whose line above the marker is not it (`run-time-line-missing`). Exit 2 = it could not
 measure (a lane directory is missing, or no evidence files) — fix the directory list; never type a
 number instead. When the workspace has no such tool, measure by the same method by hand (list every
 evidence file's modification time across all lanes, split at gaps over 120 s, sum the bursts — never the first-to-last span) and say in
-the chat report that it was measured by hand.
+the chat report that it was measured by hand — an exact figure, never "approximate" or "estimated".
 
 **All-BLOCKED round (owner, 2026-10-14):** when every case and every result is BLOCKED, nothing ran and
 there is nothing to measure. Put `testRunTime: {notMeasured: true, reason: "no-case-ran"}` in `run.json`;
@@ -114,7 +112,7 @@ line order and a machine-checked manifest → body example.
 ships on every retest, bug and task alike, but inside the rows it covers; it is what tells the next
 reader what was actually exercised, and a result that never became a case does not get re-run
 ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §1). The
-coverage lines stay **after** the table. The owner's words: "ทำไมต้องแยกตาราง รวมให้เป็นตารางเดียว".
+coverage lines stay **after** the table. The owner's words: "why split the table? merge it into one table".
 
 🔴 **No `Scope: FULL` line.** A full round prints no Scope line at all (the owner removed the `*Scope:* FULL` line);
 only a scoped round prints `*Scope:* CASES: <ids>`.
@@ -123,7 +121,7 @@ only a scoped round prints `*Scope:* CASES: <ids>`.
 (separated by ` · ` or ` — ` in `run.json`) renders as the label on its own line, one `* ` bullet per
 point, then exactly **one** blank line — without it the wiki list continues into the next label, and
 `Fixture` must sit at the same level as `Build`. Inside a table cell, several points (` · ` in
-`run.json`) render as `• point` lines joined by ` \\ `. Owner: "ให้ทำเป็นบลูเลทๆ เสมอไม่ยาวพืดให้อ่านยาก".
+`run.json`) render as `• point` lines joined by ` \\ `. Owner: "always bullets, never one long run that is hard to read".
 
 🔴 **After posting: column widths and centring (post-publish step).** The v2 wiki endpoint cannot
 carry widths or alignment, so once the wiki body is posted, GET the comment's v3 ADF, run
@@ -131,7 +129,7 @@ carry widths or alignment, so once the wiki body is posted, GET the comment's v3
 comment endpoint, GET it again and run `adf_colwidth.js --check readback.json` — exit 0 is required.
 It sets `colwidth` [50, 75, 230, 200, 330, 230, 65] on the single table and centres every clip and
 image in the `No.` / `Evidence` / `Status` columns (each MP4 `mediaGroup` becomes a centred
-`mediaSingle`); owner: "จัดกลางเสมอ อย่าให้ต้องบอกซ้ำ". The readback check is the evidence — not the
+`mediaSingle`); owner: "always centred, don't make me say it again". The readback check is the evidence — not the
 PUT status. When the workspace has no `adf_colwidth.js` ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)),
 edit the GET'd ADF by hand to the same `colwidth` values and centring, PUT it, GET it again and check
 each width and each centred clip/image in the readback one by one; write
@@ -141,24 +139,17 @@ still differs → fix and PUT again; never report widths as set from the PUT sta
 <a id="design-ref-line"></a>🔴 **The table carries NO design-node column — not on any retest, ever.** The design reference is
 one fact about the round, not a per-row fact, so it belongs on the header's `Design ref:` line and
 nowhere else: the node URL when one exists, or the Step 2d reason when none does. A column repeating
-"no node" down every row tells the reader nothing and was removed on user instruction 2026-08-25 after
-it shipped that way. When different cases genuinely use different nodes, name them on the `Design ref:`
-line (`TC_03 → {url} · TC_07 → {url}`) rather than reinstating a column. Some screens with a node and others with none → same form for both: `TC_01, TC_02 → {url} · TC_03 ({screen}) → none, asked {who} {YYYY-MM-DD}`.
+"no node" down every row tells the reader nothing and was removed on user instruction 2026-08-25. When different cases genuinely use different nodes, name them on the `Design ref:`
+line (`TC_03 → {url} · TC_07 → {url}`) rather than reinstating a column. Some screens with a node and others with none → same form for both: `TC_01, TC_02 → {url} · TC_03 ({screen}) → none, asked {who} {YYYY-MM-DD}` (or `to ask {who} (not yet sent)`).
 
-**Put any design-node URL on the `Design ref:` line as a bare URL.** That line is not a table row, so
-nothing is at stake there and a bare URL is the shorter, more readable form.
+**Put any design-node URL on the `Design ref:` line as a bare URL**
+(not a table row, so nothing breaks).
 
-🟢 **A labelled link inside a table cell is safe — measured, not assumed.** This file used to claim the
-`|` in `[label|url]` splits the row it lands in. It does not: a real retest comment (2026-09-05)
-carries `[▶ file.mp4|^file.mp4]` in an Evidence cell, and its rendered row has all **five** `<td>`
-elements, with the MP4 resolving to a real attachment link. The construct that genuinely breaks a row
-is the image width parameter (`!img|width=N!`, PM-004) — that one is still forbidden.
-
-The **`Evidence` column** sits between `Actual Result` and `Status`, for PASSED and FAILED rows alike.
+🟢 **A labelled link `[▶ file.mp4|^file.mp4]` in a table cell is safe** — measured on a real retest
+comment (2026-09-05): the row kept every `<td>` and the MP4 resolved. What breaks a row is the image
+width parameter (`!img|width=N!`, PM-004) — still forbidden.
 
 <a id="evidence-per-row"></a>**Evidence per row (one rule; the [Step 8·0 gate](closeout-and-notify.md#80--format-completeness-gate-must-pass-before-any-transition) (run at step 8) is authoritative):** FE / UI bug — every executed case's row carries its whole-flow MP4 link `[▶ …mp4|^…mp4]` in the `Evidence` cell, and a text-verification row also carries an inline still `!file.png!` (pre-resized, no `|width=…`); a non-text row carries the MP4 only. API bug — no `Evidence` column; full cURL + response per case in an `*Evidence*` section below the table.
-
-For an API bug the header row is therefore `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Status*||` — a cURL block does not fit in a cell.
 
 **Template core — markdown/ADF** (MCP `addCommentToJiraIssue` or `/rest/api/3/…`): identical
 content, but `**bold**`, `---`, and a `| col | col |` table with a `|---|` divider row. It ends with the same
@@ -168,12 +159,12 @@ Never mix the two in one body.
 
 **AC/EC coverage reconciliation before the draft is final (gate layer 6, fail-closed).** Reconcile the
 Step 2 enumerated `ER*` list against the verdict table: **`enumerated ids == rows carrying a status +
-evidence (or an explicit BLOCKED reason)`**, and `*Expected-result coverage:* {n} / {total}` shows
-`{n} == {total}`. Every expected-result/detail item is its **own row** — none parked only in a remark,
-a note under the table, or chat; no row is status-less; the verdict is **not PASSED** if any item was
-unverified or observed to differ — an **observed-to-differ** item is a PWMI or FAILED row per the [verdict rule](WORKFLOW.md#verdict-rule), an
-**unverified/unreached** item is a BLOCKED row (a coverage gap, not a product FAILED). Any shortfall ⇒
-the retest is **not complete** — add the row / verify the item / re-status the partial case before drafting further.
+evidence (or an explicit BLOCKED reason)`**, and `*Expected-result coverage:* {n} / {total}`
+(Task / Story: `*Acceptance-criteria coverage:*`) shows `{n} == {total}`.
+The full rule (own row per item, a differing item is PWMI/FAILED, an unverified one BLOCKED, never
+PASSED over a gap) is stated once at the [coverage gate](WORKFLOW.md#coverage-gate).
+Any shortfall ⇒ the retest is **not complete** — add the row / verify the item / re-status the
+partial case before drafting further.
 
 **Case-list reconciliation (same pass).** Every case in the Step 2c list appears in the `Case (Role)`
 cell of the row(s) it covers, with a status in `run.json`; every `ER*`/`AC*` row names at least one case; every UI
@@ -184,8 +175,8 @@ with a passing status carries an evidence reference — passed rows included
 
 **Verbosity ceiling:** a PASSED comment stays inside the template above — no added narrative
 paragraphs, no restating the ticket, no "why this matters" prose. Each field line holds only its
-value. FE evidence (MP4 link, plus the still on a text-verification row) goes **in the `Evidence` cell** — the `Actual Result` cell already describes what
-it shows, so no separate caption line is needed. If a field doesn't apply (e.g.
+value. FE evidence (MP4 link, plus the still on a text-verification row) goes **in the `Evidence` cell**,
+with no separate caption line. If a field doesn't apply (e.g.
 **API**/**Swagger** on an FE bug), omit the line entirely rather than writing "N/A".
 
 ### 6·0 — Build the run manifest, render the body, run the guard (mandatory)
@@ -228,16 +219,16 @@ form narrows the coverage denominator to what those cases cover, prints the verd
 round:` line — so a partial retest is honest instead of either breaking the coverage gate or quietly
 widening what was asked for.
 
-A hand-written body is still allowed when the manifest cannot be built, but it passes the same gate:
+Only when the renderer is not available ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)) is the body written by hand from [comment-template-v2.md](references/comment-template-v2.md); it passes the same gate:
 `node tools/retest-guard/retest_guard.js --body body.txt --format v2 --bug-type FE`.
 
 **What the guard does not decide, and never implies:** whether the clip reached its target, whether
 the cause is real, whether the expected side was verified against the design. Those are 4d, 4h and 4i
 and no exit code stands in for them.
 
-### 6a. Extra sections REQUIRED when the verdict is FAILED or BLOCKED
+### 6a. Extra sections REQUIRED when the verdict is not PASSED
 
-A PASSED comment stops at the template above. **A FAILED / BLOCKED comment adds exactly these two
+A PASSED comment stops at the template above. **A FAILED, BLOCKED or PWMI comment adds exactly these two
 blocks**, in this order (the failing behaviour itself already lives in the `Actual Result` cell + its
 `Evidence` MP4 / still, so it is not repeated as a separate prose block):
 
@@ -285,7 +276,7 @@ cause and check each one —
 Any box unchecked → delete the sentence or go back to Step 4h and earn it. Do not soften it into a
 hedge.
 
-**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's own field names (**Expected Result** / **Actual Result**) so a reader lines the comment up against the ticket without translating, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.
+**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names; `Evidence` and the API-bug variant follow **Evidence per row** above. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.
 
 Show the full draft in chat; the user's approval is the single Step 6d approval popup — no separate
 wait here.
@@ -294,21 +285,29 @@ wait here.
 
 ### 6c. Independent reviewer pass (mandatory before the first post)
 
-6b is the author re-reading their own draft, and
-[qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the real bar itself: *a second
-QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
+6b is the author's own re-read; [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) sets the bar: *a second QA — or another agent given the ticket, the deliverable and nothing else*. Make that literal.
 
+0. **Before every dispatch**, check the **whole** saved body (these gaps caused 10 of 13 after-15 re-rounds): coverage, case-list and count reconciliation (Step 6); `{run}` counts only cases executed this round, and passed + failed + PWMI + blocked = total;
+   every evidence reference names a file captured this round (never "to be captured"); every claim in header lines and cells (Design ref, Fixture, Role, account, observer) traces to the ticket or a captured file — an unsent question reads `to ask`;
+   no `{placeholder}` left; every untested item is named in its row, the coverage lines or *Out of scope*.
 1. **Dispatch a reviewer subagent in the background** (Agent/Task tool) with **only**: the ticket key, the
-   **file path** of the rendered body, and the **paths** of the evidence files — never paste the body or evidence text into the prompt; the reviewer opens each path itself and reads it in full. Not the session, not the reasoning, not what you meant. While
+   **file path** of the rendered body, and the **paths** of the evidence files — never paste the body or evidence text into the prompt; the reviewer opens each path itself and reads it in full. While
    it runs, build the Step 6d bundle in parallel; the reviewer must return **CLEAN before the approval
    popup** ([round-time-contract.md](../../../references/round-time-contract.md) §3 step 1).
+   **Host that cannot start subagents:** print that prompt for the user to run in a fresh agent session
+   or give a second QA, and queue its verdict in the 6d decisions popup; approval still waits for CLEAN.
+   Your own re-read is 6b, never 6c.
 2. **It answers the four adversarial questions** from the pre-delivery gate, each **by pointing at a
-   row or a file** — the least-certain row, the shortest clip, the hardest-to-read value, and what
-   was not tested and where the deliverable says so.
+   row or a file** — the least-certain row, the shortest clip, the hardest-to-read value, and what was not
+   tested and where the deliverable says so — and returns **every** finding in one pass (every row, reference, count), not the first few.
 3. **Binary verdict per round:** `CLEAN` or `HAS-COMMENTS` with a numbered list. Nitpicks are not
    defects; only gaps against the ticket and the evidence count.
 4. **Report the round to the user** as it finishes, then fix every finding, save the fixed body to the same path, and dispatch a **fresh**
-   round with the same paths. Loop until a round is clean — no round cap ([round-time-contract.md](../../../references/round-time-contract.md) §3
+   round with the same paths. **A re-check round** (2nd and later) reads the whole body and returns in one
+   pass: (a) each previous finding, closed or not; (b) every changed or added line, at the item 2–3 bar;
+   (c) every value that depends on a changed row (verdict, counts, run time). It skips unchanged lines the
+   previous round passed and re-answers the four questions only for a row whose status or evidence
+   changed (7d re-runs all four). Loop until a round is clean — no round cap ([round-time-contract.md](../../../references/round-time-contract.md) §3
    step 1), and a round whose result was never reported does not count.
    **Exit when the loop stops converging:** the same finding comes back in two consecutive rounds
    after you fixed it → stop dispatching reviewers. The draft is **not** CLEAN: put that finding in the
@@ -318,10 +317,11 @@ QA — or another agent given the ticket, the deliverable and nothing else*. Mak
 5. **Verify the reviewer's claims yourself before acting on them** — a subagent's report is not
    evidence, it is a lead.
 
-**Go back:** If a round returns `HAS-COMMENTS`, fix every finding and return to 6c item 1 with a fresh reviewer. The Step 6d approval popup waits for `CLEAN` (or, for a non-converging finding, for the user's answer to it).
+**Go back:** `HAS-COMMENTS` → item 4, then 6c item 1 with a fresh reviewer; the 6d approval popup waits for `CLEAN` (or the user's answer to a non-converging finding).
 
 **Unattended / bot mode:** run one reviewer round, fold its findings in, and record any it could not
-resolve as BLOCKED rows with reasons — never halt the queue, never post over an unanswered finding.
+resolve as BLOCKED rows with reasons — never halt the queue, never post over an
+unanswered finding. No subagents: post nothing; hold the ticket with the reason.
 
 ### 6d. End of round — decisions popup, then one approval bundle (mandatory, fixed order)
 
@@ -329,16 +329,16 @@ resolve as BLOCKED rows with reasons — never halt the queue, never post over a
 
 **Delegated actions:** the approval wait is skipped only for an outward action — post, transition, or notify — that the owner explicitly delegated by name, in this session, for this round (for example "post and transition this round without asking me"). General cues ("handle it", "don't ask", "don't wait") never skip a write approval; the [no-wait decision gate](../../../references/no-wait-decision-gate.md) layer 19 states the same rule. For a delegated action, the decisions popup carries only what the no-wait decision gate could not resolve; print the item 4 bundle list in chat before executing it, and every format, syntax and readback gate below still runs. An action not named still waits for item 4. Opening new bugs still needs a live yes.
 
+This rule (a bare "skip approval" included) wins over the "unless they waive it" wording in `helix-session-constraints.md` and `agent-rationalizations.md`.
+
 At step 6d, follow [round-time-contract.md](../../../references/round-time-contract.md) §3 in this order:
 
-1. **Reviewer and bundle in parallel** — the 6c reviewer runs in the background while you build the
-   bundle: run the cross-ticket conflict check (QA closing) and queue its result, then run the
-   **render + media check** on the **final** body (§6) — render the body locally in the format locked
-   at Step 3 (v2 wiki or ADF) and confirm tables, line breaks and formatting; resolve every referenced
-   image or clip (the attachment exists, its id or filename matches the reference). A render or media
-   failure blocks the approval popup until fixed. The reviewer must return CLEAN before item 4.
+1. **Bundle while the 6c reviewer runs** — run the cross-ticket conflict check (QA closing) and queue its
+   result, then the **render + media check** on the **final** body (§6): render it in the format locked
+   at Step 3 and confirm tables, line breaks and formatting; resolve every referenced image or clip
+   (attachment exists, id or filename matches). A failure blocks the approval popup until fixed.
 2. **Decisions popup — only when something is queued.** One choice-question call (`AskUserQuestion` in Claude Code), batched 4 questions at a
-   time: the scope plan (Step 2b/2c, and the round-N scope), each queued non-PASS (A/B/C, Step 4i),
+   time: the scope plan (Step 2b/2c, and the round-N scope), each queued non-PASS (A/B/C, Step 4i; a superseded expected quotes its source char-exact),
    each missing design (Step 2d), and each cross-ticket conflict (*Investigate further* / *Close out
    now*). Nothing queued → skip this item; the round then has a single human touch.
 3. **Apply the answers** — re-render the draft and re-run the Step 6·0 guard (and the §6 check). A
@@ -373,21 +373,22 @@ pre-post hit = fix the body, do not post.
 
 **Go back:** If the pre-post checklist or the syntax scan fails, fix the body and return to the top of Step 7 — Pre-post checklist. Nothing is posted until both are clean.
 
-This is a string scan, not a read-through — markdown leaks are invisible when proof-reading, because
-the draft looks like what you meant.
+This is a string scan, not a read-through — markdown leaks are invisible when proof-reading.
 
 ### 7a. Choose method based on content
 
-| Content | Method |
+Key on `COMMENT_FORMAT` from Step 3; an FE comment never takes a v3 row, whatever its row count.
+
+| Format (Step 3) · content | Method |
 |---------|--------|
-| Comment ≤ 3 table rows OR text-only (no table) | MCP `addCommentToJiraIssue` — fast for short results |
-| Comment > 3 table rows | ADF-direct via browser JS (Pattern D in [jira-fast-publish.md](../../../references/jira-fast-publish.md)) |
-| FE bug with MP4 / stills | v2 wiki markup via browser JS (Step 7c) |
+| v2 (FE bug — every FE bug has MP4s) · any row count | v2 wiki markup via browser JS (Step 7c) |
+| v3 (API) · ≤ 3 table rows or text-only | MCP `addCommentToJiraIssue` — fast for short results |
+| v3 (API) · > 3 table rows | ADF-direct via browser JS (Pattern D in [jira-fast-publish.md](../../../references/jira-fast-publish.md)) |
 
-**Definition of "table":** `| col | col |` rows with data — the evidence summary block (`**Env:** staging`, `**API:** …`) is NOT a table.
+A table row is a data row of the results table — the summary block (`*Env:*`, `*API:*`) is not one.
 
-**For MCP path (≤ 3 rows / text-only):**
-`addCommentToJiraIssue` with approved body. **Verify on Jira** — truncation still possible; if truncated, switch to ADF-direct.
+**For MCP path (v3, ≤ 3 rows / text-only):**
+`addCommentToJiraIssue` with approved body. **Verify on Jira** — truncation still possible (7b).
 
 **For ADF-direct path (> 3 table rows):**
 
@@ -400,7 +401,7 @@ Full JS patterns and error recovery: [jira-fast-publish.md](../../../references/
 
 ### 7b. Fallback for MCP path only
 
-When MCP truncates or returns 403 on a ≤ 3 row comment, switch to ADF-direct Pattern D above.
+v3 (API) only, ≤ 3 rows: MCP 403 → ADF-direct Pattern D above; MCP truncation → PUT the ADF body to the same comment id.
 
 ### 7c. FE + MP4/screenshots (in-cell evidence embedding)
 
@@ -412,26 +413,26 @@ Use **v2** wiki markup and `/rest/api/2/issue/{KEY}/comment`.
 2. **Upload attachments** — for each MP4 and screenshot, `POST /rest/api/3/issue/{KEY}/attachments` (curl `-u email:token` with `X-Atlassian-Token: no-check`, or authenticated browser fetch).
 3. **Embed in the `Evidence` cell** — the MP4 as a wiki attachment link `[▶ {KEY}_TC_{nn}.mp4|^{KEY}_TC_{nn}.mp4]` (role-suffixed when the case covers more than one role — use the attached name verbatim), and (text-verification rows only) the screenshot as `!filename.png!` **with no `|width=…`** (the pipe would split the table row). One case per verdict-table row.
 4. **Post comment** — v2 wiki `POST /rest/api/2/issue/{KEY}/comment`. v2 renders `!file.png!` as an inline picture and `[▶ …|^…mp4]` as a click-to-play/download attachment link.
-5. **Verify (Step 7d)** — confirm the MP4 link resolves and plays from Jira, each text still renders as a picture inside its `Evidence` cell (not `!filename!` text), and the table still has all its columns.
+5. **Verify** — run Step 7d.
 
 ### 7d — Post-publish review (mandatory)
 
-Before Step 8 transition, run review per [jira-comment-post-review.md](../../../references/jira-comment-post-review.md):
+Before Step 8 transition, run review per [jira-comment-post-review.md](../../../references/jira-comment-post-review.md) — for a retest its "TC rows" are the verdict-table rows, and its footer / CSV items (§1 Footer, §5) do not apply:
 
 1. Re-open `https://{JIRA_DOMAIN}/browse/{ISSUE_KEY}` (or equivalent).
 2. Checklist:
    - [ ] New comment visible; summary line (**PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**) correct.
    - [ ] **No literal `<br>`, HTML tags, or stray markup** visible as text.
    - [ ] **Numbered items** (`1. ` `2. ` `3. `) each on a separate line — not running together.
-   - [ ] No truncation; FE MP4 link resolves + plays, and text-verification screenshots render.
+   - [ ] No truncation, table keeps all its columns; FE MP4 link resolves + plays, and text-verification stills render as pictures in their `Evidence` cell.
    - [ ] Each FE MP4 clears the 7-layer quality+correctness gate — plays sharp end-to-end **with no flicker/judder at 100%** (layers 1b/1c: ≤5% repeated moving frames, provenance manifest present), **scrolls to and holds the stated target in frame** (no early cut), ER visible; one clip per named role.
    - [ ] **Pre-delivery completeness gate (7-layer) green** ([qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) § *Pre-delivery completeness*): scope re-counted from the bug **this round**, role × case matrix full, **every** attachment opened and played from Jira (not sampled), every claim points at a row, verdict↔bug↔priority↔remark agree, nothing recorded only in prose, **4-question adversarial pass answered with a pointer for every question**; unattended runs resolve to BLOCKED rows and report incomplete rather than halting silently. Fail closed — no transition, no notify, no "done" while red.
    - [ ] API evidence: cURL + response present per row.
-3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).
+3. If any check fails → fix → PUT the corrected body to the **same comment id** in the Step 3 format (edit in place, never a new POST) → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).
 
 MUST NOT transition, assign, or report "done" until 7d passes — because stakeholders trust Jira, not MCP output.
 
-**Go back:** If any 7d check fails, fix and return to Step 7 to re-post, then run 7d again — max 3 rounds. Step 8 does not start until 7d passes.
+**Go back:** If any 7d check fails, fix the posted comment in place (same comment id), then run 7d again — max 3 rounds. Step 8 does not start until 7d passes.
 
 **Fresh-eyes:** MUST re-read full draft from Step 6 before Step 7 when comment **> 80 lines** or table **> 15 rows**.
 

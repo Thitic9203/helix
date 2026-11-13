@@ -203,11 +203,8 @@ Within each Type group: ACs ascending (AC_01, AC_02, …), then ECs ascending (E
 MUST complete **before** Step 5. Do not skip because the first draft “looks fine.”
 
 **Review is a loop, not a fixed number of passes.** Run the checks (4a–4e) and the independent
-reviewer-agent pass (4f), fix every finding, then **re-review**, and keep looping until a review round
-returns **zero actionable comments**. There is no “good enough after 2 rounds” exit — the exit
-condition is a clean round, however many rounds that takes. **Report the outcome of EVERY round to the
-user** as it happens (round number + verdict + what was fixed) — never batch the rounds into one
-end-of-run summary, and never go silent between rounds.
+reviewer-agent pass (4f), fix every finding, then **re-review** (4a–4d again only when a fix added, removed, split or remapped a TC), and keep looping until a review round
+returns **zero actionable comments** (no round cap, 4f step 5). Every round is reported as it happens (4f step 3).
 
 ### 4a — AC / EC coverage (FE scope)
 
@@ -231,7 +228,7 @@ MUST NOT show the full TC table until **Ready for draft: YES** — because stake
 
 Post the table from [coverage-delta-template.md](../../../references/coverage-delta-template.md) (FE section) — even when all rows are `OK`.
 
-If review fails → fix Step 3 design and re-run 4a–4d. Repeat until a round is clean (no cap).
+If review fails → fix Step 3 design and re-run 4a–4d (after a 4f fix, only if traceability changed). Repeat until clean.
 
 ### 4e — Unclear spec → BLOCK the case, never guess (mandatory, zero omissions)
 
@@ -261,21 +258,25 @@ workflow violation.
 ### 4f — Independent reviewer-agent loop (mandatory; report EVERY round)
 
 The agent's own 4a–4e pass is not enough — draft TCs MUST also be checked by **independent reviewer
-subagents** (dispatch via the Agent/Task tool; when the user asks for "superpowers" review, this is it)
-so a second, skeptical set of eyes catches fabrication and coverage gaps the author is blind to.
+subagents** (Agent/Task tool), which catch fabrication and coverage gaps the author is blind to.
 
-Run it as a loop, and **tell the user the result of each round the moment it finishes** — round number,
-verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until a round is clean.
-
+0. **Author self-check before round 1** (fix in the draft, n/a when moot; not a review round, never replaces one):
+   1. Each Step with an observable result has its own Expected line, same order, one outcome per line.
+   2. Expected names the observable outcome, never only ถูกต้อง / ครบถ้วน / correct / complete.
+   3. Unit TC precondition = direct function access, not the browser shared prep.
+   4. Nothing the ticket does not state (role, reload behaviour, "no other change"); every outcome clause of each AC/EC asserted.
+   5. A pre-filled field is cleared before typing.
+   6. Glossary Thai in every column you write, Services Impacted included (AC/EC column stays verbatim).
+   7. Test data exact, no quotes inside code spans, spaces spelled out.
 1. **Dispatch reviewer(s).** Give each reviewer the ticket's **verbatim AC/EC + seed** and the current
-   TC draft **as a file path, not pasted text** (owner G3, 2026-11-11: write the draft to the working-draft
-   file below and give each reviewer its path plus the ticket's AC/EC + seed; the reviewer reads the file
-   itself — the check list and the ≥2-reviewer rule are unchanged), and instruct them to judge **only** against the ticket content (no requirements of their
+   TC draft **as a file path, not pasted text** (the working-draft file below;
+   one reviewer by default, ≥2 per round only on the thorough request below), and instruct them to judge **only** against the ticket content (no requirements of their
    own). Each must check: every AC/EC covered; **nothing fabricated** (no invented role, service,
    surface, count, severity, or EC the ticket never states); scope honored (per the user's Step 2a/2.5
-   decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability. For
+   decisions); char-exact seed text; correct Thai/glossary terms; Type classification; testability — every
+   row against every check, all defects in one numbered list (never stop at the first few). For
    a thorough/"2 rounds"/"superpowers" request, run ≥2 independent reviewers per round.
-   **Working-draft file for reviewers (owner, 2026-10-14):** write the draft reviewers read as a
+   **Working-draft file for reviewers:** write the draft reviewers read as a
    file **outside the repo** (the session scratchpad or a temp directory); when the run fixes an
    output folder, write a `*-review-draft.md` next to the output instead; if no writable path exists,
    paste the draft into the reviewer prompt. Reviewers always run — never fall back to self-review
@@ -285,25 +286,23 @@ verdict, and every finding + how it was fixed. Do not proceed to Step 4.5 until 
    numbered defect list). Nitpicks and cosmetic polish are not defects — only genuine defects against the
    ticket count.
 3. **Report the round to the user** immediately: `รีวิวรอบ N: CLEAN` or `รีวิวรอบ N: พบ X จุด — …` with
-   the fixes applied. This report is mandatory every round (the user must never wonder whether a round
-   ran or what it found).
+   the fixes applied. This report is mandatory every round.
 4. **If HAS-COMMENTS →** fix every finding in the draft, then dispatch a **fresh** reviewer round and
-   go back to step 2. **If CLEAN →** the loop is done; continue to Step 4.5.
+   go back to step 2. Give it the previous round's numbered findings and the changed row IDs; it checks
+   each finding fixed (or its rejection sound), every step-1 check on changed rows, and coverage,
+   fabrication, Type, order and IDs on the whole draft — rows already cleared and untouched are not
+   re-judged row by row (a thorough request keeps full rounds). **If CLEAN →** the loop is done; continue to Step 4.5.
 5. **No round cap and no silent rounds.** Loop until a reviewer round returns zero comments, however
    many rounds it takes; a round whose result was never reported to the user does not count.
-6. **Not converging → checkpoint.** If the same finding comes back in 3 consecutive rounds after being
-   fixed, stop the loop, report that finding with each fix tried, and ask the user how to resolve it.
-   Wait for the answer, apply it, then continue the loop — it still ends only on a clean round.
-7. **CHECKPOINT — 5 rounds without CLEAN.** After round 5 (and after every further 5 rounds) with no
-   clean round, pause the loop: report to the user the open findings of each round so far and the
-   fixes tried, and ask whether to continue the loop, change scope (Step 2a / 2.5 decisions), or stop
-   the run. Wait for the answer. This is a pause, not a cap: it never skips Step 4.5 and never counts
-   as a clean round — the loop still ends only on a clean round, or the run stops on the user's word.
+6. **Not converging → checkpoint.** The same finding back in 3 consecutive rounds after a fix → stop,
+   report it with each fix tried, ask the user how to resolve it, wait, apply, continue the loop.
+7. **CHECKPOINT — 5 rounds without CLEAN** (and every further 5): pause; report each round's open
+   findings and fixes tried; ask whether to continue, change scope (Step 2a / 2.5 decisions), or stop
+   the run; wait. A pause, not a cap: it never skips Step 4.5 and never counts as clean.
 
-**No subagents available** (the runtime has no Agent/Task tool, or dispatch fails): do not skip the
-loop and do not count the 4a–4e pass as a review round. Instead, for each round, run a separate
-**self-review** pass that starts from a fresh re-read of the ticket's **verbatim AC/EC + seed** (not
-your own summary of them) and applies every step-1 check to the current draft. Label every such round
+**No subagents available** (no Agent/Task tool, or dispatch fails): never skip the loop or count the
+4a–4e pass (or the step-0 self-check) as a round. Each round is a separate **self-review** from a fresh
+re-read of the **verbatim AC/EC + seed** (not your summary), applying every step-1 check to the draft. Label every such round
 `SELF-REVIEW` in the round report (`รีวิวรอบ N (SELF-REVIEW): …`), tell the user once that independent
 reviewers were unavailable, and keep the same binary verdict and exit rule (steps 2–5).
 
@@ -313,7 +312,7 @@ reviewers were unavailable, and keep the same binary verdict and exit rule (step
 
 Because content is Thai by default but some terms stay in English (Step 3b), the user MUST see and approve the term choices **before** any content is written to the real TC file.
 
-After the Step 4 review passes and before showing the full draft (Step 5), post the term table in chat:
+🔴 GATE — STOP: after the Step 4 review passes and before showing the full draft (Step 5), post the term table in chat:
 
 ```
 **Thai ↔ English terms used in this TC set**

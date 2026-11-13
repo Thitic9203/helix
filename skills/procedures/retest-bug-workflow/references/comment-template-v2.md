@@ -37,13 +37,13 @@ node tools/retest-guard/retest_guard.js --manifest run.json --out body.txt --evi
 4. `*Test Step (from ticket):*` and `*Expected Result (from ticket, verbatim):*`.
 5. ONE table: `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||`
    — one physical line per row; multi-point cells use ` \\ `, never a newline or `* `.
-6. `*Expected-result coverage:*` then `*Case coverage:*` — after the table.
+6. `*Expected-result coverage:*` (Task/Story: `*Acceptance-criteria coverage:*`) then `*Case coverage:*` — after the table.
 7. `*Test run time:*` — the measured value from `tools/run-time/measure.js`.
 8. One blank line, then the usage marker `_retestskillmarker · …_` as the last line.
 
 ## Example — manifest in, body out
 
-Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed points):
+Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed points; `marker.src` is this example's run — fill it from yours):
 
 ```json
 {
@@ -86,8 +86,8 @@ Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed p
       "id": "ER1",
       "actual": "<POINT_1> · <POINT_2>",
       "evidence": [
-        "<ISSUE_KEY>_TC_01_<ROLE_A>.mp4",
-        "TC_01_<ROLE_A>-ER_1.png"
+        "<ISSUE_KEY>_TC_01.mp4",
+        "TC_01-ER_1.png"
       ],
       "status": "PASSED"
     }
@@ -141,7 +141,7 @@ body with `--body body.txt --format v2 --bug-type FE`):
 *Expected Result (from ticket, verbatim):* <ER1_VERBATIM>
 
 ||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||
-|1|ER1|• TC_01 <TITLE_A> (<ROLE_A>)|<ER1_VERBATIM>|• <POINT_1> \\ • <POINT_2>|[▶ <ISSUE_KEY>_TC_01_<ROLE_A>.mp4|^<ISSUE_KEY>_TC_01_<ROLE_A>.mp4] !TC_01_<ROLE_A>-ER_1.png!|✅|
+|1|ER1|• TC_01 <TITLE_A> (<ROLE_A>)|<ER1_VERBATIM>|• <POINT_1> \\ • <POINT_2>|[▶ <ISSUE_KEY>_TC_01.mp4|^<ISSUE_KEY>_TC_01.mp4] !TC_01-ER_1.png!|✅|
 
 *Expected-result coverage:* 1 / 1 items met
 *Case coverage:* 1 / 1 cases run — 1 passed / 0 failed / 0 blocked

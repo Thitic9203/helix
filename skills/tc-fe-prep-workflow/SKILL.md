@@ -29,11 +29,11 @@ Claude Code shortcut: `/tc-fe-prep` → [commands/tc-fe-prep.md](../../commands/
 
 ## Contents
 
-Every must-read file for this workflow, linked directly from here. References already linked above are not repeated.
+Every must-read file for this workflow, linked directly from here.
 
 ### Every run
 
-Read these on every run — each one is used in every TC prep session.
+Read these on every run.
 
 - [WORKFLOW.md](../procedures/tc-fe-prep-workflow/WORKFLOW.md) — always: the procedure; open each file at the step its progress checklist names.
 - [must-never.md](../procedures/tc-fe-prep-workflow/references/must-never.md) — read at the start of every run, before Step 0, and again before any write or post — the skill-specific MUST / NEVER table; every row binds drafting, review and publishing.
@@ -59,7 +59,7 @@ Read each file below at the point written next to it, not up front. If that step
 - [qa-closing-shared.md](../../references/qa-closing-shared.md) — before reporting done — shared QA closing gates; its cross-ticket conflict check applies to testing-ticket and retest-bug only, not to TC prep.
 - [session-closing.md](../../references/session-closing.md) — after the verify gate passes — artifact index, next workflow, handoff.
 - [shared-must-never.md](../../references/shared-must-never.md) — before any write or post — rules shared by every workflow.
-- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step; each excuse has its correct action.
+- [agent-rationalizations.md](../../references/agent-rationalizations.md) — read when tempted to skip a step.
 - [coverage-delta-template.md](../../references/coverage-delta-template.md) — read after the coverage review, before the full draft.
 - [csv-template-types.md](../../references/csv-template-types.md) — read before exporting a CSV.
 - [figma-design-comparison.md](../../references/figma-design-comparison.md) — read before judging any UI or visual result against the design.
@@ -67,32 +67,25 @@ Read each file below at the point written next to it, not up front. If that step
 - [portable-content.md](../../references/portable-content.md) — read before writing any repo, path, ticket number or project value into the skill output; nothing project-specific is hardcoded.
 - [proactive-qa-triggers.md](../../references/proactive-qa-triggers.md) — read whenever a QA follow-up is a candidate, at any point in the run (including session close).
 - [qa-evidence-gates.md](../../references/qa-evidence-gates.md) — read before any completion claim.
-- [round-time-contract.md](../../references/round-time-contract.md) — read when a round starts and before reporting times.
+- [round-time-contract.md](../../references/round-time-contract.md) — read only if this run executes tests (TC drafting never does; Step 4f review rounds are not test rounds).
+- [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — read when a tool or fetch errors.
+- [root-cause-investigation.md](../../references/root-cause-investigation.md) — read before naming a cause for any error.
 - [skill-invocation-discipline.md](../../references/skill-invocation-discipline.md) — read before invoking or switching skills.
 - [skill-routing.md](../../references/skill-routing.md) — read when choosing which skill handles a request.
 - [skill-rules-style.md](../../references/skill-rules-style.md) — read before asking the user or stopping on a missing input.
-- [test-md-format.md](../../references/test-md-format.md) — read when exporting Test.md.
+- [tc-glossary.md](../../references/tc-glossary.md) — at Step 2.6 (glossary re-check).
+- [html-pre-draft-review-template.md](../procedures/tc-fe-prep-workflow/references/html-pre-draft-review-template.md) — at Step 2.5d (HTML report).
+- [html-draft-template.md](../procedures/tc-fe-prep-workflow/references/html-draft-template.md) — at Step 5 (HTML draft).
 - [ac-ec-coverage-review.md](../procedures/tc-fe-prep-workflow/references/ac-ec-coverage-review.md) — read before drafting; AC / EC coverage review.
-- [jira-formatting.md](../procedures/tc-fe-prep-workflow/references/jira-formatting.md) — read before posting the Jira comment.
-- [prerequisites.md](../procedures/tc-fe-prep-workflow/references/prerequisites.md) — read before step 1.
+- [jira-formatting.md](../procedures/tc-fe-prep-workflow/references/jira-formatting.md) — read before Step 0 (WORKFLOW § Prerequisites).
+- [prerequisites.md](../procedures/tc-fe-prep-workflow/references/prerequisites.md) — read before Step 0.
 - [publish-options.md](../procedures/tc-fe-prep-workflow/references/publish-options.md) — read when choosing how to publish.
 - [qase-import-format.md](../procedures/tc-fe-prep-workflow/references/qase-import-format.md) — read before exporting the Qase CSV.
 - [worked-example.md](../procedures/tc-fe-prep-workflow/references/worked-example.md) — read only when you need a format reference for the TC table or comment (a full anonymized worked example).
 
-### Only when the stated trigger occurs (outside manual TC drafting)
+### Not part of this workflow
 
-This workflow drafts test cases and never executes them or records verdicts. Read each file below only when its trigger actually happens in this run (for example the user asks to run a case, or a tool error needs a cause); it is not part of the every-run reading.
-
-- [bug-priority-matrix.md](../../references/bug-priority-matrix.md) — read before setting any priority or a PWMI / FAILED verdict.
-- [customer-escape-prevention.md](../../references/customer-escape-prevention.md) — read before any QA run; the gates that stop shipped defects.
-- [defect-report-completeness.md](../../references/defect-report-completeness.md) — read before writing up any defect or non-pass.
-- [non-pass-challenge-gate.md](../../references/non-pass-challenge-gate.md) — read before recording any result that is not PASSED.
-- [playwright-preflight.md](../../references/playwright-preflight.md) — read before any Playwright run.
-- [qa-debug-discipline.md](../../references/qa-debug-discipline.md) — read when a test is flaky or a tool errors.
-- [resilient-selectors.md](../../references/resilient-selectors.md) — read when writing or fixing Playwright selectors.
-- [result-quality-gate.md](../../references/result-quality-gate.md) — read before any verdict leaves the round.
-- [root-cause-investigation.md](../../references/root-cause-investigation.md) — read before naming a cause for any failure.
-- [test-through-real-steps.md](../../references/test-through-real-steps.md) — read before testing an action; no API shortcut for the action under test.
+This workflow drafts test cases and never runs them, records verdicts or files defects. A request to run a case, record a result or file a bug is routed per [skill-routing.md](../../references/skill-routing.md) to testing-ticket, retest-bug or create-bug.
 
 ## Refusal-first (precondition gate)
 
@@ -104,12 +97,12 @@ All close-out gates are in WORKFLOW.md, [verify-closing-checklist.md](../../refe
 
 ## Dependencies
 
-Run the check for each of these before step 1 — check commands and install hints are in [dependencies.md](../../references/dependencies.md):
+Check each before step 1 — commands and install hints: [dependencies.md](../../references/dependencies.md):
 
 - curl
 - Python 3 + `openpyxl` (xlsx only)
-- Atlassian MCP
-- Jira REST credentials (ADF-direct publish)
-- Qase
+- Atlassian MCP (reading the story only; never to post TC tables)
+- Jira REST credentials or a signed-in Jira session — publish uses only the session, checked at Step 7; a failed REST check is not a stop, no session → Step 7 failure branch
+- Qase web UI access, or a suite list the user pastes (there is no Qase MCP)
 - a browser for the HTML preview
 - `superpowers:systematic-debugging`

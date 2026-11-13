@@ -3,14 +3,7 @@
 The output shape of the Step 7 Jira comment as an ADF document, and the files to write when the user
 asks for a draft without posting ("draft only", "do not post", "save the comment, don't publish").
 The content rules (intro text, 6-column slim table, attachment links, skip-notes, Remark, Disclaimer)
-stay in Steps 6–7 of the workflow; this file is the one copy of the file form and an example.
-
-## Contents
-
-- [Draft only — files to write](#draft-only--files-to-write)
-- [ADF document order](#adf-document-order)
-- [Self-check before reporting](#self-check-before-reporting)
-- [Example — approved rows in, ADF out](#example--approved-rows-in-adf-out)
+stay in WORKFLOW Steps 6–7; this file is the one copy of the file form and an example.
 
 ## Draft only — files to write
 
@@ -51,17 +44,18 @@ Top-level nodes, in this order:
   `hardBreak`, `bulletList`, `orderedList`, `listItem`.
 - The last top-level node's text starts with `⚠️ Disclaimer:`.
 - Table data rows = the approved TC count.
+- Remark (Step 7 item 6 applies: absent Type, missing Figma/PRD link, unsheeted BLOCKED case) = the paragraph + `bulletList` right before the Disclaimer; else none.
 
 ## Example — approved rows in, ADF out
 
-Input — approved TC rows (2 shown) and the request "draft only, do not post":
+Input — approved TC rows (2 shown), Figma and PRD linked, no BLOCKED case, and the request "draft only, do not post":
 
 ```text
 1 | AC_01 | <SERVICE_A> | <TITLE_A> | High | Integration Test
 2 | EC_01 | <SERVICE_A> | <TITLE_B> | Medium | System Test
 ```
 
-Output — `Jira_comment_{ISSUE_KEY}.adf.json` (complete; no Unit Test rows, so one skip-note):
+Output — `Jira_comment_{ISSUE_KEY}.adf.json` (complete; no Unit Test rows, so one skip-note and a Remark):
 
 ```json
 {"type":"doc","version":1,"content":[
@@ -71,17 +65,20 @@ Output — `Jira_comment_{ISSUE_KEY}.adf.json` (complete; no Unit Test rows, so 
   {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"AC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"1"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"High"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Integration Test"}]}]}]},
   {"type":"tableRow","content":[{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"EC_01"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<SERVICE_A>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"2"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"<TITLE_B>"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"Medium"}]}]},{"type":"tableCell","content":[{"type":"paragraph","content":[{"type":"text","text":"System Test"}]}]}]}
  ]},
- {"type":"paragraph","content":[{"type":"text","text":"Import_Qase_{ISSUE_KEY}.csv","marks":[{"type":"link","attrs":{"href":"__ATT1_ID__"}}]}]},
+ {"type":"paragraph","content":[{"type":"text","text":"Draft_Jira_{ISSUE_KEY}.csv","marks":[{"type":"link","attrs":{"href":"__ATT1_ID__"}}]}]},
+ {"type":"paragraph","content":[{"type":"text","text":"Import_Qase_{ISSUE_KEY}.csv","marks":[{"type":"link","attrs":{"href":"__ATT2_ID__"}}]}]},
  {"type":"paragraph","content":[{"type":"text","text":"ไม่มี TC ประเภท Unit Test สำหรับ ticket นี้"}]},
+ {"type":"paragraph","content":[{"type":"text","text":"Remark — Type coverage:","marks":[{"type":"strong"}]}]},
+ {"type":"bulletList","content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"No "},{"type":"text","text":"Unit Test","marks":[{"type":"em"}]},{"type":"text","text":" cases for this ticket."}]}]}]},
  {"type":"paragraph","content":[{"type":"text","text":"⚠️ Disclaimer: ข้อมูลนี้เป็นเพียง Draft Version ที่ได้จากการใช้ Skill เท่านั้น (TC ครบตาม AC & EC) เนื้อหาทั้งหมดจำเป็นต้องได้รับการรีวิวและอัปเดตโดยทีม QA ก่อนนำไปใส่ในไฟล์เอกสารส่งมอบ และทำการนำ TC ไป Import เข้าสู่ Qase.io"}]}
 ]}
 ```
 
-Output — first lines of `Jira_comment_{ISSUE_KEY}.preview.md`:
+Output — first lines of `Jira_comment_{ISSUE_KEY}.preview.md` (intro line text: [jira-formatting.md § Comment structure](jira-formatting.md#comment-structure)):
 
 ```text
 PREVIEW — not postable; post the .adf.json
-Draft TC FE as below — ดูรายละเอียด Precondition / Steps / Expected ได้ในไฟล์แนบ
+<intro line — exact text in jira-formatting.md § Comment structure>
 AC_01 · <SERVICE_A> · 1 · <TITLE_A> · High · Integration Test
 EC_01 · <SERVICE_A> · 2 · <TITLE_B> · Medium · System Test
 ```

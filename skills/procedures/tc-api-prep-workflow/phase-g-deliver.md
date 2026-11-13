@@ -1,23 +1,23 @@
 # TC API prep — Phase G
 
-Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase G as its progress-checklist line names. Every rule here is a full gate of the workflow.
+Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase G as its WORKFLOW.md section names. Every rule here is a full gate of the workflow.
 
 ## Phase G — Deliver (after approval only) [low freedom]
 
 G1 and G2 are independent branches keyed on the Phase C answer: **B** runs G1 only, **A** runs G2
 only, **both** runs G1 then G2 (G2 attaches the G1 files). Every branch ends in G-verify.
 
-**Fresh-eyes:** MUST re-read the full draft table before G1/G2 when **> 15 rows** ([skill-rules-style.md](../../../references/skill-rules-style.md)).
+**Fresh-eyes:** MUST re-read the full draft table before G1/G2 when **> 15 rows** ([skill-rules-style.md](../../../references/skill-rules-style.md)) and print `Fresh-eyes: N rows, fixes: {ids or none}`.
 
 ### G1 — File export (B or both)
 
 1. Write markdown with the table to `references/{SCOPE}_API_TC.md` (or user path).
 2. **CSV:** export per [csv-export-rules.md](../../../references/csv-export-rules.md) to `references/{SCOPE}_API_TC.csv` (in-agent by default).
 3. **Excel:** `.xlsx` only if user asked Excel or `both` — follow the Excel/xlsx section in [csv-export-rules.md](../../../references/csv-export-rules.md) (Python + openpyxl inline). When openpyxl is missing or fails, warn the user and ask before falling back to CSV — never silently produce CSV when xlsx was requested.
-4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A may then continue without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder.
+4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A then continues without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder.
 5. **Test.md:** only if the user asked for it — write it from the same approved rows per [delivery-options.md](references/delivery-options.md) § Test.md, alongside CSV/Excel, never instead of them; a write error here is handled as in step 4.
 
-`{SCOPE}` = user-provided name, ticket key, or short slug from API title.
+`{SCOPE}` = user-provided name, ticket key, or kebab-case slug of `info.title` (≤ 30 chars), stated in the Phase C line.
 
 Tell the user the **workspace-relative paths** to download.
 
@@ -28,13 +28,15 @@ Tell the user the **workspace-relative paths** to download.
 1. **Build ADF** from the approved Phase F table (only on this branch):
    - Convert every `<br>` in table cells → `{"type": "hardBreak"}` ADF node (rules: [jira-linebreak-conversion.md](../../../references/jira-linebreak-conversion.md)).
    - Build the complete ADF document; **bold every header cell**.
-   - If a CSV/Excel file was generated in this run (delivery **both**, or a file produced while delivering A), put the `__ATT1_ID__` placeholder in the ADF footer for the attachment link; no file → no placeholder.
-2. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. "approved, post to {URL}"); a bare "ok", "approved" or "go" is not a post instruction — show the preview and stop.
+   - **> 50 rows:** offer a CSV/xlsx attachment + summary instead of the inline table; if accepted, write it by G1 steps 2–4 first.
+   - If a CSV/Excel file was generated in this run (delivery **both**, or the accepted > 50-row offer), put the `__ATT1_ID__` placeholder in the ADF footer for the attachment link; no file → no placeholder.
+2. Check against [jira-comment-post-review.md](../../../references/jira-comment-post-review.md) § Pre-post render + media check. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. "approved, post to {URL}"); a bare "ok", "approved" or "go" is not a post instruction — show the preview and stop.
 3. **Publish — ADF-direct (do NOT try MCP first for TC tables).** Full JS patterns: [jira-fast-publish.md](../../../references/jira-fast-publish.md).
    - Navigate to the Jira issue page.
    - Pattern A: set `window.__adfBody` and one `window.__files` entry per file this run generated (an `.xlsx` as base64 with `encoding: 'base64'`).
    - File generated this run (attach it): Pattern B (upload + comment). No file: Pattern D.
    - Pattern C: read `window.__fastPublish` → check `status: 'ok'` **and** a `commentId`. A non-ok status — or `ok` with no `commentId` — is a failed post: follow that file's Error recovery table first, and never tell the user "commented" on it.
+   - G-verify "re-post" of a posted comment = `PUT` to the same comment id, never a second comment.
 4. **Fallback — browser JS tool unavailable, or Pattern C still not `ok` after its Error recovery:**
    publish with Jira REST v3 using the user's own credentials (the "Jira REST credentials" row of
    [dependencies.md](../../../references/dependencies.md) — run its check first):
@@ -48,8 +50,8 @@ first, then show in chat exactly what changes (new table appended, or which exis
 replaced — never unrelated sections, per [delivery-options.md](references/delivery-options.md)
 § Confluence). 🔴 **STOP — show the Confluence change preview** and publish only after the user
 explicitly approves that preview (same skip rule as the Jira preview in G2 step 2), with the Atlassian
-MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: deliver the G1 file instead,
-report the exact error, and do not say "commented".
+MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: write the G1 default CSV (`references/{SCOPE}_API_TC.csv`)
+and tell the user its path, report the exact error, and do not say "commented".
 
 ### G-verify — Post-publish review (mandatory)
 
@@ -75,7 +77,7 @@ MUST NOT run G3 close until post-publish review passes — because first export/
 
 ### G3 — Close
 
-Only after **G-verify** pass, follow [session-closing.md](../../../references/session-closing.md) (artifact index, next workflow, a handoff when another workflow takes over, `Verdict:`).
+Only after **G-verify** pass, follow [session-closing.md](../../../references/session-closing.md) (artifact index, next workflow, `Verdict:`; handoff file, see also [handoff-file-template.md](../../../references/handoff-file-template.md), when > 15 rows or hand-over).
 
 ## QA closing (mandatory before "done") [low freedom]
 
