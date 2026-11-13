@@ -30,11 +30,11 @@ One row per scenario x width: a scenario in scope at 1440 and 390 is two rows, n
 
 **Coverage check:** every AC/EC id above appears in the `AC/EC id(s)` column of ≥1 scenario. An id with no scenario = a gap → add the scenario (or move it to Out of scope with a reason). Do not confirm the plan until every enumerated id is covered or explicitly excluded. An id is not covered at a width it has no row for.
 
-**Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch in the summary and does not block the run; the AC/EC ids that row covers still need a row with a verdict + evidence or an explicit BLOCKED reason — never PASSED — before Phase G (F4 reconciliation: "enumerated ids == rows carrying a verdict + evidence (or an explicit BLOCKED reason)").
+**Reconcile (after the run):** every plan row (scenario x width) has a results row; a plan row with no results row is reported as a mismatch and does not block the run, but F4 is fail-closed: the AC/EC ids that row covers need a row with a verdict + evidence or an explicit BLOCKED reason — never PASSED — before Phase G (F4 reconciliation: "enumerated ids == rows carrying a verdict + evidence (or an explicit BLOCKED reason)").
 
 ### Execution lanes
 
-The plan always shows both lane rows, L1 and L2, one account per lane ([parallel-test-lanes.md](parallel-test-lanes.md)). If fewer than two accounts are leasable, keep the L2 row and write the reason in it (serial plan only with a named §4 predicate).
+The plan always shows both lane rows, L1 and L2, one account per lane ([parallel-test-lanes.md](parallel-test-lanes.md)). If fewer than two accounts are leasable, keep the L2 row and write the reason in it — the same §4 predicate as the confirm block's `Execution: serial — reason:` line.
 
 | Lane | Account (role) | Scenario # | Order | Data prefix |
 |------|----------------|------------|-------|-------------|

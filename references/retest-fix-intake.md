@@ -1,6 +1,6 @@
 # Retest — fix claim vs verification plan
 
-Run **after Step 2 (fetch ticket)**, **before Step 3 (test execution)**. Write it in the user's language.
+Run **after Step 2 (fetch ticket)**, **before Step 4 (test execution)**. Write it in the user's language.
 
 ## Collect from Jira
 
@@ -25,12 +25,12 @@ We will verify:
   • {observable check 1 — maps to claimed fix}
   • {observable check 2}
 Out of scope this retest: {list}
-Bug type: API | FE — comment format locked to {v2|v3}
+Bug type: API | FE — comment format to lock at Step 3: {v2|v3}
 Linked: {PR-123 or none}
 ━━━━━━━━━━━━━━━━━━
 ```
 
-**Wait** if environment URL or credentials are still missing — combine with Step 1 config.
+Environment URL or credentials missing → they are asked at Step 1 (config), the one ask point; otherwise print the plan and start (WORKFLOW Step 2b).
 
 ## Rules
 
@@ -38,6 +38,6 @@ Linked: {PR-123 or none}
 |------|---------|
 | MUST separate “dev said” vs “we will check” | Avoid retesting the comment instead of the product |
 | MUST NOT mark PASSED until tests + evidence | False retest closes bugs |
-| FE bugs: plan screenshot points before run | v2 wiki needs attachments |
+| FE bugs: plan one MP4 per case (+ a still per text check) before the run | v2 wiki needs attachments |
 
 Then continue the retest workflow (Swagger compare for API, browser for FE).

@@ -60,7 +60,7 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 | REST v3 (`/rest/api/3/…`) — API lock | ADF JSON | Post-post: re-fetch and confirm zero literal markup left in the rendered text |
 | JXA + Chrome fallback | the markup of the endpoint the script calls (v2 → wiki, v3 → ADF) | the gates of that endpoint's row |
 
-Embed screenshots **bare** — `!file.png!`, resized to ~600–640 px before upload. A width parameter puts
+Embed screenshots **bare** — `!file.png!`, resized to 640 px wide before upload (macOS `sips -Z 640 <file>`, then `sips -g pixelWidth <file>` reads the width; elsewhere any image tool, then read the width). A width parameter puts
 a pipe inside a table cell and splits the row. The attachments endpoint needs an issue key
 (`issueIdOrKey`), so for a **new bug** create the issue first with a body that has no image embed, then
 upload the attachments to the returned key, then update the body to embed them bare, then re-fetch the

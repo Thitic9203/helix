@@ -1,477 +1,874 @@
 {
- "entries": [
-  {
-   "removed": "Each excuse below is already answered by the rule named after it — stop and apply that rule: \"they said three, so three\" / \"one finding looks lazy\" (Iron Law: the count is what survives) · \"the file timestamp proves it\" (step 3: a proxy governs nothing) · \"nothing backs it, so it is false\" (Quick reference: unsourced claim or Question) · \"I know this API\" / \"the URL is probably right\" (Iron Law: open and quote the source) · \"fix it where it showed up\" (step 7: owning layer) · \"the title should also change\" (MUST NOT rewrite) · \"it passed the second time\" (flaky is FAILED) · \"probably the cache\" / \"`Suspected` is allowed\" / \"the guess was right\" (Hedged conclusions rules 2–4).",
-   "replaced_by": [
-    "## Rationalizations — STOP"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST verify the expected side against its governing source before reporting a defect |",
-   "replaced_by": [
-    "| MUST verify the expected side against its governing source before reporting a defect | A guess dressed as spec wastes a retest |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST report the count that survives verification, never the count claimed |",
-   "replaced_by": [
-    "| MUST report the count that survives verification, never the count claimed | Matching a claimed number is fabrication |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST open every source cited in a recommendation |",
-   "replaced_by": [
-    "| MUST open every source cited in a recommendation | A remembered citation is an invented one |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST attach a prevention layer to every defect |",
-   "replaced_by": [
-    "| MUST attach a prevention layer to every defect | Without it the finding comes back |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed |",
-   "replaced_by": [
-    "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run |",
-   "replaced_by": [
-    "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes |",
-   "replaced_by": [
-    "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes | An audit must not change what it audits |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT file a Jira bug from this workflow |",
-   "replaced_by": [
-    "| MUST NOT file a Jira bug from this workflow | Filing belongs to `create-bug-workflow` |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) |",
-   "replaced_by": [
-    "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) | An unasked edit changes delivered work |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| NEVER replace a Severity the reporter gave with your own reading — a value the matrix cannot place is a question to the reporter (Phase A3, item 3), not a correction | The reporter's severity is the title bracket; a guessed one misroutes triage |",
-   "replaced_by": [
-    "| NEVER replace a reporter-given Severity or Priority with your own pick (Phase A3 item 3) | A guessed value misroutes triage |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST use only the bug-priority-matrix vocabulary for Priority and Severity and cite the cell (Severity value from the reporter, Priority from the cell; a reporter value the cell does not match is asked, never replaced — Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |",
-   "replaced_by": [
-    "| MUST use only the bug-priority-matrix vocabulary and cite the cell (Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST enumerate **every** Expected-Result item + bug-detail bullet char-exact at Step 2, map each `ER*` id 1:1 to a verdict-table row, and reconcile `enumerated ids == rowed-and-statused rows` (`{n}/{total}` coverage, `{n}=={total}`) before Step 6 / 8·0 (7-layer coverage gate in [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md)) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |",
-   "replaced_by": [
-    "| MUST enumerate every Expected-Result item + bug-detail bullet at Step 2 and reconcile ids == rows before Step 6 / 8·0 — rule stated once at [coverage gate](#coverage-gate) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST record **every** expected-result/detail result as its own verdict-table row — NEVER park an untested/failing item in a remark, a note under the table, or chat while the verdict reads PASSED | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |",
-   "replaced_by": [
-    "| MUST record every expected-result/detail result as its own row, never in a remark, note or chat — rule stated once at [coverage gate](#coverage-gate) | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status (coverage gate fail-closed) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |",
-   "replaced_by": [
-    "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status — rule stated once at [coverage gate](#coverage-gate) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike), starting by invoking `superpowers:systematic-debugging` (Phases 1–3) and naming it in the comment | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |",
-   "replaced_by": [
-    "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike) and name the debugging skill in the comment — rule stated once at [root cause](#root-cause) | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST run the Step 4i challenge gate for EVERY non-PASSED item — re-verify the expected side char-exact against an authoritative source **including related/linked tickets' AC/EC**, then surface expected-vs-observed + the AC/EC finding + a recommendation (adjust expected/TC / re-test / confirm defect — the last only while the bug's ER or the task's AC is not superseded) to the user in chat before drafting the comment ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |",
-   "replaced_by": [
-    "| MUST run the Step 4i challenge gate for EVERY non-PASSED item and surface it in chat before drafting — rule stated once at [challenge gate](#challenge-gate) (confirm defect only while the bug's ER or the task's AC is not superseded) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A may then continue without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder.",
-   "replaced_by": [
-    "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A then continues without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder."
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough. Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A",
-   "replaced_by": [
-    "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, stated once at Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |",
-   "replaced_by": [
-    "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST pass the 7-layer AC/EC coverage gate — stated once at Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |",
-   "replaced_by": [
-    "| MUST pass the 7-layer AC/EC coverage gate — Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST pass the Phase C confirm gate before the first Playwright run — rule stated once at Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |",
-   "replaced_by": [
-    "| MUST pass the Phase C confirm gate before the first Playwright run — Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST drive each scenario through its real surface — stated once at Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |",
-   "replaced_by": [
-    "| MUST drive each scenario through its real surface — Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate, stated once in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |",
-   "replaced_by": [
-    "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate in [qa-evidence-capture.md](../../../references/qa-evidence-capture.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — stated once at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |",
-   "replaced_by": [
-    "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — stated once at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |",
-   "replaced_by": [
-    "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST compare every UI scenario against its design node — rule stated once at Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |",
-   "replaced_by": [
-    "| MUST compare every UI scenario against its design node — Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST cover the whole **surface** the ticket touched — its existing cases, states, and in-scope widths — not only the ticket's own AC lines | A component passed on one screen while the defect sat on another screen reusing it |",
-   "replaced_by": [
-    "| MUST cover the whole **surface** a ticket touched (its existing cases), not only the ticket's own AC lines | A card passed while the bug sat on the detail page that reused it |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) and MUST NOT accept `complete` / `correct` / `properly` / `ครบถ้วน` / `ถูกต้อง` alone as an expected | \"Shows A, B, C\" passes a wrecked screen — that screen produced five customer bugs |",
-   "replaced_by": [
-    "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) | \"Shows A, B, C\" passes a wrecked screen |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST state an expected's **verification method** (endpoint + permission) when the UI does not display the value; no method ⇒ the scenario is BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |",
-   "replaced_by": [
-    "| MUST state the verification method (endpoint + permission) for any expected the UI does not display, at the time the case is written; no method ⇒ BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST confirm the standing realistic fixture exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | One course with one media item can never overflow, wrap, or scroll |",
-   "replaced_by": [
-    "| MUST verify the standing realistic fixture set exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | A one-item fixture cannot overflow, wrap, or scroll |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST bind results to a build/commit id and re-run any surface changed after the run before results are handed over | 122/122 passed against a build the customer never saw |",
-   "replaced_by": [
-    "| MUST bind results to a build/commit id and re-run any surface changed after the run before delivering | 122/122 passed against a build the customer never saw |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST preflight the authenticated session (see the user in the session response) and confirm a toggle's starting state before pressing it | A dead session reported \"no defects\" for a whole set; a two-way button measured the opposite direction |",
-   "replaced_by": [
-    "| MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported \"no defects\" for an entire set |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty tracking field was read as \"never tested\" and became a wrong number-one root cause |",
-   "replaced_by": [
-    "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as \"never tested\" and became a wrong number-one root cause |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST run the cross-ticket conflict check before calling the session done — stated once at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |",
-   "replaced_by": [
-    "| MUST run the cross-ticket conflict check before calling the session done — at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |"
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "9. 🔴 GATE: confirm before the first Playwright run — stated once at WORKFLOW Phase C (bot-run branch included).",
-   "replaced_by": [
-    "9. 🔴 GATE: confirm before the first Playwright run — WORKFLOW Phase C (bot-run branch included)."
-   ],
-   "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
-  },
-  {
-   "removed": "| MUST NOT use a hedge word (`probably`, `น่าจะ`, `flaky`, `cache issue`, …) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |",
-   "replaced_by": [
-    "| MUST NOT use a hedge word from the [§4 banned list](#hedges) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, or infer one from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |",
-   "replaced_by": [
-    "| MUST NOT give as a cause a [banned hedge](root-cause-investigation.md#hedges), the symptom itself, or one inferred from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "Read only when the routed workflow reaches that step (the router never opens these; each stays one hop from here only because the shared rules above MUST-link it — skill-lint must-read-depth):",
-   "replaced_by": [
-    "**Not opened by the router** — the routed workflow reads each at the step named; listed only because the shared rules above MUST-link them (skill-lint must-read-depth):"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.",
-   "replaced_by": [
-    "Checklist, Refusal-first, Phases A–B and MUST / NEVER live here; each later phase has its own file, opened at its checklist line."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "**Gates:** MUST NOT create issues until Phase C confirm. MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.",
-   "replaced_by": [
-    "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
-    "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]",
-    "**Gates:** MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "If pre-flight fails (auth, repo missing), report and stop — MUST NOT create issues silently.",
-   "replaced_by": [
-    "**🔴 STOP — pre-flight fails** (auth, repo missing) → report it; MUST NOT create issues silently."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of it before you move on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.",
-   "replaced_by": [
-    "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line before moving on. Read shared-must-never.md (linked in MUST / NEVER) before the first write."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create on another path blind.",
-   "replaced_by": [
-    "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create blind."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "- NEVER call create APIs before Phase C confirm.",
-   "replaced_by": [
-    "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
-    "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "NEVER hardcode transition names in the skill — Jira workflows differ per project.",
-   "replaced_by": [
-    "| MUST take transition names/ids, notify-helper flags, app URL shapes and UI-automation quirks from the workspace's project guide — never from a value written in this skill | Workflows, tooling and UI differ per project; a value hardcoded here transitions the wrong ticket somewhere else (portable-content.md) |"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's own field names (**Expected Result** / **Actual Result**) so a reader lines the comment up against the ticket without translating, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
-   "replaced_by": [
-    "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.",
-   "replaced_by": [
-    "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "MUST NOT post the full TC table until **Ready for draft: YES**.",
-   "replaced_by": [
-    "🔴 **STOP —** MUST NOT post the full TC table until **Ready for draft: YES**."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: deliver the G1 file instead,",
-   "replaced_by": [
-    "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: write the G1 default CSV (`references/{SCOPE}_API_TC.csv`)"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** — raw `<br>` renders as literal text on Jira. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)",
-   "replaced_by": [
-    "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (ADF `hardBreak`, G2 step 1) — never copy the chat draft directly. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)"
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
-  },
-  {
-   "removed": "Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (when content item 6 applies). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.",
-   "replaced_by": [
-    "| MUST append disclaimer as last line of comment after all attachment links — exact text, no translation | Required quality gate for all TC FE deliverables |",
-    "| **MUST NOT drop any required comment element when regenerating or re-posting** — every rebuild MUST include: (1) table with all TC rows, (2) Attachments heading + all file links, (3) Remark block when Figma/PRD absent or any Type has zero TCs, (4) Disclaimer as last line. Run pre-publish re-check table before every post. Fixing TC text ≠ permission to omit the rest. | Partial rebuild silently loses mandatory elements — user must not discover missing content by inspection |"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa 14a65db3 (tc-fe-prep)"
-  },
-  {
-   "removed": "3. Phase A — intake; 🔴 GATE: wait for the required fields.",
-   "replaced_by": [
-    "5. Phase A — intake; 🔴 GATE: wait for the required fields."
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "6. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation.",
-   "replaced_by": [
-    "8. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation."
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "- **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` / `get_design_context`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in a Figma URL uses `-`, the MCP `nodeId` uses `:` (`?node-id=1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough.",
-   "replaced_by": [
-    "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "| MUST complete the 8-boundary sweep and write `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |",
-   "replaced_by": [
-    "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "| MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label into every destination the sentence is copied to | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |",
-   "replaced_by": [
-    "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from another scenario/role/record | Hedged guessing is still guessing, and it ships as QA's finding |",
-   "replaced_by": [
-    "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
-  },
-  {
-   "removed": "document are written in different languages → 🔴 **STOP —** ask the user once which language to write the review in.",
-   "replaced_by": [
-    "the two differ → 🔴 **STOP —** in one message ask which language to write the review in and the Step 5 destination"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
-  },
-  {
-   "removed": "- **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already",
-   "replaced_by": [
-    "- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it; #0059)."
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
-  },
-  {
-   "removed": "in config, so asking again is a repeat question (#0059). 🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or",
-   "replaced_by": [
-    "🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or"
-   ],
-   "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
-  },
-  {
-   "removed": "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) → do not invent a status for the affected error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.",
-   "replaced_by": [
-    "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope."
-   ],
-   "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); main thread checked: narrowed per ols-qa docs/sdd/after14-tc-api R7 (verified S3 finding: phase-d-scope-design.md:17 contradicted spec-coverage-review.md:28); STOP kept when Swagger and spec both state no status"
-  },
-  {
-   "removed": "| MUST settle in writing which screen widths are in scope, run every in-scope width as its own lane, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |",
-   "replaced_by": [
-    "| MUST settle in writing which screen widths are in scope, run every in-scope width as its own row, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |"
-   ],
-   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: lane→row wording (ols-qa#242); every in-scope width still runs"
-  },
-  {
-   "removed": "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on PD3-style envs |",
-   "replaced_by": [
-    "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on VPN-only envs |"
-   ],
-   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: rationale column only (PD3-style→VPN-only); rule text unchanged"
-  },
-  {
-   "removed": "🔴 **GATE — STOP: Do not post until the user approves** (unless they explicitly waive approval) — through the single",
-   "replaced_by": [
-    "🔴 **GATE — STOP: Do not post until the user approves** (or delegated that action by name — 6d *Delegated actions*) — through the single"
-   ],
-   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
-  },
-  {
-   "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
-   "replaced_by": [
-    "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names; `Evidence` and the API-bug variant follow **Evidence per row** above. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
-   ],
-   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
-  },
-  {
-   "removed": "3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).",
-   "replaced_by": [
-    "3. If any check fails → fix → PUT the corrected body to the **same comment id** in the Step 3 format (edit in place, never a new POST) → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check)."
-   ],
-   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
-  }
- ]
+  "entries": [
+    {
+      "removed": "Each excuse below is already answered by the rule named after it — stop and apply that rule: \"they said three, so three\" / \"one finding looks lazy\" (Iron Law: the count is what survives) · \"the file timestamp proves it\" (step 3: a proxy governs nothing) · \"nothing backs it, so it is false\" (Quick reference: unsourced claim or Question) · \"I know this API\" / \"the URL is probably right\" (Iron Law: open and quote the source) · \"fix it where it showed up\" (step 7: owning layer) · \"the title should also change\" (MUST NOT rewrite) · \"it passed the second time\" (flaky is FAILED) · \"probably the cache\" / \"`Suspected` is allowed\" / \"the guess was right\" (Hedged conclusions rules 2–4).",
+      "replaced_by": [
+        "## Rationalizations — STOP"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST verify the expected side against its governing source before reporting a defect |",
+      "replaced_by": [
+        "| MUST verify the expected side against its governing source before reporting a defect | A guess dressed as spec wastes a retest |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST report the count that survives verification, never the count claimed |",
+      "replaced_by": [
+        "| MUST report the count that survives verification, never the count claimed | Matching a claimed number is fabrication |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST open every source cited in a recommendation |",
+      "replaced_by": [
+        "| MUST open every source cited in a recommendation | A remembered citation is an invented one |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST attach a prevention layer to every defect |",
+      "replaced_by": [
+        "| MUST attach a prevention layer to every defect | Without it the finding comes back |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST treat every conclusion closed on a hedge as a Defect (hedged conclusion) and dig it to the deepest layer until Confirmed |",
+      "replaced_by": [
+        "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT write a hedge in any conclusion line of the report, or let a `Suspected` cause close a defect while its confirming check can be run |",
+      "replaced_by": [
+        "| MUST apply [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 2–5 | A quiet guess ships as fact |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes |",
+      "replaced_by": [
+        "| MUST NOT run a command or call that writes, sends, deletes or changes state during any step (Procedure 4 and 7, Hedged conclusions rule 3) without the owner's yes | An audit must not change what it audits |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT file a Jira bug from this workflow |",
+      "replaced_by": [
+        "| MUST NOT file a Jira bug from this workflow | Filing belongs to `create-bug-workflow` |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) |",
+      "replaced_by": [
+        "| MUST NOT rewrite the audited work beyond the reported corrections, and apply those only after the owner approves them (CHECKPOINT after step 9) | An unasked edit changes delivered work |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| NEVER replace a Severity the reporter gave with your own reading — a value the matrix cannot place is a question to the reporter (Phase A3, item 3), not a correction | The reporter's severity is the title bracket; a guessed one misroutes triage |",
+      "replaced_by": [
+        "| NEVER replace a reporter-given Severity or Priority with your own pick (Phase A3 item 3) | A guessed value misroutes triage |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST use only the bug-priority-matrix vocabulary for Priority and Severity and cite the cell (Severity value from the reporter, Priority from the cell; a reporter value the cell does not match is asked, never replaced — Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |",
+      "replaced_by": [
+        "| MUST use only the bug-priority-matrix vocabulary and cite the cell (Phase A3) | An invented scale cannot be compared with the verdicts that use the matrix |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST enumerate **every** Expected-Result item + bug-detail bullet char-exact at Step 2, map each `ER*` id 1:1 to a verdict-table row, and reconcile `enumerated ids == rowed-and-statused rows` (`{n}/{total}` coverage, `{n}=={total}`) before Step 6 / 8·0 (7-layer coverage gate in [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md)) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |",
+      "replaced_by": [
+        "| MUST enumerate every Expected-Result item + bug-detail bullet at Step 2 and reconcile ids == rows before Step 6 / 8·0 — rule stated once at [coverage gate](#coverage-gate) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST record **every** expected-result/detail result as its own verdict-table row — NEVER park an untested/failing item in a remark, a note under the table, or chat while the verdict reads PASSED | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |",
+      "replaced_by": [
+        "| MUST record every expected-result/detail result as its own row, never in a remark, note or chat — rule stated once at [coverage gate](#coverage-gate) | Coverage is proven by rows, not prose beside them; a footnoted gap reads as a clean pass downstream |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status (coverage gate fail-closed) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |",
+      "replaced_by": [
+        "| MUST NOT transition, notify, or report \"done\" while any enumerated item lacks a rowed status — rule stated once at [coverage gate](#coverage-gate) | Partial coverage is a stop condition; a green verdict over an incomplete table looks finished but is not |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike), starting by invoking `superpowers:systematic-debugging` (Phases 1–3) and naming it in the comment | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |",
+      "replaced_by": [
+        "| MUST run the Step 4h root-cause investigation for EVERY non-PASSED item (FAILED and BLOCKED alike) and name the debugging skill in the comment — rule stated once at [root cause](#root-cause) | Improvised reasoning is where guessing enters; the process is also faster than guess-and-check |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the Step 4i challenge gate for EVERY non-PASSED item — re-verify the expected side char-exact against an authoritative source **including related/linked tickets' AC/EC**, then surface expected-vs-observed + the AC/EC finding + a recommendation (adjust expected/TC / re-test / confirm defect — the last only while the bug's ER or the task's AC is not superseded) to the user in chat before drafting the comment ([non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |",
+      "replaced_by": [
+        "| MUST run the Step 4i challenge gate for EVERY non-PASSED item and surface it in chat before drafting — rule stated once at [challenge gate](#challenge-gate) (confirm defect only while the bug's ER or the task's AC is not superseded) | A non-PASS against a stale, superseded, or misread expected is a phantom FAILED; the expected side must be earned, and adjusting a spec or re-testing is the user's call (PM-006) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A may then continue without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder.",
+      "replaced_by": [
+        "4. **Write failure (steps 1–2, `.md` / `.csv`):** any error (permission, missing folder, disk) → 🔴 **STOP**: report the exact error text and the exact path tried; do not say the file is ready and give no download path for it. Offer two ways forward — write to the workspace root, or to a path the user names — and write only after the user picks one. Under **both**, ask this before G2. Delivery A then continues without the attachment: the comment does not mention one and uses no `__ATT1_ID__` placeholder."
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough. Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A",
+      "replaced_by": [
+        "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, stated once at Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |",
+      "replaced_by": [
+        "| NEVER open a browser or login window for a test account, and never ask for, collect or fill a password — login by command, Phase D *Login reuse* and *Fresh login* | Login windows popped a chain of windows at the person; owner order 2026-10-21: login by command, as in the e2e suite |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST pass the 7-layer AC/EC coverage gate — stated once at Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |",
+      "replaced_by": [
+        "| MUST pass the 7-layer AC/EC coverage gate — Phase B step 3, Phase E *Cover every enumerated AC/EC id* and Phase F *AC/EC coverage reconciliation* | The run's scope is the ticket's AC/EC contract; a card was once passed with the gap footnoted in a remark — coverage is proven by rows, and \"works except one point\" reads as a clean pass downstream |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST pass the Phase C confirm gate before the first Playwright run — rule stated once at Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |",
+      "replaced_by": [
+        "| MUST pass the Phase C confirm gate before the first Playwright run — Phase C | Owner decision D2 (wait for the user's confirm before the first run): the user approves scope, environment and accounts before anything runs; the wait is once, never mid-run |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST drive each scenario through its real surface — stated once at Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |",
+      "replaced_by": [
+        "| MUST drive each scenario through its real surface — Phase E *Real surface* | [test-through-real-steps.md](../../../references/test-through-real-steps.md) — an API shortcut for a UI action tests the wrong layer and can pass while the screen is broken |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate, stated once in [qa-evidence-gates.md](../../../references/qa-evidence-gates.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |",
+      "replaced_by": [
+        "| MUST attach complete evidence to every case **and every role the case names** before the story is \"done\" — the 5-step gate in [qa-evidence-capture.md](../../../references/qa-evidence-capture.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported \"100% passed\" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — stated once at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |",
+      "replaced_by": [
+        "| MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — stated once at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |",
+      "replaced_by": [
+        "| MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST compare every UI scenario against its design node — rule stated once at Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |",
+      "replaced_by": [
+        "| MUST compare every UI scenario against its design node — Phase B step 4 and E0 (steps 1, 6, 7) | An all-present, mis-ordered screen passes a \"shows A, B, C\" expected (the set that shipped 25 customer-found defects contained the word `figma` zero times); an assumed expected produces both phantom defects and false passes (post-mortem PM-006 — bug filed on an unopened spec) |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST cover the whole **surface** the ticket touched — its existing cases, states, and in-scope widths — not only the ticket's own AC lines | A component passed on one screen while the defect sat on another screen reusing it |",
+      "replaced_by": [
+        "| MUST cover the whole **surface** a ticket touched (its existing cases), not only the ticket's own AC lines | A card passed while the bug sat on the detail page that reused it |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) and MUST NOT accept `complete` / `correct` / `properly` / `ครบถ้วน` / `ถูกต้อง` alone as an expected | \"Shows A, B, C\" passes a wrecked screen — that screen produced five customer bugs |",
+      "replaced_by": [
+        "| MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) | \"Shows A, B, C\" passes a wrecked screen |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST state an expected's **verification method** (endpoint + permission) when the UI does not display the value; no method ⇒ the scenario is BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |",
+      "replaced_by": [
+        "| MUST state the verification method (endpoint + permission) for any expected the UI does not display, at the time the case is written; no method ⇒ BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST confirm the standing realistic fixture exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | One course with one media item can never overflow, wrap, or scroll |",
+      "replaced_by": [
+        "| MUST verify the standing realistic fixture set exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | A one-item fixture cannot overflow, wrap, or scroll |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST bind results to a build/commit id and re-run any surface changed after the run before results are handed over | 122/122 passed against a build the customer never saw |",
+      "replaced_by": [
+        "| MUST bind results to a build/commit id and re-run any surface changed after the run before delivering | 122/122 passed against a build the customer never saw |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST preflight the authenticated session (see the user in the session response) and confirm a toggle's starting state before pressing it | A dead session reported \"no defects\" for a whole set; a two-way button measured the opposite direction |",
+      "replaced_by": [
+        "| MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported \"no defects\" for an entire set |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty tracking field was read as \"never tested\" and became a wrong number-one root cause |",
+      "replaced_by": [
+        "| MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as \"never tested\" and became a wrong number-one root cause |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST run the cross-ticket conflict check before calling the session done — stated once at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |",
+      "replaced_by": [
+        "| MUST run the cross-ticket conflict check before calling the session done — at *QA closing* ([qa-closing-shared.md](../../../references/qa-closing-shared.md#cross-ticket-conflict-check)) | Another ticket in the same project can contradict, supersede, or duplicate what was just verified; a check limited to the tested ticket never sees it |"
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "9. 🔴 GATE: confirm before the first Playwright run — stated once at WORKFLOW Phase C (bot-run branch included).",
+      "replaced_by": [
+        "9. 🔴 GATE: confirm before the first Playwright run — WORKFLOW Phase C (bot-run branch included)."
+      ],
+      "approval": "Owner 12/Nov/2026 (popup, T7b sync): chose the rule reword register — T7b root-cause fixes reworded these rule lines without weakening them."
+    },
+    {
+      "removed": "| MUST NOT use a hedge word (`probably`, `น่าจะ`, `flaky`, `cache issue`, …) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |",
+      "replaced_by": [
+        "| MUST NOT use a hedge word from the [§4 banned list](#hedges) as a cause | Hedged guessing is still guessing, and it is published as QA's finding |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, or infer one from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |",
+      "replaced_by": [
+        "| MUST NOT give as a cause a [banned hedge](root-cause-investigation.md#hedges), the symptom itself, or one inferred from another record / role / run / entry point | Hedged guessing is still guessing, and it publishes as QA's finding |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "Read only when the routed workflow reaches that step (the router never opens these; each stays one hop from here only because the shared rules above MUST-link it — skill-lint must-read-depth):",
+      "replaced_by": [
+        "**Not opened by the router** — the routed workflow reads each at the step named; listed only because the shared rules above MUST-link them (skill-lint must-read-depth):"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–B) and MUST / NEVER. Each later phase lives in its own file next to this one; open it when its checklist line is reached, not before.",
+      "replaced_by": [
+        "Checklist, Refusal-first, Phases A–B and MUST / NEVER live here; each later phase has its own file, opened at its checklist line."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "**Gates:** MUST NOT create issues until Phase C confirm. MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies.",
+      "replaced_by": [
+        "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
+        "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]",
+        "**Gates:** MUST NOT file without evidence. MUST verify each URL in Phase F before saying done — because create APIs can return IDs for empty bodies."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "If pre-flight fails (auth, repo missing), report and stop — MUST NOT create issues silently.",
+      "replaced_by": [
+        "**🔴 STOP — pre-flight fails** (auth, repo missing) → report it; MUST NOT create issues silently."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line of it before you move on. Read shared-must-never.md (linked in MUST / NEVER) before the first write.",
+      "replaced_by": [
+        "At Phase D, open [phase-d-create.md](phase-d-create.md) and follow every line before moving on. Read shared-must-never.md (linked in MUST / NEVER) before the first write."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create on another path blind.",
+      "replaced_by": [
+        "- **The search itself cannot run** → **STOP**: ask the user to check the board before any retry. Never create blind."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- NEVER call create APIs before Phase C confirm.",
+      "replaced_by": [
+        "| NEVER call a create API before the user replies **confirm** in Phase C | An unapproved issue is public at once and must be cleaned up by hand |",
+        "## 🔴 GATE: Phase C — Confirm before create (hard gate) [low freedom]"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "NEVER hardcode transition names in the skill — Jira workflows differ per project.",
+      "replaced_by": [
+        "| MUST take transition names/ids, notify-helper flags, app URL shapes and UI-automation quirks from the workspace's project guide — never from a value written in this skill | Workflows, tooling and UI differ per project; a value hardcoded here transitions the wrong ticket somewhere else (portable-content.md) |"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's own field names (**Expected Result** / **Actual Result**) so a reader lines the comment up against the ticket without translating, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
+      "replaced_by": [
+        "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". The MP4 is the retest evidence — it replaces the former screenshot-only rule. Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; **never Playwright `recordVideo`**, whose 1 Mbps VP8 cap makes the picture pump and whose fixed-grid padding makes it judder; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done.",
+      "replaced_by": [
+        "- At step 5, **record a whole-flow MP4 for every executed case, and for every role the case or the bug detail names** (drive the case's real steps end-to-end, same capture the story-testing flow uses). 5 roles named = 5 clips, named `{KEY}_TC_{nn}_{ROLE}.mp4`; a role you could not exercise is a **BLOCKED row naming that role and the blocker**, never \"same as the other role\". Record with the QA toolkit's `capture/qa_recorder.js` (never Playwright `recordVideo`) — it writes the provenance manifest and runs `capture/verify_video.py` on the clip before it returns. Every clip MUST clear the **[MP4 7-layer quality + correctness gate](../../../references/qa-evidence-capture.md)** (the capture spec — 1920×1080, dsf 2, CRF 18 preset slow, yuv420p limited-range, steady picture, provenance manifest; the flow reaches the stated target — \"scroll to menu XX\" must actually arrive, never cut early; the Expected Result is visible on screen) — fail-closed: a blurry / skipped / early-cut clip = re-capture, the case is not done."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "MUST NOT post the full TC table until **Ready for draft: YES**.",
+      "replaced_by": [
+        "🔴 **STOP —** MUST NOT post the full TC table until **Ready for draft: YES**."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: deliver the G1 file instead,",
+      "replaced_by": [
+        "MCP's Confluence page-update tool. MCP unavailable or the update fails → 🔴 **STOP**: write the G1 default CSV (`references/{SCOPE}_API_TC.csv`)"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** — raw `<br>` renders as literal text on Jira. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)",
+      "replaced_by": [
+        "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (ADF `hardBreak`, G2 step 1) — never copy the chat draft directly. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)"
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); mapping reviewed by main thread"
+    },
+    {
+      "removed": "Shortcut check: scroll to bottom of the ADF `content` array — last node MUST be the Disclaimer paragraph. Second-to-last MUST be the Remark block (when content item 6 applies). If you are only fixing TC text, you MUST still rebuild the full ADF with all 5 elements intact.",
+      "replaced_by": [
+        "| MUST append disclaimer as last line of comment after all attachment links — exact text, no translation | Required quality gate for all TC FE deliverables |",
+        "| **MUST NOT drop any required comment element when regenerating or re-posting** — every rebuild MUST include: (1) table with all TC rows, (2) Attachments heading + all file links, (3) Remark block when Figma/PRD absent or any Type has zero TCs, (4) Disclaimer as last line. Run pre-publish re-check table before every post. Fixing TC text ≠ permission to omit the rest. | Partial rebuild silently loses mandatory elements — user must not discover missing content by inspection |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa 14a65db3 (tc-fe-prep)"
+    },
+    {
+      "removed": "3. Phase A — intake; 🔴 GATE: wait for the required fields.",
+      "replaced_by": [
+        "5. Phase A — intake; 🔴 GATE: wait for the required fields."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "6. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation.",
+      "replaced_by": [
+        "8. Phase C — show the intake summary + plan (with the smoke table); 🔴 GATE: wait for the user's confirmation."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "- **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide) and record the links in the plan. Opening it: prefer the **Figma Dev Mode MCP** (`get_screenshot` / `get_metadata` / `get_design_context`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in a Figma URL uses `-`, the MCP `nodeId` uses `:` (`?node-id=1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **\"Want to view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". A View+Comment account is enough.",
+      "replaced_by": [
+        "Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\" (that sends a seat request). A"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST complete the 8-boundary sweep and write `not checked` where a boundary was not reached | A boundary not captured during the run cannot be reconstructed later — reconstruction is fabrication |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST attach a captured artifact to every cause statement and label it `Confirmed` / `Suspected` / `Unknown — not investigated`, carrying the label into every destination the sentence is copied to | A `Suspected` cause read as `Confirmed` sends a developer to the wrong layer |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "| MUST NOT use a hedge (`probably`, `น่าจะ`, `seems`, `flaky`, `cache issue`, `environment issue`) as a cause, restate the symptom as the cause, or infer a cause from another scenario/role/record | Hedged guessing is still guessing, and it ships as QA's finding |",
+      "replaced_by": [
+        "| MUST pass every rule in [root-cause-investigation.md § MUST / NEVER](../../../references/root-cause-investigation.md#must--never) at E2 (8-boundary sweep with `not checked` · captured artifact + `Confirmed` / `Suspected` / `Unknown — not investigated` label on every cause, carried into every destination · no [banned hedge](../../../references/root-cause-investigation.md#hedges), symptom or inferred cause as a cause · no product-code patch) | One canonical copy; the rules and their reasons live there |"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa e7e5121d (testing-ticket)"
+    },
+    {
+      "removed": "document are written in different languages → 🔴 **STOP —** ask the user once which language to write the review in.",
+      "replaced_by": [
+        "the two differ → 🔴 **STOP —** in one message ask which language to write the review in and the Step 5 destination"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
+    },
+    {
+      "removed": "- **Project has a channel in config → NEVER ask which server, group, or channel** — the answer is already",
+      "replaced_by": [
+        "- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it; #0059)."
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
+    },
+    {
+      "removed": "in config, so asking again is a repeat question (#0059). 🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or",
+      "replaced_by": [
+        "🔴 **CHECKPOINT —** Ask exactly one question: which thread of that channel to post in (the only exception is the missing mention id, item 1, when config has none). Offer the threads already used for this ticket or"
+      ],
+      "approval": "owner 2026-11-12 (chat popup): \"อนุมัติ ลงทะเบียนทั้ง 10\" — reworded in ols-qa PR #200 (tc-review)"
+    },
+    {
+      "removed": "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) → do not invent a status for the affected error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.",
+      "replaced_by": [
+        "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope."
+      ],
+      "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); main thread checked: narrowed per ols-qa docs/sdd/after14-tc-api R7 (verified S3 finding: phase-d-scope-design.md:17 contradicted spec-coverage-review.md:28); STOP kept when Swagger and spec both state no status"
+    },
+    {
+      "removed": "| MUST settle in writing which screen widths are in scope, run every in-scope width as its own lane, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |",
+      "replaced_by": [
+        "| MUST settle in writing which screen widths are in scope, run every in-scope width as its own row, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |"
+      ],
+      "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: lane→row wording (ols-qa#242); every in-scope width still runs"
+    },
+    {
+      "removed": "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on PD3-style envs |",
+      "replaced_by": [
+        "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on VPN-only envs |"
+      ],
+      "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: rationale column only (PD3-style→VPN-only); rule text unchanged"
+    },
+    {
+      "removed": "🔴 **GATE — STOP: Do not post until the user approves** (unless they explicitly waive approval) — through the single",
+      "replaced_by": [
+        "🔴 **GATE — STOP: Do not post until the user approves** (or delegated that action by name — 6d *Delegated actions*) — through the single"
+      ],
+      "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
+    },
+    {
+      "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
+      "replaced_by": [
+        "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names; `Evidence` and the API-bug variant follow **Evidence per row** above. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
+      ],
+      "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
+    },
+    {
+      "removed": "3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).",
+      "replaced_by": [
+        "3. If any check fails → fix → PUT the corrected body to the **same comment id** in the Step 3 format (edit in place, never a new POST) → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check)."
+      ],
+      "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
+    },
+    {
+      "removed": "Several plausible cells in the reporter's Severity row is **not** a STOP: cite the closest cell, draft the bug, and carry the",
+      "replaced_by": [
+        "| 🔴 STOP — Ask, never decide: no Severity given, the given word is not a matrix row, the Severity row has only `N/A` or no matching cell, or the reporter's Priority differs from the matrix cell | Show that matrix row (and the cell) and ask the reporter to choose; a reporter-given Priority is never silently replaced by your own pick; draft nothing until they answer |",
+        "| Several plausible cells in the reporter's Severity row | Not a STOP: cite the closest cell, draft the bug, carry the choice to Phase C as a **Likely** open question (phase-b3-falsification.md) |",
+        "## 🔴 GATE: Phase B3 — Falsification (before create) [high freedom]",
+        "At Phase B3, open [phase-b3-falsification.md](phase-b3-falsification.md) and follow every line before moving on. 🔴 GATE: no candidate reaches Phase C until it survives falsification."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "All preconditions and refusal rules are in WORKFLOW.md. MUST NOT create issues until the user approves each draft. MUST re-check the tracker/board first (WORKFLOW Phase B2): a defect a prior/closed ticket already settled as intended behavior is not a bug — report it to the user with the reference link instead of filing.",
+      "replaced_by": [
+        "All preconditions and refusal rules are in WORKFLOW.md. MUST NOT create issues before the Phase C **confirm**; MUST re-check the board first (Phase B2) — a defect an earlier ticket settled as intended is reported with its link, not filed."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| NEVER count or mention a struck-through AC/EC |",
+      "replaced_by": [
+        "| NEVER count or mention a struck-through AC/EC | The ticket crossed it out. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "4. **Inspect the actual side directly** — read the file, run the command, call the endpoint, open the screen. Capture verbatim. Read-only inspection only, in this step and in every later check (step 7, [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rule 3): a command or call that writes, sends, deletes or changes state (POST/PUT/DELETE, a migration, a post, a create) → 🔴 ask the owner first and wait; without that yes the item is a Question. Output: the verbatim actual next to each item.",
+      "replaced_by": [
+        "- 🔴 A command or call that writes, sends, deletes or changes state (POST/PUT/DELETE, a migration, a post, a create) needs the owner's yes first; wait for it. Without that yes the item is a Question."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST NOT include local file paths in Jira comments (`docs/result/`, absolute home/machine paths, etc.) | Meaningless to Jira readers; the owner flagged this as a repeat mistake |",
+      "replaced_by": [
+        "| MUST NOT include local file paths in Jira comments (`docs/result/`, `docs/`, `~/`, absolute home/machine paths, etc.) — scan the comment for them before posting | Meaningless to Jira readers; the owner flagged this as a repeat mistake |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat |",
+      "replaced_by": [
+        "| MUST NOT post to Jira/Confluence/GitHub or send an external message before the user has seen the review in chat | The user sees it before it goes out. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "At Phase B3, open [phase-e-falsification.md](phase-e-falsification.md) and follow every line before moving on. 🔴 GATE: no candidate reaches Phase C until it survives falsification.",
+      "replaced_by": [
+        "| 🔴 STOP — Ask, never decide: no Severity given, the given word is not a matrix row, the Severity row has only `N/A` or no matching cell, or the reporter's Priority differs from the matrix cell | Show that matrix row (and the cell) and ask the reporter to choose; a reporter-given Priority is never silently replaced by your own pick; draft nothing until they answer |",
+        "| Several plausible cells in the reporter's Severity row | Not a STOP: cite the closest cell, draft the bug, carry the choice to Phase C as a **Likely** open question (phase-b3-falsification.md) |",
+        "## 🔴 GATE: Phase B3 — Falsification (before create) [high freedom]",
+        "At Phase B3, open [phase-b3-falsification.md](phase-b3-falsification.md) and follow every line before moving on. 🔴 GATE: no candidate reaches Phase C until it survives falsification."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| **MUST NOT drop any required comment element when regenerating or re-posting** — every rebuild MUST include: (1) table with all TC rows, (2) Attachments heading + all file links, (3) Remark block when Figma/PRD absent or any Type has zero TCs, (4) Disclaimer as last line. Run pre-publish re-check table before every post. Fixing TC text ≠ permission to omit the rest. | Partial rebuild silently loses mandatory elements — user must not discover missing content by inspection |",
+      "replaced_by": [
+        "| **MUST NOT drop any required comment element when regenerating or re-posting** — every rebuild MUST include: (1) table with all TC rows, (2) all attachment links, (3) a skip-note per Type with zero TCs, (4) Remark block when Figma/PRD absent, any Type has zero TCs or a BLOCKED case has no sheet row, (5) Disclaimer as last line. Run pre-publish re-check table before every post. Fixing TC text ≠ permission to omit the rest. | Partial rebuild silently loses mandatory elements — user must not discover missing content by inspection |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it (or get an explicit user waiver) first. Never move a bug's status on an evidence-incomplete comment.",
+      "replaced_by": [
+        "If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it first — an FE MP4 / still gap is never waived (WORKFLOW *MUST / NEVER*); any other item only by the user's explicit waiver of that item. Never move a bug's status on an evidence-incomplete comment."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST give every Need Improve item a sourced \"→ Suggest:\" fix, and NEVER invent a value for it |",
+      "replaced_by": [
+        "| MUST give every Need Improve item a sourced \"→ Suggest:\" fix, and NEVER invent a value for it | An unsourced fix is a guess. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "3. **🔴 STOP — Ask, never decide** — when no Severity was given, the given word is not a matrix row, or the",
+      "replaced_by": [
+        "| 🔴 STOP — Ask, never decide: no Severity given, the given word is not a matrix row, the Severity row has only `N/A` or no matching cell, or the reporter's Priority differs from the matrix cell | Show that matrix row (and the cell) and ask the reporter to choose; a reporter-given Priority is never silently replaced by your own pick; draft nothing until they answer |",
+        "| Several plausible cells in the reporter's Severity row | Not a STOP: cite the closest cell, draft the bug, carry the choice to Phase C as a **Likely** open question (phase-b3-falsification.md) |",
+        "## 🔴 GATE: Phase B3 — Falsification (before create) [high freedom]",
+        "At Phase B3, open [phase-b3-falsification.md](phase-b3-falsification.md) and follow every line before moving on. 🔴 GATE: no candidate reaches Phase C until it survives falsification."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST NOT patch product code — QA diagnoses and hands off the isolated boundary + evidence | Fixing the product is dev's decision, not QA's |",
+      "replaced_by": [
+        "| MUST NOT patch product code unless the user explicitly asks — QA diagnoses and hands off the isolated boundary + evidence | Fixing the product is dev's decision, not QA's |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST give every table column an explicit English header; row-number column = `No.` | bare `#` renders as a blank header cell in Jira |",
+      "replaced_by": [
+        "| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy: every column carries an explicit, **bold**, English header, row-number column = `No.` | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24); a bare `#` renders as a blank header cell and Jira does not auto-bold markdown headers |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "**Timezone:** All datetimes MUST be displayed in **Bangkok time (ICT, UTC+7)**. Convert from UTC or any other timezone before displaying — never show UTC or raw platform timestamps.",
+      "replaced_by": [
+        "**Timezone:** All datetimes MUST be displayed in the project guide's display timezone (default **Bangkok time, ICT, UTC+7**). Convert from UTC or any other timezone before displaying — never show UTC or raw platform timestamps."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST report a wrong thing observed while checking something else, even when no expected asked for it | The badge-overflow defect was on screen and unremarked |",
+      "replaced_by": [
+        "| MUST report anything wrong observed during a run, including while checking something else, even when no AC or expected asked for it | The badge-overflow defect was on screen and unremarked while \"Badges render correctly\" was written |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each; untried paths written `not tested` | A path with no evidence row is a guess published as a finding |",
+      "replaced_by": [
+        "| MUST capture the E1 repro shape during the run: exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each, untried paths written `not tested`; hard-reload every surface after a state-changing fixture step before observing it, a stale-data window being a separate timing note with a measured delay, never a repro row; resolve any disagreement between your own observations with one clean re-run before writing F2/F3, unresolvable → BLOCKED, not FAILED | A path with no evidence row is a guess published as a finding; an already-open view holds pre-change data, so recording it publishes your test timing as product behavior; resolving a disagreement in favour of the result you already wrote is how a wrong repro path ships |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST get user sign-off per chunk before merge to master sheet | Avoid silent scope creep |",
+      "replaced_by": [
+        "| MUST get user sign-off per chunk before rolling the chunk into the final delivery (comment or file) | Avoid silent scope creep |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST bold every table header cell (`\\| **No.** \\| **Test Case** \\| …`) | Jira doesn't auto-bold markdown headers; non-bold looks unprofessional |",
+      "replaced_by": [
+        "| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy: every column carries an explicit, **bold**, English header, row-number column = `No.` | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24); a bare `#` renders as a blank header cell and Jira does not auto-bold markdown headers |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST read the ticket's own AC/EC/business-rules text this session before writing any finding |",
+      "replaced_by": [
+        "| MUST read the ticket's own AC/EC/business-rules text this session before writing any finding | Memory of a similar ticket invents findings. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST scan Jira comment for local paths before posting | Catches leaks: `docs/`, `~/`, absolute paths |",
+      "replaced_by": [
+        "| MUST NOT include local file paths in Jira comments (`docs/result/`, `docs/`, `~/`, absolute home/machine paths, etc.) — scan the comment for them before posting | Meaningless to Jira readers; the owner flagged this as a repeat mistake |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST resolve any disagreement between your own observations with one clean re-run before writing F2/F3; unresolvable → BLOCKED, not FAILED | Resolving it in favour of the result you already wrote is how a wrong repro path ships |",
+      "replaced_by": [
+        "| MUST capture the E1 repro shape during the run: exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each, untried paths written `not tested`; hard-reload every surface after a state-changing fixture step before observing it, a stale-data window being a separate timing note with a measured delay, never a repro row; resolve any disagreement between your own observations with one clean re-run before writing F2/F3, unresolvable → BLOCKED, not FAILED | A path with no evidence row is a guess published as a finding; an already-open view holds pre-change data, so recording it publishes your test timing as product behavior; resolving a disagreement in favour of the result you already wrote is how a wrong repro path ships |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| NEVER report a business rule or comment that does not conflict with an AC/EC |",
+      "replaced_by": [
+        "| NEVER report a business rule or comment that does not conflict with an AC/EC | Only a conflict changes what a TC must test. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST distinguish a spec-level gap (missing from the ticket's own AC list) from a TC-authoring defect |",
+      "replaced_by": [
+        "| MUST distinguish a spec-level gap (missing from the ticket's own AC list) from a TC-authoring defect | The fix owner differs (PO, TC author). |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "The glossary itself is **project data, not skill content**. Its published-sheet URL, tab name, `gid`, and local CSV path are recorded in the workspace's own project guide (`references/<project>-project-guide.md`, § TC glossary) — see [workspace-guide-discovery.md](workspace-guide-discovery.md). Skills MUST read the location from that guide rather than hardcoding a URL.",
+      "replaced_by": [
+        "The glossary itself is **project data, not skill content**. Its published-sheet URL, tab name, `gid`, and local CSV path are recorded in the workspace's own project guide (the workflow's `references/*-guide.md`, § TC glossary) — see [workspace-guide-discovery.md](workspace-guide-discovery.md). Skills MUST read the location from that guide rather than hardcoding a URL."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST NOT record a passing status on a row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้` — it is BLOCKED, or PWMI with a bug raised | We shipped a PASSED whose own text said it could not be verified, and that was exactly the customer's bug |",
+      "replaced_by": [
+        "| MUST NOT record a passing status on a row whose actual result contains a word on the [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3 list (`caveat`, `not verifiable`, …) — it is BLOCKED, or PWMI with a bug raised | We shipped a PASSED whose own text said it could not be verified, and that was exactly the customer's bug |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST run the Step 9 pre-notify review gate (5 checks on dry-run output) before EVERY send, including resends | Catches wrong recipient/link/counts before they go live (user rule 2026-07-15) |",
+      "replaced_by": [
+        "| MUST `--dry-run` the notify before the real send, whatever the channel, and run the Step 9 pre-notify review gate (5 checks on that dry-run output) before EVERY send, including resends | Catches format errors and wrong recipient/link/counts before they go live (user rule 2026-07-15) |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–C) and MUST / NEVER. Phases D–G and QA closing live in their own files next to this one; open each when its checklist line is reached, not before.",
+      "replaced_by": [
+        "Phases A–C and MUST / NEVER are here; Phases D–G and QA closing are in files next to this one, opened at their checklist line."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST convert all datetimes to Bangkok time (ICT, UTC+7) before displaying | User's working timezone is Bangkok; raw UTC or platform timestamps cause confusion |",
+      "replaced_by": [
+        "| MUST convert all datetimes to the project guide's display timezone (default Bangkok, ICT, UTC+7) before displaying | The default user timezone is Bangkok; raw UTC or platform timestamps cause confusion |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "7. **Find the root cause of each defect** using [root-cause-investigation.md](../../references/root-cause-investigation.md) — the owning layer, not the place it surfaced. Output: one Root cause line per defect — the owning layer and a label Confirmed / Suspected / Unknown (Unknown is a Question, never a guessed fix). 🔴 `Suspected` never closes a defect: dig until `Confirmed`, or hold it open as a Question, per [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 3–4.",
+      "replaced_by": [
+        "- 🔴 `Suspected` never closes a defect: dig until `Confirmed`, or hold it open as a Question, per [Hedged conclusions](#hedged-conclusions--dig-to-the-deepest-layer-low-freedom) rules 3–4."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST use ราชบัณฑิตยสภา approved Thai term first (Step 3b); fall back to English only when no official term exists or the UI label is English | Authoritative Thai is more professional than ad-hoc transliteration or unnecessary English |",
+      "replaced_by": [
+        "| MUST use the glossary term first, then the ราชบัณฑิตยสภา approved Thai term (Step 3b); fall back to English only when no official term exists or the UI label is English | Authoritative Thai is more professional than ad-hoc transliteration or unnecessary English |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST NOT start a workflow without user picking 1–13 or naming one | Avoid wrong scope |",
+      "replaced_by": [
+        "| MUST NOT start a workflow without user picking 1–13 or naming one, imitate one from memory, or fold several asks into one question | Avoid wrong scope |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| NEVER claim a design-source (Figma/PRD) match without having opened that source this session |",
+      "replaced_by": [
+        "| NEVER claim a design-source (Figma/PRD) match without having opened that source this session | An unopened source is a guess. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST `--dry-run` Discord notify before real send | Catches format errors before they go live |",
+      "replaced_by": [
+        "| MUST `--dry-run` the notify before the real send, whatever the channel, and run the Step 9 pre-notify review gate (5 checks on that dry-run output) before EVERY send, including resends | Catches format errors and wrong recipient/link/counts before they go live (user rule 2026-07-15) |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "**Fresh-eyes:** MUST re-read the full draft table before G1/G2 when **> 15 rows** ([skill-rules-style.md](../../../references/skill-rules-style.md)).",
+      "replaced_by": [
+        "**Fresh-eyes:** MUST re-read the full draft table before G1/G2 when **> 15 rows** ([skill-rules-style.md](../../../references/skill-rules-style.md)) and print `Fresh-eyes: N rows, fixes: {ids or none}`."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "🔴 GATE — STOP: after the HTML report is opened in Chrome (Step 2.5d), if Step 2a found issues, ask in chat:",
+      "replaced_by": [
+        "🔴 GATE — STOP: after the HTML report is opened in the browser (Step 2.5d), if Step 2a found issues, ask in chat:"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST run Step 5 exactly as written — it is the single source for the notify rules |",
+      "replaced_by": [
+        "| MUST run Step 5 exactly as written — it is the single source for the notify rules | A second copy would drift. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24) |",
+      "replaced_by": [
+        "| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy: every column carries an explicit, **bold**, English header, row-number column = `No.` | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24); a bare `#` renders as a blank header cell and Jira does not auto-bold markdown headers |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST NOT record PASSED when the actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้` — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |",
+      "replaced_by": [
+        "| MUST NOT record PASSED when the actual result contains a word on the §3 list — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST show the menu from references/menu-text.md in the user's language | Same numbers and option names at every entry point; user-communication.md |",
+      "replaced_by": [
+        "| MUST show the menu from references/menu-text.md in the user's language when Opening step 4 applies | Same numbers and option names at every entry point; user-communication.md |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |",
+      "replaced_by": [
+        "| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G; NEVER hand over a result set where passed rows outnumber evidence links | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST anchor every finding to a TC/AC id or a quoted source |",
+      "replaced_by": [
+        "| MUST anchor every finding to a TC/AC id or a quoted source | An unanchored finding cannot be checked. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST only **offer**, never start a workflow automatically | Rule #5 — no unrequested side effects |",
+      "replaced_by": [
+        "| MUST only **offer**, never start a workflow automatically | No unrequested side effects |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| MUST hard-reload every surface after a state-changing fixture step before observing it; a stale-data window is a separate timing note with a measured delay, never a repro row | An already-open view holds pre-change data — recording it publishes your test timing as product behavior |",
+      "replaced_by": [
+        "| MUST capture the E1 repro shape during the run: exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each, untried paths written `not tested`; hard-reload every surface after a state-changing fixture step before observing it, a stale-data window being a separate timing note with a measured delay, never a repro row; resolve any disagreement between your own observations with one clean re-run before writing F2/F3, unresolvable → BLOCKED, not FAILED | A path with no evidence row is a guess published as a finding; an already-open view holds pre-change data, so recording it publishes your test timing as product behavior; resolving a disagreement in favour of the result you already wrote is how a wrong repro path ships |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it; #0059).",
+      "replaced_by": [
+        "- **Project has a channel in config → NEVER ask which server, group, or channel** (config answers it)."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| NEVER call paid Managed Agents API for triggers | Free hook/router only (Rule #3) |",
+      "replaced_by": [
+        "| NEVER call paid Managed Agents API for triggers | Free hook/router only — no new cost |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (ADF `hardBreak`, G2 step 1) — never copy the chat draft directly. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)",
+      "replaced_by": [
+        "- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (G2 step 1; rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md))"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "**Viewing a Figma supplement:** when the bug/parent references a Figma design, use the **Figma Dev Mode MCP** first (`get_screenshot` / `get_metadata`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in the URL uses `-`, the MCP `nodeId` uses `:` (`1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **\"view this file in Dev Mode?\"** modal with **\"Not now\"** — NEVER \"Request access\". View+Comment access is enough. (Figma stays a **supplement** — it never overrides the bug's own expected results.)",
+      "replaced_by": [
+        "**Viewing a Figma supplement:** open the node per [figma-design-comparison.md](../../../references/figma-design-comparison.md) §2 (Dev Mode MCP first, then the browser fallback; NEVER \"Request access\"). Figma stays a **supplement** — it never overrides the bug's own expected results."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "🔴 STOP — wait for the user's choice before starting a workflow.",
+      "replaced_by": [
+        "🔴 STOP — when a menu or suggestion was shown, wait for the user's choice before starting a workflow (a workflow named in step 1 is that choice)."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST NOT hand over a result set where passed rows outnumber evidence links | Nobody could re-examine the layouts that later produced bugs |",
+      "replaced_by": [
+        "| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G; NEVER hand over a result set where passed rows outnumber evidence links | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (near-duplicate MUST/NEVER rows): \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "- <a id=\"verdict-rule\"></a>🔴 **Verdict rule (the one rule for any difference):** a partial match is **never PASSED**. Wording is compared character by character against the Expected Result field (field id from the project guide) wherever the expected specifies exact wording. An item **observed to differ** — any difference, including one word or one pixel; there is no \"minor wording\" or \"cosmetic\" exception to *not PASSED* — is a non-PASS row whose verdict comes **only** from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md): **Lowest / Low / Medium → PWMI**, **High / Highest → FAILED**. An item **not verified / unreachable** is a **BLOCKED** row (a coverage gap, never a product FAILED). The round's summary verdict follows the rows, worst finding first: FAILED, then PWMI, then BLOCKED, then PASSED (`computedVerdict` in `tools/retest-guard/retest_manifest.js`; when the workspace has no such tool ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)), apply this order by hand from the rows and state `manifest tool not installed — verdict computed by hand` with the draft — the check is never skipped).",
+      "replaced_by": [
+        "- <a id=\"verdict-rule\"></a>🔴 **Verdict rule (the one rule for any difference):** a partial match is **never PASSED**; wording is compared character by character against the Expected Result field (field id from the project guide) wherever the expected specifies exact wording.",
+        "  - 🔴 An item **observed to differ** — any difference, including one word or one pixel; there is no \"minor wording\" or \"cosmetic\" exception to *not PASSED* — is a non-PASS row whose verdict comes **only** from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md): **Lowest / Low / Medium → PWMI**, **High / Highest → FAILED**.",
+        "  - 🔴 An item **not verified / unreachable** is a **BLOCKED** row (a coverage gap, never a product FAILED).",
+        "  - 🔴 The round's summary verdict follows the rows, worst finding first: FAILED, then PWMI, then BLOCKED, then PASSED (`computedVerdict` in `tools/retest-guard/retest_manifest.js`; when the workspace has no such tool ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)), apply this order by hand from the rows and state `manifest tool not installed — verdict computed by hand` with the draft — the check is never skipped)."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "| NEVER mark a row **Good**, or pass the document, when its Expected Result is interpreted or borrowed from another ticket, a similar feature or memory: each expected needs a quote from THIS ticket (AC/EC, design node, PRD section, or a PO/dev comment with author and date). List the rest under Need Improve as \"unverified expected\" and give the document the verdict **Unverified** |",
+      "replaced_by": [
+        "| NEVER mark a row **Good**, or pass the document, when its Expected Result is interpreted or borrowed from another ticket, a similar feature or memory: each expected needs a quote from THIS ticket (AC/EC, design node, PRD section, or a PO/dev comment with author and date). List the rest under Need Improve as \"unverified expected\" and give the document the verdict **Unverified** | A borrowed expected passes a wrong row. |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "2. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. \"approved, post to {URL}\"); a bare \"ok\", \"approved\" or \"go\" is not a post instruction — show the preview and stop.",
+      "replaced_by": [
+        "2. Check against [jira-comment-post-review.md](../../../references/jira-comment-post-review.md) § Pre-post render + media check. 🔴 **STOP — show the comment preview in chat** (same table, bold headers) and post only after the user explicitly approves this preview. Skip this preview only when the user's Phase F approval message itself gives a post instruction **and** names this destination (e.g. \"approved, post to {URL}\"); a bare \"ok\", \"approved\" or \"go\" is not a post instruction — show the preview and stop."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "🔴 When the router itself must ask (which option, which of two matching workflows), ask exactly one question, and that question asks for one item. Leave every other missing item (URL, account, browser, design node) to the routed workflow's own intake, which asks one at a time — never fold a second item into the same question, and never a numbered list of asks from the router.",
+      "replaced_by": [
+        "🔴 When the router itself must ask (which option, which of two matching workflows), ask exactly one question, and that question asks for one item (the one-time install question of session-start-context.md comes first, alone, and is not this question). Leave every other missing item (URL, account, browser, design node) to the routed workflow's own intake, which asks one at a time — never fold a second item into the same question, and never a numbered list of asks from the router."
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.",
+      "replaced_by": [
+        "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required):"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
+    },
+    {
+      "removed": "| MUST report anything wrong observed during a run even when no AC asked for it | \"Badges render correctly\" was written while the badge-overflow defect was on screen |",
+      "replaced_by": [
+        "| MUST report anything wrong observed during a run, including while checking something else, even when no AC or expected asked for it | The badge-overflow defect was on screen and unremarked while \"Badges render correctly\" was written |"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    }
+  ]
 }

@@ -12,7 +12,7 @@
 
 ## Repro — agent steps (abbreviated)
 
-1. **Phase B:** `gh auth status` OK; `gh label list` → `bug` and `severity:High` both exist.
+1. **Phase B:** `gh auth status` OK; `gh repo view example-org/checkout-ui --json name` exits 0; `gh label list` → `bug` and `severity:High` both exist.
 2. **Phase B2 (both items):** `gh issue list --state all --search '"Pay now" empty cart in:title,body,comments'` — 2 closed
    issues matched, neither concluded the button can stay enabled on an empty cart → no conflict, no duplicate. The heading search
    (`'"Order summary" in:title,body,comments'`) matched nothing.

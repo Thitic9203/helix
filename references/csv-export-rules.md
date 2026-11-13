@@ -170,33 +170,12 @@ Generate one typed CSV per Type that has TCs (Unit / Integration / System), afte
 | Integration Test | `Integration_Test_{ISSUE_KEY}.csv` | 9 Thai columns, one row per TC, no footer, UTF-8 BOM |
 | System Test | `System_Test_{ISSUE_KEY}.csv` | 9 Thai columns, one row per TC, no footer, UTF-8 BOM |
 
-### Unit Test
+Header columns, Function / Sub Function rows and row layout: [csv-template-types.md](csv-template-types.md) (single source).
 
-1. Header: `No., Sub Function, Test Scenario, Test Description, Pre-condition, Test Step, Test Data, Expected Result, Actual Result, Test status, Test Date, Test By, Comment`
-2. One `Function : <name>` header row, then per Sub Function group a `Sub Function : <name>` header row (col 1 only; cols 2–13 empty), then that group's numbered data rows
-3. No summary footer
-4. Encoding: UTF-8 BOM (`utf-8-sig`) — headers are English but cells are Thai
-
-### Integration Test / System Test
-
-1. Header: `ลำดับ, โมดูล, รายการทดสอบ, ขั้นตอนการทดสอบ, ผลการทดสอบที่คาดหวัง, ผลการทดสอบ, วันที่ทดสอบ, ผู้ทดสอบ, หมายเหตุ`
-2. One numbered data row per TC of that Type
-3. No summary footer — end after the last data row
-4. Encoding: UTF-8 BOM (`utf-8-sig`) — required for Thai to open correctly in Excel
-
-### Upload + comment link
-
-After generating the typed CSV:
-1. Upload via [jira-fast-publish.md](jira-fast-publish.md) Pattern A→B→C while on the Jira issue page
-2. Retrieve `attachment_id` from the response JSON
-3. Append link after the `Import_Qase` footer line:
-   ```
-   [Unit_Test_{ISSUE_KEY}.csv](https://{JIRA_DOMAIN}/secure/attachment/{attachment_id}/Unit_Test_{ISSUE_KEY}.csv)
-   ```
-   (substitute the filename pattern for integration/system accordingly)
+**Upload + link:** typed CSVs upload in the same [jira-fast-publish.md](jira-fast-publish.md) Pattern B call, after `Import_Qase`; each link is the ADF `__ATT{n}_ID__` node that call fills, never a markdown link.
 
 ---
 
 ## Sibling format — Test.md (agent-native)
 
-For hand-off to a Playwright/CLI agent, offer **Test.md** alongside CSV — see [test-md-format.md](test-md-format.md). Test.md is **additive**, never a replacement for CSV/Excel; both read the same reviewed chat table. Generator: [scripts/export-test-md.py](../scripts/export-test-md.py).
+For hand-off to a Playwright/CLI agent, offer **Test.md** alongside CSV — see also [test-md-format.md](test-md-format.md). Test.md is **additive**, never a replacement for CSV/Excel; both read the same reviewed chat table. Generator: [scripts/export-test-md.py](../scripts/export-test-md.py).
