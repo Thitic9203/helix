@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 11 workflow skills** into the global folders above (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -120,6 +120,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Review recorded test results and evidence | `/review-result` | `review-result-workflow` |
 | Prepare test data before testing | `/test-data-prep` | `test-data-prep-workflow` |
 | Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
+| Create / review / execute TCs with OLS or PYR project rules | `/qa-project-flow` | `qa-project-flow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -263,8 +264,27 @@ Requires `jq`. Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environm
 | [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
 | [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
 | [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
+| [qa-project-flow](skills/qa-project-flow/SKILL.md) | — (self-contained) | Project-aware flow for OLS and Pyrite (PYR): create TCs, review TCs, execute tests with each project's own TC rules |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow`, `tc-change-format-workflow` and `qa-project-flow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+
+### qa-project-flow: Qase token
+
+`qa-project-flow` creates PYR test cases in Qase and needs **your own** Qase API token. Do it once per person; never share a token in chat or commit it.
+
+1. In Qase, open your profile, then **API tokens**, and create a token (name it e.g. `helix`). Copy it once; Qase will not show it again.
+2. Save it in a file **outside any git repo** (not in this repo), for example `~/.config/qase.env`:
+   ```bash
+   mkdir -p ~/.config && touch ~/.config/qase.env && chmod 600 ~/.config/qase.env
+   echo 'export QASE_API_TOKEN=paste-your-token-here' > ~/.config/qase.env
+   ```
+3. Load it in your shell profile (`~/.zshrc` or `~/.bashrc`), then open a new terminal:
+   ```bash
+   [ -f ~/.config/qase.env ] && . ~/.config/qase.env
+   ```
+4. Check without printing the token: `[ -n "$QASE_API_TOKEN" ] && echo set || echo missing`.
+
+Rotate the token in Qase if it was ever pasted anywhere by mistake.
 
 ## Prerequisites (human)
 
