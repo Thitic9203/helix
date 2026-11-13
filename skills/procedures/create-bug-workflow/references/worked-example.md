@@ -1,7 +1,6 @@
 # Worked example (anonymized) — Create bug
 
-**Target:** GitHub `example-org/checkout-ui`  
-**Outcome:** 1 issue created and verified
+**Target:** GitHub `example-org/checkout-ui`
 
 ## Inputs
 
@@ -24,10 +23,10 @@
 4. **Draft:** title `[High] Checkout — Pay now stays enabled after the cart is emptied`; Severity High (as
    given); Priority Medium — matrix bug-priority-matrix.md:57 "functionality problem affecting **several** users"
    (Severity High row × Medium column, :42); steps copied from A3 only.
-5. **Phase C:** Showed confirm block (Board check: 2 searched — 0 dropped, 1 to file; the heading item was
-   already Dropped in Phase B3) and full draft → user `confirm`.
+5. **Phase C:** Showed confirm block (Board check: 2 searched — 0 dropped in B2, 1 dropped in B3, 1 to file)
+   and full draft → user `confirm`.
 6. **Phase D:** `gh issue create` → returned URL `https://github.com/example-org/checkout-ui/issues/88`.
-7. **Phase F:** Opened issue in browser — title and body match draft.
+7. **Phase F:** `gh issue view …/issues/88 --json title,body,labels` — title, body and labels match draft.
 
 ## Close-out line (verdict)
 
@@ -40,4 +39,4 @@ Issue: https://github.com/example-org/checkout-ui/issues/88
 
 - Phase B3 falsification: the reporter's second item (the “Order summary” heading on the payment step) matched the
   design frame char-exact — labelled **Dropped** and reported in chat with the frame link, never drafted.
-- A candidate left at Needs Review is still drafted and shown labelled "Needs Review — not filed" with its open question; it is not counted in Bug count and `confirm` does not create it.
+- A Needs Review candidate is drafted and shown labelled "Needs Review — not filed"; `confirm` does not create it.

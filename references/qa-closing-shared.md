@@ -16,7 +16,7 @@ Follow [skill-rules-style.md](skill-rules-style.md#qa-closing--doubt-and-fix-ver
 - [ ] User-facing text follows **the user's language** ([user-communication.md](user-communication.md)).
 - [ ] No success claim without **tool output** and **destination verification**.
 - [ ] Gates were not skipped (approval / confirm / refuse when inputs missing).
-- [ ] If Jira comment posted: **post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)) — no literal `<br>`/HTML tags, numbered items on separate lines, CSV/Excel attached.
+- [ ] Jira comment posted: **post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)) — no literal `<br>`/HTML, numbered items on own lines, CSV/Excel attached if generated.
 - [ ] `Verdict:` or `Verified:` line with counts in close-out block.
 
 ## Cross-ticket conflict check

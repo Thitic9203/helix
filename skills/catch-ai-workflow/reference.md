@@ -1,7 +1,5 @@
 # CatchAI Reference
 
-Definitions and templates for an audit; the discipline rules live in SKILL.md.
-
 ## Contents
 
 - [Review targets and their governing source](#review-targets-and-their-governing-source)
@@ -22,7 +20,7 @@ Definitions and templates for an audit; the discipline rules live in SKILL.md.
 | System / feature under test | Behaviour, UI, API responses, data, error paths, non-functional bars | Spec, Figma, acceptance criteria, OpenAPI/Swagger, DB schema, design tokens |
 | Test artifacts | Test cases, coverage, assertions, CI gates | The requirement each case traces to; the run's real output |
 
-A source *governs* a claim only when it defines what that claim should be. A file timestamp does not govern a "generated on" line. A sibling page does not govern this page's numbers. Your own earlier message never governs anything.
+A source *governs* a claim only when it defines what that claim should be. A file timestamp does not govern a "generated on" line. A sibling page does not govern this page's numbers.
 
 ## Evidence standard
 
@@ -51,7 +49,7 @@ Every reported item carries all five, or it is not reported:
 
 ## Coverage matrix
 
-Build this before writing the report. Judging correctness is only half the audit.
+Build this before writing the report.
 
 | Requirement / area | Checked by | Level | Gap |
 |---|---|---|---|
@@ -105,7 +103,7 @@ Ask "why does this happen?" until the answer stops moving. Stop at the layer tha
 | The place it surfaced | Round the number on the report line | Rejected — every other consumer stays wrong |
 | The owning layer | Fix the JOIN that multiplies rows | Accepted |
 
-When the cause cannot be reached — not reproducible, no access, external system — say so and recommend the instrumentation that would catch it next time. An unreached cause is a Question, never a guessed fix.
+When the cause cannot be reached — not reproducible, no access, external system — say so and recommend the instrumentation that would catch it next time.
 
 ### Prevention layers
 
@@ -154,10 +152,10 @@ Match the claim to the authority that actually defines it.
 
 ```
 Fix (Recommendation | Judgment)
-- Root cause: <the owning layer and why it produces this>
+- Root cause: <the owning layer and why it produces this> — Confirmed | Suspected | Unknown (only Confirmed closes the defect)
 - Change: <the concrete edit, file, or configuration>
 - Sources:
-  - <title>, <exact section or heading> — <URL> (version <x>, accessed <YYYY-MM-DD>)
+  - <title>, <exact section or heading> — <URL> (version <x>, accessed <YYYY-MM-DD>) | <path:line, heading> for a workspace file
     > "<quoted sentence that carries the rule>"
 - Prevention: <layer from the table> — <the specific test, constraint, rule, or gate>
 - Verification: <command or check that proves the fix, and its expected output>
@@ -169,6 +167,12 @@ Fix (Recommendation | Judgment)
 ```
 Verdict: PASSED | PWMI | FAILED | BLOCKED | No issue found
 Scope: <what was audited> · Out of scope: <what was not>
+Result quality gate: <checker's last output line | by hand, N layers × M cases | N/A — no test verdict in scope>
+
+## Classification
+| # | Item | Expected + source | Actual | Class |
+Defects (actual ≠ sourced expected): N · Unsourced claims: N · Questions: N · Clean: N
+<after a red-flag re-run only: the exit line from SKILL.md § Red flags>
 
 ## Defects
 ### 1. [Blocker] <short title>
@@ -179,6 +183,9 @@ Scope: <what was audited> · Out of scope: <what was not>
 - Impact: <who or what breaks>
 - Correction: <the proposed fix, or the corrected statement — applied only after the owner approves it>
 
+## Unsourced claims (not in the Defect count)
+- [Major | Minor] "<verbatim line>" (<path:line>) — Correction: cite the source or remove the line
+
 ## Questions (expected or actual side unconfirmed)
 - <item> — need <source or access> to confirm <exact point>
 
@@ -186,17 +193,12 @@ Scope: <what was audited> · Out of scope: <what was not>
 - <requirement> — no check at any level
 
 ## Remediation
-### For defect 1
-- Root cause: <owning layer>
-- Change: <concrete edit>
-- Sources: <title, section — URL (version, accessed date)> or <path:line, heading> for a workspace file + quoted rule
-- Prevention: <layer> — <test, constraint, rule, or gate>
-- Verification: <command and expected output>
+One remediation entry (template above) per defect, same number.
 
 ## Checked, no issue found
 - <item> — verified against <source>
 ```
 
-When nothing survives verification, the report still states it explicitly: `No issue found.` followed by what was checked and against which source.
+Nothing survived → write `No issue found.`, then what was checked against which source.
 
-A conclusion the audited work closed on a hedge goes under Defects as `[<severity>] Hedged conclusion — <the claim>`, with the hedged sentence quoted verbatim as Actual and the `Confirmed` answer (artifact cited) as Correction. Rules: SKILL.md § Hedged conclusions.
+A hedged conclusion in the audited work goes under Defects as `[<severity>] Hedged conclusion — <the claim>`: Actual = the hedged sentence verbatim, Correction = the `Confirmed` answer with its artifact (SKILL.md § Hedged conclusions).

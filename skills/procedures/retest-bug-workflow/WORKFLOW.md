@@ -308,12 +308,12 @@ The same list, with each case's outcome, goes into the `Case (Role)` cell of eve
 
 - **A design node exists and covers the screen** → record the link on the header's `Design ref:` line,
   and compare at Step 4d.
-- **Before declaring no design node**, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image).
+- **Before declaring no design node**, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7.
 - **No design node** (none linked, the link does not cover this screen, or the file is unreachable) →
   **report it back to the person or channel that assigned this retest** — state the ticket, the screen,
   where you looked, and ask for one of: the node link · a written visual contract · an explicit
   "function only, skip visual". Continue every non-visual part of the retest meanwhile; hold the visual
-  points at **BLOCKED** with the remark naming who was asked, and write the header line `Design ref: {nodes} · {screen} → none, asked {who} {YYYY-MM-DD}` ({who} = the assigner named in the request, else "assigner"; date = today). Never assume a label, an order, or a
+  points at **BLOCKED** with the remark naming who is asked, and write the header line `Design ref: {nodes} · {screen} → none, to ask {who} (not yet sent)`, and `→ none, asked {who} {YYYY-MM-DD}` once sent ({who} = the assigner named in the request, else "assigner"). Never assume a label, an order, or a
   layout, and never let a missing design turn into a PASSED.
 - **Unattended / bot mode:** send the same request to the triggering channel with the project's
   @mention, mark the visual points BLOCKED + remark, and carry on — never halt the whole retest, never

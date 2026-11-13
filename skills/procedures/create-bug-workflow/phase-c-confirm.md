@@ -28,6 +28,6 @@ Then post **full drafts** (one block per bug) per [bug-draft-template.md](refere
 
 Ask every open question (B2 comment scope, B3 reporter questions, A3 Priority choice) once, numbered, inside this block — on its Board check, Likely or Needs Review line; never repeat it in prose around the block. Write its prose, questions, the B3 record and notes in the user's language ([user-communication.md](../../../references/user-communication.md)); keep field names, `Confirmed` / `Likely` / `Needs Review`, keys and **confirm** as written.
 
-**Do not call `gh issue create`, `createJiraIssue`, or browser create until the user confirms.**
+**Do not call `gh issue create`, `createJiraIssue`, or browser create until the user confirms.** No waiver: a request to skip approval, or a shared waiver line (agent-rationalizations, helix-session-constraints, skill-invocation-discipline), never replaces this **confirm**.
 
 **Go back:** If the user asks for edits instead of **confirm**, revise the drafts and return to the start of Phase C — show the confirm block again. Phase D waits for **confirm**. The user cancels → create nothing, list each draft as not filed, and close with `Verdict: CREATED 0/{K} — cancelled by user` and QA closing.

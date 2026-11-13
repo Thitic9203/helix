@@ -12,17 +12,21 @@ Follow [posting-discipline.md](references/posting-discipline.md).
 gh issue create --repo <owner/repo> \
   --title "<title>" \
   --label "bug,severity:<Severity>" \
-  --body "<body>"
+  --body-file - <<'EOF'
+<body>
+EOF
 ```
 
 `<Severity>` is the Severity in the approved draft (Low / Medium / High / Urgent). Pass only labels the
 Phase B pre-flight found in the repo, or that the user created/approved; when the user chose to file
 without a missing label, leave it out and say so in the Phase F report. Capture the returned issue URL.
+Screenshots: gh uploads no files — embed reporter image URLs; the user attaches local files in the browser.
 
 **🔴 GATE — `gh issue create` exits non-zero** (rejected label, validation error, auth, rate limit,
-network) → treat that issue as not created until `gh issue list --repo <owner/repo> --state all
---search '"<title>" in:title'` shows otherwise (a timeout can still create it — never file twice). Show
-the user the stderr **verbatim**, which bugs were and were not created, and the fix you propose; **retry
+network) → run `gh issue list --repo <owner/repo> --state all --search '"<title>" in:title'` (a
+timeout can still create it — never file twice): an equal title → this run's issue, record its URL; none →
+not created; **the search itself fails** → **🔴 STOP:** that bug's outcome is unknown (never "not created")
+— ask the user to check the repo before any retry. Show the user the stderr **verbatim**, which bugs were and were not created, and the fix you propose; **retry
 nothing until the user approves.** Rate limit → say when `gh api rate_limit` reports the reset and
 wait for the user's go-ahead. Never strip a label, shorten the body or switch repo to make it pass.
 
@@ -30,7 +34,7 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 
 1. Lock **v2 wiki** (FE/UI) vs **v3 ADF** (API) per user format — do not switch mid-session.
 2. Create with Atlassian MCP `createJiraIssue`, with the field mapping shown in the Phase C `Fields:` line
-   (Priority → `priority`, Severity → the guide's field id, every required field filled); another path only through item 4.
+   (Priority → `priority`, Severity → the guide's field id, every required field filled); another path only through item 4. No Atlassian MCP in the session → skip the search; take item 4's MCP-failure paths.
 3. **🔴 GATE — Field-validation error** (HTTP 400 / an `errors` object naming a field — required, invalid option,
    unknown custom field) → nothing was created. Show the error **verbatim**, name the field and the fix
    you propose (from the create metadata), and **wait for the user's approval** before retrying on the
@@ -55,8 +59,6 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 | REST v2 (`/rest/api/2/…`) — FE/UI lock | Jira wiki markup (`*bold*`, `----`, `\|\|header\|\|` with no divider row) | Pre-post string scan **and** post-post counts — both |
 | REST v3 (`/rest/api/3/…`) — API lock | ADF JSON | Post-post: re-fetch and confirm zero literal markup left in the rendered text |
 | JXA + Chrome fallback | the markup of the endpoint the script calls (v2 → wiki, v3 → ADF) | the gates of that endpoint's row |
-
-A markdown body on the v2 path returns HTTP 200 and renders as garbage — the gates are the only catch.
 
 Embed screenshots **bare** — `!file.png!`, resized to ~600–640 px before upload. A width parameter puts
 a pipe inside a table cell and splits the row. The attachments endpoint needs an issue key

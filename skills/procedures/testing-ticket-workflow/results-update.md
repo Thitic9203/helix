@@ -1,6 +1,6 @@
 # Testing ticket — update results elsewhere (Phase G)
 
-Part of [WORKFLOW.md](WORKFLOW.md). Section moved verbatim; read when the run updates an external results destination.
+Part of [WORKFLOW.md](WORKFLOW.md); read when the run updates an external results destination.
 
 ## Contents
 
@@ -57,7 +57,7 @@ Approval of that popup covers G4–G7; there is no second approval.
 - Open or fetch the destination (browser, API, MCP, or file read).
 - **Match existing layout** — headers, row order, language, status vocabulary already in use.
 - For Google Sheets: read headers and sample rows before writing. **Detect the result columns from the header row — never assume fixed column letters**, and confirm the tab name and tab id refer to the same tab.
-- For Jira comments: draft in chat; use v2 wiki vs v3 ADF per project guide if present. **The chat draft's markdown is not the posted body** — on the v2 path rewrite it as wiki markup and run both gates in [jira-wiki-vs-markdown.md](../../../references/jira-wiki-vs-markdown.md); markdown posts with HTTP 200 and renders wrong. The render and media check on the **final** body (render locally in the guide's format; every referenced image/clip resolves to an existing attachment) runs in F5 **before** the approval popup — a failure blocks the popup until fixed ([round-time-contract.md §6](../../../references/round-time-contract.md)).
+- For Jira comments: draft in chat; use v2 wiki vs v3 ADF per project guide if present. **The chat draft's markdown is not the posted body** — on the v2 path rewrite it as wiki markup and run both gates in [jira-wiki-vs-markdown.md](../../../references/jira-wiki-vs-markdown.md). The render and media check on the **final** body (render locally in the guide's format; every referenced image/clip resolves to an existing attachment) runs in F5 **before** the approval popup — a failure blocks the popup until fixed ([round-time-contract.md §6](../../../references/round-time-contract.md)).
 - If access fails (auth, 403, VPN) → report exactly what failed; **do not claim success.**
 
 **Go back:** If access fails, return to G2 — Destination details once the user supplies working access; nothing is written meanwhile.
@@ -91,7 +91,7 @@ if one is specified. See [result-update-discipline.md](references/result-update-
   the expected line verbatim vs what actually happens, **the root cause with its `Confirmed` /
   `Suspected` / `Unknown — not investigated` label**, and — when the deviation is from the written
   expectation rather than a broken feature — who decides between updating the expectation and changing
-  the code. A bare status forces the next reader back to you.
+  the code.
 - **The cause label travels with the sentence.** If the destination is too narrow for the full E2
   block, write the one-sentence cause **with its label** and link the full block; never publish a
   `Suspected` cause with its label stripped off.
@@ -125,8 +125,7 @@ node tools/run-time/measure.js --dirs {lane1_evidence_dir},{lane2_evidence_dir} 
 
 It prints `{method, minutes, bursts, files, gapS, hasVideo}` (method `evidence-burst-v1`): the file write
 times of all lanes as one union, split into bursts wherever no file was written for more than 120 s, and
-the burst durations summed — so it counts running and evidence capture, and leaves out idle time,
-re-checks, design lookup and comment drafting. Put `minutes` in the line; `hasVideo` picks "screenshots"
+the burst durations summed. Put `minutes` in the line; `hasVideo` picks "screenshots"
 or "screenshots and video". Exit 2 = it could not measure (a lane directory is missing, or no evidence
 files) — fix the directory list; never type a number instead. When the workspace has no such tool,
 measure by the same method by hand (list every evidence file's modification time across all lanes, split
@@ -209,7 +208,8 @@ recipient), so there is no second approval.
   link opens the posted comment, recipient matches the QA Owner field.
 - A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section
   and every file or note it points to, fix the input, and send again —
-  never state a cause you have not checked.
+  never state a cause you have not checked. The same result twice → stop (settle-and-strategize §4), write
+  `Notify: NOT sent — {checked cause}` on the G7 line and ask the owner; the round stays open.
 - The round is not closed until the helper prints its success line (the guide names it); put that line and
   the message id on the G7 `Notify:` line.
 

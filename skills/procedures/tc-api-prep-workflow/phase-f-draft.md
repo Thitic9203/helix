@@ -26,4 +26,4 @@ State clearly: **Not posted / no file written yet.**
 
 🔴 **STOP — wait for approval** or edits. Re-show changed rows after feedback.
 
-**Go back:** If the user asks for edits, apply them and return to the start of Phase F — re-show the changed rows and wait. Phase G starts only after approval.
+**Go back:** If the user asks for edits, apply them and return to the start of Phase F — re-show the changed rows and wait. New scope or source, or whole draft rejected → Phase D, then Phase E again; not as row edits. Phase G starts only after approval.

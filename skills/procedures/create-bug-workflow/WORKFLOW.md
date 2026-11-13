@@ -120,8 +120,7 @@ Findings from a **prior testing-ticket** run in this chat: reuse that evidence; 
 **Tracker fields pre-flight** (runs after the target is reachable, before Phase C):
 
 - **GitHub labels.** Run `gh label list --repo <owner/repo> --limit 500` and check that `bug` and each
-  `severity:<Severity>` the drafts need exist (`gh issue create` rejects an unknown label and creates
-  nothing). Any missing → name the missing labels in the Phase C confirm block (`Fields:` line) and ask
+  `severity:<Severity>` the drafts need exist. Any missing → name the missing labels in the Phase C confirm block (`Fields:` line) and ask
   the user to choose: they create the labels (or approve creating them — a new label is a change in their
   repo, so it needs that explicit yes), **or** file without the missing labels, with the Severity kept in
   the title bracket and body. Never drop a label silently; Phase D passes only labels that exist.
@@ -131,7 +130,7 @@ Findings from a **prior testing-ticket** run in this chat: reuse that evidence; 
   field id the workspace project guide names — never a guessed `customfield_` id. A required field with
   no value in the draft, or a Severity field the guide does not name → ask in the Phase C confirm block.
   Show the mapping on the `Fields:` line.
-- **Metadata cannot be read** (no permission, error) → report the error verbatim and ask; do not create
+- **Metadata cannot be read** (`gh label list` or createmeta fails: no permission, error) → report the error verbatim and ask; do not create
   with unmapped fields.
 
 **Go back:** If pre-flight fails, return to Phase A — Intake (A1 — Where to open bugs) once the user gives a reachable target; nothing is created meanwhile.
