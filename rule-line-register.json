@@ -443,35 +443,35 @@
    "replaced_by": [
     "| MUST settle in writing which screen widths are in scope, run every in-scope width as its own row, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |"
    ],
-   "approval": "owner 13/Nov/2026 (chat popup): \"อนุมัติทั้ง 5 (แนะนำ)\" — reworded in ols-qa after-16 lanes PR 241 (retest) and PR 242 (testing-ticket); main thread checked each is narrower or equal"
+   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: lane→row wording (ols-qa#242); every in-scope width still runs"
   },
   {
    "removed": "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on PD3-style envs |",
    "replaced_by": [
     "| MUST NOT skip VPN/auth checks when symptom is navigation timeout | Common on VPN-only envs |"
    ],
-   "approval": "owner 13/Nov/2026 (chat popup): \"อนุมัติทั้ง 5 (แนะนำ)\" — reworded in ols-qa after-16 lanes PR 241 (retest) and PR 242 (testing-ticket); main thread checked each is narrower or equal"
+   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: rationale column only (PD3-style→VPN-only); rule text unchanged"
   },
   {
    "removed": "🔴 **GATE — STOP: Do not post until the user approves** (unless they explicitly waive approval) — through the single",
    "replaced_by": [
     "🔴 **GATE — STOP: Do not post until the user approves** (or delegated that action by name — 6d *Delegated actions*) — through the single"
    ],
-   "approval": "owner 13/Nov/2026 (chat popup): \"อนุมัติทั้ง 5 (แนะนำ)\" — reworded in ols-qa after-16 lanes PR 241 (retest) and PR 242 (testing-ticket); main thread checked each is narrower or equal"
+   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
   },
   {
    "removed": "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names, and `Evidence` (between `Actual Result` and `Status`) holds each row's evidence in-cell per the **Evidence per row** rule above. **API bugs drop the `Evidence` column** (`No.` · `ER` · `Case (Role)` · `Expected Result` · `Actual Result` · `Status`) and carry cURL/response in a section below. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes.",
    "replaced_by": [
     "**Table headers:** every column MUST carry an explicit, all-English header. The single table's header row is fixed and MUST read exactly `No.` · `ER` (Task: `AC`) · `Case (Role)` · `Expected Result` · `Actual Result` · `Evidence` · `Status` — `Expected Result` / `Actual Result` mirror the ticket's field names; `Evidence` and the API-bug variant follow **Evidence per row** above. Never `Expected result item`, never a bare `Actual`. A bare `#` for the row-number column renders as a **blank** header cell in Jira. **Headers MUST be bold, in the syntax of the target endpoint** — v2 wiki `||*No.*||*Expected Result*||…` (single asterisk, `||` delimiters, **no divider row**); markdown/ADF `| **No.** | **Expected Result** | …` followed by a `|---|` divider. A `**No.**` in a v2 body renders as literal `*No.*`, and a `|---|` divider row in a v2 body renders as a visible row of dashes."
    ],
-   "approval": "owner 13/Nov/2026 (chat popup): \"อนุมัติทั้ง 5 (แนะนำ)\" — reworded in ols-qa after-16 lanes PR 241 (retest) and PR 242 (testing-ticket); main thread checked each is narrower or equal"
+   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
   },
   {
    "removed": "3. If any check fails → fix → re-post → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check).",
    "replaced_by": [
     "3. If any check fails → fix → PUT the corrected body to the **same comment id** in the Step 3 format (edit in place, never a new POST) → re-verify on Jira UI. **Max 3 rounds** — then **STOP**: mark the round BLOCKED, list each 7d check still failing, and do not transition, assign or notify (never bypass a failing check)."
    ],
-   "approval": "owner 13/Nov/2026 (chat popup): \"อนุมัติทั้ง 5 (แนะนำ)\" — reworded in ols-qa after-16 lanes PR 241 (retest) and PR 242 (testing-ticket); main thread checked each is narrower or equal"
+   "approval": "owner 13/Nov/2026 chat popup: 'อนุมัติทั้ง 5' (register the 5 lines reworded by ols-qa after-16 fix lanes, Helix sync PR #41); main thread checked: ols-qa#241 R1/R2: waiver narrowed to a named delegation, evidence detail moved to Evidence per row, re-post→in-place PUT; gates and 3-round STOP kept"
   }
  ]
 }
