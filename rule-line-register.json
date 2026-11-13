@@ -434,7 +434,7 @@
     {
       "removed": "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) → do not invent a status for the affected error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.",
       "replaced_by": [
-        "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope."
+        "- the API spec states no status for that case either → do not invent one for those error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows;"
       ],
       "approval": "owner 12/Nov/2026 chat: reword register approved ('จัดการมาเลย ไม่รอเรา'); main thread checked: narrowed per ols-qa docs/sdd/after14-tc-api R7 (verified S3 finding: phase-d-scope-design.md:17 contradicted spec-coverage-review.md:28); STOP kept when Swagger and spec both state no status"
     },
@@ -859,7 +859,7 @@
     {
       "removed": "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.",
       "replaced_by": [
-        "- **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required):"
+        "- the API spec states no status for that case either → do not invent one for those error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows;"
       ],
       "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\""
     },
