@@ -9,7 +9,7 @@ This contract is shared by `retest-bug-workflow`, `testing-ticket-workflow`, and
 - **Cap:** 15 minutes of **AGENT + EXEC** time per round. AGENT is reading, comparing and drafting. EXEC is login, browser and API steps, recording, upload, and posting.
 - **Human wait is not counted.** Report it on its own line.
 - **Soft cap:**
-  - At about 12 minutes, print one line: `Round time: ~12 min of 15 used — finishing.`
+  - At 12 minutes, print one line: `Round time: ~12 min of 15 used — finishing.`
   - Finish the round. Never cut cases to stay under the cap.
 - **Every round report ends with this line:**
 
@@ -30,7 +30,7 @@ This contract is shared by `retest-bug-workflow`, `testing-ticket-workflow`, and
 ## 3. End of round (fixed order)
 
 1. **Reviewer and bundle in parallel.** Start the independent reviewer subagent in the background. Meanwhile, build the bundle: run the render and media check (§6) and prepare the popups. The reviewer must return CLEAN before step 4. Its loop has no round cap, as today.
-2. **Decisions popup.** Shown only when questions are queued. Use one `AskUserQuestion`, batched 4 questions at a time. It holds: the scope plan, each queued non-PASS (A/B/C), missing design, and conflicts (Investigate / Close).
+2. **Decisions popup.** Shown only when questions are queued. Use one structured-question popup (e.g. `AskUserQuestion`; none → one numbered list in chat), batched 4 at a time. It holds: the scope plan, each queued non-PASS (A/B/C), missing design, and conflicts (Investigate / Close).
 3. **Apply the answers.** Re-render the draft and re-run the guard.
 4. **Approval popup.** One approval for the whole bundle, listing every concrete action by name:
    - the comment (target ticket and endpoint);
@@ -45,7 +45,7 @@ If no decisions are queued, step 2 is skipped, and the round has a single human 
 
 ## 4. Fan-out (lanes own their unit)
 
-- **Fan out whenever a round has 2 or more units.** Group units as in `parallel-test-lanes.md` §2. A barrier unit still runs alone.
+- **Fan out whenever a round has 2 or more units** (serial only with a `parallel-test-lanes.md` §4 predicate). Group units as in `parallel-test-lanes.md` §2. A barrier unit still runs alone.
 - **Lane count** = min(units, accounts leasable without collision). There is **no fixed cap** for these flows.
 - **Each lane owns its unit end to end:** execution, the Figma compare (§7), recording during execution (§8), the non-PASS root-cause investigation, and the repro shape.
 - **The main thread only merges.** It builds one report and one bundle from the lanes.
@@ -59,12 +59,7 @@ If no decisions are queued, step 2 is skipped, and the round has a single human 
 
 ## 6. Comment render and media check (before the approval popup)
 
-Run both checks on the **final** body:
-
-- **Render the body locally** (ADF or wiki, whichever the format the guide sets). Confirm the tables, line breaks, and formatting.
-- **Resolve every referenced image or clip:** the attachment exists, and the id or filename matches the reference.
-
-A failure blocks the approval popup until it is fixed. The post-publish re-read remains the proof of what was posted.
+Run the render and media checks of `jira-comment-post-review.md` § Pre-post render + media check on the **final** body. A failure blocks the approval popup; the post-publish re-read remains the proof of what was posted.
 
 ## 7. Figma compare: keep it full, dedupe
 

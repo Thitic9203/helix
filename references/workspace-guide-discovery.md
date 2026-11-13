@@ -44,14 +44,14 @@ Skipped questions: {list fields you will not re-ask}
 3. Use guide values for URLs, Jira format (v2/v3), transitions, default columns, VPN notes.
 4. A value the guide lacks (env, account pool, Jira post format v2/v3, transition names, notify
    recipient field, results destination, auth dir) → ask **once**, then save it to the guide
-   immediately (see below).
+   immediately.
 
 ## When no guide is found
 
 1. Say no workspace guide was found for this workflow.
 2. Ask by the workflow's own intake rule: retest-bug and tc-fe-prep — its `references/project-config-template.md`, **one question at a time**; testing-ticket — Phase A with `references/workspace-guide-template.md`, and create-bug — Phase A (no template): every missing field in **one grouped message**.
 3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` (retest-bug: `{PROJECT}-retest-guide.md`) in the
-   user’s repo (create it if missing) — no second "save this?" question; the answer is the consent
+   user’s repo (create it if missing) — no second "save this?" question; the answer is the user's approval
    ([round-time-contract.md §2](round-time-contract.md#2-no-mid-run-waits)). Never write production
    passwords or other secrets into the guide — store only where the credential lives (env var name,
    vault entry).

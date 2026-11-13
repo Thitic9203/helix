@@ -2,11 +2,10 @@
 
 Single-JS publish patterns for Jira comment + CSV upload.
 
-**Use with:** a browser-JS tool that runs in the page context of the logged-in Jira tab, so `fetch()` carries the
-Jira session — for example `Control_Chrome__execute_javascript`. A tool that runs in an isolated extension sandbox
-does not qualify (`Claude_in_Chrome__javascript_tool` cannot access Jira pages). No qualifying tool in the session →
-post the same body through the Jira REST API with curl (`POST /rest/api/3/issue/{KEY}/attachments` with
-`X-Atlassian-Token: no-check`, then `POST /rest/api/3/issue/{KEY}/comment`) and verify the same way.
+**Use with:** any tool that runs JS in the page context of the signed-in Jira tab, so `fetch()` carries the Jira
+session. Isolated extension sandboxes do not qualify. Host examples: `Control_Chrome__execute_javascript` qualifies;
+`Claude_in_Chrome__javascript_tool` does not. No qualifying tool → post the same body via the Jira REST API with curl
+(`POST /rest/api/3/issue/{KEY}/attachments` with `X-Atlassian-Token: no-check`, then `POST .../comment`), verify the same way.
 tc-fe-prep never curls: WORKFLOW Step 7 failure branch.
 
 ---
@@ -166,7 +165,7 @@ JSON.stringify(window.__fastPublish || {status: 'pending'});
 | `pending`, `running` or `file{n}_done` | Still in flight | Wait 2s, read again — for at most 120 s, then follow *Error recovery* below |
 | `error` with `attIds.length == total` | Uploads done, comment failed (or a placeholder was unfilled — see `message`) | Fix the cause, then retry comment-only with the saved `attIds` |
 | `error` with `0 < attIds.length < total` | Upload of file `attIds.length + 1` failed | Retry from that file only; keep the saved `attIds` |
-| `error` with empty `attIds` | Upload #1 failed | Check auth (401/403?), re-navigate, retry from Pattern A |
+| `error` with empty `attIds` | Upload #1 failed | Check auth (401/403?), re-navigate, retry from Pattern A once |
 
 `att1Id` / `att2Id` stay in the result as aliases of `attIds[0]` / `attIds[1]`.
 
@@ -244,7 +243,7 @@ Call sequence:
 | Error | Recovery |
 |-------|----------|
 | `HTTP 4xx`/`HTTP 5xx` in error message (other than 401/403) | The Jira reply body follows the status — fix the cause it names (bad ADF, missing permission, wrong issue key); never report the post as done |
-| `401`/`403` in error message | Re-navigate to Jira page (re-establishes auth session), then retry from Pattern A |
+| `401`/`403` in error message | Re-navigate to Jira (re-establishes the session), retry from Pattern A once; a second 401/403 → stop, report it, nothing posted |
 | All `attIds` saved, comment failed | Skip re-upload; post comment with saved IDs directly |
 | Some `attIds` saved | Re-upload only the files after the last saved id; use saved + new ids for the comment |
 | `pending`/`running`/`file{n}_done` | Never re-execute Pattern B or D on an in-flight state — the first request can still land and post twice. Read Pattern C every 2 s for at most 120 s. Still in flight at 120 s, or `window.__fastPublish` lost to a navigation or refresh → `GET /rest/api/3/issue/{KEY}/comment?orderBy=-created` and `GET /rest/api/3/issue/{KEY}?fields=attachment`, and look for this post (its marker line, its attachment filenames). Comment present → it posted; go to verify. Attachments present, comment absent → comment-only retry with those attachment ids. Neither present → retry from Pattern A |

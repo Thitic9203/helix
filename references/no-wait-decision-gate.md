@@ -61,8 +61,8 @@ Fail-closed: if any layer is skipped, the case is not written as BLOCKED, EVIDEN
     or newer record, a role, a report, a submission), create it with the accounts and flows the
     project allows, on QA-owned content only, ledgered by id. "No data" is never a verdict.
 14. **Time-bound states.** If a state needs time to pass (an age of N days), seed it now and schedule
-    the capture for the earliest moment it exists; record that row as in-progress with the exact
-    timestamp it becomes testable — not as BLOCKED.
+    the capture for the earliest moment it exists; give that row no verdict yet: list it with the exact
+    timestamp it becomes testable, and judge it then — not as BLOCKED.
 15. **Accounts.** Exhaust the project's account roster and session-renewal tools before declaring an
     account missing. Only typing a password is reserved for a person.
 16. **Tooling limits are not product verdicts.** A recorder, viewport or harness limit gets a working

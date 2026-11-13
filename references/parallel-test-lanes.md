@@ -66,7 +66,7 @@ popup, the summary, and every external write (Jira comment, transition, notify, 
    `min(units, accounts that can be leased without collision, lane cap)`.
    Default lane cap is **4** (each lane holds a live browser); the user sets a different cap by saying so.
    **Exception — retest, testing-ticket, and smoke rounds have no fixed cap:** lane count =
-   `min(units, accounts leasable without collision)`, and any round with 2 or more units fans out
+   `min(units, accounts leasable without collision)`, and any round with 2 or more units fans out unless a §4 predicate applies
    ([round-time-contract.md §4](round-time-contract.md#4-fan-out-lanes-own-their-unit)).
    Balance lanes by expected duration, not by scenario count.
 4. **Lease accounts** — write the lease table. One account appears in **one lane only**.
@@ -109,17 +109,17 @@ shared, a rate limit trips, a one-time code is consumed by the other lane.
 
 **Dead session → login by command, main thread only.** A lane never logs in, types credentials, gives login commands, or runs the login tool. On 401/403, a redirect to login, or a different user, the lane stops that account's cases and returns `SESSION-DEAD {account tag}`. The parent collects every dead account and then follows these steps.
 
-The parent, like the whole skill, never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>` and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and Claude never runs them itself:
+The parent, like the whole skill, never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (spec: login-by-command). Instead the main thread gives the user **ready-to-run commands** in chat as **one combined `bash` block** per step (relink, then setup/mint), never split per account or per command, built from the intake answers (`<project-dir>`, `<env>`, `<account>`, `<log-dir>` (any writable folder) and the relink/mint command names from the project guide or intake). The block loops over that step's accounts and isolates each one, so one account failing does not stop the next, and it prints `<account> OK` or `<account> FAILED (log: <path>)` for every account. The user presses Run, and the agent never runs them itself:
 
 1. **Relink.** One combined block over every needed account whose session is not live. This step uses no password:
    ```bash
-   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" >/tmp/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/relink-$a.log)"; done
+   cd <project-dir> && for a in <account-1> <account-2>; do echo "=== $a"; <relink-command> --env <env> --account "$a" > <log-dir>/relink-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: <log-dir>/relink-$a.log)"; done
    ```
 2. **Setup/mint.** One combined block over only the accounts whose relink printed **FAILED**, never an account that printed OK. The user types any secret in their own terminal; if the block pauses, the mint command is waiting for that input:
    ```bash
-   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" >/tmp/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: /tmp/mint-$a.log)"; done
+   cd <project-dir> && for a in <failed-account-1> <failed-account-2>; do echo "=== $a"; <mint-command> --env <env> --account "$a" > <log-dir>/mint-$a.log 2>&1 && echo "$a OK" || echo "$a FAILED (log: <log-dir>/mint-$a.log)"; done
    ```
-3. **Probe.** When the user says the commands have run, Claude calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
+3. **Probe.** When the user says the commands have run, the agent calls the session endpoint for each account, expects that account's user id, and reports account → OK / FAILED with the reason. An account still FAILED blocks only its cases, which are reported BLOCKED ("session not restored") and never PASSED.
 
 Once the probe is OK, the parent re-dispatches that lane's remaining cases. Prefer accounts whose sessions are already live when leasing, so the run needs as few commands as possible (zero when enough are live).
 
@@ -190,10 +190,10 @@ Follow: {calling WORKFLOW.md path} — Phase D preflight + Phase E (E0–E2), or
 4. **Session lease:** if a lease tool is given, acquire the lease on the account BEFORE loading the
    login file — with the given holder, TTL longer than the run — renew it before it expires, and
    release it with the same holder in finally (on error too). Never load a login file without a
-   lease. If acquire is refused because another holder has the account, use a different account or
-   wait — never force or delete another lane's lease. With `LEASE-HELD-BY-PARENT`, do not acquire or
+   lease. If acquire is refused because another holder has the account, use a different account; none
+   free → report it to the parent as a lane failure, never an open wait — never force or delete another lane's lease. With `LEASE-HELD-BY-PARENT`, do not acquire or
    release it yourself.
-5. **NO-ADVISOR:** do not call the advisor tool — the parent reviews your work. A cut-off advisor
+5. **NO-ADVISOR:** call no advisor or other reviewer-model tool — the parent reviews your work. A cut-off
    call can stall a lane for minutes with nothing written.
 6. **Time limit:** run every driver or browser script under a hard time limit — `timeout {seconds}
    node …`, or the script's own overall deadline that closes the browser and exits. Never leave a

@@ -49,7 +49,7 @@ files that must exist.
 
 **Roles — one set each, no sampling.** If the ticket mentions 5 roles, the deliverable is **5 capture
 sets**, not one clip from whichever account happened to be logged in. Roles are written with the
-canonical identifiers — `GUEST · LEARNER · CREATOR · CONTENT_ADMIN · SYSTEM_ADMIN` — **copy-pasted,
+canonical identifiers — the exact role ids the ticket or the project guide lists — **copy-pasted,
 never typed from memory** (PM-008). A role that could not be exercised (no account, login fails) is an
 explicit **BLOCKED row naming that role and the reason** — never an unmentioned gap, and never
 "covered by another role".
@@ -64,7 +64,7 @@ role's evidence. Every FAIL it prints is already in the shape the BLOCKED row ne
 reason given.
 
 **A collective phrase names every role.** "ทุก role" / "all roles" / "every user type" expands to the
-full canonical five — a phrase that names no single role is not a case with no roles. A *role-agnostic*
+project's full canonical list — a phrase that names no single role is not a case with no roles. A *role-agnostic*
 phrase ("any logged-in user") is one set, **with the role actually used written on the row** so the
 reader knows what was exercised.
 

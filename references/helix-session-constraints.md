@@ -1,13 +1,11 @@
 # Helix session constraints (recite once)
 
-Use at the **start of the first response** in a Helix workflow (or when `/helix` routes to a skill). Write it in the user's language.
+Recite once, in the user's language: the router after its route line; a workflow started directly after its announce line. A child routed by `/helix` does not.
 
 ## All Helix workflows
 
-Recite once when starting any routed workflow:
-
 > **Helix constraints:**
-> 1. No side effects (Jira post, file create, issue create) without user approval unless they waive it.
+> 1. No side effects (Jira post, file create, issue create) without user approval unless they waive it (never a workflow's hard confirm gate, e.g. create-bug Phase C).
 > 2. No success claim without tool output and destination verification.
 > 3. Work only on the issue, URL, and environment the user specified.
 > 4. Load project defaults from the user's workspace `references/*-guide.md` when present — never from the Helix install repo.

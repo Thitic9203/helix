@@ -175,9 +175,12 @@ Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and
    scenario is a coverage gap → add it, never drop it. (in-scope, out-of-scope, API vs UI.)
 4. **Design reference gate (mandatory — every UI scenario).** At Phase B step 4, follow [figma-design-comparison.md](../../../references/figma-design-comparison.md) §1–§2 and §4.
    - **4a Collect and open.** Collect the Figma node for **every screen in scope** (from the ticket, its parent, or the project guide), record the links in the plan, and open each one by [figma-design-comparison.md §2](../../../references/figma-design-comparison.md#2-opening-the-design-both-paths-in-order) (Dev Mode MCP first, then the browser fallback).
-   - **4b No node.** Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image). **A screen with no design node → report it back to the person or channel that assigned this run** (ticket · screen · where you looked · what you need: the node link, a written visual contract, or an explicit "function only"). Keep testing everything that does not depend on the design; the visual points stay **BLOCKED** with a remark naming who was asked. Never assume a label, order, or layout. Unattended/bot mode: same request to the triggering channel with the project's @mention, visual points BLOCKED + remark, run continues.
+   - **4b No node.** Before declaring a screen has no design node, try every route in [no-wait-decision-gate.md](../../../references/no-wait-decision-gate.md) layer 7 (design-tool API with the configured token, browser view, exported image).
+     **A screen with no design node → report it back to the person or channel that assigned this run** (ticket · screen · where you looked · what you need: the node link, a written visual contract, or an explicit "function only").
+     Keep testing everything that does not depend on the design; the visual points stay **BLOCKED** with a remark naming who was asked. Never assume a label, order, or layout. Unattended/bot mode: same request to the triggering channel with the project's @mention, visual points BLOCKED + remark, run continues.
    - **4c Output.** The node link(s) per screen go on the plan's `Design ref` line.
-5. **Scope the depth in the plan** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)): name the **surface(s)** in scope and pull in the surface's existing cases — not only this ticket's AC lines (§1) · list the **screen widths in scope** (one row per scenario x width in the plan — lists, redirects, toasts included; never drop a width as width-independent) and state which are explicitly out of scope (§4) · list the **states** each screen must be seen in (empty · loading ·
+5. **Scope the depth in the plan** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)): name the **surface(s)** in scope and pull in the surface's existing cases — not only this ticket's AC lines (§1)
+   · list the **screen widths in scope** (one row per scenario x width in the plan — lists, redirects, toasts included; never drop a width as width-independent) and state which are explicitly out of scope (§4) · list the **states** each screen must be seen in (empty · loading ·
    error · over-limit · disabled) · name the **fixture** each scenario needs and confirm it is big enough to fail — long titles, lists past their visible slots, populated accounts (§5) · record the **build/commit id** under test (§6).
 6. Fill [test-execution-plan-template.md](../../../references/test-execution-plan-template.md) in chat (environment, auth, in-scope table, pass criteria, risks). Include the **AC/EC → scenario coverage matrix** so the Phase C plan shows every AC/EC is covered, plus the design node per screen, the widths in scope, and the build id.
 7. **Build the lane plan** ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §2–§4):
@@ -217,7 +220,7 @@ scenarios are re-checked).
 ━━━ Testing ticket — plan (waiting for your confirmation) ━━━
 Ticket:      {KEY} — {one-line summary}
 URL:         {url}
-Login:       {user} — saved session; dead session = ready-to-run relink/mint commands the user runs, then Claude probes
+Login:       {user} — saved session; dead session = ready-to-run relink/mint commands the user runs, then the agent probes
 VPN:         {required|not required} — {note; when required, end it with: environment unreachable in Phase D → stop and report, nothing marked PASSED}
 Confluence:  {url or none}
 Swagger:     {url or none}
@@ -265,9 +268,11 @@ the authenticated user id before the first result line. Any of these missing = s
 returns `SESSION-DEAD {account tag}` — it never logs in itself. One account belongs to one lane and is never shared across concurrent sessions.
 
 **Fresh login = main thread, login by command** ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §3 *Dead session*). Pick lane accounts whose sessions are live first.
-- **No login window.** Claude never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (owner order 2026-10-21: log in by command, as the e2e suite does — lanes that logged in by themselves popped a chain of login windows).
-- **No password.** Claude never asks for, accepts, collects, stores or fills a password; a password the user pastes is never used or echoed.
-- **Relink → mint → probe.** Instead the main thread gives the user the ready-to-run **Relink → Setup/mint → Probe** steps exactly as written in [parallel-test-lanes.md §3 *Dead session*](../../../references/parallel-test-lanes.md#3-account-isolation--no-collision) (one combined `bash` block per step, built from the intake answers; the user presses Run and Claude never runs them; an account still FAILED after the probe blocks only its cases, reported BLOCKED "session not restored", never PASSED). Open that section at Phase D, only when a needed session is not live.
+- **No login window.** The agent never opens a browser, login window or sign-in page, and never drives a login form, for any test account, whether on the main thread or in a lane (owner order 2026-10-21: log in by command, as the e2e suite does — lanes that logged in by themselves popped a chain of login windows).
+- **No password.** The agent never asks for, accepts, collects, stores or fills a password; a password the user pastes is never used or echoed.
+- **Relink → mint → probe.** Instead the main thread gives the user the ready-to-run **Relink → Setup/mint → Probe** steps exactly as written in [parallel-test-lanes.md §3 *Dead session*](../../../references/parallel-test-lanes.md#3-account-isolation--no-collision)
+  (one combined `bash` block per step, built from the intake answers; the user presses Run; the agent never runs them itself and only probes).
+  An account still FAILED after the probe blocks only its cases, which are reported BLOCKED "session not restored", never PASSED. Open that section at Phase D, only when a needed session is not live.
 
 **In a parallel run the session preflight runs per lane**, inside each lane, and records the
 authenticated user id — the parent accepts a lane's results only when that id matches the lane's
@@ -311,7 +316,8 @@ A follow-up question is a **defect in the write-up**, not a normal step
 
 ## QA closing (mandatory before session end) [low freedom]
 
-At phase close (only when the run reaches QA closing), follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific. **Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) first** — apply its unattended default (step 5) and queue *Investigate further* / *Close out now* into the F5 end decisions popup, before the approval popup ([round-time-contract.md
+At phase close (only when the run reaches QA closing), follow [qa-closing-shared.md](../../../references/qa-closing-shared.md) + skill-specific.
+**Run its [cross-ticket conflict check](../../../references/qa-closing-shared.md#cross-ticket-conflict-check) first** — apply its unattended default (step 5) and queue *Investigate further* / *Close out now* into the F5 end decisions popup, before the approval popup ([round-time-contract.md
 §3](../../../references/round-time-contract.md)); the session is not done until the user has answered it there:
 
 - [ ] F1–F4 posted before any external update.
@@ -352,21 +358,7 @@ See [skill-routing.md](../../../references/skill-routing.md) — **Handoffs** af
 
 ## References
 
-| File | Use |
-|------|-----|
-| [session-intake.md](references/session-intake.md) | Intake fields |
-| [playwright-discipline.md](references/playwright-discipline.md) | Playwright rules |
-| [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) | Default parallel execution — lanes, one account per lane, merge |
-| [root-cause-investigation.md](../../../references/root-cause-investigation.md) | E2 — mandatory cause investigation, evidence-only |
-| [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md) | E3 — challenge every non-PASS: re-verify expected vs related tickets' AC/EC, default + queue for the end decisions popup |
-| [round-time-contract.md](../../../references/round-time-contract.md) | 15-min AGENT+EXEC round · Phase C confirm before the run, then no mid-run waits · end-of-round order and single approval · fan-out · login reuse · render/media check · Figma dedupe · fingerprints |
-| [figma-design-comparison.md](../../../references/figma-design-comparison.md) | Phase B · E0 — compare every screen against its design node; no design ⇒ report back to the assigner, visual points BLOCKED |
-| [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) | Depth gates from the shipped-defect review — surface sweep, ER quality, widths measured, fixtures, build id, evidence on passed rows |
-| [qa-evidence-coverage.md](../../../references/qa-evidence-coverage.md) | AC/EC 7-layer coverage gate (every AC/EC is a row, not a remark) · pre-delivery 7-layer gate before handing results over |
-| [qa-evidence-capture.md](../../../references/qa-evidence-capture.md) | Capture scope (a set per named role · every step on screen · scroll to the target) · story 5-step evidence gate · MP4 7-layer gate |
-| [result-update-discipline.md](references/result-update-discipline.md) | Sheets, Jira, Confluence update rules |
-| [workspace-guide-template.md](references/workspace-guide-template.md) | Non-secret defaults (not required) |
-| [worked-example.md](references/worked-example.md) | On-demand: anonymized sample (read only when format reference needed) |
+Every file this workflow opens is linked from [SKILL.md](../../testing-ticket-workflow/SKILL.md) (*When invoked* + *Contents*, Always / On trigger) and named at its step in the *Progress checklist*. Not required: [workspace-guide-template.md](references/workspace-guide-template.md) (non-secret defaults) and [worked-example.md](references/worked-example.md) (anonymized sample, only when a format reference is needed).
 
 ---
 
@@ -388,10 +380,8 @@ Shared rules, opened only when the run writes or posts: [shared-must-never.md](.
 | MUST attach complete evidence to every case **and every role the case names** before the story is "done" — the 5-step gate in [qa-evidence-capture.md](../../../references/qa-evidence-capture.md#story-testing-evidence-completeness-gate-5-step-per-story) | A story reported "100% passed" while cases have no MP4 (or a minor-issue verdict with no bug) looks finished but is unverified; the pass-rate counts minor-issue as passed and hides the gap |
 | MUST judge defect Priority/Severity ONLY from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md) — never invent a severity notion; PASSED WITH MINOR ISSUE needs a Lowest/Low/Medium bug, FAILED needs High/Highest | Guessing severity produces inconsistent verdicts across testers and tickets |
 | MUST re-read destination after Phase G writes | Silent partial failure |
-| MUST exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each; untried paths written `not tested` | A path with no evidence row is a guess published as a finding |
+| MUST capture the E1 repro shape during the run: exercise every entry point to a failing surface separately (direct route **and** the in-app path a user takes), one repro-matrix row + screenshot each, untried paths written `not tested`; hard-reload every surface after a state-changing fixture step before observing it, a stale-data window being a separate timing note with a measured delay, never a repro row; resolve any disagreement between your own observations with one clean re-run before writing F2/F3, unresolvable → BLOCKED, not FAILED | A path with no evidence row is a guess published as a finding; an already-open view holds pre-change data, so recording it publishes your test timing as product behavior; resolving a disagreement in favour of the result you already wrote is how a wrong repro path ships |
 | MUST NOT write a scope word (`always`, `any entry point`, `both ways`, `only when …`) that no repro-matrix row supports | The scope claim is the first thing a dev builds on |
-| MUST hard-reload every surface after a state-changing fixture step before observing it; a stale-data window is a separate timing note with a measured delay, never a repro row | An already-open view holds pre-change data — recording it publishes your test timing as product behavior |
-| MUST resolve any disagreement between your own observations with one clean re-run before writing F2/F3; unresolvable → BLOCKED, not FAILED | Resolving it in favour of the result you already wrote is how a wrong repro path ships |
 | MUST give every FAILED/BLOCKED defect the F3 blocks — repro matrix, expected line quoted verbatim vs actual, **root cause**, resolution options with a named owner | These are the questions the reader asks next; answering them in chat leaves the record incomplete |
 | MUST run the E2 root-cause investigation for EVERY FAILED and BLOCKED scenario — at E2 | The session state is open only during the run; improvised reasoning afterwards is where guessing enters |
 | MUST run the E3 challenge gate for EVERY non-PASSED scenario before listing it as a defect, recommendation (adjust TC / re-test / confirm defect — confirm defect only while the expected is not superseded) — at E3 | A non-PASS against a stale, superseded, or misread expected is a phantom defect; the expected side is the one that must be earned, and adjusting a spec or re-testing is the user's call (post-mortem PM-006 — a bug was filed against an expected nobody had opened; [non-pass-challenge-gate.md](../../../references/non-pass-challenge-gate.md)) |

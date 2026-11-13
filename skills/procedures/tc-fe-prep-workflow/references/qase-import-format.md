@@ -21,7 +21,7 @@ Qase field during import. Use the exact column set below; do not add the cut fie
 | **Steps – Action** | Step action | Numbered manual steps (Thai) |
 | **Steps – Expected result** | Step expected result | Numbered assertions (Thai) |
 | **Steps – Data** | Step data | Test data for the step |
-| **Tags** | Tags | not required; comma-separated |
+| **Tags** | Tags | AC/EC label + full criterion text, comma-separated (WORKFLOW Step 6 mapping); blank only when the TC has no AC/EC label |
 
 ### Cut fields — NEVER include
 
