@@ -58,7 +58,7 @@ Catch AI progress:
 - [ ] QA closing (mandatory before "done") — qa-closing-shared.md, then session-closing.md
 ```
 
-Order: Refusal-first → Dependencies → Procedure 1–9 (Hedged conclusions run inside steps 2, 4, 7) → CHECKPOINT → Result quality gate → QA closing.
+Order: Refusal-first → Dependencies → Procedure 1–9 (Hedged conclusions run inside steps 2, 4, 7) → Result quality gate → CHECKPOINT → QA closing.
 
 ## Discipline
 
