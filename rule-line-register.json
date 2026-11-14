@@ -869,6 +869,13 @@
         "| MUST report anything wrong observed during a run, including while checking something else, even when no AC or expected asked for it | The badge-overflow defect was on screen and unremarked while \"Badges render correctly\" was written |"
       ],
       "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; near-duplicate merges: \"รวม (นับเป็น reword ลง register)\""
+    },
+    {
+      "removed": "5. **The search itself cannot run** (no tracker read access, MCP down, search error) → **STOP.**",
+      "replaced_by": [
+        "5. **The search itself cannot run** (no tracker read access, neither MCP nor REST reachable, search error) → **STOP.**"
+      ],
+      "approval": "Owner 13/Nov/2026 in chat (MUST/NEVER rewords): \"ได้ ลง register (แนะนำ)\"; reword from ols-qa docs/sdd/after19-final-fixes R2 (ols-qa #268)"
     }
   ]
 }
