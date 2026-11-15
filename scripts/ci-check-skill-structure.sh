@@ -52,6 +52,11 @@ check_skill_file() {
   local base
   base="$(basename "$(dirname "$f")")"
 
+  # The removed proactive_triggers helper also failed a SKILL.md with no frontmatter; keep that check.
+  if [ "$(head -n1 "$f")" != "---" ]; then
+    log_err "$base: missing YAML frontmatter (first line must be ---)"
+  fi
+
   # proactive_triggers was removed (owner 13 Nov 2026): routing reads description only.
   # Reject it so the duplicate field cannot creep back. Spec: docs/sdd/remove-proactive-triggers R3.
   if awk 'NR==1&&$0!="---"{exit} NR>1&&$0=="---"{exit} /^[[:space:]]*proactive_triggers:/{f=1} END{exit !f}' "$f"; then

@@ -25,6 +25,8 @@ python3 - skills/helix/SKILL.md <<'PY'
 import sys;p=sys.argv[1];s=open(p).read();open(p,'w').write(s.replace('\n---\n','\nmetadata:\n  proactive_triggers:\n    - x\n---\n',1))
 PY
 expect_exit 1 "skill structure fails when frontmatter has proactive_triggers" -- bash scripts/ci-check-skill-structure.sh
+tail -n +2 "$R/zz-helix.bak" > skills/helix/SKILL.md
+expect_exit 1 "skill structure fails when a SKILL.md has no frontmatter" -- bash scripts/ci-check-skill-structure.sh
 cp "$R/zz-helix.bak" skills/helix/SKILL.md; rm -f "$R/zz-helix.bak"
 mkdir -p skills/zz-unregistered && printf -- '---\nname: zz-unregistered\ndescription: probe\n---\n' > skills/zz-unregistered/SKILL.md
 expect_exit 1 "skill structure fails on a skill missing from plugin.json" -- bash scripts/ci-check-skill-structure.sh
