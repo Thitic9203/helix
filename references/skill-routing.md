@@ -10,7 +10,7 @@ The single routing source for the [helix router](../skills/helix/SKILL.md), [com
 |---|--------|----------|---------|-------------------------------|
 | 1 | TC FE Preparation | [`tc-fe-prep-workflow`](../skills/tc-fe-prep-workflow/SKILL.md) | `/tc-fe-prep` | FE manual TC from story AC/EC. Pass any issue key/URL from the message. |
 | 2 | TC API Preparation | [`tc-api-prep-workflow`](../skills/tc-api-prep-workflow/SKILL.md) | `/tc-api-prep` | API manual TC from spec + Swagger. Run its Phase A–C intake if spec, Swagger, or delivery is missing. |
-| 3 | Retest Bug | [`retest-bug-workflow`](../skills/retest-bug-workflow/SKILL.md) | `/retest-bug` | Retest a bug after a dev fix. Pass any bug key/URL from the message. |
+| 3 | Retest Bug | [`retest-bug-workflow`](../skills/retest-bug-workflow/SKILL.md) | `/retest-bug` | Retest a bug, task or story after a dev fix; pass its key/URL. |
 | 4 | Testing Ticket | [`testing-ticket-workflow`](../skills/testing-ticket-workflow/SKILL.md) | `/testing-ticket` | Playwright test for one ticket. Pass any issue key/URL; its Phase A intake collects missing fields. |
 | 5 | Create Bug | [`create-bug-workflow`](../skills/create-bug-workflow/SKILL.md) | `/create-bug` | File bug(s) on Jira/GitHub. Reuse bug evidence from the same chat if present. |
 | 6 | Catch AI | [`catch-ai-workflow`](../skills/catch-ai-workflow/SKILL.md) | `/catch-ai` | Audit finished work against its governing sources. Pass the audit target from the message. |
@@ -62,7 +62,7 @@ Not a routing rule: when and how the router offers one workflow from context is 
 | `retest-bug-workflow` | Draft new TC tables or file new bugs |
 | `content-takedown-workflow` | Delete content permanently, rename items, or hide an item whose defect has not been surfaced first |
 | `review-result-workflow` | Run the tests being reviewed, retest a ticket after a dev fix, or rename an evidence file |
-| `catch-ai-workflow` | File the bug it confirms (→ create-bug), retest a ticket after a dev fix (→ retest-bug), or rewrite the audited work |
+| `catch-ai-workflow` | File the bug it confirms (→ create-bug), retest a ticket after a dev fix (→ retest-bug), or rewrite the audited work beyond the corrections it reports (those only after the owner approves) |
 | `smoke-test-workflow` | Test a single ticket (→ testing-ticket), retest after a fix (→ retest-bug), or run a full regression |
 | `test-data-prep-workflow` | Run tests on a ticket (→ testing-ticket), retest a bug (→ retest-bug), or draft TC tables (→ tc-fe-prep / tc-api-prep) |
 | `tc-change-format-workflow` | Write or edit test cases (→ tc-fe-prep / tc-api-prep), write into the source TC sheet, or record test results |

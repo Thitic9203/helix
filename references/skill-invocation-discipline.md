@@ -1,6 +1,6 @@
 # Helix skill invocation discipline
 
-Helix workflows are **skills** (`SKILL.md`), not informal chat habits. This document adapts proven agent-discipline patterns for QA — it is not a separate product name; the router skill remains **`helix`**.
+Helix workflows are **skills** (`SKILL.md`), not informal chat habits. This document adapts proven agent-discipline patterns for QA.
 
 ## Instruction priority
 
@@ -8,7 +8,7 @@ Helix workflows are **skills** (`SKILL.md`), not informal chat habits. This docu
 2. **Helix workflow skills** — override default agent behavior for QA tasks  
 3. **Default system behavior** — lowest  
 
-If the user says “skip Jira post,” that overrides a skill’s default gate.
+If the user says “skip Jira post,” that overrides a skill’s default gate, except create-bug Phase C confirm.
 
 ## When to invoke a skill
 
@@ -26,7 +26,7 @@ If tempted to skip a workflow skill (“I can draft TC without it”, “quick r
 
 ## Long workflows and todos
 
-When a skill lists **5+ mandatory checklist items** or multi-phase gates, create todos per major phase ([long-workflow-todos.md](long-workflow-todos.md)) with the agent's todo tool; with no todo tool, list the phases in chat and tick them off — so the user sees progress.
+When [long-workflow-todos.md § When to create todos](long-workflow-todos.md#when-to-create-todos) applies, create todos per major phase with the agent's todo tool; with no todo tool, list the phases in chat and tick them off — so the user sees progress.
 
 ## Subagents and parallel work
 

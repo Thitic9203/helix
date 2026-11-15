@@ -1,6 +1,6 @@
 # HTML Pre-Draft Review Template — TC FE
 
-Used in **Step 2a + Step 2.5** to render the AC/EC consistency check and PRD/Figma conflict check as a single HTML page opened in Chrome, instead of posting tables in chat.
+Used in **Step 2a + Step 2.5** to render the AC/EC consistency check and PRD/Figma conflict check as a single HTML page opened in the browser, instead of posting tables in chat.
 
 ## Contents
 
@@ -15,7 +15,7 @@ Used in **Step 2a + Step 2.5** to render the AC/EC consistency check and PRD/Fig
 - [How to build STEP_25_TABLE](#how-to-build-step_25_table)
 - [How to build SCOPE_GAP_BLOCK](#how-to-build-scope_gap_block)
 - [How to build STEP_25_RECOMMENDATION](#how-to-build-step_25_recommendation)
-- [Opening in Chrome](#opening-in-chrome)
+- [Opening in the browser](#opening-in-the-browser)
 - [Regeneration](#regeneration)
 
 ## When to use
@@ -394,6 +394,16 @@ If a source is missing (no PRD / no Figma), still show the card but with `ไม
 </div>
 ```
 
+If a link is present but cannot be read (requirement-gates 2.5), show it as unavailable with the link and the exact error:
+
+```html
+<div class="recency-item">
+  <div class="recency-label">PRD</div>
+  <div class="recency-date" style="color:var(--text-sec);">อ่านไม่ได้</div>
+  <div class="recency-note">{link} — {exact error}</div>
+</div>
+```
+
 ## How to build STEP_25_STATUS_BANNER
 
 Same structure as Step 2a banner — pick `status-pass` or `status-fail`.
@@ -468,7 +478,7 @@ When no scope gaps — omit entirely (empty string).
 
 Same structure as Step 2a recommendation card. Omit when no conflicts and no gaps.
 
-## Opening in Chrome
+## Opening in the browser
 
 After writing the file:
 
@@ -478,10 +488,10 @@ After writing the file:
 
 Post in chat (short — details are in the HTML page):
 
-> Pre-draft review เปิดใน Chrome แล้ว — ตรวจสอบผลการเช็ค AC/EC consistency + PRD/Figma conflict ได้เลยครับ
+> Pre-draft review เปิดในเบราว์เซอร์แล้ว — ตรวจสอบผลการเช็ค AC/EC consistency + PRD/Figma conflict ได้เลยครับ
 
 Then follow up in chat with the user decision prompt (Step 2a.3) if issues were found, or confirm proceeding if clean.
 
 ## Regeneration
 
-If the user asks to update the report (e.g. after resolving a conflict), regenerate the HTML file and re-open in Chrome. Do not create a new file — overwrite the same path.
+If the user asks to update the report (e.g. after resolving a conflict), regenerate the HTML file and re-open it. Do not create a new file — overwrite the same path.

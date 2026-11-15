@@ -41,6 +41,8 @@ Jira comment body (Step 7 / G2)   →  CONVERT <br>  ← THIS GATE
 CSV / Excel export (Step 6 / G1)  →  CONVERT <br>  (csv-export-rules handles this)
 ```
 
+Step numbers are tc-fe / tc-api; in testing-ticket the post is Phase G5.
+
 ## Verification after post
 
 After posting to Jira, re-read the comment on Jira UI and check:

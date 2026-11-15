@@ -1,7 +1,7 @@
 # Bug Priority & Severity Matrix
 
 The authoritative source for judging a bug's **Priority** in every QA verdict. **Always follow
-this matrix — never invent a severity or priority notion, never guess ("ยึดหลักนี้เสมอ ไม่มโนเอง").**
+this matrix — never invent a severity or priority notion, never guess.**
 When a defect's priority is unclear, cite the matching row/column below; if nothing here answers it,
 say so and ask rather than assume.
 
@@ -113,9 +113,8 @@ TC_03 · ER3 — BLOCKED — Priority n/a (BLOCKED: <SHA_FIX> not in <TAG_OLD>, 
 
 ## Used by
 
-- [CLAUDE.md](../CLAUDE.md) § Bug priority = the matrix, never invented
 - [testing-ticket-workflow/WORKFLOW.md](../skills/procedures/testing-ticket-workflow/WORKFLOW.md) Phase F3
 - [retest-bug-workflow/WORKFLOW.md](../skills/procedures/retest-bug-workflow/WORKFLOW.md) Step 2
 - [create-bug-workflow/WORKFLOW.md](../skills/procedures/create-bug-workflow/WORKFLOW.md) Phase A3 and [bug-draft-template.md](../skills/procedures/create-bug-workflow/references/bug-draft-template.md) — Priority and Severity of every drafted bug
+- `catch-ai-workflow` SKILL.md § Must-read files and its reference.md § Verdict
 - [qa-evidence-gates.md](qa-evidence-gates.md) § Story-testing evidence-completeness gate, step 4
-- Local agent memory `feedback_verdict-rubric`

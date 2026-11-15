@@ -19,7 +19,7 @@ Read this before Step 0 of the main skill.
 - **Test Title:** readable sentence; avoid internal tags like `[Validation]` unless requested.
 - **Steps:** include navigation context (portal, menu, tab, button label, field label).
 - **Expected:** one observable outcome per numbered line.
-- **Precondition column:** line 1 always confirms shared prep completed; following lines are case-specific.
+- **Precondition column:** in the `.md`, HTML draft and Jira table, line 1 confirms shared prep completed, then case-specific lines; CSVs expand shared prep inline instead (design-and-review Step 3).
 
 ## Jira mechanics
 
@@ -31,7 +31,7 @@ Read this before Step 0 of the main skill.
 
 - Show the HTML draft (Step 5) and get approval in chat before anything is posted — never paste the TC table into chat.
 - After any automated publish, open Jira and count table rows.
-- If only the header appears, the post failed — re-post via ADF (Step 7) and do not declare success.
+- If only the header appears, the post failed — PUT the full corrected ADF to the same comment id (Step 7 Go back) and do not declare success.
 
 ## Security
 

@@ -4,10 +4,8 @@ Every skill's QA closing section MUST include these items **plus** skill-specifi
 
 ## Doubt and fix-verify
 
-Follow [skill-rules-style.md](skill-rules-style.md#qa-closing--doubt-and-fix-verify).
-
 1. **Assume the first draft/output is wrong** — name which phase catches it.
-2. Complete **skill-specific** checkboxes (3–5 items in each SKILL.md).
+2. Complete **skill-specific** checkboxes (the skill's own list).
 3. [verify-closing-checklist.md](verify-closing-checklist.md) — workflow-specific section (**TC review**: skip it; close per its § QA closing. **Catch AI**: § All workflows only).
 4. [session-closing.md](session-closing.md) — artifact index, next workflow, handoff, `Verdict:`.
 
@@ -16,7 +14,7 @@ Follow [skill-rules-style.md](skill-rules-style.md#qa-closing--doubt-and-fix-ver
 - [ ] User-facing text follows **the user's language** ([user-communication.md](user-communication.md)).
 - [ ] No success claim without **tool output** and **destination verification**.
 - [ ] Gates were not skipped (approval / confirm / refuse when inputs missing).
-- [ ] Jira comment posted: **post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)) — no literal `<br>`/HTML, numbered items on own lines, CSV/Excel attached if generated.
+- [ ] Jira comment posted: **post-publish review passed** ([jira-comment-post-review.md](jira-comment-post-review.md)).
 - [ ] `Verdict:` or `Verified:` line with counts in close-out block.
 
 ## Cross-ticket conflict check

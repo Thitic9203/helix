@@ -11,8 +11,8 @@ Pick the **highest** tier that uniquely identifies the element. Drop a tier only
 | 1 (best) | `data-testid` / `data-test` | element has a test id | `getByTestId('submit-order')` |
 | 2 | role + accessible name | semantic, user-visible | `getByRole('button', { name: 'Submit' })` |
 | 3 | label / placeholder / text | form fields, links, copy | `getByLabel('Email')`, `getByText('Checkout')` |
-| 4 | scoped CSS (stable attr) | no id/role/text | `form#login >> input[name="user"]` |
-| 5 (avoid) | positional CSS / nth-child | last resort, note it | `.list > div:nth-child(3)` |
+| 4 | scoped CSS (stable attr) | no id/role/text; preflight reports it risky | `form#login >> input[name="user"]` |
+| 5 (avoid) | positional CSS / nth-child | last resort; preflight reports it risky | `.list > div:nth-child(3)` |
 | ✗ never | absolute XPath / deep CSS chains | brittle, breaks on any DOM shift | `/html/body/div[2]/...` |
 
 If the app has **no** `data-testid`, recommend adding them in the bug/ticket notes — do not patch product code unless the user asks (see [qa-debug-discipline.md](qa-debug-discipline.md)).
@@ -28,7 +28,7 @@ When a selector fails, retry with the **next tier down**, then stop. Never loop 
 4. else → STOP. report as a genuine failure (do NOT keep guessing).
 ```
 
-**Hard limit: 3 fallback attempts per element.** After the 3rd miss, treat it as a real failure and hand off to debug — a missing element after 3 resilient strategies is signal, not noise.
+**Hard limit: 3 strategies per element** (the first try plus two fallbacks). After the 3rd miss, treat it as a real failure and hand off to debug — a missing element after 3 resilient strategies is signal, not noise.
 
 ## Distinguish the three failure modes
 

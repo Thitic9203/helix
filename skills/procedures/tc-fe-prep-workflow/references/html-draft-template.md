@@ -1,6 +1,6 @@
 # HTML Draft Template — TC FE
 
-Used in **Step 5** to render the TC draft as a full-width HTML page opened in Chrome, instead of a markdown table in chat.
+Used in **Step 5** to render the TC draft as a full-width HTML page opened in the browser, instead of a markdown table in chat.
 
 ## Contents
 
@@ -10,11 +10,11 @@ Used in **Step 5** to render the TC draft as a full-width HTML page opened in Ch
 - [How to build TABLE_ROWS](#how-to-build-table_rows)
 - [How to build REMARK_BLOCK](#how-to-build-remark_block)
 - [How to build SHARED_PREP_LI](#how-to-build-shared_prep_li)
-- [Opening in Chrome](#opening-in-chrome)
+- [Opening in the browser](#opening-in-the-browser)
 
 ## When to use
 
-Every time Step 5 is reached — always generate the HTML file and open it in Chrome. Do NOT post the markdown table in chat.
+Every time Step 5 is reached — always generate the HTML file and open it in the browser. Do NOT post the markdown table in chat.
 
 ## File path
 
@@ -324,7 +324,7 @@ Group by Type: Unit Test → Integration Test → System Test. Inside each group
 </tr>
 <tr>
   <td>{AC/EC label}: {full criterion text from ticket}</td>
-  <td>{Services Impacted — plain name if 1; "1. A 2. B" if 2+}</td>
+  <td>{Services Impacted — plain name if 1; "<b>1.</b> A <b>2.</b> B" if 2+}</td>
   <td class="tc-id">{TC ID number}</td>
   <td>{Test Title}</td>
   <td>{Precondition — 1 item: plain text, no number. 2+ items: "1. item1<br>2. item2<br>3. item3"}</td>
@@ -340,14 +340,15 @@ Group by Type: Unit Test → Integration Test → System Test. Inside each group
 
 ## How to build REMARK_BLOCK
 
-Include only when at least one Type has no TCs OR when Figma/PRD links were missing. Omit entirely if nothing to report.
+Include only when at least one Type has no TCs, Figma/PRD links were missing, or a case is `BLOCKED` with no sheet row (design-and-review 3d). Omit entirely if nothing to report.
 
 ```html
 <div class="remark-card">
   <div class="remark-title">Remark — Type coverage</div>
   No <em>Unit Test</em> cases for this ticket.<br>
   ไม่มีลิงก์ Figma ระบุไว้ใน ticket ณ ขณะที่ draft TC ชุดนี้<br>
-  ไม่มีลิงก์ PRD ระบุไว้ใน ticket ณ ขณะที่ draft TC ชุดนี้
+  ไม่มีลิงก์ PRD ระบุไว้ใน ticket ณ ขณะที่ draft TC ชุดนี้<br>
+  TC {ID} — BLOCKED — {Remark}
 </div>
 ```
 
@@ -357,7 +358,7 @@ Include only when at least one Type has no TCs OR when Figma/PRD links were miss
 <li>เตรียมบัญชี Guest และ Learner ที่พร้อมใช้งาน</li>
 ```
 
-## Opening in Chrome
+## Opening in the browser
 
 After writing the file:
 
@@ -367,6 +368,6 @@ After writing the file:
 
 Post in chat (one line):
 
-> Draft TC เปิดใน Chrome แล้ว — ตรวจสอบ แล้ว approve หรือแจ้ง edit ได้เลยครับ **Not posted to Jira yet.**
+> Draft TC เปิดในเบราว์เซอร์แล้ว — ตรวจสอบ แล้ว approve หรือแจ้ง edit ได้เลยครับ **Not posted to Jira yet.**
 
 Wait for approval. On edit → regenerate HTML → re-open.

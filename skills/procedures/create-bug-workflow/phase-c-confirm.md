@@ -10,7 +10,7 @@ Show:
 ━━━ Create bug — confirm before filing ━━━
 Target:     {Jira PROJ / GitHub owner/repo}
 Format:     {user template name or Helix default}
-Board check: {N candidates searched — M dropped in B2, D dropped in B3, K to file}{ · comment scope not stated — when a pasted search does not say}
+Board check: {N candidates searched — {a} dropped in B2, {b} dropped in B3, {c} blocked or Needs Review, K to file}{ · comment scope not stated — when a pasted search does not say}
 Fields:     {GitHub: labels that exist / labels missing + the user's choice · Jira: Priority → field, Severity → field id from the workspace guide, required fields with their values}
 Bug count:  {K}
 Needs Review: {none · or per item: title — open question (draft shown below, labelled Needs Review — not filed; not counted in Bug count)}

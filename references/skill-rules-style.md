@@ -11,7 +11,7 @@ Agent-facing rules for running workflows. Contributor/authoring rules → [docs/
 
 Write every safety gate as MUST / NEVER with its condition — never as softened advice.
 
-When you catch yourself rationalizing past a gate, use [agent-rationalizations.md](agent-rationalizations.md). Evidence before claims: [qa-evidence-gates.md](qa-evidence-gates.md).
+When you catch yourself rationalizing past a gate, use [agent-rationalizations.md](agent-rationalizations.md).
 
 ## Rule 5 — Bug-hunt / fix-verify mindset (Pluton กฎที่ 5)
 
@@ -40,7 +40,9 @@ I cannot start {workflow name} yet. Missing:
 Please provide these, then I will continue.
 ```
 
-## Scripts (Rule 4)
+The `helix` router asks one item.
+
+## Scripts
 
 - **CSV export:** [csv-export-rules.md](csv-export-rules.md) — in-agent by default; script only if the user provides `HELIX_INSTALL_ROOT`.
 - **Per-skill pointer:** `skills/<name>/scripts/README.md` when a workflow uses CSV.

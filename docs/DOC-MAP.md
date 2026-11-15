@@ -85,7 +85,7 @@ Deep detail lives under `skills/procedures/<name>/references/` (next to the cano
 |-------|------------|
 | tc-fe-prep-workflow | ac-ec-coverage-review, gotchas, html-draft-template, html-pre-draft-review-template, jira-formatting, markdown-template, prerequisites, project-config-template, publish-options, qase-import-format, tc-final-review-report, worked-example |
 | tc-api-prep-workflow | api-tc-guidelines, default-columns, delivery-options, markdown-template, spec-coverage-review, worked-example |
-| retest-bug-workflow | debug-discipline, gotchas, handoff-template, new-skill-template, post-mortem-log, post-mortem-template, project-config-template, worked-example |
+| retest-bug-workflow | debug-discipline, gotchas, new-skill-template, post-mortem-log, post-mortem-template, project-config-template, worked-example |
 | testing-ticket-workflow | playwright-discipline, result-update-discipline, session-intake, workspace-guide-template, worked-example |
 | create-bug-workflow | bug-draft-template, posting-discipline, worked-example |
 

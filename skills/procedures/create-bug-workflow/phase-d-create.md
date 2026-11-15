@@ -24,7 +24,7 @@ Screenshots: gh uploads no files — embed reporter image URLs; the user attache
 
 **🔴 GATE — `gh issue create` exits non-zero** (rejected label, validation error, auth, rate limit,
 network) → run `gh issue list --repo <owner/repo> --state all --search '"<title>" in:title'` (a
-timeout can still create it — never file twice): an equal title → this run's issue, record its URL; none →
+timeout can still create it — never file twice): one equal title → this run's issue, record its URL; two or more → show them and ask which is this run's, create nothing; none →
 not created; **the search itself fails** → **🔴 STOP:** that bug's outcome is unknown (never "not created")
 — ask the user to check the repo before any retry. Show the user the stderr **verbatim**, which bugs were and were not created, and the fix you propose; **retry
 nothing until the user approves.** Rate limit → say when `gh api rate_limit` reports the reset and
@@ -60,7 +60,7 @@ wait for the user's go-ahead. Never strip a label, shorten the body or switch re
 | REST v3 (`/rest/api/3/…`) — API lock | ADF JSON | Post-post: re-fetch and confirm zero literal markup left in the rendered text |
 | JXA + Chrome fallback | the markup of the endpoint the script calls (v2 → wiki, v3 → ADF) | the gates of that endpoint's row |
 
-Embed screenshots **bare** — `!file.png!`, resized to ~600–640 px before upload. A width parameter puts
+Embed screenshots **bare** — `!file.png!`, resized to 640 px wide before upload (macOS `sips -Z 640 <file>`, then `sips -g pixelWidth <file>` reads the width; elsewhere any image tool, then read the width). A width parameter puts
 a pipe inside a table cell and splits the row. The attachments endpoint needs an issue key
 (`issueIdOrKey`), so for a **new bug** create the issue first with a body that has no image embed, then
 upload the attachments to the returned key, then update the body to embed them bare, then re-fetch the

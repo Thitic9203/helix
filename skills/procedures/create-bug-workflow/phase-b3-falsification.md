@@ -2,7 +2,7 @@
 
 Part of [WORKFLOW.md](WORKFLOW.md), opened at Phase B3; every rule here is a full gate.
 
-## Phase B3 — Falsification (before create) [high freedom]
+## 🔴 GATE: Phase B3 — Falsification (before create) [high freedom]
 
 Runs after Phase B2 for every candidate that cleared it. **🔴 GATE:** no candidate reaches Phase C until it survives falsification.
 
@@ -22,7 +22,7 @@ run the check.
 Then give each candidate one label, written on its draft summary line:
 
 - **Confirmed** — every check passed with evidence → goes to Phase C.
-- **Likely** — checks passed but one rests on the reporter's word only, or a question only the reporter
+- **Likely** — a defined status here, not a cause hedge (the hedge ban in root-cause-investigation.md covers cause sentences) — checks passed but one rests on the reporter's word only, or a question only the reporter
   can answer is still open (another role tried? how often?) and nothing in the evidence argues against
   the defect → goes to Phase C marked **Likely**, with that open question on its Likely line; filed only
   if the user approves it as Likely there.

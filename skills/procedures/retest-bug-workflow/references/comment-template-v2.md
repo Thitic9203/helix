@@ -31,8 +31,8 @@ node tools/retest-guard/retest_guard.js --manifest run.json --out body.txt --evi
 ## Line order of the body
 
 1. `*Retest Result: <PASSED|FAILED|BLOCKED|PWMI>*` plus its icon (scoped rounds: `PASSED (scoped: TC_nn)`).
-2. Header lines: `*Env:*`, `*Design ref:*`, `*Role:*`, `*Date:*`, `*Build:*`, `*Fixture:*` — a
-   multi-point value is the label on its own line, one bullet per point, then one blank line.
+2. Header lines, one bullet each: `* *Env:*`, `* *Design ref:*`, `* *Role:*`, `* *Date:*`, `* *Build:*`, `* *Fixture:*` — a
+   multi-point value is the label bullet, one `**` sub-bullet per point, then one blank line.
 3. `----`
 4. `*Test Step (from ticket):*` and `*Expected Result (from ticket, verbatim):*`.
 5. ONE table: `||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||`
@@ -43,7 +43,7 @@ node tools/retest-guard/retest_guard.js --manifest run.json --out body.txt --evi
 
 ## Example — manifest in, body out
 
-Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed points):
+Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed points; `marker.src` is this example's run — fill it from yours):
 
 ```json
 {
@@ -86,8 +86,8 @@ Input — `run.json` (placeholders; a FE bug, PASSED, one ER with two observed p
       "id": "ER1",
       "actual": "<POINT_1> · <POINT_2>",
       "evidence": [
-        "<ISSUE_KEY>_TC_01_<ROLE_A>.mp4",
-        "TC_01_<ROLE_A>-ER_1.png"
+        "<ISSUE_KEY>_TC_01.mp4",
+        "TC_01-ER_1.png"
       ],
       "status": "PASSED"
     }
@@ -123,17 +123,17 @@ body with `--body body.txt --format v2 --bug-type FE`):
 ```text
 *Retest Result: PASSED* ✅
 
-*Env:* <ENV_NAME> (<ENV_HOST>)
-*Design ref:* <DESIGN_NODE_LINK>
-*Role:* <ROLE_A>
-*Date:* 2026-10-14
-*Build:*
-* <BUILD_TAG>
-* <FIX_COMMIT>
+* *Env:* <ENV_NAME> (<ENV_HOST>)
+* *Design ref:* <DESIGN_NODE_LINK>
+* *Role:* <ROLE_A>
+* *Date:* 2026-10-14
+* *Build:*
+** <BUILD_TAG>
+** <FIX_COMMIT>
 
-*Fixture:*
-* <FIXTURE_A> created for the run
-* deleted after the run
+* *Fixture:*
+** <FIXTURE_A> created for the run
+** deleted after the run
 
 ----
 
@@ -141,7 +141,7 @@ body with `--body body.txt --format v2 --bug-type FE`):
 *Expected Result (from ticket, verbatim):* <ER1_VERBATIM>
 
 ||*No.*||*ER*||*Case (Role)*||*Expected Result*||*Actual Result*||*Evidence*||*Status*||
-|1|ER1|• TC_01 <TITLE_A> (<ROLE_A>)|<ER1_VERBATIM>|• <POINT_1> \\ • <POINT_2>|[▶ <ISSUE_KEY>_TC_01_<ROLE_A>.mp4|^<ISSUE_KEY>_TC_01_<ROLE_A>.mp4] !TC_01_<ROLE_A>-ER_1.png!|✅|
+|1|ER1|• TC_01 <TITLE_A> (<ROLE_A>)|<ER1_VERBATIM>|• <POINT_1> \\ • <POINT_2>|[▶ <ISSUE_KEY>_TC_01.mp4|^<ISSUE_KEY>_TC_01.mp4] !TC_01-ER_1.png!|✅|
 
 *Expected-result coverage:* 1 / 1 items met
 *Case coverage:* 1 / 1 cases run — 1 passed / 0 failed / 0 blocked

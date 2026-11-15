@@ -2,7 +2,7 @@
 
 Rules for choosing the Thai wording used inside test case content.
 
-The glossary itself is **project data, not skill content**. Its published-sheet URL, tab name, `gid`, and local CSV path are recorded in the workspace's own project guide (`references/<project>-project-guide.md`, § TC glossary) — see [workspace-guide-discovery.md](workspace-guide-discovery.md). Skills MUST read the location from that guide rather than hardcoding a URL.
+The glossary itself is **project data, not skill content**. Its published-sheet URL, tab name, `gid`, and local CSV path are recorded in the workspace's own project guide (the workflow's `references/*-guide.md`, § TC glossary) — see [workspace-guide-discovery.md](workspace-guide-discovery.md). Skills MUST read the location from that guide rather than hardcoding a URL.
 
 ## Precedence
 
@@ -29,7 +29,7 @@ Every TC run re-fetches the tab and shows the user what it got. A cached CSV fro
 1. Fetch the published tab as CSV using the `gid` from the project guide:
 
    ```bash
-   curl -sL "https://docs.google.com/spreadsheets/d/e/{PUB_ID}/pub?gid={GID}&single=true&output=csv" -o references/tc-glossary.csv
+   curl -sL "https://docs.google.com/spreadsheets/d/e/{PUB_ID}/pub?gid={GID}&single=true&output=csv" -o "{GLOSSARY_CSV}"
    ```
 
    If TLS verification fails, the machine likely has an intercepting proxy (corporate AV, e.g. Bitdefender). Export its CA from the OS trust store and pass `--cacert`. **Never** pass `-k` / `--insecure`.

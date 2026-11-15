@@ -2,15 +2,13 @@
 name: tc-api-prep-workflow
 ---
 
-<!-- When to use / not use: see the description in ../../tc-api-prep-workflow/SKILL.md (single source). -->
-
 # TC API Prep Workflow
 
 Prepare **API manual test cases** from an **API spec** and **Swagger/OpenAPI**, show a draft in chat for approval, then either **post a comment** at a user-provided link or **write CSV/Excel** in the workspace for download.
 
 ## Contents
 
-This file holds the start of the run (checklist, discipline, Refusal-first, Phases A–C) and MUST / NEVER. Phases D–G and QA closing live in their own files next to this one; open each when its checklist line is reached, not before.
+Phases A–C and MUST / NEVER are here; Phases D–G and QA closing are in files next to this one, opened at their checklist line.
 
 ## Progress checklist
 
@@ -119,11 +117,11 @@ You can pick A, B, or both. For (A), provide the link now. For (B), say CSV, Exc
 
 Link is neither a Jira issue nor a Confluence page → 🔴 **STOP**: say it is unsupported; offer B or a Jira/Confluence link.
 
-Skip the question for any field the user's messages already fixed (the link for A; format and folder for B — folder defaults to `references/`), and state the recorded choice in one line instead.
+Skip the question for any field the user's messages already fixed (the link for A; format and folder for B — folder defaults to `references/`), and state the recorded choice (with `{SCOPE}`, see G1) in one line instead.
 
 🔴 **STOP — wait for an answer** to every field still missing before designing and drafting (Phases D–F).
 
-Delivery recorded → before Phase D, check each SKILL.md § Dependencies row it uses, at the point that row names; a failed check is a stop.
+Delivery recorded → before Phase D, check each SKILL.md § Dependencies row it uses, at the point that row names. 🔴 **STOP** on a failed check: report it and the [dependencies.md](../../../references/dependencies.md) fallback.
 
 ---
 
@@ -135,7 +133,7 @@ At Phase D, open [phase-d-scope-design.md](phase-d-scope-design.md) and follow e
 
 ## Phase E — Coverage & quality review (mandatory; 1–2 rounds) [medium freedom]
 
-At Phase E, open [phase-e-review.md](phase-e-review.md) and follow every line of it before you move on. Mandatory: 1–2 review rounds before any draft is shown.
+At Phase E, open [phase-e-review.md](phase-e-review.md) and follow every line of it before you move on.
 
 ---
 
@@ -167,7 +165,7 @@ It is the last section of phase-g-deliver.md; finish it before reporting done.
 
 ## References
 
-All shared references and the trigger that opens each: [skill-reference-index.md](../../../references/skill-reference-index.md). This skill's own files, opened at the step that names them: [default-columns.md](references/default-columns.md) (Phase B), [api-tc-guidelines.md](references/api-tc-guidelines.md) (Phase D/E), [spec-coverage-review.md](references/spec-coverage-review.md) (Phase E), [delivery-options.md](references/delivery-options.md) (Phase C/G), [markdown-template.md](references/markdown-template.md) (Phase F), [worked-example.md](references/worked-example.md) only when a format sample is needed, [scripts/README.md](scripts/README.md) (optional CSV helper).
+Shared references and their triggers: [skill-reference-index.md](../../../references/skill-reference-index.md). Own files, opened at the step: [default-columns.md](references/default-columns.md) (Phase B), [api-tc-guidelines.md](references/api-tc-guidelines.md) (Phase D/E), [spec-coverage-review.md](references/spec-coverage-review.md) (Phase E), [delivery-options.md](references/delivery-options.md) (Phase C/G), [markdown-template.md](references/markdown-template.md) (Phase F), [worked-example.md](references/worked-example.md) only when a format sample is needed, [scripts/README.md](scripts/README.md) (optional CSV helper).
 
 ---
 

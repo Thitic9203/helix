@@ -14,7 +14,10 @@ From API spec + Swagger:
    - Validation (400, or 422 when Swagger lists it) — required fields, types, bounds
    - Not found (404) when the path has an id parameter; conflict (409) when Swagger lists 409 for the operation
    - Idempotency / side effects when the spec or Swagger documents them (row shape: [api-tc-guidelines.md](references/api-tc-guidelines.md) § Coverage per endpoint)
-   - **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required) and the API spec states no status for that case either → do not invent a status for the affected error rows (spec states one → use it, flagged as a gap): list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows. No `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.
+   - **Swagger leaves an operation's statuses or auth undocumented** (no `responses`, or only `default`; or no `security` on the operation or globally while the spec says auth is required):
+     - the API spec states no status for that case either → do not invent one for those error rows: list the operation under **Spec/Swagger gaps flagged** in the Phase E review block, ask the user for the expected status, and 🔴 **STOP** before writing those rows;
+     - the spec states one → use it, flagged as a gap;
+     - no `security` and the spec is silent on auth → treat the operation as public: no 401 row, listed under out of scope.
 3. Map each row to **Services Impacted** from spec or user naming.
 4. **Test Case ID** pattern: `TC_API_{Module}_{nn}` — unique; `nn` follows the row order below (every 2xx row of a module has a lower `nn` than any 4xx row), so renumber whenever Phase D/E adds or moves a row; ids are stable only after the user approves the Phase F draft.
 

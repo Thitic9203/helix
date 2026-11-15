@@ -49,7 +49,7 @@ files that must exist.
 
 **Roles — one set each, no sampling.** If the ticket mentions 5 roles, the deliverable is **5 capture
 sets**, not one clip from whichever account happened to be logged in. Roles are written with the
-canonical identifiers — `GUEST · LEARNER · CREATOR · CONTENT_ADMIN · SYSTEM_ADMIN` — **copy-pasted,
+canonical identifiers — the exact role ids the ticket or the project guide lists — **copy-pasted,
 never typed from memory** (PM-008). A role that could not be exercised (no account, login fails) is an
 explicit **BLOCKED row naming that role and the reason** — never an unmentioned gap, and never
 "covered by another role".
@@ -64,7 +64,7 @@ role's evidence. Every FAIL it prints is already in the shape the BLOCKED row ne
 reason given.
 
 **A collective phrase names every role.** "ทุก role" / "all roles" / "every user type" expands to the
-full canonical five — a phrase that names no single role is not a case with no roles. A *role-agnostic*
+project's full canonical list — a phrase that names no single role is not a case with no roles. A *role-agnostic*
 phrase ("any logged-in user") is one set, **with the role actually used written on the row** so the
 reader knows what was exercised.
 
@@ -112,7 +112,7 @@ Measured by **`capture/verify_shot.py`** (same toolkit as the recorder): `python
 
 ### Narrow-width rows
 
-A row the plan runs under 1920 px wide (a tablet or mobile width) keeps its own width — never a 1920 px capture claimed for it. Its stills use `deviceScaleFactor` 2 at that width, so each is **≥ 2 × the row width** (the desktop floor's density), with the width in the name (`…-ER_<n>_w375.png`). Its clip cannot pass layer 1 while the recorder refuses any viewport under 1920×1080 (*Capture spec*), so the row is **BLOCKED** under [no-wait-decision-gate.md](no-wait-decision-gate.md) layer 17 with the layer-18 record — never PASSED or FAILED on stills ([result-quality-gate.md](result-quality-gate.md) layer 10).
+A row the plan runs under 1920 px wide (a tablet or mobile width) keeps its own width — never a 1920 px capture claimed for it. Its stills use `deviceScaleFactor` 2 at that width, so each is **≥ 2 × the row width** (the desktop floor's density), with the width in the name (`…-ER_<n>_w375.png`). Its clip records a 1920×1080 browser window whose page is emulated at the row width (device emulation, `deviceScaleFactor` 2), so layer 1 holds and the row passes or fails on its clip like any other. Only when the recorder cannot emulate a width does its clip fail layer 1, because the recorder refuses any viewport under 1920×1080 (*Capture spec*), so the row is **BLOCKED** under [no-wait-decision-gate.md](no-wait-decision-gate.md) layer 17 with the layer-18 record — never PASSED or FAILED on stills ([result-quality-gate.md](result-quality-gate.md) layer 10).
 
 ## MP4 evidence — 7-layer quality + correctness defense gate (mandatory, fail-closed)
 

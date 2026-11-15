@@ -1,7 +1,7 @@
 ---
 description: |
   Prepare API manual test cases from API spec and Swagger — confirm columns and delivery (comment link or CSV/Excel).
-  Do NOT use for FE story AC/EC tables (tc-fe-prep), Playwright runs (testing-ticket), or filing bugs (create-bug).
+  Do NOT use for FE story AC/EC tables (tc-fe-prep), execution (testing-ticket), retest (retest-bug), or bugs (create-bug).
 ---
 
 Read and follow [the TC API prep workflow](../skills/tc-api-prep-workflow/SKILL.md) end-to-end.

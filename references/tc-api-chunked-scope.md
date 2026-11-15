@@ -39,4 +39,4 @@ If stopping mid-API, write [handoff-file-template.md](handoff-file-template.md) 
 | Rule | Because |
 |------|---------|
 | MUST NOT claim “full API covered” after one tag only | Scope honesty |
-| MUST get user sign-off per chunk before merge to master sheet | Avoid silent scope creep |
+| MUST get user sign-off per chunk before rolling the chunk into the final delivery (comment or file) | Avoid silent scope creep |

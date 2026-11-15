@@ -32,7 +32,7 @@ For hand-off to a Playwright/CLI agent or PR reading. Offer **alongside** CSV/Ex
 
 - **Bold every header cell**: `| **Test Case ID** | **Module / Feature** | **Test Title** | ... |` — ALL columns, not just one
 - **Chat draft**: use `<br>` between numbered items (readable in markdown)
-- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (ADF `hardBreak`, G2 step 1) — never copy the chat draft directly. Full rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md)
+- **Jira comment body**: MUST convert `<br>` to Jira-native line breaks **before posting** (G2 step 1; rules: [jira-linebreak-conversion.md](../../../../references/jira-linebreak-conversion.md))
 - Issue keys that must not auto-link: in ADF (the G2 publish path) give the text node a `code` mark; `{{PROJ-123}}` is wiki markup and renders literally in ADF
 - Large tables (> 50 rows): offer the user a CSV/xlsx attachment + table summary instead of the full inline table (phase-g-deliver.md G2 step 1); verify row count on Jira UI after post
 - After post: confirm **no literal `<br>` in any cell** on Jira UI
@@ -44,8 +44,4 @@ For hand-off to a Playwright/CLI agent or PR reading. Offer **alongside** CSV/Ex
 
 ## Verification
 
-After any delivery:
-
-- [ ] Row count matches approved draft
-- [ ] Column order matches user-confirmed format
-- [ ] No draft marked “not published” still missing at destination
+After any delivery run the G-verify checklist in [phase-g-deliver.md](../phase-g-deliver.md) ; also confirm no "not published" draft marker remains.

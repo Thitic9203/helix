@@ -120,8 +120,8 @@ not a shortcut. Full rule: [test-through-real-steps.md](../../../references/test
 **Retest deeply — the gates a shipped-defect review put in writing.** Follow
 [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) throughout: cover
 the **whole surface** the fix touched, not only the ticket's own lines (§1); write expected results
-that test *right*, not *present* (§2); never record PASSED over a `caveat / not verifiable / ยืนยันไม่ได้`
-actual result (§3); run every in-scope screen width and judge overflow/overlap by **measurement** (§4);
+that test *right*, not *present* (§2); never record PASSED over an actual result with a word on the
+§3 list; run every in-scope screen width and judge overflow/overlap by **measurement** (§4);
 use fixtures big enough to fail (§5); note the **build id** the fix landed in (§6); attach evidence to
 **passed** rows too (§7); unspecified behaviour is a question, never a verdict (§8); preflight the
 session before believing any result (§9).
@@ -205,7 +205,10 @@ Capture: environment, test steps, expected/actual results, API endpoint, bug typ
 **The bug's own details are the PRIMARY verdict source.** Read the bug's description in full and extract its **Expected Result verbatim** — every item, every exact wording. The verdict criterion is:
 
 - **PASSED** only if the retest satisfies **ALL** expected results stated in the bug — every item, character-exact where the bug specifies wording.
-- <a id="verdict-rule"></a>🔴 **Verdict rule (the one rule for any difference):** a partial match is **never PASSED**. Wording is compared character by character against the Expected Result field (field id from the project guide) wherever the expected specifies exact wording. An item **observed to differ** — any difference, including one word or one pixel; there is no "minor wording" or "cosmetic" exception to *not PASSED* — is a non-PASS row whose verdict comes **only** from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md): **Lowest / Low / Medium → PWMI**, **High / Highest → FAILED**. An item **not verified / unreachable** is a **BLOCKED** row (a coverage gap, never a product FAILED). The round's summary verdict follows the rows, worst finding first: FAILED, then PWMI, then BLOCKED, then PASSED (`computedVerdict` in `tools/retest-guard/retest_manifest.js`; when the workspace has no such tool ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)), apply this order by hand from the rows and state `manifest tool not installed — verdict computed by hand` with the draft — the check is never skipped).
+- <a id="verdict-rule"></a>🔴 **Verdict rule (the one rule for any difference):** a partial match is **never PASSED**; wording is compared character by character against the Expected Result field (field id from the project guide) wherever the expected specifies exact wording.
+  - 🔴 An item **observed to differ** — any difference, including one word or one pixel; there is no "minor wording" or "cosmetic" exception to *not PASSED* — is a non-PASS row whose verdict comes **only** from the [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md): **Lowest / Low / Medium → PWMI**, **High / Highest → FAILED**.
+  - 🔴 An item **not verified / unreachable** is a **BLOCKED** row (a coverage gap, never a product FAILED).
+  - 🔴 The round's summary verdict follows the rows, worst finding first: FAILED, then PWMI, then BLOCKED, then PASSED (`computedVerdict` in `tools/retest-guard/retest_manifest.js`; when the workspace has no such tool ([which tools count](../../retest-bug-workflow/SKILL.md#tool-not-available)), apply this order by hand from the rows and state `manifest tool not installed — verdict computed by hand` with the draft — the check is never skipped).
 - Parent-story AC / Figma are **supplements** for context or when the bug is title-only — they never override or dilute the bug's own expected results. If the bug's expected result and the parent AC conflict, test against the bug's text and flag the conflict to the user.
 - **Enumerate the full contract now (coverage gate layers 1–2).** Extract **every** Expected-Result item **and** each bullet of the bug's detail/steps char-exact, give each a stable id (`ER1…`), and map each id 1:1 to a row you will fill in the Step 6 verdict table — so the ALL-items check is a **visible row per id**, not implied. The ids follow the ticket's own numbering: a compound expected ("shows A **and** B") stays **one** `ER` id and one row, quoted whole, and splits into one Step 2c **case** per clause — so the `Expected-result coverage` denominator equals the ticket's item count; an item with no row is a coverage gap → add it, never drop it. Nothing verified-or-reported lives outside this list, and nothing in it is silently omitted.
 
@@ -229,26 +232,9 @@ header (`Design ref:` / `Build:`). Missing design reference → Step 2d.
 **If Priority/Severity context is needed** (citing the original bug's Priority, or scoping a newly
 observed, distinct defect found during retest) — judge it only by the
 [Bug Priority & Severity Matrix](../../../references/bug-priority-matrix.md), never invent a
-severity/priority notion. Cheat-sheet (full matrix + hard rule at the link):
+severity/priority notion. Read the Priority and verdict off its *Matrix → Priority → verdict cheat-sheet* (the one copy).
 
-| If the defect reads like… | Priority | Verdict |
-|---|---|---|
-| cosmetic / typo / UI misalignment | Low | **PWMI** |
-| minor calculation or display error | Low | **PWMI** |
-| major feature affected **but a workaround exists** | Low | **PWMI** |
-| minor glitch that does **not** block the workflow | Medium | **PWMI** |
-| **optional** feature not working | Medium | **PWMI** |
-| functionality problem affecting **several** users | Medium | **PWMI** |
-| critical feature **partially** broken | Medium | **PWMI** |
-| rarely-used feature **fully** broken | High | **FAILED** |
-| feature issue affecting **some** users | High | **FAILED** |
-| core functionality affected / partial outage | High | **FAILED** |
-| core system failure affecting **most** users | High | **FAILED** |
-| security warning in a minor feature | Highest | **FAILED** |
-| system crash for some users | Highest | **FAILED** |
-| complete outage / data loss / security breach | Highest | **FAILED** |
-
-**Viewing a Figma supplement:** when the bug/parent references a Figma design, use the **Figma Dev Mode MCP** first (`get_screenshot` / `get_metadata`) — needs the Figma desktop app with **Dev Mode MCP Server enabled** (Figma menu → Preferences) and the file open; `node-id` in the URL uses `-`, the MCP `nodeId` uses `:` (`1234-5678` → `1234:5678`). If that server is off, **fall back to the browser-automation MCP**: open the file URL (a logged-in browser session persists auth), let the canvas render, screenshot the node. Dismiss the **"view this file in Dev Mode?"** modal with **"Not now"** — NEVER "Request access". View+Comment access is enough. (Figma stays a **supplement** — it never overrides the bug's own expected results.)
+**Viewing a Figma supplement:** open the node per [figma-design-comparison.md](../../../references/figma-design-comparison.md) §2 (Dev Mode MCP first, then the browser fallback; NEVER "Request access"). Figma stays a **supplement** — it never overrides the bug's own expected results.
 
 ---
 
@@ -279,7 +265,7 @@ each. Build it here, before testing, so the run has a defined scope instead of a
    out-of-scope in the plan, never silently skipped.
 4. **Give every case a stable id** (`TC_01`, `TC_02`, …) plus: title · which `ER*`/`AC*` it covers ·
    its design node link (UI cases) · the fixture it needs (these two columns belong to the Step 2c plan table). A case whose fixture does not exist yet is
-   created (Step 4c) or recorded BLOCKED with the missing fixture named — never dropped.
+   created (Step 4c), and recorded BLOCKED with the missing fixture named only when the 4c creation steps fail — never dropped.
 5. **Build the lane plan** ([parallel-test-lanes.md](../../../references/parallel-test-lanes.md) §2–§4).
    Read the account pool from the project config, group the cases into units (shared record ·
    multi-role · one screen's widths/states · chained precondition · barrier for anything every lane
@@ -370,7 +356,7 @@ At step 6d (before the approval popup; tick every item not marked `[after Step 9
 - [ ] **Scope is stated only when partial** — a full round prints no Scope line; a partial one prints `CASES: <ids>` with the verdict reading `PASSED (scoped: …)` and an `Out of scope this round:` line naming every item this round did not verify.
 - [ ] **Coverage gate PASSED — `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)`**; rule stated once at [coverage gate](#coverage-gate).
 - [ ] **Case list in the posted comment (bug and task alike)** — every Step 2c case appears in the `Case (Role)` cell of each row it covers, in the one table (no separate case table); `Case coverage: {n}/{total}` reconciles; the surface's existing cases were pulled in, not just the ticket's own lines ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §1).
-- [ ] **Design (Figma) comparison ran for every UI case** `[after Step 9]` — checked at step 9 close-out; gate stated once at [Step 2d](#design-reference-gate) and [Step 4d](execute-and-evidence.md#design-comparison).
+- [ ] **Design (Figma) comparison ran for every UI case** — ran at Step 4d, so the pre-6d run ticks it; gate stated once at [Step 2d](#design-reference-gate) and [Step 4d](execute-and-evidence.md#design-comparison).
 - [ ] **Depth gates green** ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md)): values checked against their source (not just present) · every in-scope width run with overflow/overlap **measured** · fixture large enough to overflow/scroll · build id recorded · no `caveat/not verifiable/assumed` row carrying a passing status · anything wrong that was seen is reported even where no expected asked for it.
 - [ ] `Verdict:` is the round's real verdict — one of PASSED / FAILED / BLOCKED / PWMI per the [verdict rule](#verdict-rule) — with the issue link.
 - [ ] **Non-PASSED verdict:** Step 6a's two blocks present — **root cause** (Confirmed/Suspected/Unknown + backing artifacts) and **resolution options** (two options, each a named **role** owner, ending `Decided by: <role>`) — plus the one-line statement of whether the originally reported symptom is gone. (No separate repro-matrix / why-failed block — that content lives in the `Fixture` line and the verdict-table row + its `Evidence` MP4 / screenshot.)
@@ -407,7 +393,7 @@ At step 8, after the post, open and follow [closeout-and-notify.md](closeout-and
 | Default parallel execution — lanes, one account per lane, merge | [parallel-test-lanes.md](../../../references/parallel-test-lanes.md) |
 | Still failing | [references/debug-discipline.md](references/debug-discipline.md) |
 | Encoding / v2 issues | [references/gotchas.md](references/gotchas.md) |
-| Session handoff | [references/handoff-template.md](references/handoff-template.md) |
+| Session handoff | [handoff-file-template.md](../../../references/handoff-file-template.md) |
 | Lessons learned | [references/post-mortem-template.md](references/post-mortem-template.md) |
 | [worked-example.md](references/worked-example.md) | On-demand: anonymized sample (read only when format reference needed) |
 
@@ -431,9 +417,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST treat Swagger (+ error docs) over stale ticket text | Ticket text can be stale |
 | MUST use exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️** in the summary line — the round's real verdict; a round nobody could reach reads BLOCKED, never FAILED | Scanability for dev/QA; a coverage gap is not a defect (`SUMMARY_VERDICTS` in `retest_rules.js`) |
 | MUST keep a PASSED comment inside the Step 6 template fields only — no narrative padding, one-line evidence captions | A tight comment is scannable in seconds; prose bloat buries the verdict (locked from an owner-accepted format 2026-07-23) |
-| MUST give every table column an explicit English header; row-number column = `No.` | bare `#` renders as a blank header cell in Jira |
-| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24) |
-| MUST bold every table header cell (`\| **No.** \| **Test Case** \| …`) | Jira doesn't auto-bold markdown headers; non-bold looks unprofessional |
+| MUST head the single table exactly as the **Table headers** rule (applied at step 6) in [comment-and-post.md](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) states (the guard's `VERDICT_TABLE_HEADERS`; API bug: drop `Evidence`) — that rule is the one copy: every column carries an explicit, **bold**, English header, row-number column = `No.` | the middle columns carry the ticket's own field names so a reader lines the comment up with no translation (user correction 2026-07-24 on two retests; Evidence column added 2026-07-27; one table with `ER` and `Case (Role)` ordered by the owner 2026-09-24); a bare `#` renders as a blank header cell and Jira does not auto-bold markdown headers |
 | MUST compare actual text against the Expected Result field character by character — rule stated once at the [verdict rule](#verdict-rule) | Any text difference is **never PASSED**; one statement keeps the PWMI/FAILED mapping from drifting |
 | MUST pass the Step 8·0 format-completeness gate before ANY status transition — FE bug evidence follows (at step 6, checked at step 8) the [Evidence per row](comment-and-post.md#step-6--draft-jira-comment-medium-freedom) rule (MP4 link in every row's `Evidence` cell, plus an inline `!file.png!` still — pre-resized, no `\|width` — on text-verification rows), link and still render-verified; a text-only FE comment fails the gate | Transitioning on an evidence-incomplete comment silently hides the gap (learned on a past retest: FE bug moved to Done with a text-only comment) |
 | MUST NOT offer the user a "skip the MP4 / stills / text-only" option for an FE bug — that evidence is mandatory; if upload is blocked, STOP and resolve, don't bypass | Offering to skip a mandatory step is how the gate got bypassed (same past retest) |
@@ -445,9 +429,8 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST lock v2/v3 at Step 3 (FE → v2) and MUST NOT change COMMENT_FORMAT after Step 3 | v2/v3 rewrite cost |
 | MUST include full cURL/response per API case | Evidence must stand alone |
 | MUST take transition names/ids, notify-helper flags, app URL shapes and UI-automation quirks from the workspace's project guide — never from a value written in this skill | Workflows, tooling and UI differ per project; a value hardcoded here transitions the wrong ticket somewhere else (portable-content.md) |
-| MUST NOT include local file paths in Jira comments (`docs/result/`, absolute home/machine paths, etc.) | Meaningless to Jira readers; the owner flagged this as a repeat mistake |
-| MUST scan Jira comment for local paths before posting | Catches leaks: `docs/`, `~/`, absolute paths |
-| MUST `--dry-run` Discord notify before real send | Catches format errors before they go live |
+| MUST NOT include local file paths in Jira comments (`docs/result/`, `docs/`, `~/`, absolute home/machine paths, etc.) — scan the comment for them before posting | Meaningless to Jira readers; the owner flagged this as a repeat mistake |
+| MUST `--dry-run` the notify before the real send, whatever the channel, and run the Step 9 pre-notify review gate (5 checks on that dry-run output) before EVERY send, including resends | Catches format errors and wrong recipient/link/counts before they go live (user rule 2026-07-15) |
 | MUST fetch the notify recipient from the ticket's QA Owner field (per project guide) per ticket, and verify the @mention person = that field's value — NEVER the Reporter, never a name carried over from another ticket | Label said "QA Owner" but pinged the Reporter → 3 wrong pings, user correction 2026-07-15 |
 | MUST verdict from the bug's OWN expected results — rule stated once at the [verdict rule](#verdict-rule) (parent AC: the supplement line under it) | Bug details are the contract; a partial match is never PASSED (user rule 2026-07-15) — PWMI or FAILED per the [verdict rule](#verdict-rule) |
 | MUST enumerate every Expected-Result item + bug-detail bullet at Step 2 and reconcile ids == rows before Step 6 / 8·0 — rule stated once at [coverage gate](#coverage-gate) | The retest scope is the bug's own contract; an unenumerated or unmapped item is silently unverified |
@@ -473,7 +456,6 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST re-verify (re-run the surface) before answering any question that arrives after posting, then fold the answer into the original comment in place and re-run Step 7d | Answering from memory published a wrong claim once already |
 | MUST correct a wrong published statement **visibly in both places** — in-place comment edit naming the corrected claim **and** a follow-up in the thread where the wrong answer was given | People already replied to the wrong version; a silent edit makes the thread unreadable |
 | MUST send the Step 9 notify on every retest a configured channel covers — whoever invoked the skill (owner, another QA, slash command, unattended bot), asked for it or not | The notify is how the QA owner learns the verdict; tying it to who started the run means retests run by anyone else close silently |
-| MUST run the Step 9 pre-notify review gate (5 checks on dry-run output) before EVERY send, including resends | Catches wrong recipient/link/counts before they go live (user rule 2026-07-15) |
 | MUST retest a **Task / Story** against its Acceptance Criteria (read where the AC actually lives, usually the description) with the same enumerate→row→reconcile discipline a Bug's Expected Result gets; a ticket stating no verifiable AC is BLOCKED + a question to the owner, never PASSED | A task retest with no written contract is an unverified pass; "nothing to check" is not a check |
 | MUST post the **case list** inside the retest comment's one table: No. · ER · Case (Role) · Expected Result · Actual Result · Evidence · Status — **never a separate case table, never a design-node column** (that ban applies only to this posted comment table, not to the Step 2c plan; at step 6 — [`Design ref:` line rule](comment-and-post.md#design-ref-line)) — for **both** bug and task retests, reconciled against the Step 2c list and the `ER*`/`AC*` ids | A result that never becomes a case row is never re-run; three customer escapes came through results that lived only as comment prose |
 | MUST scope the retest to the **whole surface** the fix touched (its existing cases + the states and in-scope widths the design defines), not only the reported line | A component was retested on one screen while the defect sat on another screen reusing it — the customer found it |
@@ -481,7 +463,7 @@ Shared rules: [shared-must-never.md](../../../references/shared-must-never.md). 
 | MUST report a missing design reference back and hold its visual points **BLOCKED** — rule stated once at [Step 2d](#design-reference-gate) | An assumed expected is not a spec; it produces both phantom bugs and false passes (PM-006) |
 | MUST report a screen this ticket intentionally changed as **design out of date** (name the design owner, ask for the node update in this ticket) instead of filing it as a defect | A relocated menu was reported missing when it existed in a submenu — a full round lost |
 | MUST spell out a mid-test AC revision in the verdict line (`PASSED against AC as revised {date}, differs from design in {…}`) and hand the difference to the known-limitation list | A silent PASSED on a revised AC shipped the review's only High-severity escape |
-| MUST NOT record a passing status on a row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้` — it is BLOCKED, or PWMI with a bug raised | We shipped a PASSED whose own text said it could not be verified, and that was exactly the customer's bug |
+| MUST NOT record a passing status on a row whose actual result contains a word on the [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3 list (`caveat`, `not verifiable`, …) — it is BLOCKED, or PWMI with a bug raised | We shipped a PASSED whose own text said it could not be verified, and that was exactly the customer's bug |
 | MUST measure overflow (`rect.right > innerWidth`, `scrollWidth > innerWidth`) and overlap (>3 px intersection) at every in-scope width rather than judging by eye | Seven escapes were on widths nobody ran; the measurements caught them the moment they were run |
 | MUST verify each displayed value against its source and report anything wrong that is seen, even when no expected asked for it | "Elements render correctly" was written while the defect was on screen and unremarked |
 | MUST retest on a fixture able to fail (long titles, lists past their visible slots, populated accounts) and record the **build id** the fix landed in | One course with one media item can never overflow, wrap, or scroll; and a pass against a build nobody ships is not a pass |

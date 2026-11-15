@@ -32,7 +32,7 @@ An action that was not listed in that bundle is not run without asking.
 - [ ] Summary line is exactly one of **PASSED ✅** / **FAILED ❌** / **BLOCKED ⛔** / **PWMI ⚠️**; env + results table present (bold headers, `No.` column).
 - [ ] **Case list present and reconciled:** the single table's `Case (Role)` cells carry every Step 2c case, every `ER*`/`AC*` row names at least one case, and `Case coverage: {n}/{total}` matches the rows. A planned-but-unrun case is a BLOCKED row with its reason — never a shortened list.
 - [ ] **Design reference accounted for:** the header's `Design ref:` line carries the node link(s) actually opened, or the Step 2d reason naming who was or is to be asked. A UI retest with neither is not verified — do **not** transition ([figma-design-comparison.md](../../../references/figma-design-comparison.md)).
-- [ ] **No passing row whose actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้`** — such a row is BLOCKED or PWMI, never PASSED ([customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3).
+- [ ] **No passing row whose actual result contains a word on the [customer-escape-prevention.md](../../../references/customer-escape-prevention.md) §3 list** (`caveat`, `not verifiable`, …) — such a row is BLOCKED or PWMI, never PASSED.
 - [ ] **Every passing row carries an evidence reference** — `count(passing rows) == count(evidence links)`.
 - [ ] **AC/EC coverage reconciled (gate layer 6·7):** `enumerated Step 2 ER* ids == rows carrying a status + evidence (or explicit BLOCKED)` and `{n}=={total}` ([coverage gate](WORKFLOW.md#coverage-gate)). Any shortfall ⇒ do **not** transition; go back and close it.
 - [ ] **FE / UI bug:** a whole-flow **MP4 for every executed case**, uploaded as an attachment **and linked in that row's `Evidence` cell** (`[▶ …mp4|^…mp4]`), the link confirmed to resolve/play from the Jira UI (Step 7d); **plus** an inline screenshot (`!file.png!`, pre-resized, no `|width`) on every **text-verification** row, confirmed rendering as a picture. **A text-only comment for an FE bug FAILS this gate** — the exact-text/values table is not a substitute for the required MP4 (and text stills).
@@ -40,7 +40,7 @@ An action that was not listed in that bundle is not run without asking.
 - [ ] **API bug:** full cURL + response per row (no "same as above").
 - [ ] No local file paths, no literal `<br>`/HTML markup.
 
-If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it (or get an explicit user waiver) first. Never move a bug's status on an evidence-incomplete comment.
+If any item fails — including when evidence **cannot** be embedded (e.g. no Jira-auth upload path) — **STOP. Do NOT transition.** Report the specific gap to the user and resolve it first — an FE MP4 / still gap is never waived (WORKFLOW *MUST / NEVER*); any other item only by the user's explicit waiver of that item. Never move a bug's status on an evidence-incomplete comment.
 
 **Go back:** If any 8·0 item fails, fix the posted comment in place (same comment id) and return to Step 7d — re-verify, then run this gate again. 8a waits.
 
@@ -69,7 +69,7 @@ From changelog: last move into the project's **active development** status (ofte
 
 ### 8c. Assign (project-overridable)
 
-`editJiraIssue` → assignee = that developer (PASSED and FAILED). Refused → the 8a **Not offered, or refused** rule.
+`editJiraIssue` → assignee = that developer, for every verdict (the 6d default). Refused → the 8a **Not offered, or refused** rule.
 
 **Skip 8b–8c if the project guide says "never change assignee"** (ownership is then tracked by status, not assignee).
 
@@ -150,7 +150,7 @@ After the transition, if the project defines a **QA notify channel** (Discord/Sl
 - **Recipient resolution (mandatory):** read the recipient from the ticket field the project guide names (e.g. a "QA Owner" custom field) — fetch that field's value from the bug itself for **every** notify; do not reuse a name from an earlier ticket, and do not default to the Reporter. The label printed next to the mention MUST match the field the value came from (label "QA Owner" ⇒ value from the QA Owner field). Resolve it before the 6d approval popup; if the field is empty or the guide names no field, queue the recipient question in the 6d decisions popup — never ask after approval.
 - This is a **result FYI**, not a "please review" request — do not reuse the "QA Review Requested / pending review" wording.
 - If the project provides a notify helper, **use it** (it gets @mention + headers right) instead of hand-assembling the payload.
-- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send again — never state a cause you have not checked. The round is not closed until the helper prints its success line (the guide names it). Send with `?wait=true` (or the helper's equivalent); record the returned message `id` and thread id.
+- **The agent sends the notify itself — every time.** Load the helper's transport (webhook, credentials, flags) from where the project guide says it lives, and run the real send yourself; never hand the send command to the user. A helper skip / "transport unavailable" result is not a send: re-read the project guide's notify section and every file or note it points to, fix the input, and send once more — never state a cause you have not checked. The same result twice → stop resending ([settle-and-strategize.md](../../../references/settle-and-strategize.md) §4), report the helper's output, and leave the round open. The round is not closed until the helper prints its success line (the guide names it). Send with `?wait=true` (or the helper's equivalent); record the returned message `id` and thread id.
 
 ### Pre-notify review gate (mandatory, every send)
 
@@ -169,8 +169,8 @@ Run this checklist on the **dry-run output** before every real send — no excep
 
 If a verdict changes after the notification was sent (e.g. PASSED→FAILED on re-audit), first list steps 2–4 by name in one approval popup:
 
-1. `{mid}` = the message `id` recorded at the Step 9 send. GET `/webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}` reads that message back. No recorded id → stop and report.
-2. **PATCH the existing Discord message** — do not repost: `PATCH /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}`, after the pre-notify review gate.
+1. `{mid}` = the message `id` recorded at the Step 9 send; read that message back with the channel's get call (Discord webhook: `GET /webhooks/{wid}/{wtok}/messages/{mid}?thread_id={thread}`). No recorded id → stop and report.
+2. **Edit the existing message in place** with the channel's edit call named in the project guide (Discord webhook: `PATCH` the same path) — do not repost — after the pre-notify review gate.
 3. PUT the corrected Jira comment to the same `commentId` in the Step 3 format — usage marker stays the last line.
 4. Transition the ticket to the correct status.
 

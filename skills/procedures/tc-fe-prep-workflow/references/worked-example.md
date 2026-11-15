@@ -13,11 +13,14 @@
 
 1. **Step 0:** User gave URL → extracted `PROJ-100`, `jira.example.com`.
 2. **Step 2:** Mapped AC_01–AC_03, EC_01–EC_02 to scenarios (status unchanged after edit, validation on empty date).
-3. **Step 4 QA:** Caught missing EC_02 on first pass → added TC `6` before draft.
-4. **Step 4.5:** Posted Thai↔English term table (kept `Status`, `Dropdown` → `รายการแบบเลื่อนลง`) → user confirmed.
+   - **2a:** no duplicate or contradicting AC/EC. **2.5:** no PRD; Figma read, no conflict (HTML report opened). **2.6:** glossary re-fetched, 5 rows, no stop.
+3. **Step 4 QA:** Caught missing EC_02 on first pass → added TC `6` before draft. **4f:** author self-check, then reviewer round 1 CLEAN.
+4. **Step 4.5:** Posted Thai↔English term table (`Status` → `สถานะ`, ที่มา = glossary; `Dropdown` → `รายการแบบเลื่อนลง`, ที่มา = glossary) → user confirmed.
 5. **Step 5:** HTML draft opened in the browser (Type column present) → user replied `approve` in chat.
 6. **Step 6:** Suite gate — reused existing project suite `Schedule > Edit`; wrote `references/PROJ-100_FE_TC.md`, `references/Draft_Jira_PROJ-100.csv`, and `references/Import_Qase_PROJ-100.csv` in the **user's workspace** (per [csv-export-rules.md](../../../../references/csv-export-rules.md) + [qase-import-format.md](qase-import-format.md)).
+   - **Step 6.5:** skipped — the guide has no "Create the per-ticket TC tab" row.
 7. **Step 7:** Uploaded both CSVs and posted the ADF comment (fast publish Patterns A → B → C); **fix-verify:** re-opened issue → 6 rows visible, both attachment links work, footer shows 2 lines.
+8. **Step 7.5:** four-axis final review PASS, report posted.
 
 ## Output snippet (comment header only — posted as ADF; shown here as text)
 

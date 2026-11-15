@@ -6,7 +6,7 @@
 - `SyntaxError: await` in injected scripts → use `.then()` chains or an IIFE.
 - Always use **full URLs** in `fetch()` — no relative paths.
 - Some projects issue a separate token per portal — read the project config for the one this portal uses.
-- Re-login when the session expires (see config).
+- Session expired → login by command ([execute-and-evidence.md](../execute-and-evidence.md) §4b), never a login window.
 
 ## v2 wiki markup
 
@@ -27,8 +27,8 @@
 **Canonical:** [references/jira-wiki-vs-markdown.md](../../../../references/jira-wiki-vs-markdown.md)
 — syntax map, the unknown-`{macro}` trap, the unspaced-script bold rule, and both gates.
 
-Retest-specific: FE retests always take the v2 path (Step 7c), so **every retest comment body is
-wiki markup**. The one that bites hardest here is `**Retest Result: PASSED**` → renders as
+Retest-specific: FE retests always take the v2 path (Step 7c), so **every FE retest body is wiki
+markup** (an API retest is v3 markdown → ADF). The one that bites hardest here is `**Retest Result: PASSED**` → renders as
 `*Retest Result: PASSED*`. Drafting from a markdown example is how it gets in (PM-004).
 
 ## JXA and non-ASCII text

@@ -26,7 +26,9 @@ source is not re-read in full, a changed or missing one is re-read
 - AC/EC list: {id · one-line summary}
 - Figma node refs: {screen · node link · width(s)}
 - Swagger version: {version or spec URL + hash — or N/A}
-- Last-round results: {case id · PASSED | FAILED | BLOCKED | NOT TESTED · evidence path}
+- Last-round results: {case id · PASSED | FAILED | PWMI | BLOCKED | NOT TESTED · evidence path}
+- Stuck at: {step · blocker · what unblocks it}
+- Retest only: bug type + comment format {API · v3 ADF | FE · v2 wiki}; evidence per case {MP4 / still / cURL + response · uploaded | pending}
 
 ## Source fingerprints (captured at close of round {N})
 

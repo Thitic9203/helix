@@ -29,7 +29,7 @@ Each row MUST have:
 
 Before draft approval, check:
 
-- [ ] Every row has **Test Steps** and **Expected Result** with matching numbering.
+- [ ] Every row has **Test Steps** and **Expected Result** with matching numbering (API default set: Test Data is the step).
 - [ ] Expected results are **specific** (message fragment, status code, field name).
 - [ ] Preconditions make the case **executable** by another tester.
 - [ ] Priorities assigned; critical paths are not all Medium.

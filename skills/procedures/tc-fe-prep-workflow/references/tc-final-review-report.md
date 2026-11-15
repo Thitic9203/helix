@@ -21,7 +21,7 @@ Pair with [ac-ec-coverage-review.md](ac-ec-coverage-review.md) (pre-draft gate) 
 | Trigger | Source to review |
 |---------|------------------|
 | Jira comment posted | Re-read comment body + attachment on the issue |
-| Draft-only session (no publish) | Final approved table in chat + workspace `.md` / export file |
+| Draft-only session (no publish) | Final approved HTML draft + workspace `.md` / export files |
 | User requested review of existing comment | That comment ID + ticket description |
 
 Fix any **FAIL** before posting the report. Re-run checks after fixes (max 2 rounds). After 2 failed rounds → post this report with the failing axes verbatim, do not say TC prep is complete, and ask the user how to proceed.

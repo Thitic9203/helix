@@ -1,6 +1,7 @@
 ---
 description: |
-  Retest a Jira bug or task — verify fix against the design (Figma), collect evidence, post the comment with its test-case list, transition ticket.
+  Retest a Jira bug or task after a dev fix — verify against the design (Figma), evidence, comment with its case list, transition.
+  Use when a fix needs re-verifying (retest bug, verify fix, Ready to Retest).
   Do NOT use for filing new bugs (create-bug), drafting TC tables (tc-fe-prep / tc-api-prep), or first-time ticket testing (testing-ticket).
 ---
 

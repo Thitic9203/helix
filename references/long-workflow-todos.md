@@ -15,7 +15,7 @@ When a Helix skill has **multiple mandatory phases** (e.g. testing-ticket A→F,
 1. Intake + execution plan approved
 2. Preflight YES
 3. Playwright run + evidence captured
-4. Jira draft approved
+4. End-of-round approval popup answered (one approval for every write)
 5. Post + verify destination
 
 **Retest**

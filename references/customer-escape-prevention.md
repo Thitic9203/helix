@@ -214,15 +214,13 @@ forbids guessing a spec forbids guessing an absence.
 | MUST turn any result worth a verdict into a **case row with an id** — never leave it as prose in a comment | A result that is not a case is never re-run; 3 escapes came through that gap |
 | MUST write display-surface expected results with all four dimensions (present · values correct vs source · order/position vs design node · no overflow/overlap measured) | "Shows A, B, C" passes a wrecked screen |
 | MUST NOT use `complete` / `correct` / `properly` / `ครบถ้วน` / `ถูกต้อง` / `สวยงาม` alone as an expected result | They are unfalsifiable, and they passed the screen that produced five customer bugs |
-| MUST report a wrong thing observed while checking something else, even when no expected asked for it | The badge-overflow defect was on screen and unremarked |
-| MUST NOT record PASSED when the actual result contains `caveat` / `not verifiable` / `assumed` / `ยืนยันไม่ได้` / `ตรวจไม่ได้` — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |
+| MUST report anything wrong observed during a run, including while checking something else, even when no AC or expected asked for it | The badge-overflow defect was on screen and unremarked while "Badges render correctly" was written |
+| MUST NOT record PASSED when the actual result contains a word on the §3 list — it is BLOCKED (or PWMI with a bug) | We shipped a PASSED whose own text said it could not be verified |
 | MUST state the verification method (endpoint + permission) for any expected the UI does not display, at the time the case is written; no method ⇒ BLOCKED from the start | Discovering it mid-run is how the caveat-then-PASSED happened |
 | MUST settle in writing which screen widths are in scope, run every in-scope width as its own row, and judge overflow/overlap by **measurement** | 7 escapes were on widths nobody ran; the numeric checks caught them when finally run |
 | MUST verify the standing realistic fixture set exists before the run (long titles, lists past their visible slots, populated accounts, pre-first-use account) | A one-item fixture cannot overflow, wrap, or scroll |
 | MUST bind results to a build/commit id and re-run any surface changed after the run before delivering | 122/122 passed against a build the customer never saw |
-| MUST NOT hand over a result set where passed rows outnumber evidence links | Nobody could re-examine the layouts that later produced bugs |
 | MUST turn unspecified behaviour into a written question + BLOCKED, never a PASSED and never a defect | 7 escapes had no requirement; 2 filed bugs had no supporting spec (PM-006) |
 | MUST preflight the authenticated session (see the user in the session response), the environment, and a toggle's starting state before the first case | A dead session reported "no defects" for an entire set |
 | MUST open the trace (changelog / comments / logs) before claiming an action never happened | An empty field was read as "never tested" and became a wrong number-one root cause |
-| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |
-| MUST report anything wrong observed during a run even when no AC asked for it | "Badges render correctly" was written while the badge-overflow defect was on screen |
+| MUST attach an evidence reference to **passed** rows too — `count(passed) == count(evidence)` before Phase G; NEVER hand over a result set where passed rows outnumber evidence links | 12 of 122 passed rows had evidence; nobody could re-examine the layouts that later produced bugs |
