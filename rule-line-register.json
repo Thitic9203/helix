@@ -939,6 +939,14 @@
         "| MUST apply each rule at its single home — [verdict rule](#verdict-rule), [coverage gate](#coverage-gate), [root cause](#root-cause), [challenge gate](#challenge-gate), Step 4d design comparison | Bug details are the contract; a partial match is never PASSED (user rule 2026-07-15); \"Fixed except one point\" hidden as a caveat is misread as a full pass; `figma` appeared zero times in the set that shipped the escapes |"
       ],
       "approval": "ทำดิรอไร (owner, chat 16/Nov/2026, in reply to the proposal to rework the retest MUST/NEVER table)"
+    },
+    {
+      "removed": "| MUST apply each rule at its single home — [verdict rule](#verdict-rule) (character match, own ER, no PASSED on partial coverage), [coverage gate](#coverage-gate) (enumerate, one row each, no done while unrowed), [root cause](#root-cause), [challenge gate](#challenge-gate), [Step 2d](#design-reference-gate) design reference and Step 4d design comparison (opened at step 4) | Bug details are the contract; a partial match is never PASSED (user rule 2026-07-15); \"Fixed except one point\" hidden as a caveat is misread as a full pass; `figma` appeared zero times in the set that shipped the escapes; an assumed design expected produces both phantom bugs and false passes (PM-006) |",
+      "replaced_by": [
+        "| MUST apply each rule at its single home — [verdict rule](#verdict-rule), [coverage gate](#coverage-gate), [root cause](#root-cause), [challenge gate](#challenge-gate), Step 4d design comparison | Bug details are the contract; a partial match is never PASSED (user rule 2026-07-15); \"Fixed except one point\" hidden as a caveat is misread as a full pass; `figma` appeared zero times in the set that shipped the escapes |",
+        "| MUST report a missing design reference back and hold its visual points **BLOCKED** — rule stated once at [Step 2d](#design-reference-gate) | An assumed expected is not a spec; it produces both phantom bugs and false passes (PM-006) |"
+      ],
+      "approval": "ทำดิรอไร (owner, chat 16/Nov/2026, retest MUST/NEVER table rework; design row restored after after-21c AC3 regression)"
     }
   ]
 }
