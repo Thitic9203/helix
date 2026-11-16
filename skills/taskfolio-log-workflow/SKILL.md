@@ -75,7 +75,8 @@ Target **at least 8 h per working day**. 8 h is a minimum, not a cap — never c
 - **Support work** (help for customers or developers in Slack or chat) → category Support & Operations.
 - **Evidence with no draft:** propose **+ Add**.
 - **Hours:** 8 h − meetings, split across kept cards by amount of evidence, in 15 m steps, minimum 30 m.
-- **Lunch 12:00–13:00** (unless the workspace guide says otherwise): morning slots end by 12:00, afternoon slots start at 13:00. An entry may sit inside lunch only when evidence shows work in that hour.
+- **Lunch 12:00–13:00** (unless the workspace guide says otherwise): morning slots end by 12:00, afternoon slots start at 13:00. An entry may sit inside lunch only when evidence shows work in that hour. Taskfolio **deducts 1 h of lunch automatically** from any entry whose Start–End overlaps 12:00–13:00 (observed: 10:00–12:30 logs 1 h 30 m, 10:00–13:00 logs 2 h), so a meeting that runs into lunch needs a user decision — see Gotchas.
+- **Work with no Jira card** (test-data prep, tooling setup, internal tasks): propose **+ Add** with the Jira issue left empty and the work named in Description. It still needs a Category, Subcategory and Project.
 - **Subcategory** (Testing): TC written → Test case design; TC reviewed → Review test case; test run / result → Test execution; data setup → Prepare test data; regression / smoke → matching name. Unsure → ask.
 - **Project — every entry MUST have one:**
 
@@ -100,9 +101,9 @@ with the day total, then the Step 4 validation block. **Wait** for changes or co
 Run on the final table, including saved entries that stay, before asking to confirm and again right before saving. Show each check as ✅/❌. **MUST NOT save while any check is ❌** — because a wrong time or project is filed under the user's name and is hard to spot after submit.
 
 **Time**
-- [ ] Every entry has start **and** end, end > start, logged = end − start.
+- [ ] Every entry has start **and** end, end > start, logged = end − start (minus the automatic 1 h lunch deduction when the range overlaps 12:00–13:00).
 - [ ] Non-meeting entries are on 15 m steps and ≥ 30 m.
-- [ ] Meetings match Calendar start–end exactly.
+- [ ] Meetings match Calendar start–end exactly, unless the user chose another lunch handling (see Gotchas).
 - [ ] No two entries in one day overlap (compare sorted start/end pairs).
 - [ ] No entry crosses lunch unless the table cites evidence in that hour.
 - [ ] Day total = sum of entries and ≥ 8 h (or the user agreed otherwise).
@@ -121,16 +122,19 @@ Run on the final table, including saved entries that stay, before asking to conf
 ## Step 5 — Apply (after the user confirms)
 
 One entry at a time:
-1. Open it: draft or saved entry → its `.entbtn` inside its day column; new entry → `button.addbtn[data-add=YYYY-MM-DD]`. Wait for `[role=dialog]`. Find a day column with `button.addbtn[data-add=…]` → `.closest('.day-b')`. Match entries by exact text or index, never by a loose `includes` on a parent element — it can open the wrong entry.
+1. Open it: a day column is the `.day` element whose text starts with the weekday (`MON` …), and its entries are `.ent`. **Draft** → the `Edit` button inside its `.ent`; **saved entry** → its `.entbtn`; **new entry** → `button.addbtn[data-add=YYYY-MM-DD]`. Wait for `[role=dialog]`. Match an entry by the exact first line of its text (the Jira key), never by a loose `includes` — `PROJ-10` also matches `PROJ-100` and can open the wrong entry.
 2. Set selects with the native setter + `change`:
    `Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value').set.call(el,v); el.dispatchEvent(new Event('change',{bubbles:true}))`.
-   Find selects by their options, never by index or `name`: Category = has option `testing`; Subcategory = the select right after Category; Project = has options starting `jira-`; Start = has `06:00` and no "(…)" texts; End = options like `10:00 (30 m)`. A saved entry's dialog has an extra Date select first. Text inputs: `#j` Jira issue, `#d` Description (native setter + `input` event).
+   The dialog fields have ids: `#c` Category, `#i` Subcategory, `#pj` Project, `#ts` Start, `#te` End, `#j` Jira issue, `#d` Description (a saved entry's dialog also has `#dy` Date first). Selects carry no `name`, so never rely on `name` or index. If an id is missing in a newer build, fall back to matching by options: Category = has option `testing`; Subcategory = the select right after Category; Project = has options starting `jira-`; Start = has `06:00` and no "(…)" texts; End = options like `10:00 (30 m)`. Text inputs take the native `HTMLInputElement` value setter + an `input` event. Each select's value must exist in its options — check before setting and stop on a missing option.
 3. Set Category → **Subcategory** (required — the form drops the project otherwise) → **Project** → **Start** → **End**. Start + End fill Logged time. Read Project, Start, End and Logged back from the dialog **before** saving; mismatch → fix, do not save.
 4. Click **Add entry** (draft / new) or **Save** (saved entry). Wait ~6 s before the next call; the list re-renders.
 5. Delete = the entry's Delete, then confirm **Delete entry**.
 
 Gotchas:
 - Subcategory values: Testing → `test-design`, `test-exec`, `regression`, plus generated ids for Smoke testing, Review test case, Prepare test data, Review test result — pick by option text. Meeting → `sprint-ceremony`, Internal, External. Support → `prod-support`, `release-deploy`, `it-support`.
+- **Subcategory lists differ per Category** (Testing, Meeting, Support, Team Improvement, Automation …) and the Project list only fills after a Subcategory is set. Read the options after setting Category; never assume a value from another Category. Team Improvement and Support entries also take a Project.
+- **Meeting entries** use Category Meeting; put the meeting title in `#d` and leave `#j` empty.
+- **Lunch deduction:** Start–End that overlaps 12:00–13:00 logs 1 h less than the span (any overlap, even 30 m). When a meeting runs into lunch, show the user the options with the resulting totals and let them choose: (a) end the entry at 12:00 and note the real end in Description, (b) keep the span and accept the deducted value, (c) raise Logged time by hand, which leaves it inconsistent with the span. Never save a guessed choice.
 - Start and end are required — without them **Add entry** silently keeps the dialog open.
 - `+ Add` for a Jira card: type the key into `#j` (no suggestion list), then set Project yourself — it does not fill from the key.
 - The list does **not** refresh after a `+ Add` save — reload before checking, and never re-submit because it "looks missing" (that creates duplicates).
