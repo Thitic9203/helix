@@ -1,6 +1,6 @@
 {
   "name": "helix",
-  "version": "1.5.202",
+  "version": "1.5.203",
   "description": "Helix QA assistant — TC prep, testing ticket, create bug, and retest workflows",
   "author": {
     "name": "QA Lead"
