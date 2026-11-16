@@ -39,7 +39,7 @@ Skip a step → treat as unverified.
 
 ## Related gates (split into their own files)
 
-- Capture scope, still spec, MP4 7-layer gate → [qa-evidence-capture.md](qa-evidence-capture.md)
+- Story-testing evidence-completeness gate (5-step), capture scope, still spec, MP4 7-layer gate → [qa-evidence-capture.md](qa-evidence-capture.md)
 - Re-recording delivered evidence (R1–R6) → [qa-evidence-rerecord.md](qa-evidence-rerecord.md)
 - AC/EC & bug-detail coverage, pre-delivery 7-layer gate → [qa-evidence-coverage.md](qa-evidence-coverage.md)
 
