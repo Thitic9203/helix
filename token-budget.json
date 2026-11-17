@@ -24,6 +24,10 @@
    "direct": 10726,
    "routed": 16582
   },
+  "taskfolio-log-workflow": {
+   "direct": 8973,
+   "routed": 14746
+  },
   "tc-api-prep-workflow": {
    "direct": 6023,
    "routed": 12418
@@ -50,7 +54,7 @@
   }
  },
  "always_on": {
-  "description_bytes": 5043,
-  "tokens": 1260
+  "description_bytes": 5700,
+  "tokens": 1425
  }
 }
