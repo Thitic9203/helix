@@ -1,6 +1,6 @@
 # Helix — AI QA assistant
 
-**Version: 1.5.210** · [Releases](https://github.com/Thitic9203/helix/releases)
+**Version: 1.5.211** · [Releases](https://github.com/Thitic9203/helix/releases)
 
 > ⚠️ **Security notice (2026-11-04, fixed in v1.5.167):** install and auto-update risks — read [SECURITY-NOTICE.md](SECURITY-NOTICE.md) and update to v1.5.167 or later.
 
@@ -58,7 +58,7 @@ Web-only chat without skill discovery is not supported — use an agent that loa
 This downloads the installer of one named release, checks its SHA-256, and runs it only if the check passes. If a download fails or the hash does not match, nothing is installed and nothing is written under your home folder (the two files land in the current folder only).
 
 ```bash
-HELIX_TAG=v1.5.210
+HELIX_TAG=v1.5.211
 base="https://github.com/Thitic9203/helix/releases/download/$HELIX_TAG"
 curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && [ "$(wc -l < install.sh.sha256)" -eq 1 ] \
@@ -67,7 +67,7 @@ curl -fsSLO "$base/install.sh" && curl -fsSLO "$base/install.sh.sha256" \
   && HELIX_TAG="$HELIX_TAG" bash install.sh
 ```
 
-The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 10 workflow skills** into the global folders above except Claude Code (which loads them once, from the plugin — older Helix links in `~/.claude/skills` are removed with a one-line notice; your own folders and other links there are never touched) (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
+The installer then checks out that same tag (not `main`) and refuses to touch a clone that has local changes or local commits. This clones Helix to `~/.helix/tc-fe-prep`, symlinks **helix + 11 workflow skills** into the global folders above except Claude Code (which loads them once, from the plugin — older Helix links in `~/.claude/skills` are removed with a one-line notice; your own folders and other links there are never touched) (skips paths that do not exist on your OS yet), registers the **Claude Code** plugin cache, enables **`helix@helix-dev`** (and disables legacy `helix@local`), and wires **SessionStart** hooks for bootstrap and a read-only notice when a newer release exists (it never updates by itself).
 
 ### Step 2 — By agent (what you do next)
 
@@ -120,6 +120,7 @@ Reports Helix version, global skill symlinks per agent, and Claude plugin cache.
 | Review recorded test results and evidence | `/review-result` | `review-result-workflow` |
 | Prepare test data before testing | `/test-data-prep` | `test-data-prep-workflow` |
 | Copy a TC tab into the release TC template | `/tc-change-format` | `tc-change-format-workflow` |
+| Fill your own Taskfolio timesheet for this week from evidence (never submits) | `/taskfolio-log` | `taskfolio-log-workflow` |
 
 Append a Jira key or URL when your tool supports it, e.g. `/tc-fe-prep PROJ-123` or “run `retest-bug-workflow` on PROJ-456”.
 
@@ -138,7 +139,7 @@ Full map: [references/skill-routing.md](references/skill-routing.md) · copy-pas
 | **Codex** | Ask to load skill **helix** |
 | **OpenCode / Pi** | Invoke **helix** per tool’s skill UI |
 
-The menu offers options 1–13 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
+The menu offers options 1–14 (TC FE, TC API, retest, testing ticket, create bug, Catch AI, TC review, four ols-qa-workspace-only options, TC change format, Taskfolio log, other) and routes to the same workflows as the table above. Exact text: [references/menu-text.md](references/menu-text.md).
 
 ### First run tips
 
@@ -265,8 +266,9 @@ Requires `jq`. Details: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#dev-environm
 | [test-data-prep-workflow](skills/test-data-prep-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/test-data-prep-workflow/WORKFLOW.md) | Prepare test data on a named environment before testing |
 | [review-result-workflow](skills/review-result-workflow/SKILL.md) | [WORKFLOW.md](skills/procedures/review-result-workflow/WORKFLOW.md) | Review recorded test results and evidence before sign-off |
 | [tc-change-format-workflow](skills/tc-change-format-workflow/SKILL.md) | — (self-contained) | Copy a ticket's TC tab into the project's release TC template (Google Sheet) |
+| [taskfolio-log-workflow](skills/taskfolio-log-workflow/SKILL.md) | — (self-contained) | Fill your own Taskfolio timesheet for this week from Jira, Slack and Calendar evidence; never submits |
 
-**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow` and `tc-change-format-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
+**Skill layout:** Thin `SKILL.md` stubs (linked into `~/.cursor/skills/`, etc.) point to full procedures in `skills/procedures/*/WORKFLOW.md` — except `catch-ai-workflow`, `tc-review-workflow`, `tc-change-format-workflow` and `taskfolio-log-workflow`, whose procedures live in their own `SKILL.md`. Claude Code also exposes `/helix`, `/tc-fe-prep`, `/catch-ai`, … via `commands/`.
 
 ## Prerequisites (human)
 
