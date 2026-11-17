@@ -947,6 +947,13 @@
         "| MUST report a missing design reference back and hold its visual points **BLOCKED** — rule stated once at [Step 2d](#design-reference-gate) | An assumed expected is not a spec; it produces both phantom bugs and false passes (PM-006) |"
       ],
       "approval": "ทำดิรอไร (owner, chat 16/Nov/2026, retest MUST/NEVER table rework; design row restored after after-21c AC3 regression)"
+    },
+    {
+      "removed": "| MUST NOT start a workflow without user picking 1–13 or naming one, imitate one from memory, or fold several asks into one question | Avoid wrong scope |",
+      "replaced_by": [
+        "| MUST NOT start a workflow without user picking 1–14 or naming one, imitate one from memory, or fold several asks into one question | Avoid wrong scope |"
+      ],
+      "approval": "ถอด guard แล้วทำต่อ (owner 17 Nov 2026: helix taskfolio-log re-land identical to ols-qa #214; menu gains option 13, Other moves to 14)"
     }
   ]
 }
