@@ -1,8 +1,8 @@
 {
  "schema": 1,
  "method": "graph_v2.py port; tokens = bytes/4; direct = skill mandatory reads; routed = helix router mandatory + skill mandatory, each file once; always_on = skills/*/SKILL.md description bytes",
- "tag": "v1.5.210",
- "commit": "e04168dd2f9e5910eb71d1feb15e9e3c3ff5d785",
+ "tag": "v1.5.213",
+ "commit": "8890a146a1e79301013b99aed730179c93091a50",
  "skills": {
   "catch-ai-workflow": {
    "direct": 8504,
@@ -25,8 +25,8 @@
    "routed": 16582
   },
   "taskfolio-log-workflow": {
-   "direct": 8973,
-   "routed": 14746
+   "direct": 8921,
+   "routed": 14694
   },
   "tc-api-prep-workflow": {
    "direct": 6023,
@@ -54,7 +54,7 @@
   }
  },
  "always_on": {
-  "description_bytes": 5700,
-  "tokens": 1425
+  "description_bytes": 5493,
+  "tokens": 1373
  }
 }
