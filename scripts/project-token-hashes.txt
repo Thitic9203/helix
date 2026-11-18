@@ -1,0 +1,4 @@
+# SHA-256 (hex) of whole-word, case-sensitive project/product tokens that must not appear in
+# skills/, commands/ or references/ (Spec docs/sdd/project-agnostic R9). Plain tokens are never
+# committed. Add one: printf '%s' TOKEN | shasum -a 256 | awk '{print $1}' >> this file.
+# Real tokens are added in task T5, after the files T3-T5 clean up stop matching them.
