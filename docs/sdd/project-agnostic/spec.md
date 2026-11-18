@@ -46,8 +46,10 @@
 - **R9** `scripts/ci-check-portable-skills.sh` must also fail on whole-word, case-sensitive project tokens
   kept as SHA-256 hashes (as `check-no-secrets.sh` does), with a path allowlist for template files; it keeps
   running in `.github/workflows/version.yml` (PR + release). *Source:* ticket 03.
-- **R10** `scripts/tests/guards.test.sh` must cover: a fixture with a project token fails R9; a simulated
-  ols-qa sync touching an owned file leaves Helix unchanged (R8). *Source:* tickets 03, 06, 10.
+- **R10** Helix `scripts/tests/guards.test.sh` must cover: a fixture with a project token fails R9; every
+  path in `helix-owned-files.txt` exists. ols-qa's tests must cover: a simulated sync touching an owned
+  file leaves Helix unchanged (R8) — the sync script lives in ols-qa. *Source:* tickets 03, 06, 10;
+  amended 2026-11-18 at T1 (script location).
 - **R11** OLS must keep working: with the OLS guide + recipe present, test-data-prep Gate 0 shows the same
   intake fields as before, and every OLS rule removed from Steps 3–8 is found in the OLS recipe (checked
   line by line). *Source:* ticket 06.
