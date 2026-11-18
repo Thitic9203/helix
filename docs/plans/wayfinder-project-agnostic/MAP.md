@@ -41,15 +41,16 @@ The map ends with (owner chose "spec + build inside the map", 2026-11-18):
 - [What the portable-skills CI check enforces today](tickets/03-portable-skills-check.md): 12 fixed-string denylist, "OLS" not on it; can become the gate with whole-word hashed patterns + per-project path allowlist, but a denylist can't prove absence alone.
 - [Where to make the edits, given ols-qa overwrites Helix](tickets/09-where-to-edit-given-ols-qa-sync.md): edit in Helix and guard against the ols-qa sync overwriting (owner, 2026-11-18); the guard itself is ticket 10.
 - [How the ols-qa sync is kept from overwriting project-agnostic files](tickets/10-guard-ols-qa-overwrite.md): an ownership list kept in Helix; ols-qa's sync script skips listed files (Helix main is unprotected, so a CI check alone can't prevent it).
+- [Where per-project guides and recipes live and how skills find them](tickets/04-where-project-recipes-live.md): in each project's own repo under `references/`, Helix ships templates; discovery table extended to all 11 workflows (owner).
+- [What a skill does when a project has no guide or recipe](tickets/05-no-recipe-behaviour.md): ask once per value and save to the project guide; never invent accounts/URLs/transitions; no secrets in repos.
+- [What proof ends this map](tickets/06-proof-of-done.md): 0 gate hits in CI, guard tests, non-OLS Gate 0 dry run, OLS regression, team repo README without "(OLS)".
+- [Write the SDD spec, plan and tasks](tickets/07-sdd-docs.md): `docs/sdd/project-agnostic/` written — R1–R11, T1–T8; awaiting approval (ticket 08).
 
 ## Not yet specified
 
 - Implementation tickets: one per SDD task, graduated after the owner approves the plan.
-- How the OLS recipe now kept in the private evidence repo (`ols-data-prep.md`) is reached by the
-  central skill, and whether OLS behaviour must stay byte-identical.
 - What fills Pyrite's recipe (`references/pyrite-data-prep.md` is a skeleton: roles, accounts, data
   types are "not configured"). Facts must come from the Pyrite team, not guesses.
-- Menu, routing and intent text that names OLS (`menu-text.md`, `skill-routing.md`, `intent-shortcuts.md`).
 - How the team repo's generated docs drop the "(OLS)" label from `/eng-qa-test-data-prep` after sync.
 
 ## Out of scope
