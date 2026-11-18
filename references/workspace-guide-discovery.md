@@ -50,8 +50,8 @@ Skipped questions: {list fields you will not re-ask}
 ## When no guide is found
 
 1. Say no workspace guide was found for this workflow.
-2. Ask by the workflow's own intake rule: retest-bug and tc-fe-prep — `references/project-config-template.md`, **one question at a time**; testing-ticket — Phase A with `references/workspace-guide-template.md`; create-bug (Phase A) and others — every missing field in **one grouped message** (test-data-prep: [recipe slots](data-prep-recipe-template.md)).
-3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` (retest-bug: `{PROJECT}-retest-guide.md`; test-data-prep: `{PROJECT}-data-prep.md`) in the
+2. Ask by the workflow's own intake rule: retest-bug and tc-fe-prep — its `references/project-config-template.md`, **one question at a time**; testing-ticket — Phase A with `references/workspace-guide-template.md`; create-bug — Phase A (no template): every missing field in **one grouped message**, as do others (test-data-prep: slots in `references/data-prep-recipe-template.md`).
+3. **Save each answer immediately** to `references/{PROJECT}-{workflow}-guide.md` (or the name its glob row gives) in the
    user’s repo (create it if missing) — the answer is the user's approval. Never write secrets
    into the guide — store only where the credential lives (env var name, vault entry).
 
