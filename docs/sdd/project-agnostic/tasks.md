@@ -15,3 +15,14 @@
 | T8 | Release + verify downstream | Done-when | — | `version.yml` green; `helix-sync.yml` brings it to team-pluton-skills; README row without "(OLS)" |
 
 Order: T1 → T2 → T3/T4/T5 (parallel-safe, disjoint files) → T6 → T7 → T8. Commits cite `Spec: docs/sdd/project-agnostic R<n>`.
+
+## Status (main-thread verified)
+
+| Task | Status | Evidence |
+|---|---|---|
+| T1 | done 2026-11-18 | 331840b — owned list + integrity test; guards 13/13, regression 9/9 |
+| T2 | done 2026-11-18 | acc9cd9 — hashed project-token scan; guards 19/19; runtime list finds the 13 files from ticket 02 |
+| T3 | done 2026-11-18 | 3ab9228, 025560c — OLS rules moved first (ols-qa-evidence 7ea5187e, Appendix H); RED run: skill announced OLS + offered OLS roles in a Pyrite workspace; GREEN run: announces the project, reads `references/pyrite-data-prep.md`, no OLS lists; all tests 0 failed; token budget no increase |
+| T4–T8, T7b | todo | — (Pyrite recipe already in SkillLane/Pyrite-monorepo main 67c9462, part of T7) |
+
+Open items found by the GREEN run, owned by later tasks: discovery has no data-prep row (T4); the OLS guide does not point at the recipe (T7); the Pyrite recipe text still says the workflow is written for the other project and names undefined gates (T7, Pyrite repo).
