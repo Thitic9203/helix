@@ -4,3 +4,4 @@
 skills/test-data-prep-workflow/SKILL.md
 skills/procedures/test-data-prep-workflow/WORKFLOW.md
 commands/test-data-prep.md
+references/data-prep-recipe-template.md

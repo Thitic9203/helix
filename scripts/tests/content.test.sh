@@ -14,4 +14,12 @@ if grep -rqiE 'do not reply in thai|english only in chat|english for user chat' 
 else
   ok "no 'English-only chat' rule (chat follows the user's language)"
 fi
+# Spec docs/sdd/project-agnostic R3/R6 (T4): every workflow can find its project guide; Helix
+# ships the recipe template and no project's own recipe.
+d=references/workspace-guide-discovery.md
+for w in 'TC FE prep' 'TC API prep' 'Retest bug' 'Testing ticket' 'Create bug' 'Test data prep' 'Any other workflow'; do
+  grep -q "^| $w |" "$d" && ok "discovery has a row for $w" || fail "discovery has no row for $w"
+done
+[ -f references/data-prep-recipe-template.md ] && ok "recipe template exists" || fail "references/data-prep-recipe-template.md missing"
+ls references/ | grep -qE '^[a-z]+-data-prep\.md$' && fail "a project's own data-prep recipe is in Helix: $(ls references/ | grep -E '^[a-z]+-data-prep\.md$')" || ok "no project's own data-prep recipe in Helix"
 finish

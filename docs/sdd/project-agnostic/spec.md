@@ -18,8 +18,10 @@
   *Source:* `references/portable-content.md` table; owner destination 2026-11-18.
 - **R2** Each project's guides and data recipes must live in that project's repo under `references/`;
   Helix must ship only templates. *Source:* ticket 04; `workspace-guide-discovery.md:53`.
-- **R3** `references/workspace-guide-discovery.md` must list a glob row for all 11 workflows, including
-  test-data-prep (`*-data-prep.md`, `*-test-data-guide.md`). *Source:* tickets 02, 04.
+- **R3** `references/workspace-guide-discovery.md` must give every one of the 11 workflows a glob: its own
+  row, a `Test data prep` row (`*-data-prep.md`), and one `Any other workflow` row (`*-{workflow}-guide.md`)
+  for the rest. *Source:* tickets 02, 04; amended 2026-11-18 at T4 — one row per workflow raised the
+  mandatory-read token cost of 3 skills (+144 each) against the token budget.
 - **R4** `test-data-prep-workflow` must take roles, data types, naming rules, cover/media tooling and voice
   from the discovered recipe; when the recipe is silent it must not assume OLS defaults (OLS roles, Draw
   Things, `th-TH-NiwatNeural`). Every OLS-specific rule removed from the skill (roles, the 10
