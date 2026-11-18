@@ -45,10 +45,11 @@ The map ends with (owner chose "spec + build inside the map", 2026-11-18):
 - [What a skill does when a project has no guide or recipe](tickets/05-no-recipe-behaviour.md): ask once per value and save to the project guide; never invent accounts/URLs/transitions; no secrets in repos.
 - [What proof ends this map](tickets/06-proof-of-done.md): 0 gate hits in CI, guard tests, non-OLS Gate 0 dry run, OLS regression, team repo README without "(OLS)".
 - [Write the SDD spec, plan and tasks](tickets/07-sdd-docs.md): `docs/sdd/project-agnostic/` written — R1–R11, T1–T8; awaiting approval (ticket 08).
+- [Owner approves the project-agnostic plan](tickets/08-plan-approval.md): approved as written (02442f9); implementation = T1–T8.
 
 ## Not yet specified
 
-- Implementation tickets: one per SDD task, graduated after the owner approves the plan.
+- Implementation: tasks T1–T8 in `docs/sdd/project-agnostic/tasks.md` (approved 2026-11-18), tracked there.
 - What fills Pyrite's recipe (`references/pyrite-data-prep.md` is a skeleton: roles, accounts, data
   types are "not configured"). Facts must come from the Pyrite team, not guesses.
 - How the team repo's generated docs drop the "(OLS)" label from `/eng-qa-test-data-prep` after sync.
