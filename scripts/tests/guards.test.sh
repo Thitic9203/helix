@@ -30,4 +30,14 @@ expect_exit 1 "skill structure fails when a SKILL.md has no frontmatter" -- bash
 cp "$R/zz-helix.bak" skills/helix/SKILL.md; rm -f "$R/zz-helix.bak"
 mkdir -p skills/zz-unregistered && printf -- '---\nname: zz-unregistered\ndescription: probe\n---\n' > skills/zz-unregistered/SKILL.md
 expect_exit 1 "skill structure fails on a skill missing from plugin.json" -- bash scripts/ci-check-skill-structure.sh
+rm -rf skills/zz-unregistered
+# Spec docs/sdd/project-agnostic R8/R10: every file Helix owns (skipped by the ols-qa sync) must exist.
+owned_ok='[ -f helix-owned-files.txt ] && grep -v "^#" helix-owned-files.txt | grep -v "^$" | { ok=0; while read -r f; do [ -f "$f" ] || { echo "missing: $f"; ok=1; }; done; exit $ok; }'
+expect_exit 0 "every path in helix-owned-files.txt exists" -- bash -c "$owned_ok"
+if [ -f helix-owned-files.txt ]; then
+  cp helix-owned-files.txt "$R/zz-owned.bak"
+  printf 'skills/zz-not-a-file.md\n' >> helix-owned-files.txt
+  expect_exit 1 "owned-list check fails on a path that does not exist" -- bash -c "$owned_ok"
+  cp "$R/zz-owned.bak" helix-owned-files.txt; rm -f "$R/zz-owned.bak"
+fi
 finish

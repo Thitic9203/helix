@@ -1,0 +1,6 @@
+# Files Helix owns. ols-qa's scripts/sync-skills-to-helix.sh must skip every path below and report it.
+# Spec: docs/sdd/project-agnostic R8. One repo-relative path per line, no globs; '#' starts a comment.
+# Shared files not listed here stay shared: edit them in ols-qa in the same change (R8).
+skills/test-data-prep-workflow/SKILL.md
+skills/procedures/test-data-prep-workflow/WORKFLOW.md
+commands/test-data-prep.md
