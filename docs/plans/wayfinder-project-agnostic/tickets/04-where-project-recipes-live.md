@@ -1,6 +1,6 @@
 # Where per-project guides and recipes live and how skills find them
 
-Type: `wayfinder:grilling` (HITL) · Status: open · Blocked by: 01, 02 · Assignee: —
+Type: `wayfinder:grilling` (HITL) · Status: open · Blocked by: 01, 02, 09 · Assignee: —
 
 ## Question
 

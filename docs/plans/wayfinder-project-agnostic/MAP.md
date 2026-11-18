@@ -36,6 +36,10 @@ The map ends with (owner chose "spec + build inside the map", 2026-11-18):
 
 <!-- one line per closed ticket -->
 
+- [Can the ols-qa → Helix sync overwrite project-agnostic edits?](tickets/01-ols-qa-to-helix-sync.md): yes — ols-qa post-commit hook `cp -f`s changed shared files into Helix and pushes to main; test-data-prep's 3 files are identical in both, so a Helix-only edit would be overwritten.
+- [Inventory of project-specific coupling in Helix skills](tickets/02-coupling-inventory.md): coupling is almost all in test-data-prep (private OLS recipe, OLS roles, Draw Things/Thai TTS); Pyrite recipe has no inbound link; discovery covers 5 of 11 workflows.
+- [What the portable-skills CI check enforces today](tickets/03-portable-skills-check.md): 12 fixed-string denylist, "OLS" not on it; can become the gate with whole-word hashed patterns + per-project path allowlist, but a denylist can't prove absence alone.
+
 ## Not yet specified
 
 - Implementation tickets: one per SDD task, graduated after the owner approves the plan.
