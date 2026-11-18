@@ -40,6 +40,7 @@ The map ends with (owner chose "spec + build inside the map", 2026-11-18):
 - [Inventory of project-specific coupling in Helix skills](tickets/02-coupling-inventory.md): coupling is almost all in test-data-prep (private OLS recipe, OLS roles, Draw Things/Thai TTS); Pyrite recipe has no inbound link; discovery covers 5 of 11 workflows.
 - [What the portable-skills CI check enforces today](tickets/03-portable-skills-check.md): 12 fixed-string denylist, "OLS" not on it; can become the gate with whole-word hashed patterns + per-project path allowlist, but a denylist can't prove absence alone.
 - [Where to make the edits, given ols-qa overwrites Helix](tickets/09-where-to-edit-given-ols-qa-sync.md): edit in Helix and guard against the ols-qa sync overwriting (owner, 2026-11-18); the guard itself is ticket 10.
+- [How the ols-qa sync is kept from overwriting project-agnostic files](tickets/10-guard-ols-qa-overwrite.md): an ownership list kept in Helix; ols-qa's sync script skips listed files (Helix main is unprotected, so a CI check alone can't prevent it).
 
 ## Not yet specified
 
