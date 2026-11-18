@@ -159,7 +159,7 @@ this flow ([round-time-contract.md §4](../../../references/round-time-contract.
 
 ## Phase B — Load context [high freedom]
 
-Use [parallel-prep.md](../../../references/parallel-prep.md) when Jira fetch and Confluence/Swagger are independent.
+Use [parallel-prep.md](../../../references/parallel-prep.md) for independent reads and Phase C waits.
 
 1. Fetch **Ticket** (Jira or user paste).
    - **Fetch fails** (MCP error, 401/403/404, timeout): try the Jira REST fallback in
