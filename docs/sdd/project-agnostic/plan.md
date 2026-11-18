@@ -13,14 +13,20 @@
 | Helix | `references/data-prep-recipe-template.md` (new) · delete `references/pyrite-data-prep.md` | R6 |
 | Helix | `references/skill-reference-index.md`, `skill-routing.md`, `menu-text.md`, `intent-shortcuts.md`, `result-quality-gate.md` | R7 |
 | Helix | `skills/procedures/retest-bug-workflow/{execute-and-evidence,comment-and-post}.md`, `skills/procedures/retest-bug-workflow/references/{comment-template-v2,worked-example}.md`, `skills/procedures/testing-ticket-workflow/results-update.md` | R7 |
-| Helix | `helix-owned-files.txt` (new, repo root) | R8 |
+| Helix | `helix-owned-files.txt` (new, repo root; test-data-prep 3 files + recipe template only) | R8 |
 | Helix | `scripts/ci-check-portable-skills.sh`, new `scripts/project-token-hashes.txt` | R9 |
 | Helix | `scripts/tests/guards.test.sh` + fixtures | R10 |
 | ols-qa | `scripts/sync-skills-to-helix.sh` (read `$HELIX/helix-owned-files.txt`, skip + report) | R8 |
 | ols-qa | `references/` OLS workspace guide: add a `data-prep` row pointing at `{EVIDENCE_REPO}/docs/ols-data-prep.md` | R6, R11 |
+| ols-qa | same R3/R7 edits to the shared files (discovery, retest, testing-ticket, menu text) in the same change | R8 |
+| ols-qa-evidence (private) | `docs/ols-data-prep.md`: receive every OLS rule removed from the skill | R4, R11 |
 | SkillLane/Pyrite-monorepo | `references/pyrite-data-prep.md` (PR only, rule 30) | R6 |
 
 No change by hand in SkillLane/team-pluton-skills: it receives the release through `helix-sync.yml`.
+
+Path check (2026-11-18): discovery searches the **workspace** `references/` folder in both Helix and the
+team-pluton-skills copy (`workspace-guide-discovery.md:18, :53`), so a project recipe at
+`<project repo>/references/pyrite-data-prep.md` is found regardless of where the skills are installed.
 
 ## Data shapes
 
