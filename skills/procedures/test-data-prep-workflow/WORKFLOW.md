@@ -147,6 +147,8 @@ Every name and description is what a real user sees — it must read as genuine 
 | Natural, polite language only | no gibberish, no odd/rude words; the description describes real content, never "created for testing" |
 | **No duplicate names** | check the new name against existing content (Step 1 list) **and** within the lot itself |
 
+**Tracking label (for example the ticket key):** if the recipe requires one, put it in the field the recipe names; if it names no field, ask once and save the answer to the recipe. It never goes into the visible name or description.
+
 **Duplicate-name clash → stop and ask the user.** Never silently create a second item with a colliding name. Report which item it clashes with (name / id / status) and let the user decide skip / rename / proceed.
 
 **Go back:** If the user picks rename, return to the top of Step 3 and check the new name against the rules and existing content again.
