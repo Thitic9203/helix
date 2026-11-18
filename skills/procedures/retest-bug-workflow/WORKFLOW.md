@@ -185,12 +185,12 @@ All URLs, credentials, transition names, and Swagger URLs come from config — *
 
 ## Step 2 — Fetch Jira ticket [high freedom]
 
-**Round N (a ticket retested before) — fingerprint check first.** Read
-`<workspace>/references/helix-handoff-{KEY}.md` and fetch each source's fingerprint fresh: ticket `updated` +
-comment count · Figma `lastModified` · Swagger spec hash · build version where exposed. A matching
-fingerprint skips the full re-read of that source; a changed or missing one re-reads that source only
-([round-time-contract.md](../../../references/round-time-contract.md) §10). The bug's contract is
-still re-counted fresh at Step 2c.
+Intake reads and session check in parallel (for details: [parallel-prep.md](../../../references/parallel-prep.md)).
+
+**Round N — fingerprint first.** Read `<workspace>/references/helix-handoff-{KEY}.md`; fetch each source's
+fingerprint (ticket `updated` + comment count · Figma `lastModified` · Swagger hash · exposed build version).
+Re-read only sources whose fingerprint changed or is missing ([round-time-contract.md](../../../references/round-time-contract.md) §10);
+the contract is still re-counted at Step 2c.
 
 Use Atlassian integration (`getJiraIssue` or equivalent):
 
