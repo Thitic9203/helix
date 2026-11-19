@@ -52,6 +52,7 @@ Every must-read file for this workflow, linked directly from here. References al
 - [test-through-real-steps.md](../../references/test-through-real-steps.md) — read before testing an action; no API shortcut for the action under test.
 - [user-communication.md](../../references/user-communication.md) — read before any message to the user.
 - [verify-closing-checklist.md](../../references/verify-closing-checklist.md) — read before reporting a verify or retest done.
+- [workspace-guide-discovery.md](../../references/workspace-guide-discovery.md) — read before *Find the recipe*, to locate the workspace project guide for this workflow.
 
 ## Refusal-first (precondition gate)
 
