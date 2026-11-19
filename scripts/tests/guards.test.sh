@@ -30,4 +30,29 @@ expect_exit 1 "skill structure fails when a SKILL.md has no frontmatter" -- bash
 cp "$R/zz-helix.bak" skills/helix/SKILL.md; rm -f "$R/zz-helix.bak"
 mkdir -p skills/zz-unregistered && printf -- '---\nname: zz-unregistered\ndescription: probe\n---\n' > skills/zz-unregistered/SKILL.md
 expect_exit 1 "skill structure fails on a skill missing from plugin.json" -- bash scripts/ci-check-skill-structure.sh
+rm -rf skills/zz-unregistered
+# Spec docs/sdd/project-agnostic R9: whole-word, case-sensitive project tokens, hashed (T2).
+printf 'ZZPROJ\n' > "$R/zz-tokens.txt"
+printf 'see the ZZPROJ portal\n' > references/zz-probe.md
+expect_exit 1 "portable check catches a project token from the runtime list" -- env HELIX_EXTRA_PROJECT_TOKENS="$R/zz-tokens.txt" bash scripts/ci-check-portable-skills.sh
+printf 'see the zzproj portal\n' > references/zz-probe.md
+expect_exit 0 "project token match is case-sensitive" -- env HELIX_EXTRA_PROJECT_TOKENS="$R/zz-tokens.txt" bash scripts/ci-check-portable-skills.sh
+printf 'see XZZPROJX here\n' > references/zz-probe.md
+expect_exit 0 "project token match is whole-word only" -- env HELIX_EXTRA_PROJECT_TOKENS="$R/zz-tokens.txt" bash scripts/ci-check-portable-skills.sh
+printf 'run zz-ZZPROJ-qa now\n' > references/zz-probe.md
+expect_exit 1 "project token is found inside a hyphenated name" -- env HELIX_EXTRA_PROJECT_TOKENS="$R/zz-tokens.txt" bash scripts/ci-check-portable-skills.sh
+cp scripts/project-token-hashes.txt "$R/zz-hashes.bak" 2>/dev/null || : > "$R/zz-hashes.bak"
+printf '%s\n' "$(printf '%s' ZZPROJ | shasum -a 256 | awk '{print $1}')" >> scripts/project-token-hashes.txt
+expect_exit 1 "portable check catches a token listed by hash in project-token-hashes.txt" -- bash scripts/ci-check-portable-skills.sh
+cp "$R/zz-hashes.bak" scripts/project-token-hashes.txt; rm -f "$R/zz-hashes.bak" "$R/zz-tokens.txt" references/zz-probe.md
+expect_exit 0 "portable check still passes as shipped after the token probes" -- bash scripts/ci-check-portable-skills.sh
+# Spec docs/sdd/project-agnostic R8/R10: every file Helix owns (skipped by the ols-qa sync) must exist.
+owned_ok='[ -f helix-owned-files.txt ] && grep -v "^#" helix-owned-files.txt | grep -v "^$" | { ok=0; while read -r f; do [ -f "$f" ] || { echo "missing: $f"; ok=1; }; done; exit $ok; }'
+expect_exit 0 "every path in helix-owned-files.txt exists" -- bash -c "$owned_ok"
+if [ -f helix-owned-files.txt ]; then
+  cp helix-owned-files.txt "$R/zz-owned.bak"
+  printf 'skills/zz-not-a-file.md\n' >> helix-owned-files.txt
+  expect_exit 1 "owned-list check fails on a path that does not exist" -- bash -c "$owned_ok"
+  cp "$R/zz-owned.bak" helix-owned-files.txt; rm -f "$R/zz-owned.bak"
+fi
 finish
