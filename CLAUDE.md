@@ -127,3 +127,11 @@ Then read result: `window.__editResult || "pending"`
 2. ถ้ามี → ใช้คำตอบจาก .guide.md ไม่ต้องถาม
 3. ถ้ายังไม่มี → ถาม user แล้วบันทึกลง .guide.md ทันที
 4. Pattern นี้ใช้ได้กับทุก config: Jira domain, test env URL, preferred CSV format, default assignee ฯลฯ
+
+## Save context
+- Before reading a whole file, grep first and only read the parts you need.
+- To understand the whole project, send a subagent to look and bring back only the summary.
+- Show me the diff, not the whole file.
+- Don't restate anything we've already decided in this session.
+- When we switch tasks, suggest /compact or a new session.
+- Keep answers short by default.
