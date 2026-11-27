@@ -46,13 +46,6 @@ printf '%s\n' "$(printf '%s' ZZPROJ | shasum -a 256 | awk '{print $1}')" >> scri
 expect_exit 1 "portable check catches a token listed by hash in project-token-hashes.txt" -- bash scripts/ci-check-portable-skills.sh
 cp "$R/zz-hashes.bak" scripts/project-token-hashes.txt; rm -f "$R/zz-hashes.bak" "$R/zz-tokens.txt" references/zz-probe.md
 expect_exit 0 "portable check still passes as shipped after the token probes" -- bash scripts/ci-check-portable-skills.sh
-# Spec docs/sdd/project-agnostic R8/R10: every file Helix owns (skipped by the ols-qa sync) must exist.
-owned_ok='[ -f helix-owned-files.txt ] && grep -v "^#" helix-owned-files.txt | grep -v "^$" | { ok=0; while read -r f; do [ -f "$f" ] || { echo "missing: $f"; ok=1; }; done; exit $ok; }'
-expect_exit 0 "every path in helix-owned-files.txt exists" -- bash -c "$owned_ok"
-if [ -f helix-owned-files.txt ]; then
-  cp helix-owned-files.txt "$R/zz-owned.bak"
-  printf 'skills/zz-not-a-file.md\n' >> helix-owned-files.txt
-  expect_exit 1 "owned-list check fails on a path that does not exist" -- bash -c "$owned_ok"
-  cp "$R/zz-owned.bak" helix-owned-files.txt; rm -f "$R/zz-owned.bak"
-fi
+# Spec skill-sync-simplify R10 (supersedes project-agnostic R8/R10 owned list): Helix keeps no ownership list.
+expect_exit 1 "helix-owned-files.txt is gone (every shared file is edited in Helix only)" -- test -e helix-owned-files.txt
 finish
