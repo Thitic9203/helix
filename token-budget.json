@@ -1,8 +1,8 @@
 {
  "schema": 1,
  "method": "graph_v2.py port; tokens = bytes/4; direct = skill mandatory reads; routed = helix router mandatory + skill mandatory, each file once; always_on = skills/*/SKILL.md description bytes",
- "tag": "v1.5.224",
- "commit": "e91b5e3559f34465717a3ccb6ca6d7b6017d610a",
+ "tag": "v1.5.227",
+ "commit": "f6268868b1f526064e432a4a0e1fccfc666e1053",
  "skills": {
   "catch-ai-workflow": {
    "direct": 8504,
@@ -45,8 +45,8 @@
    "routed": 12422
   },
   "test-data-prep-workflow": {
-   "direct": 6706,
-   "routed": 13360
+   "direct": 6702,
+   "routed": 13356
   },
   "testing-ticket-workflow": {
    "direct": 15993,
