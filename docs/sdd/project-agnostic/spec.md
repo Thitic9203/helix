@@ -39,6 +39,10 @@
 - **R7** Remaining couplings must become generic: comment marker `src=` takes the workspace name from the
   guide; retest evidence capture reads its tool contract from the guide; menu/routing text must not name
   one product's workspace. *Source:* ticket 02.
+- **R8, R10 (owned-list part): superseded 2026-11-27.** The ols-qa → Helix sync is retired and every shared
+  file is edited in Helix only, so Helix keeps no ownership list (`helix-owned-files.txt` removed) and
+  `guards.test.sh` no longer checks one. *Source:* SkillLane/team-pluton-skills
+  `docs/sdd/skill-sync-simplify` R1, R10. The original text stays below as history.
 - **R8** Helix must keep an ownership list of files it owns — **only** test-data-prep's 3 files and new
   Helix-only files (the recipe template); ols-qa's `scripts/sync-skills-to-helix.sh` must skip every listed
   file and print what it skipped. Shared files that R3/R7 edit (discovery, retest, testing-ticket, menu
