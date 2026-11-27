@@ -53,11 +53,11 @@ Full procedures: `skills/procedures/*/WORKFLOW.md` (loaded by each stub).
 - Load project config from the user’s workspace `references/*-guide.md` when present.
 - **Token and context budget (iron rule):** correctness first, never skip verification to save tokens · read only what you need (search first, ranged reads, sandbox or filter large output, subagents for broad exploration) · keep session context under 70%, checkpoint at 60% · full rule in [CLAUDE.md](CLAUDE.md).
 
-## Retest skill source of truth
+## Shared skills source of truth
 
-- Changes to `retest-bug-workflow` land in **ols-qa first**. Its renderer and the template test (`tools/retest-guard/`) exist only in ols-qa.
-- On commit, ols-qa's post-commit hook (`scripts/hooks/post-commit` → `scripts/sync-skills-to-helix.sh`) copies the shared skill, reference and command files to helix. A push to helix main then releases automatically, and teammates receive the change at their next session start.
-- If a retest fix has to land in helix first, backport it to ols-qa the same day. Otherwise the next sync overwrites it.
+- Skill, reference and command files that exist in both helix and ols-qa are edited **in helix only**, `retest-bug-workflow` included. Nothing copies changes from ols-qa back to helix.
+- A push to helix main releases automatically. ols-qa's `helix-sync.yml` pulls the latest release daily (02:17 UTC) and opens one PR that merges only when ols-qa's own tests pass, including the retest template test in `tools/retest-guard/`. Run that test against a retest change before you release it.
+- ols-qa keeps its own copy of only the files listed in its `helix-keep.txt`. If someone edits any other shared file in ols-qa, the sync run fails red.
 
 ## More
 
