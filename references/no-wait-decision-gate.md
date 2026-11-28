@@ -68,6 +68,9 @@ Fail-closed: if any layer is skipped, the case is not written as BLOCKED, EVIDEN
 16. **Tooling limits are not product verdicts.** A recorder, viewport or harness limit gets a working
     alternative (stills + measurements, another capture path) and a note — never a BLOCKED row.
 
+Ways to do layers 13–16 for a case that looks untestable (device step, account search, in-test data,
+hidden responsive controls, broken runs): [untestable-case-paths.md](untestable-case-paths.md), only when one applies.
+
 ## D. The only BLOCKED that survives (layers 17–18)
 
 17. **Allowed BLOCKED causes** — and only these: the feature is not deployed to the target env

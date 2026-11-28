@@ -157,6 +157,9 @@ What is specific to testing a ticket:
   product bug is never filed away as "flaky".
 - **BLOCKED is not an escape.** A BLOCKED scenario still records the sweep up to the boundary that
   blocked it and names the access or person needed to continue.
+- **Only when a case looks untestable** (skipped, no data, no account, a device or scan step, a hidden
+  responsive control, a broken run), follow [untestable-case-paths.md](../../../references/untestable-case-paths.md)
+  to classify its cause and find the honest way to test it before any BLOCKED.
 
 ### E3 — Challenge the non-PASS + queue it for the user (mandatory for every non-PASSED scenario)
 
@@ -184,6 +187,8 @@ What is specific to testing a ticket:
   B re-test · C confirm defect — C only while the expected is not superseded)` for the end decisions popup; a **B re-test** answer starts a new round
   ([§1](../../../references/round-time-contract.md)).
 - **Never rewrite the ticket's expected text** to match the app on your own.
+- **If the ticket and the app disagree**, decide from later sources or assert the ticket line verbatim
+  and send a FAIL through the bug gate ([untestable-case-paths.md §2](../../../references/untestable-case-paths.md#2-ticket-and-app-disagree--decide-it-yourself)).
 
 **Go back:** A test-side cause returns that scenario to Phase E (fix and re-run on its real surface); a **B re-test** answer in the F5 popup returns to Phase C — a new round.
 
