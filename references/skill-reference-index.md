@@ -67,6 +67,7 @@ One line per reference: link — when to open it. **Do not read this file at sta
 - [result-quality-gate.md](result-quality-gate.md) — between execution and any verdict leaving the round.
 - [non-pass-challenge-gate.md](non-pass-challenge-gate.md) — about to record a non-PASS.
 - [no-wait-decision-gate.md](no-wait-decision-gate.md) — non-PASS because of an open question.
+- [untestable-case-paths.md](untestable-case-paths.md) — a case looks untestable (no data/account, device step, hidden control, broken run).
 - [root-cause-investigation.md](root-cause-investigation.md) — any non-PASS or any sentence stating a cause.
 - [qa-debug-discipline.md](qa-debug-discipline.md) — flaky run, result disagrees with dev, env unreachable.
 - [customer-escape-prevention.md](customer-escape-prevention.md) — scoping tests beyond the ticket's own AC.

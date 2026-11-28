@@ -159,6 +159,9 @@ What is specific to retest:
 - **The investigation block goes into the comment** at Step 6a, not only into chat.
 - **BLOCKED is not an escape from this step.** A BLOCKED item still records the sweep up to the
   boundary that blocked it, and names the access or person needed to continue.
+- **Only when an item looks untestable** (no data, no account, a device or scan step, a hidden
+  responsive control, a broken run), follow [untestable-case-paths.md](../../../references/untestable-case-paths.md)
+  to classify its cause and find the honest way to retest it before any BLOCKED.
 
 ### 4i. Challenge the non-PASS + surface it to the user (mandatory for every non-PASSED item — before Step 6)
 
